@@ -1,0 +1,27 @@
+<div class="list-group-item" data-ng-show="loadingList">
+  <i class="fa fa-2x fa-spin fa-spinner pull-left"></i>
+  <small class="list-group-item-text">Loading Dataset List...</small>
+</div>
+<a data-ng-repeat="dataset in datasets"
+   data-ng-class="{'active': selectedId == dataset.id}"
+   data-ng-click="selectDataset(dataset.id)"
+   ui-sref="dataset.id({datasetId: dataset.id})"
+   id="dataset{{ dataset.id }}" class="list-group-item">
+  <div class="row">
+    <div class="col-sm-8">
+      <i class="pull-left fa {{ dataset.physical && 'fa-building' || dataset.icon }}"></i>
+      <h4 class="list-group-item-heading">{{ dataset.name }}</h4>
+      <small class="list-group-item-text">
+        Database: <span>{{ dataset.dbType }}</span>
+      </small>
+    </div>
+    <div class="col-sm-4">
+      <small class="list-group-item-text">
+        Sub Datasets: <span>{{ dataset.subDatasetsCount }}</span>
+      </small>
+      <small class="list-group-item-text">
+        Elements: <span>{{ dataset.elementsCount }}</span>
+      </small>
+    </div>
+  </div>
+</a>

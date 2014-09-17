@@ -1,0 +1,59 @@
+/* Glboal/Application wide font face styles */
+@font-face {
+  font-family: 'ORSWebFont',
+  src: url('../fonts/fontawesome-webfont.woff') format('woff'),
+       url('../fonts/icommon.woff') format('woff'),
+       url('../fonts/DroidSansMono.ttf') format('truetype');
+}
+
+/* centered columns styles */
+.row-centered {
+  text-align:center;
+}
+
+.col-centered {
+  display:inline-block;
+  float:none;
+  /* reset the text-align */
+  text-align:left;
+  /* inline-block space fix */
+  margin-right:-4px;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table thead tr th {
+  text-align: center;
+}
+
+.show {
+  display: block !important;
+}
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+.invisible {
+  visibility: hidden;
+}
+
+.modal-dialog {
+  height: 100%;
+}
+
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+
+.modal-body {
+  overflow-y: auto;
+}
+
+.overflow {
+  overflow-y: auto;
+  max-height: 250px;
+}
