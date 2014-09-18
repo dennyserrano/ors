@@ -14,7 +14,7 @@ import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.cassandra.core.keyspace.TableOption;
 
 import ph.gov.deped.common.dw.DbType;
-import ph.gov.deped.common.query.ValueTypeMappings;
+import ph.gov.deped.common.query.JdbcTypes;
 import ph.gov.deped.data.config.CassandraMappings;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -69,7 +69,7 @@ public class MetadataHolderCassandraItemProcessor implements ItemProcessor<Strin
     }
 
     private DataType getCassandraDataType(int sqlType) {
-        Class<? extends Serializable> javaType = ValueTypeMappings.getJavaType(sqlType);
+        Class<? extends Serializable> javaType = JdbcTypes.getJavaType(sqlType);
         return CassandraMappings.getCassandraType(javaType);
     }
 

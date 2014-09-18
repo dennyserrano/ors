@@ -2,6 +2,7 @@ package ph.gov.deped.common.query;
 
 import static java.util.Arrays.asList;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -55,5 +56,16 @@ public abstract class JdbcTypes {
         }
         JdbcType j = jdbcType.get();
         return j.sqlType;
+    }
+    
+    public static Class<? extends Serializable> getJavaType(int sqlType) {
+        Optional<JdbcType> jdbcType = types.stream()
+                .filter(j -> j.sqlType == sqlType)
+                .findFirst();
+        if (!jdbcType.isPresent()) {
+            throw new MissingJdbcDataTypeMapping("SQL Type: " + sqlType);
+        }
+        JdbcType j = jdbcType.get();
+        return j.javaType;
     }
 }
