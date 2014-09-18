@@ -95,7 +95,7 @@ public class CommonRepositorySpringConfig {
         props.setProperty(FLUSH_BEFORE_COMPLETION, TRUE);
         props.setProperty(AUTO_CLOSE_SESSION, TRUE);
         props.setProperty(AUTODETECTION, AUTODETECTION_MODE);
-        props.setProperty(GENERATE_STATISTICS, TRUE);
+        props.setProperty(GENERATE_STATISTICS, FALSE);
         props.setProperty(SHOW_SQL, TRUE);
         props.setProperty(FORMAT_SQL, TRUE);
         props.setProperty(ORDER_UPDATES, TRUE);

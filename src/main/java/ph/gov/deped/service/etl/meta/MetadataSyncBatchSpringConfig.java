@@ -188,10 +188,12 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
             AtomicInteger batch = new AtomicInteger(0);
             h.columnMetadatas.parallelStream().forEach(col -> {
                 batch.incrementAndGet();
+                securityContextUtil.createInternalUserAuthentication("SYSTEM");
                 columnMetadataRepository.save(col);
                 if (batch.get() % 10 == 0) {
                     columnMetadataRepository.flush();
                 }
+                securityContextUtil.removeAuthentication();
             });
             securityContextUtil.removeAuthentication();
         });

@@ -23,3 +23,22 @@ order by tbl.table_name, col.ordinal_position;
 
 ===================================================================
 
+Hadoop Test Cluster (proposed for development):
+hadoop-dev: 10.0.0.68 (assigned test server)
+hadoop-dev2: 10.0.0.201 (my local machine)
+hadoop-dev3: 10.0.0.70 (also the Jasper Test Server)
+
+===================================================================
+
+Local/Application Database:
+
+create database orsdb;
+
+create user 'orsuser'@'%' identified by 'ors123';
+
+grant all privileges on orsdb.* to 'orsuser'@'%';
+
+flush privileges;
+
+===================================================================
+

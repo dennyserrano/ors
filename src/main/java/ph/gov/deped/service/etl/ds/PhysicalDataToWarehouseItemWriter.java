@@ -59,8 +59,8 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
                     for (int i = 1; i <= colCount; i++) {
                         row.put(rsMeta.getColumnName(i), (Serializable) rs.getObject(i));
                     }
-                    row.entrySet().parallelStream()
-                            .forEach(e -> insert.value(e.getKey(), e.getValue()));
+                    log.trace("Inserting [{}]...", row);
+                    row.entrySet().parallelStream().forEach(e -> insert.value(e.getKey(), e.getValue()));
                     cassandraTemplate.executeAsynchronously(insert);
                 }
             }
@@ -71,6 +71,10 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
             }
             catch (DataAccessException ex) {
                 log.error(new ParameterizedMessage("Error while inserting data to Cassandra table [{}].", new Object[] { tableName }, ex), ex);
+                throw new EtlDataStreamingException("Unable to insert data.", ex);
+            }
+            catch (Exception ex) {
+                log.error(new ParameterizedMessage("General streaming insertion failure on table [{}]!", new Object[] { tableName }, ex), ex);
                 throw new EtlDataStreamingException("Unable to insert data.", ex);
             }
         });

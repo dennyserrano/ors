@@ -1,17 +1,19 @@
 package ph.gov.deped.data.config;
 
-import com.datastax.driver.core.DataType;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.UUID;
+
 import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.db.marshal.ListType;
 import org.apache.cassandra.db.marshal.MapType;
 import org.apache.cassandra.db.marshal.SetType;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
-import java.util.Date;
-import java.util.UUID;
+import com.datastax.driver.core.DataType;
 
 /**
  * Created by ej on 9/10/14.
@@ -34,16 +36,18 @@ public class CassandraMappings {
         LONG(Long.class, DataType.bigint()),
         SHORT(Short.class, DataType.cint()),
         BLOB(ByteBuffer.class, DataType.blob()),
+        BYTE(Byte.class, DataType.cint()),
         BYTES(byte[].class, DataType.blob()),
         BOOLEAN(Boolean.class, DataType.cboolean()),
         COUNTER(Long.class, DataType.counter()),
-        BIGINT(BigInteger.class, DataType.bigint()),
+        BIGINT(BigInteger.class, DataType.varint()),
         DECIMAL(BigDecimal.class, DataType.decimal()),
         DOUBLE(Double.class, DataType.cdouble()),
         FLOAT(Float.class, DataType.cfloat()),
         INET(InetAddress.class, DataType.inet()),
-        INTTEGER(Integer.class, DataType.cint()),
-        TIMESTAMP(Date.class, DataType.timestamp()),
+        INTEGER(Integer.class, DataType.cint()),
+        DATE(Date.class, DataType.timestamp()),
+        TIMESTAMP(Timestamp.class, DataType.timestamp()),
         TIMEUUID(UUID.class, DataType.timeuuid()),
         UUID(UUID.class, DataType.uuid()),
 
