@@ -1,6 +1,11 @@
 package ph.gov.deped.service.etl.meta;
 
-import com.datastax.driver.core.DataType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +13,14 @@ import org.springframework.cassandra.core.cql.CqlIdentifier;
 import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.cassandra.core.keyspace.TableOption;
 
+import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.common.query.ValueTypeMappings;
 import ph.gov.deped.data.config.CassandraMappings;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
+import ph.gov.deped.service.meta.api.MetadataSynchronizationException;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import com.datastax.driver.core.DataType;
 
 /**
  * Created by ej on 9/10/14.
@@ -33,6 +36,10 @@ public class MetadataHolderCassandraItemProcessor implements ItemProcessor<Strin
     public CreateTableSpecification process(String item) throws Exception {
         final MetadataHolder metadataHolder = metadataRegistry.getMetadata(item);
         final TableMetadata tableMetadata = metadataHolder.getTableMetadata();
+        final Optional<DbType> dbType = getDbType(tableMetadata.getDbId());
+        if (!dbType.isPresent()) {
+            throw new MetadataSynchronizationException("Invalid Database ID: " + tableMetadata.getDbId());
+        }
         final String tableName = tableMetadata.getTableName();
         final List<ColumnMetadata> columnMetadataList = new ArrayList<>(metadataHolder.getColumnMetadatas());
         final Optional<ColumnMetadata> primaryKeyColumn = getPrimaryColumn(columnMetadataList);
@@ -42,7 +49,7 @@ public class MetadataHolderCassandraItemProcessor implements ItemProcessor<Strin
         final DataType primaryKeyDataType = getCassandraDataType(primaryKeyColumn.get().getDataType());
         CreateTableSpecification spec = CreateTableSpecification.createTable()
                 .ifNotExists()
-                .name(tableName)
+                .name(CqlIdentifier.quotedCqlId(dbType.get().getDbName() + "." + tableName))
                 .partitionKeyColumn(primaryKeyColumn.get().getColumnName(), primaryKeyDataType)
                 .with(TableOption.COMMENT, tableMetadata.getDescription())
                 .with(TableOption.CACHING, TableOption.CachingOption.KEYS_ONLY);
@@ -52,6 +59,13 @@ public class MetadataHolderCassandraItemProcessor implements ItemProcessor<Strin
             spec.column(new CqlIdentifier(columnName, true), dataType);
         });
         return spec;
+    }
+    
+    private Optional<DbType> getDbType(int dbId) {
+        return Arrays.asList(DbType.values())
+                .stream()
+                .filter(dbType -> dbType.ordinal() == dbId)
+                .findFirst();
     }
 
     private DataType getCassandraDataType(int sqlType) {

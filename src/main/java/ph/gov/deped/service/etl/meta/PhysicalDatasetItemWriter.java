@@ -102,7 +102,7 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
             datasetTable.setTableId(table.getTableId());
             datasetTableRepository.save(datasetTable);
 
-            holder.columnMetadatas.forEach(c -> {
+            holder.columnMetadatas.parallelStream().forEach(c -> {
                 DatasetElement element = new DatasetElement();
                 element.setDatasetTable(datasetTable);
                 element.setColumnId(c.getColumnId());
@@ -110,7 +110,9 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
                 element.setMeaning(String.format("Physical column [%s] from table [%s].", c.getColumnName(), table.getTableName()));
                 element.setDescription(table.getTableName() + "." + c.getColumnName());
                 element.setAlias(c.getColumnName());
+                securityContextUtil.createInternalUserAuthentication("SYSTEM");
                 datasetElementRepository.save(element);
+                securityContextUtil.removeAuthentication();
             });
         }
         securityContextUtil.removeAuthentication();

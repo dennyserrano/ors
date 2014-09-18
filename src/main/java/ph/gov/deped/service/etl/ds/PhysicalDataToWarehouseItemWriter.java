@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
                     row = new HashMap<>();
                     Insert insert = QueryBuilder.insertInto(tableName);
                     for (int i = 1; i <= colCount; i++) {
-                        row.put(rsMeta.getColumnName(i), (Serializable) rs.getObject(i));
+                        mapRow(row, rsMeta, rs, i);
                     }
                     log.trace("Inserting [{}]...", row);
                     row.entrySet().parallelStream().forEach(e -> insert.value(e.getKey(), e.getValue()));
@@ -78,6 +79,17 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
                 throw new EtlDataStreamingException("Unable to insert data.", ex);
             }
         });
+    }
+    
+    private void mapRow(Map<String, Serializable> row, ResultSetMetaData rsMeta, ResultSet rs, int colIdx) throws SQLException {
+        int sqlType = rsMeta.getColumnType(colIdx);
+        int precision = rsMeta.getPrecision(colIdx);
+        if (Types.TINYINT == sqlType && precision <= 3) { // prevents value converted to boolean when tinyint(n <= 3)
+            row.put(rsMeta.getColumnName(colIdx), rs.getInt(colIdx));
+        }
+        else {
+            row.put(rsMeta.getColumnName(colIdx), (Serializable) rs.getObject(colIdx));
+        }
     }
 
     private Connection getConnection(DbType dbType) {

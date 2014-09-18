@@ -22,6 +22,7 @@ public abstract class JdbcTypes {
 
     static {
         types.add(new JdbcType("bigint", Types.BIGINT, BigInteger.class));
+        types.add(new JdbcType("blob", Types.BLOB, byte[].class));
         types.add(new JdbcType("char", Types.CHAR, Character.class));
         types.add(new JdbcType("date", Types.DATE, Date.class));
         types.add(new JdbcType("datetime", Types.TIMESTAMP, Timestamp.class));
@@ -29,6 +30,7 @@ public abstract class JdbcTypes {
         types.add(new JdbcType("double", Types.DOUBLE, Double.class));
         types.add(new JdbcType("float", Types.FLOAT, Float.class));
         types.add(new JdbcType("int", Types.INTEGER, Integer.class));
+        types.add(new JdbcType("longblob", Types.LONGVARBINARY, byte[].class));
         types.add(new JdbcType("longtext", Types.VARCHAR, String.class));
         types.add(new JdbcType("mediumint", Types.INTEGER, Integer.class));
         types.add(new JdbcType("smallint", Types.SMALLINT, Short.class));

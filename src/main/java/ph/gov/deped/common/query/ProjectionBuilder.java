@@ -17,6 +17,5 @@ public interface ProjectionBuilder {
 
     FromClauseBuilder select(Projection... projections);
 
-    @SuppressWarnings("unchecked")
-    FromClauseBuilder select(Supplier<? extends Projection>... projections);
+    FromClauseBuilder select(@SuppressWarnings("unchecked") Supplier<? extends Projection>... projections);
 }

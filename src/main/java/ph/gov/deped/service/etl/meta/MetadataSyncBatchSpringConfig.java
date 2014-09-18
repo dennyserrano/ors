@@ -22,6 +22,8 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.IteratorItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cassandra.core.cql.CqlIdentifier;
+import org.springframework.cassandra.core.keyspace.CreateKeyspaceSpecification;
 import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -135,9 +137,16 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
                     DbSettings v = dbTypeMap().get(i);
                     DatabaseMetadata databaseMetadata = databaseMetadataRepository.findOne(dbId);
                     if (databaseMetadata == null) {
-                        databaseMetadata = new DatabaseMetadata(dbId, v.getDbName(), v.getDbHost(), v.getDbPort(), DatabaseMetadata.STEP_DEV, v.getDbUser(), v.getDbPass());
+                        databaseMetadata = new DatabaseMetadata(dbId, v.getDbName(), v.getDbHost(), v.getDbPort(),
+                                DatabaseMetadata.STEP_DEV, v.getDbUser(), v.getDbPass());
                         databaseMetadataRepository.insert(databaseMetadata);
                     }
+                    cassandraAdminTemplate.execute(
+                            CreateKeyspaceSpecification.createKeyspace(v.getDbName())
+                                    .ifNotExists()
+                                    .withSimpleReplication(1)
+                            
+                    );
                 }))
                 .build();
     }
@@ -204,7 +213,20 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
                 .<String, CreateTableSpecification>chunk(8)
                 .reader(registryItemReader())
                 .processor(metadataHolderCassandraItemProcessor())
-                .writer(items -> items.stream().forEach(cassandraAdminTemplate::execute))
+                .writer(items -> items.parallelStream().forEach(item -> {
+                    String tableName;
+                    CqlIdentifier tableCqlId = item.getName();
+                    if (tableCqlId.isQuoted()) {
+                        tableName = tableCqlId.getUnquoted();
+                    }
+                    else {
+                        tableName = tableCqlId.toCql();
+                    }
+                    String[] tableSpec = tableName.split("\\.");
+                    cassandraAdminTemplate.execute("USE " + tableSpec[0]);
+                    item.name(tableSpec[1]);
+                    cassandraAdminTemplate.execute(item);
+                }))
                 .build();
     }
 
