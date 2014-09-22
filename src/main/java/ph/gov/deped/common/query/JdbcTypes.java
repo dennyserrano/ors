@@ -35,7 +35,7 @@ public abstract class JdbcTypes {
         types.add(new JdbcType("longtext", Types.VARCHAR, String.class));
         types.add(new JdbcType("mediumint", Types.INTEGER, Integer.class));
         types.add(new JdbcType("smallint", Types.SMALLINT, Short.class));
-        types.add(new JdbcType("text", Types.VARCHAR, Byte.class));
+        types.add(new JdbcType("text", Types.VARCHAR, String.class));
         types.add(new JdbcType("timestamp", Types.TIMESTAMP, Timestamp.class));
         types.add(new JdbcType("tinyint", Types.TINYINT, Short.class));
         types.add(new JdbcType("varbinary", Types.VARCHAR, String.class));

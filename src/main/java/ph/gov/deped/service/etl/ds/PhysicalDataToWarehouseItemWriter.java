@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,6 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
     public void write(List<? extends DbTypeSqlMapping> items) throws Exception {
         items.parallelStream().forEach(item -> {
             final String tableName = item.getMetadataHolder().getTableMetadata().getTableName();
-            log.info("Insert streaming data from [{}] [{}] table to Cassandra table [{}]...", item.getDbType(), tableName, tableName);
             try (
                     Connection con = getConnection(item.getDbType());
                     PreparedStatement ps = con.prepareStatement(item.getSql().toString());
@@ -60,7 +60,7 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
                     for (int i = 1; i <= colCount; i++) {
                         mapRow(row, rsMeta, rs, i);
                     }
-                    log.trace("INSERT [{}] INTO [{}]", row, tableName);
+                    log.trace("Insert [{}] Into Cassandra[{}].[{}]", row, item.getDbType().getDbName(), tableName);
                     row.entrySet().forEach(e -> {
                         insert.value(e.getKey(), e.getValue());
                     });
@@ -86,12 +86,26 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
     private void mapRow(Map<String, Serializable> row, ResultSetMetaData rsMeta, ResultSet rs, int colIdx) throws SQLException {
         int sqlType = rsMeta.getColumnType(colIdx);
         int precision = rsMeta.getPrecision(colIdx);
+        String columnName = rsMeta.getColumnName(colIdx);
+        String typeName = rsMeta.getColumnTypeName(colIdx);
+        log.trace("Retrieving column value using index [{}] corresponds to column [{}] of SQL type [{}]", colIdx, columnName, typeName);
+        Serializable value;
         if (Types.TINYINT == sqlType && precision <= 3) { // prevents value converted to boolean when tinyint(n <= 3)
-            row.put(rsMeta.getColumnName(colIdx), rs.getInt(colIdx));
+            value = rs.getInt(colIdx);
+        }
+        else if (Types.TIMESTAMP == sqlType) { // handle Timestamp invalid values
+            String timestampStr = rs.getString(colIdx);
+            if ("0000-00-00 00:00:00".equals(timestampStr)) { // handle empty time
+                value = new Timestamp(1L);
+            }
+            else {
+                value = rs.getTimestamp(colIdx);
+            }
         }
         else {
-            row.put(rsMeta.getColumnName(colIdx), (Serializable) rs.getObject(colIdx));
+            value = (Serializable) rs.getObject(colIdx);
         }
+        row.put(columnName, value);
     }
 
     private Connection getConnection(DbType dbType) {

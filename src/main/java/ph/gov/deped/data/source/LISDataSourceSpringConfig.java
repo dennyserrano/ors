@@ -2,6 +2,9 @@ package ph.gov.deped.data.source;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 import com.zaxxer.hikari.HikariDataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +13,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
 import ph.gov.deped.common.LisMetadata;
 import ph.gov.deped.config.LisSettings;
 
 import javax.sql.DataSource;
+
 import java.sql.SQLException;
 
 /**
@@ -28,6 +33,8 @@ public class LISDataSourceSpringConfig implements LisMetadata {
     public static final String DEFAULT_USER = "root";
 
     public static final String DEFAULT_PASSWORD = "password";
+    
+    private static final Logger log = LogManager.getLogger(LISDataSourceSpringConfig.class);
 
     public static @Bean PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
@@ -46,6 +53,7 @@ public class LISDataSourceSpringConfig implements LisMetadata {
         mysqlDs.setUser(lisSettings.getDbUser());
         mysqlDs.setPassword(lisSettings.getDbPass());
         mysqlDs.setQueryTimeoutKillsConnection(true);
+        mysqlDs.setZeroDateTimeBehavior("convertToNull");
 
         HikariDataSource ds = new HikariDataSource();
         ds.setMaximumPoolSize(8);
@@ -55,8 +63,8 @@ public class LISDataSourceSpringConfig implements LisMetadata {
         try {
             ds.setLoginTimeout(60);
         }
-        catch (SQLException e) {
-            e.printStackTrace();
+        catch (SQLException ex) {
+            log.catching(ex);
         }
 
         return ds;

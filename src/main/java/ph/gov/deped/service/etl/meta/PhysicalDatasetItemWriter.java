@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.SpringNamingStrategy;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.dw.DbType;
@@ -143,7 +141,7 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
         log.exit();
     }
     
-    public @Transactional(value = AppMetadata.TXM, isolation = Isolation.READ_UNCOMMITTED, timeout = 60) void insertColumn(DatasetElement element, boolean flush) {
+    public void insertColumn(DatasetElement element, boolean flush) {
         foreignKeyChecks(false);
         securityContextUtil.createInternalUserAuthentication("SYSTEM");
         datasetElementRepository.save(element);

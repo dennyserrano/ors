@@ -30,8 +30,6 @@ import ph.gov.deped.service.meta.api.SynchronizeMetadataContext;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataRequest;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataResponse;
 
-;
-
 /**
  * Created by ej on 8/20/14.
  */

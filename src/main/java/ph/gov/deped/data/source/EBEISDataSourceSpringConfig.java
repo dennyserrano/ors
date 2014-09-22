@@ -2,6 +2,9 @@ package ph.gov.deped.data.source;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 import com.zaxxer.hikari.HikariDataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +13,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
 import ph.gov.deped.common.EbeisMetadata;
 import ph.gov.deped.config.EbeisSettings;
 
 import javax.sql.DataSource;
+
 import java.sql.SQLException;
 /**
  * Created by ej on 8/5/14.
@@ -21,6 +26,8 @@ import java.sql.SQLException;
 @Configuration
 @PropertySource({"classpath:" + EbeisMetadata.EBEIS_PROPS})
 public class EBEISDataSourceSpringConfig implements EbeisMetadata {
+    
+    private static final Logger log = LogManager.getLogger(EBEISDataSourceSpringConfig.class);
 
     public static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/sisdb";
 
@@ -45,6 +52,7 @@ public class EBEISDataSourceSpringConfig implements EbeisMetadata {
         mysqlDs.setUser(ebeisSettings.getDbUser());
         mysqlDs.setPassword(ebeisSettings.getDbPass());
         mysqlDs.setQueryTimeoutKillsConnection(true);
+        mysqlDs.setZeroDateTimeBehavior("convertToNull");
 
         HikariDataSource ds = new HikariDataSource();
         ds.setMaximumPoolSize(8);
@@ -54,8 +62,8 @@ public class EBEISDataSourceSpringConfig implements EbeisMetadata {
         try {
             ds.setLoginTimeout(60);
         }
-        catch (SQLException e) {
-            e.printStackTrace();
+        catch (SQLException ex) {
+            log.catching(ex);
         }
 
         return ds;

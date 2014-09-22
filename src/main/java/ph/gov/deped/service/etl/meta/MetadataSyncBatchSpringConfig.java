@@ -23,7 +23,6 @@ import org.springframework.batch.item.support.IteratorItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cassandra.core.cql.CqlIdentifier;
-import org.springframework.cassandra.core.cql.generator.CreateTableCqlGenerator;
 import org.springframework.cassandra.core.keyspace.CreateKeyspaceSpecification;
 import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.context.ApplicationContext;
@@ -224,7 +223,6 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
                     String[] tableSpec = tableName.split("\\.");
                     cassandraAdminTemplate.execute("USE " + tableSpec[0]);
                     item.name(tableSpec[1]);
-                    log.trace("CQL Statement [{}]", CreateTableCqlGenerator.toCql(item));
                     cassandraAdminTemplate.execute(item);
                 }))
                 .build();

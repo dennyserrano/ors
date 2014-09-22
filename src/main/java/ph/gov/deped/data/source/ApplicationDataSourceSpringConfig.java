@@ -1,8 +1,13 @@
 package ph.gov.deped.data.source;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
-import com.zaxxer.hikari.HikariDataSource;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import liquibase.integration.spring.SpringLiquibase;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -14,11 +19,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.config.OrsSettings;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * Created by ej on 8/15/14.
@@ -27,7 +33,9 @@ import java.sql.SQLException;
 @PropertySource({"classpath:" + AppMetadata.PROPS})
 @EnableConfigurationProperties(LiquibaseProperties.class)
 public class ApplicationDataSourceSpringConfig implements AppMetadata {
-
+    
+    private static final Logger log = LogManager.getLogger(ApplicationDataSourceSpringConfig.class);
+    
     public static @Bean PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
         p.setLocations(new Resource[] {
@@ -49,6 +57,7 @@ public class ApplicationDataSourceSpringConfig implements AppMetadata {
         mysqlDs.setUser(orsSettings.getDbUser());
         mysqlDs.setPassword(orsSettings.getDbPass());
         mysqlDs.setQueryTimeoutKillsConnection(true);
+        mysqlDs.setZeroDateTimeBehavior("convertToNull");
 
         HikariDataSource ds = new HikariDataSource();
         ds.setMaximumPoolSize(8);
@@ -58,8 +67,8 @@ public class ApplicationDataSourceSpringConfig implements AppMetadata {
         try {
             ds.setLoginTimeout(60);
         }
-        catch (SQLException e) {
-            e.printStackTrace();
+        catch (SQLException ex) {
+            log.catching(ex);
         }
 
         return ds;

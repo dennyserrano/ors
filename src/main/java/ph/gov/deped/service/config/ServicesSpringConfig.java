@@ -11,15 +11,13 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Service;
 
 import ph.gov.deped.common.command.Command;
 import reactor.core.Environment;
-import reactor.spring.core.task.RingBufferAsyncTaskExecutor;
-
-import com.lmax.disruptor.BusySpinWaitStrategy;
 
 /**
  * Created by ej on 8/7/14.
@@ -50,11 +48,17 @@ public class ServicesSpringConfig implements SchedulingConfigurer, AsyncConfigur
     }
 
     public Executor getAsyncExecutor() {
-        RingBufferAsyncTaskExecutor t = new RingBufferAsyncTaskExecutor(reactorEnv());
+        /*RingBufferAsyncTaskExecutor t = new RingBufferAsyncTaskExecutor(reactorEnv());
         t.setName("RingBufferAsyncTaskExecutor");
         t.setThreads(1);
         t.setBacklog(8);
-        t.setWaitStrategy(new BusySpinWaitStrategy());
+        t.setWaitStrategy(new BusySpinWaitStrategy());*/
+        ThreadPoolTaskExecutor t = new ThreadPoolTaskExecutor();
+        t.setAllowCoreThreadTimeOut(true);
+        t.setAwaitTerminationSeconds(10);
+        t.setCorePoolSize(4);
+        t.setMaxPoolSize(10);
+        t.setQueueCapacity(4);
         return t;
     }
 
