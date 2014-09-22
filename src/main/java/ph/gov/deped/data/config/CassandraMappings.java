@@ -26,7 +26,7 @@ public class CassandraMappings {
                 return b.getDataType();
             }
         }
-        return null;
+        throw new RuntimeException(String.format("Unable to identify corresponding Cassandra Data type [%s].", javaType));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -50,6 +50,7 @@ public class CassandraMappings {
         TIMESTAMP(Timestamp.class, DataType.timestamp()),
         TIMEUUID(UUID.class, DataType.timeuuid()),
         UUID(UUID.class, DataType.uuid()),
+        CHAR(Character.class, DataType.varchar()),
 
         P_BYTE(byte.class, DataType.blob()),
         P_SHORT(short.class, DataType.cint()),

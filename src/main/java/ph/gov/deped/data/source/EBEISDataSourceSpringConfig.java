@@ -44,9 +44,10 @@ public class EBEISDataSourceSpringConfig implements EbeisMetadata {
         mysqlDs.setUrl(ebeisSettings.getDbUrl());
         mysqlDs.setUser(ebeisSettings.getDbUser());
         mysqlDs.setPassword(ebeisSettings.getDbPass());
+        mysqlDs.setQueryTimeoutKillsConnection(true);
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setMaximumPoolSize(50);
+        ds.setMaximumPoolSize(8);
         ds.setConnectionTestQuery("SELECT 1");
         ds.setDataSource(mysqlDs);
         ds.setPoolName(DS);

@@ -45,9 +45,10 @@ public class LISDataSourceSpringConfig implements LisMetadata {
         mysqlDs.setUrl(lisSettings.getDbUrl());
         mysqlDs.setUser(lisSettings.getDbUser());
         mysqlDs.setPassword(lisSettings.getDbPass());
+        mysqlDs.setQueryTimeoutKillsConnection(true);
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setMaximumPoolSize(50);
+        ds.setMaximumPoolSize(8);
         ds.setConnectionTestQuery("SELECT 1");
         ds.setDataSource(mysqlDs);
         ds.setPoolName(DS);

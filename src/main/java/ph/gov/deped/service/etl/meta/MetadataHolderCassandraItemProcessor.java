@@ -50,9 +50,8 @@ public class MetadataHolderCassandraItemProcessor implements ItemProcessor<Strin
         CreateTableSpecification spec = CreateTableSpecification.createTable()
                 .ifNotExists()
                 .name(CqlIdentifier.quotedCqlId(dbType.get().getDbName() + "." + tableName))
-                .partitionKeyColumn(primaryKeyColumn.get().getColumnName(), primaryKeyDataType)
-                .with(TableOption.COMMENT, tableMetadata.getDescription())
-                .with(TableOption.CACHING, TableOption.CachingOption.KEYS_ONLY);
+                .partitionKeyColumn(new CqlIdentifier(primaryKeyColumn.get().getColumnName(), true), primaryKeyDataType)
+                .with(TableOption.COMMENT, tableMetadata.getDescription());
         columnMetadataList.forEach(cm -> {
             String columnName = cm.getColumnName();
             DataType dataType = getCassandraDataType(cm.getDataType());

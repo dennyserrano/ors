@@ -33,7 +33,7 @@ public class DefaultDatasetsBatchSpringConfig {
     // RAW Tables dataset and count.
     public @Bean Step physicalTablesEtlStep() {
         return steps.get("physicalTablesEtlStep")
-                .<MetadataHolder, DbTypeSqlMapping>chunk(4)
+                .<MetadataHolder, DbTypeSqlMapping>chunk(8)
                 .reader(physicalTableItemReader())
                 .processor(physicalMetadataToSQLProcessor())
                 .writer(physicalTableToWarehouseItemWriter())

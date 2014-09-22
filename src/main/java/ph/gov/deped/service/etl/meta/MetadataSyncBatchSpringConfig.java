@@ -23,6 +23,7 @@ import org.springframework.batch.item.support.IteratorItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cassandra.core.cql.CqlIdentifier;
+import org.springframework.cassandra.core.cql.generator.CreateTableCqlGenerator;
 import org.springframework.cassandra.core.keyspace.CreateKeyspaceSpecification;
 import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +32,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import ph.gov.deped.common.DbSettings;
 import ph.gov.deped.common.dw.DbType;
@@ -119,7 +119,7 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
                     }
                 })
                 .start(initializeDatabaseMetadataStep())
-                .next(cleanupTableAndColumnMetadataStep())
+                //.next(cleanupTableAndColumnMetadataStep())
                 .next(metadataSynchronizeStep())
                 .next(metadataSyncFlow())
                 .next(physicalTableEtlDataWarehouseFlow())
@@ -173,7 +173,6 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
                     }
                     return RepeatStatus.FINISHED;
                 })
-                .transactionAttribute(new DefaultTransactionAttribute())
                 .build();
     }
 
@@ -225,6 +224,7 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
                     String[] tableSpec = tableName.split("\\.");
                     cassandraAdminTemplate.execute("USE " + tableSpec[0]);
                     item.name(tableSpec[1]);
+                    log.trace("CQL Statement [{}]", CreateTableCqlGenerator.toCql(item));
                     cassandraAdminTemplate.execute(item);
                 }))
                 .build();

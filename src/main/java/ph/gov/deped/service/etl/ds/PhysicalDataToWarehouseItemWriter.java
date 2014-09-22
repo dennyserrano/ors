@@ -60,8 +60,10 @@ public class PhysicalDataToWarehouseItemWriter implements ItemWriter<DbTypeSqlMa
                     for (int i = 1; i <= colCount; i++) {
                         mapRow(row, rsMeta, rs, i);
                     }
-                    log.trace("Inserting [{}]...", row);
-                    row.entrySet().parallelStream().forEach(e -> insert.value(e.getKey(), e.getValue()));
+                    log.trace("INSERT [{}] INTO [{}]", row, tableName);
+                    row.entrySet().forEach(e -> {
+                        insert.value(e.getKey(), e.getValue());
+                    });
                     cassandraTemplate.executeAsynchronously(insert);
                 }
             }

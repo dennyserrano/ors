@@ -63,6 +63,7 @@ public class MetaRepository {
                 });
         return tables.parallelStream()
                 .filter(table -> tablesWithPk.contains(table.getTableName()))
+                .filter(table -> !table.getTableName().startsWith("tmp"))
                 .collect(Collectors.toList());
     }
 

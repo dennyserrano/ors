@@ -3,14 +3,22 @@ package ph.gov.deped.service.etl.meta;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.cfg.NamingStrategy;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.SpringNamingStrategy;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
+import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
@@ -37,6 +45,8 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
     private DatasetElementRepository datasetElementRepository;
     
     private NamingStrategy namingStrategy = new SpringNamingStrategy();
+    
+    private DataSource dataSource;
 
     public PhysicalDatasetItemWriter() {}
 
@@ -44,12 +54,13 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
                                     DatasetHeadRepository datasetHeadRepository,
                                     DatasetTableRepository datasetTableRepository,
                                     DatasetElementRepository datasetElementRepository,
-                                    NamingStrategy namingStrategy) {
+                                    NamingStrategy namingStrategy, DataSource dataSource) {
         this.securityContextUtil = securityContextUtil;
         this.datasetHeadRepository = datasetHeadRepository;
         this.datasetTableRepository = datasetTableRepository;
         this.datasetElementRepository = datasetElementRepository;
         this.namingStrategy = namingStrategy;
+        this.dataSource = dataSource;
     }
 
     public @Autowired void setSecurityContextUtil(SecurityContextUtil securityContextUtil) {
@@ -72,12 +83,18 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
         this.namingStrategy = namingStrategy;
     }
 
+    public @Autowired @Qualifier(AppMetadata.DS) void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public void write(List<? extends MetadataHolder> items) throws Exception {
         items.stream().forEach(this::processMetadata);
     }
 
     protected void processMetadata(MetadataHolder holder) {
         log.entry(holder);
+        foreignKeyChecks(false);
+        
         securityContextUtil.createInternalUserAuthentication("SYSTEM");
         TableMetadata table = holder.getTableMetadata();
         DbType dbType = DbType.values()[table.getDbId()];
@@ -101,21 +118,49 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
             datasetTable.setDatasetHead(head);
             datasetTable.setTableId(table.getTableId());
             datasetTableRepository.save(datasetTable);
-
-            holder.columnMetadatas.parallelStream().forEach(c -> {
-                DatasetElement element = new DatasetElement();
-                element.setDatasetTable(datasetTable);
-                element.setColumnId(c.getColumnId());
-                element.setName(c.getColumnName());
-                element.setMeaning(String.format("Physical column [%s] from table [%s].", c.getColumnName(), table.getTableName()));
-                element.setDescription(table.getTableName() + "." + c.getColumnName());
-                element.setAlias(c.getColumnName());
-                securityContextUtil.createInternalUserAuthentication("SYSTEM");
-                datasetElementRepository.save(element);
-                securityContextUtil.removeAuthentication();
-            });
+            
+            datasetTableRepository.flush();
+            
+            AtomicInteger batch = new AtomicInteger(0);
+            holder.columnMetadatas.parallelStream()
+                    .map(c -> {
+                        DatasetElement element = new DatasetElement();
+                        element.setDatasetTable(datasetTable);
+                        element.setColumnId(c.getColumnId());
+                        element.setName(c.getColumnName());
+                        element.setMeaning(String.format(
+                                "Physical column [%s] from table [%s].",
+                                c.getColumnName(), table.getTableName()));
+                        element.setDescription(table.getTableName() + "."
+                                + c.getColumnName());
+                        element.setAlias(c.getColumnName());
+                        batch.incrementAndGet();
+                        return element;
+                    }).forEach(e -> insertColumn(e, batch.get() % 10 == 0));
         }
         securityContextUtil.removeAuthentication();
+        foreignKeyChecks(true);
         log.exit();
+    }
+    
+    public @Transactional(value = AppMetadata.TXM, isolation = Isolation.READ_UNCOMMITTED, timeout = 60) void insertColumn(DatasetElement element, boolean flush) {
+        foreignKeyChecks(false);
+        securityContextUtil.createInternalUserAuthentication("SYSTEM");
+        datasetElementRepository.save(element);
+        securityContextUtil.removeAuthentication();
+        if (flush) {
+            datasetElementRepository.flush();
+        }
+        foreignKeyChecks(true);
+    }
+    
+    private void foreignKeyChecks(boolean enabled) {
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        if (!enabled) {
+            template.execute("SET FOREIGN_KEY_CHECKS=0");
+        }
+        else {
+            template.execute("SET FOREIGN_KEY_CHECKS=1");
+        }
     }
 }
