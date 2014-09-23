@@ -5,7 +5,7 @@
 <a data-ng-repeat="dataset in datasets"
    data-ng-class="{'active': selectedId == dataset.id}"
    data-ng-click="selectDataset(dataset.id)"
-   ui-sref="dataset.id({datasetId: dataset.id})"
+   data-ui-sref="dataset.id({datasetId: dataset.id})"
    id="dataset{{ dataset.id }}" class="list-group-item">
   <div class="row">
     <div class="col-sm-8">
