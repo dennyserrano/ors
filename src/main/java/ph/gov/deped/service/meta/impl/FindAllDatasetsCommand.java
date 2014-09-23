@@ -11,7 +11,6 @@ import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.command.Command;
 import ph.gov.deped.common.command.ICommand;
 import ph.gov.deped.common.dw.DbType;
-import ph.gov.deped.data.BaseJpaEntity;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Table;
@@ -30,16 +29,32 @@ import com.google.common.base.CaseFormat;
  */
 public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasetsContext> {
 
-    private @Autowired DatasetHeadRepository datasetHeadRepository;
+    private DatasetHeadRepository datasetHeadRepository;
 
-    private @Autowired DatasetTableRepository datasetTableRepository;
+    private DatasetTableRepository datasetTableRepository;
 
-    private @Autowired DatasetElementRepository datasetElementRepository;
+    private DatasetElementRepository datasetElementRepository;
 
-    private @Autowired TableMetadataRepository tableMetadataRepository;
+    private TableMetadataRepository tableMetadataRepository;
+
+    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
+        this.datasetHeadRepository = datasetHeadRepository;
+    }
+
+    public @Autowired void setDatasetTableRepository(DatasetTableRepository datasetTableRepository) {
+        this.datasetTableRepository = datasetTableRepository;
+    }
+
+    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
+        this.datasetElementRepository = datasetElementRepository;
+    }
+
+    public @Autowired void setTableMetadataRepository(TableMetadataRepository tableMetadataRepository) {
+        this.tableMetadataRepository = tableMetadataRepository;
+    }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) void execute(FindAllDatasetsContext context) {
-        List<DatasetHead> datasetHeads = datasetHeadRepository.findAll(new Sort(Sort.Direction.DESC, BaseJpaEntity.DATE_UPDATED));
+        List<DatasetHead> datasetHeads = datasetHeadRepository.findAll(new Sort(Sort.Direction.ASC, DatasetHead.NAME));
         List<Dataset> datasets = datasetHeads.parallelStream()
                 .map(head -> {
                     List<DatasetTable> datasetTables = datasetTableRepository.findByDatasetHead(head);
@@ -52,8 +67,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
                     List<Element> elements = datasetTables.parallelStream()
                             .map(datasetElementRepository::findByDatasetTable)
                             .flatMap(foundElements -> foundElements.parallelStream())
-                            .map(dse -> new Element(dse.getId(), dse.getName(), dse.getDescription(),
-                                    dse.getMeaning(), dse.getDatasetTable().getDatasetHead().getId()))
+                            .map(dse -> new Element(dse.getId(), dse.getName(), dse.getDescription(), dse.getMeaning(), dse.getDatasetTable().getDatasetHead().getId()))
                             .collect(Collectors.toList());
                     Dataset dataset;
                     if (datasetTables.size() == 1 && subDatasets.isEmpty()) { // Physical Table case
@@ -67,9 +81,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
                         dataset = new Dataset(head.getId(), head.getName(), head.getDescription(), subDatasets, elements);
                     }
                     return dataset;
-                })
-                .sorted((o1, o2) -> new Long(o2.getId()).compareTo(o1.getId()))
-                .collect(Collectors.toList());
+                }).sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList());
         context.setDatasets(datasets);
         context.createResponse();
     }

@@ -11,7 +11,7 @@
     <div class="col-sm-8">
       <i class="pull-left fa {{ dataset.physical && 'fa-building' || dataset.icon }}"></i>
       <h4 class="list-group-item-heading">{{ dataset.name }}</h4>
-      <small class="list-group-item-text">
+      <small class="list-group-item-text" data-ng-show="dataset.physical">
         Database: <span>{{ dataset.dbType }}</span>
       </small>
     </div>

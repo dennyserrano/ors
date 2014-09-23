@@ -1,1 +1,3 @@
-angular.module("DatasetApp", ['ui.router', 'ngRoute', 'ngResource']);
+'use strict';
+
+angular.module("DatasetApp", ['ui.router', 'ui.bootstrap', 'ngResource']);

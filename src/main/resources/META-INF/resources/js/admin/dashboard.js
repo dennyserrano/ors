@@ -1,5 +1,7 @@
 (function($, google) {
 
+	'use strict';
+
     ORS.Admin.Dashboard = function($, google) {
 
         var memoryChartId = '#memoryChart';

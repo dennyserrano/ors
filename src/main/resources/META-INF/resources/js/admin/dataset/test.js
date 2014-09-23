@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('DatasetAppDev', ['DatasetApp', 'ngMockE2E'])
     .run(['$httpBackend', function($httpBackend) {
         var datasets = [

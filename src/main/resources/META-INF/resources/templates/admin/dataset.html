@@ -74,8 +74,12 @@
       <div class="row">
         <div data-ng-controller="DatasetListCtrl" class="col-xs-12 col-sm-5 bootcards-list">
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <h2 class="panel-title text-center">Dataset List</h2>
+            <div class="panel-heading clearfix">
+              <h3 class="panel-title pull-left">Dataset List</h3>
+              <button class="btn btn-default pull-right" data-ui-sref="dataset.form">
+                <i class="fa fa-database"></i>
+                Create
+              </button>
             </div>
             <div class="panel-body">
               <div class="search-form">
@@ -171,16 +175,18 @@
             </div>
           </div>
         </div>
-        <div data-ng-controller="DatasetDetailCtrl" class="col-xs-12 col-sm-7">
+        <div data-ng-controller="DatasetDetailCtrl" data-ui-view="datasetDetail" id="datasetDetails" class="col-xs-12 col-sm-7">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title text-center">Dataset Details</h3>
             </div>
-            <div data-ui-view="datasetDetail" id="datasetDetails" class="panel-body bg-info">
-              <p>
-                <i class="fa fa-angle-double-left"></i>
-                Select a Dataset from the Left
-              </p>
+            <div class="list-group">
+              <div class="list-group-item">
+                <p class="list-group-item-text">
+                  <i class="fa fa-angle-double-left"></i>
+                  Select a Dataset from the Left
+                </p>
+              </div>
             </div>
           </div>
         </div>

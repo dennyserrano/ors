@@ -30,7 +30,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import ph.gov.deped.common.DbSettings;
 import ph.gov.deped.common.dw.DbType;
@@ -255,7 +254,7 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
         return new PhysicalTableDataJobRestartTasklet();
     }
 
-    public @Scheduled(fixedDelay = 10000) void startMetadataSyncJob() {
+    public void startMetadataSyncJob() {
         if (started.get()) {
             return;
         }

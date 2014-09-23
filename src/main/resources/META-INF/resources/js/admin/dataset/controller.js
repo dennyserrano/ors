@@ -1,6 +1,8 @@
+'use strict';
+
 angular.module('DatasetApp')
-    .controller('DatasetListCtrl', ['$scope', 'DatasetService',
-        function($scope, DatasetService) {
+    .controller('DatasetListCtrl', ['$scope', '$state', 'DatasetService',
+        function($scope, $state, DatasetService) {
             $scope.loadingList = true;
             DatasetService.query(function(data) {
                 $scope.datasets = data;
@@ -20,11 +22,23 @@ angular.module('DatasetApp')
                 $scope.dataset = dataset;
                 $scope.loadingDetail = false;
             });
-
-            $scope.save = function() {
-                DatasetService.post(this.dataset, function(data) {
-
-                });
-            };
         }
+    ])
+    .controller('DatasetFormCtrl', ['$scope', '$state', '$stateParams', '$modalInstance', 'DatasetService', 
+        function($scope, $state, $stateParams, $modalInstance, DatasetService) {
+    	
+    		$scope.dismiss = function() {
+    			$modalInstance.dismiss();
+    		};
+    		
+    		$scope.save = function(isValid) {
+    	    	$modalInstance.close($scope.dataset);
+    	    };
+    		
+    	    if ($stateParams.datasetId) {
+    	    	DatasetService.get({'datasetId': $stateParams.datasetId}, function(dataset) {
+    	    		$scope.dataset = dataset;
+    	    	});
+    	    }
+    	}
     ]);

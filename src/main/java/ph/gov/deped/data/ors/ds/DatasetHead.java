@@ -22,6 +22,8 @@ import java.io.Serializable;
         @UniqueConstraint(name = "dataset_head_name_unique", columnNames = {DatasetHead.COL_NAME})
 })
 public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
+    
+    public static final String NAME = "name";
 
     public static final String COL_NAME = "name";
 

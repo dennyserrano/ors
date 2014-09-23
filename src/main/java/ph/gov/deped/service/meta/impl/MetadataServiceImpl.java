@@ -37,15 +37,35 @@ public @Service class MetadataServiceImpl implements MetadataService {
 
     private static final Logger log = LogManager.getLogger(MetadataServiceImpl.class);
 
-    private @Autowired SynchronizeMetadataCommand synchronizeMetadataCommand;
+    private SynchronizeMetadataCommand synchronizeMetadataCommand;
 
-    private @Autowired FindAllDatasetsCommand findAllDatasetsCommand;
+    private FindAllDatasetsCommand findAllDatasetsCommand;
 
-    private @Autowired FindDatasetCommand findDatasetCommand;
+    private FindDatasetCommand findDatasetCommand;
 
-    private @Autowired TableMetadataRepository tableMetadataRepository;
+    private TableMetadataRepository tableMetadataRepository;
 
-    private @Autowired ColumnMetadataRepository columnMetadataRepository;
+    private ColumnMetadataRepository columnMetadataRepository;
+
+    public @Autowired void setSynchronizeMetadataCommand(SynchronizeMetadataCommand synchronizeMetadataCommand) {
+        this.synchronizeMetadataCommand = synchronizeMetadataCommand;
+    }
+
+    public @Autowired void setFindAllDatasetsCommand(FindAllDatasetsCommand findAllDatasetsCommand) {
+        this.findAllDatasetsCommand = findAllDatasetsCommand;
+    }
+
+    public @Autowired void setFindDatasetCommand(FindDatasetCommand findDatasetCommand) {
+        this.findDatasetCommand = findDatasetCommand;
+    }
+
+    public @Autowired void setTableMetadataRepository(TableMetadataRepository tableMetadataRepository) {
+        this.tableMetadataRepository = tableMetadataRepository;
+    }
+
+    public @Autowired void setColumnMetadataRepository(ColumnMetadataRepository columnMetadataRepository) {
+        this.columnMetadataRepository = columnMetadataRepository;
+    }
 
     public @Transactional(AppMetadata.TXM) void startSynchronizing() throws MetadataSynchronizationException {
         log.entry();
@@ -64,11 +84,11 @@ public @Service class MetadataServiceImpl implements MetadataService {
         List<TableMetadata> tableMetadatas = tableMetadataRepository.findAll();
         tableMetadatas.forEach(table -> {
             List<ColumnMetadata> columnMetadatas = columnMetadataRepository.findByTableId(table.getId());
-            List<Column> columnDtos = columnMetadatas.parallelStream()
-                    .map(c -> new Column(c.getId(), c.getColumnName(), c.getColumnName(), c.getColumnName(), c.getColumnId(), c.getTableId()))
-                    .collect(Collectors.toList());
+            List<Column> columnDtos = columnMetadatas.parallelStream().map(c -> new Column(c.getId(), c.getColumnName(),
+                    c.getColumnName(), c.getColumnName(), c.getColumnId(), c.getTableId())) .collect(Collectors.toList());
             Table physicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId());
-            Table logicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId(), new ArrayList<>(Arrays.asList(physicalTable)), columnDtos);
+            Table logicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId(),
+                    new ArrayList<>(Arrays.asList(physicalTable)), columnDtos);
             datasets.add(logicalTable);
         });
         return log.exit(datasets);
