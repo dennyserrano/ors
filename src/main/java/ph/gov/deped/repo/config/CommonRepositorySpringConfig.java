@@ -97,7 +97,7 @@ public class CommonRepositorySpringConfig {
         props.setProperty(AUTODETECTION, AUTODETECTION_MODE);
         props.setProperty(GENERATE_STATISTICS, FALSE);
         props.setProperty(SHOW_SQL, TRUE);
-        props.setProperty(FORMAT_SQL, TRUE);
+        props.setProperty(FORMAT_SQL, FALSE);
         props.setProperty(ORDER_UPDATES, TRUE);
         props.setProperty(JTA_PLATFORM, NoJtaPlatform.class.getName());
         props.setProperty(CURRENT_SESSION_CONTEXT_CLASS, ThreadLocalSessionContext.class.getName());

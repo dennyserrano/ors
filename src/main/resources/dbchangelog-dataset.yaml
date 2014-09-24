@@ -353,3 +353,21 @@ databaseChangeLog:
             oldColumnName: left_combination_id
             newColumnName: parent_filter_chain
             columnDataType: bigint
+  - changeSet:
+      id: ds-201409241340
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_table
+            columns:
+              - column:
+                  name: table_name
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201409241433
+      author: ej
+      changes:
+        - dropNotNullConstraint:
+            tableName: dataset_table
+            columnName: table_id
+            columnDataType: int

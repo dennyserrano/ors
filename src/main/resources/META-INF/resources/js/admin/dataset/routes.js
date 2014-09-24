@@ -6,7 +6,7 @@ angular.module('DatasetApp').config(['$stateProvider', '$urlRouterProvider',
 
         $stateProvider
             .state('dataset', {
-                url: '/',
+                url: '',
                 views: {
                     'datasetList@': {
                         templateUrl: '/static/dataset/list.html'
@@ -14,7 +14,7 @@ angular.module('DatasetApp').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('dataset.id', {
-                url: ':datasetId',
+                url: '/:datasetId',
                 views: {
                     'datasetDetail@': {
                         templateUrl: '/static/dataset/detail.html',
@@ -23,19 +23,19 @@ angular.module('DatasetApp').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('dataset.form', {
-            	url: 'form/:datasetId',
-            	onEnter: ['$modal', '$state', function($modal, $state) {
+            	url: '/form/:id',
+            	onEnter: ['$modal', '$state', '$stateParams', 'DatasetService', function($modal, $state, $stateParams, DatasetService) {
             		$modal.open({
             			templateUrl: '/static/dataset/form.html',
-            			controller: 'DatasetFormCtrl',
-            			size: 'lg'
+            			controller: 'DatasetFormCtrl'
             		})
             		.result.then(function(dataset) { // called when $modalInstance.close() is called
+            			// TODO Save/Update Dataset here.
             			console.log(JSON.stringify(dataset));
-            			$state.transitionTo('dataset');
-            		}, function() { // called when $modalInstance.dismiss() is called
-            			console.log('Dataset Form closed.');
-            			$state.transitionTo('dataset');
+            			$state.go('dataset');
+            		}, function(reason) { // called when $modalInstance.dismiss() is called
+            			console.log('Dataset Form closed [' + reason + '].');
+            			$state.go('dataset');
             		});
             	}]
             });

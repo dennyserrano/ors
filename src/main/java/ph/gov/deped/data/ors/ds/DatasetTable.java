@@ -4,8 +4,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import ph.gov.deped.data.BaseJpaEntity;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import java.io.Serializable;
 
 /**
@@ -32,14 +35,19 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
     @JoinColumn(name = "dataset_head_id", nullable = false)
     private DatasetHead datasetHead;
 
-    @Column(nullable = false)
+    @Basic
+    @Column
     private Integer tableId;
 
     @Column(length = 10)
     private String prefix;
 
+    @Basic
     @Column
     private Long derivedFrom;
+    
+    @Column(length = 50)
+    private String tableName;
 
     public DatasetTable() {
     }
@@ -69,6 +77,10 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
     public Long getDerivedFrom() {
         return derivedFrom;
     }
+    
+    public String getTableName() {
+        return tableName;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -89,6 +101,10 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
     public void setDerivedFrom(Long derivedFrom) {
         this.derivedFrom = derivedFrom;
     }
+    
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -101,6 +117,7 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
                 .append(this.tableId, rhs.tableId)
                 .append(this.prefix, rhs.prefix)
                 .append(this.derivedFrom, rhs.derivedFrom)
+                .append(this.tableName, rhs.tableName)
                 .isEquals();
     }
 
@@ -111,6 +128,7 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
                 .append(tableId)
                 .append(prefix)
                 .append(derivedFrom)
+                .append(tableName)
                 .toHashCode();
     }
 
@@ -123,6 +141,7 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
                 .append("tableId", tableId)
                 .append("prefix", prefix)
                 .append("derivedFrom", derivedFrom)
+                .append("tableName", tableName)
                 .toString();
     }
 }

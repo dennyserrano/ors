@@ -70,9 +70,9 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
                             .map(dse -> new Element(dse.getId(), dse.getName(), dse.getDescription(), dse.getMeaning(), dse.getDatasetTable().getDatasetHead().getId()))
                             .collect(Collectors.toList());
                     Dataset dataset;
-                    if (datasetTables.size() == 1 && subDatasets.isEmpty()) { // Physical Table case
-                        dataset = new Table(head.getId(), toName(head.getName()), head.getDescription(), datasetTables.get(0).getTableId(), subDatasets, elements);
+                    if (datasetTables.size() == 1 && datasetTables.get(0).getTableId() != null) { // Physical Table case
                         TableMetadata physicalTable = tableMetadataRepository.findOne(datasetTables.get(0).getTableId());
+                        dataset = new Table(head.getId(), toName(head.getName())    , head.getDescription(), datasetTables.get(0).getTableId(), subDatasets, elements);
                         int dbId = physicalTable.getDbId();
                         DbType dbType = DbType.values()[dbId];
                         ((Table) dataset).setDbType(dbType);
@@ -87,6 +87,6 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
     }
 
     private String toName(String tableName) {
-        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName.split("\\.")[1]);
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
     }
 }
