@@ -57,3 +57,7 @@ table thead tr th {
   overflow-y: auto;
   max-height: 250px;
 }
+
+legend {
+  font-size: 14px;
+}

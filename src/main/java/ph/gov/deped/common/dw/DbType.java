@@ -11,7 +11,7 @@ public enum DbType {
         public String getDbName() { return "lis2db"; }
     },
     DWRHS {
-        public String getDbName() { return "orsdb"; }
+        public String getDbName() { return "sisdbtest"; }
     };
 
     public static DbType findByName(String dbName) {

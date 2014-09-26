@@ -1,6 +1,7 @@
 package ph.gov.deped.service.meta.api;
 
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Table;
 
 import java.util.List;
@@ -14,9 +15,13 @@ public interface MetadataService {
 
     List<Table> findPhysicalDatasets();
 
-    List<? extends Dataset> findAllDatasets();
+    List<? extends Dataset> findTopLevelDatasets();
 
     Dataset findDataset(long id);
 
     Dataset saveDataset(Dataset dataset);
+
+    List<Element> findElements(long headId);
+
+    List<Dataset> findSubdatasets(long headId);
 }

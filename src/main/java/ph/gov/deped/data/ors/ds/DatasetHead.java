@@ -6,12 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import ph.gov.deped.data.BaseJpaEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -41,6 +36,13 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
 
     @Column(nullable = false)
     private Integer ownerId;
+
+    @Column(length = 50)
+    private String tableName;
+
+    @Basic
+    @Column
+    private Boolean visible;
 
     public DatasetHead() {
     }
@@ -72,6 +74,14 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
         return ownerId;
     }
 
+    public Boolean isVisible() {
+        return visible;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -88,6 +98,14 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
         this.ownerId = ownerId;
     }
 
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof DatasetHead)) {
@@ -98,6 +116,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append(this.name, rhs.name)
                 .append(this.description, rhs.description)
                 .append(this.ownerId, rhs.ownerId)
+                .append(this.visible, rhs.visible)
+                .append(this.tableName, rhs.tableName)
                 .isEquals();
     }
 
@@ -107,6 +127,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append(name)
                 .append(description)
                 .append(ownerId)
+                .append(visible)
+                .append(tableName)
                 .toHashCode();
     }
 
@@ -118,6 +140,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append("name", name)
                 .append("description", description)
                 .append("ownerId", ownerId)
+                .append("visible", visible)
+                .append("tableName", tableName)
                 .toString();
     }
 }

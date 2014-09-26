@@ -18,8 +18,8 @@ angular.module('DatasetApp')
             }
         }
     ])
-    .controller('DatasetDetailCtrl', ['$scope', '$state', '$stateParams', 'DatasetService',
-        function($scope, $state, $stateParams, DatasetService) {
+    .controller('DatasetDetailCtrl', ['$scope', '$state', '$stateParams', 'DatasetService', 'ElementService',
+        function($scope, $state, $stateParams, DatasetService, ElementService) {
             $scope.loadingDetail = true;
             $scope.selectedId = $stateParams.datasetId;
             DatasetService.get({'datasetId' : $stateParams.datasetId}, function(dataset) {
@@ -29,6 +29,25 @@ angular.module('DatasetApp')
             
             $scope.edit = function(datasetId) {
             	$state.go('dataset.form', {'id': datasetId});
+            };
+
+            $scope.shownSubdataset = 0;
+
+            $scope.elements = {};
+
+            $scope.findElements = function(headId) {
+                if ($scope.shownSubdataset !== 0) {
+                    $('#sd' + $scope.shownSubdataset).collapse('hide');
+                }
+                if (!$scope.elements[headId]) {
+                    ElementService.get({'headId': headId}, function(elements) {
+                        $scope.elements[headId] = elements;
+                    });
+                }
+                var foundElements = $scope.elements[headId];
+                $('#sd' + headId).collapse('show');
+                $scope.shownSubdataset = headId;
+                return foundElements;
             };
         }
     ])

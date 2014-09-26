@@ -371,3 +371,60 @@ databaseChangeLog:
             tableName: dataset_table
             columnName: table_id
             columnDataType: int
+  - changeSet:
+      id: ds-201409251830
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_table
+            columns:
+              - column:
+                  name: visible
+                  type: tinyint
+  - changeSet:
+        id: ds-201409251847
+        author: ej
+        changes:
+          - addColumn:
+              tableName: dataset_head
+              columns:
+                - column:
+                    name: visible
+                    type: tinyint(3)
+  - changeSet:
+      id: ds-201409261344
+      author: ej
+      changes:
+        - dropColumn:
+            tableName: dataset_table
+            columnName: table_name
+        - addColumn:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: table_name
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201409261735
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: dataset_head
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_table
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_element
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_criteria
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_filter_chain
+            columnName: date_created
+            newDataType: timestamp

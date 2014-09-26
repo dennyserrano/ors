@@ -45,9 +45,10 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
     @Basic
     @Column
     private Long derivedFrom;
-    
-    @Column(length = 50)
-    private String tableName;
+
+    @Basic
+    @Column
+    private Boolean visible;
 
     public DatasetTable() {
     }
@@ -77,9 +78,9 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
     public Long getDerivedFrom() {
         return derivedFrom;
     }
-    
-    public String getTableName() {
-        return tableName;
+
+    public Boolean isVisible() {
+        return visible;
     }
 
     public void setId(Long id) {
@@ -101,9 +102,9 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
     public void setDerivedFrom(Long derivedFrom) {
         this.derivedFrom = derivedFrom;
     }
-    
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 
     @Override
@@ -117,7 +118,7 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
                 .append(this.tableId, rhs.tableId)
                 .append(this.prefix, rhs.prefix)
                 .append(this.derivedFrom, rhs.derivedFrom)
-                .append(this.tableName, rhs.tableName)
+                .append(this.visible, rhs.visible)
                 .isEquals();
     }
 
@@ -128,7 +129,7 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
                 .append(tableId)
                 .append(prefix)
                 .append(derivedFrom)
-                .append(tableName)
+                .append(visible)
                 .toHashCode();
     }
 
@@ -141,7 +142,7 @@ public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
                 .append("tableId", tableId)
                 .append("prefix", prefix)
                 .append("derivedFrom", derivedFrom)
-                .append("tableName", tableName)
+                .append("visible", visible)
                 .toString();
     }
 }

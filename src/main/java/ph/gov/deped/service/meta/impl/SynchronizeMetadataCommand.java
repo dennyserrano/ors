@@ -51,7 +51,7 @@ public @Command class SynchronizeMetadataCommand implements ICommand<Synchronize
         this.applicationContext = applicationContext;
     }
 
-    public @Autowired void setMetadataRegistry(MetadataRegistry metadataRegistry) {
+    public @Autowired(required = false) void setMetadataRegistry(MetadataRegistry metadataRegistry) {
         this.metadataRegistry = metadataRegistry;
     }
 

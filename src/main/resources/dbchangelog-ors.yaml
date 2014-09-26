@@ -246,3 +246,15 @@ databaseChangeLog:
             tableName: column_metadata
             columnName: max
             newDataType: bigint
+  - changeSet:
+      id: 10
+      author: ej
+      changes:
+        - addAutoIncrement:
+            tableName: table_metadata
+            columnName: table_id
+            columnDataType: int
+        - addAutoIncrement:
+            tableName: column_metadata
+            columnName: column_id
+            columnDataType: int

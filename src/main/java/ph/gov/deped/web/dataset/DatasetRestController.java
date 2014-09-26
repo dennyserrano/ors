@@ -26,13 +26,18 @@ public class DatasetRestController {
     @SuppressWarnings({"unchecked"})
     @RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Dataset> findAvailableDatasets() {
-        List<? extends Dataset> datasets = metadataService.findAllDatasets();
+        List<? extends Dataset> datasets = metadataService.findTopLevelDatasets();
         return (List<Dataset>) datasets;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Dataset findDataset(@PathVariable(DATASET_ID) long id) {
         return metadataService.findDataset(id);
+    }
+
+    @RequestMapping(value = "/{id}/sub", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<Dataset> findSubdatasets(@PathVariable(DATASET_ID) long headId) {
+        return metadataService.findSubdatasets(headId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })

@@ -1,14 +1,13 @@
 package ph.gov.deped.data.config;
 
-import java.util.Locale;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import ph.gov.deped.data.source.ApplicationDataSourceSpringConfig;
 import ph.gov.deped.data.source.EBEISDataSourceSpringConfig;
 import ph.gov.deped.data.source.LISDataSourceSpringConfig;
+
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +20,7 @@ import ph.gov.deped.data.source.LISDataSourceSpringConfig;
 @Import({
         ApplicationDataSourceSpringConfig.class,
         EBEISDataSourceSpringConfig.class,
-        LISDataSourceSpringConfig.class,
-        CassandraSpringConfig.class
+        LISDataSourceSpringConfig.class
 })
 public class DataSpringConfig {
 

@@ -9,6 +9,7 @@ import ph.gov.deped.data.BaseJpaEntity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -40,7 +41,7 @@ public class TableMetadata extends BaseJpaEntity<Integer> implements Serializabl
 
     private static final long serialVersionUID = -7588817531339832278L;
 
-    private @Id Integer tableId;
+    private @Id @GeneratedValue Integer tableId;
 
     private @Basic @Column(nullable = false) Integer dbId;
 

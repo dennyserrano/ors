@@ -1,5 +1,6 @@
 package ph.gov.deped.repo.jpa.ors.ds;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,8 @@ import java.util.List;
 public interface DatasetHeadRepository extends BaseJpaRepository<DatasetHead, Long> {
 
     @Override DatasetHead findOne(Long id);
+
+    List<DatasetHead> findByVisibleAndOwnerId(boolean visible, int ownerId, Sort sort);
 
     DatasetHead findByName(String name);
 

@@ -14,7 +14,7 @@ angular.module('DatasetApp').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('dataset.id', {
-                url: '/:datasetId',
+                url: ':datasetId',
                 views: {
                     'datasetDetail@': {
                         templateUrl: '/static/dataset/detail.html',
@@ -23,7 +23,7 @@ angular.module('DatasetApp').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('dataset.form', {
-            	url: '/form/:id',
+            	url: 'form/:id',
             	onEnter: ['$modal', '$state', '$stateParams', 'DatasetService', function($modal, $state, $stateParams, DatasetService) {
             		$modal.open({
             			templateUrl: '/static/dataset/form.html',

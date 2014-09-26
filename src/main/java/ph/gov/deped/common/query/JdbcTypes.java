@@ -16,7 +16,7 @@ public abstract class JdbcTypes {
     
     private static final List<Integer> numericTypes = new ArrayList<>(asList(
             Types.BIGINT, Types.DECIMAL, Types.DOUBLE, Types.FLOAT,
-            Types.INTEGER, Types.SMALLINT, Types.TINYINT
+            Types.INTEGER, Types.SMALLINT, Types.TINYINT, Types.REAL
     ));
 
     private static final List<JdbcType> types = new ArrayList<>();
@@ -32,7 +32,7 @@ public abstract class JdbcTypes {
         types.add(new JdbcType("float", Types.FLOAT, Float.class));
         types.add(new JdbcType("int", Types.INTEGER, Integer.class));
         types.add(new JdbcType("longblob", Types.LONGVARBINARY, byte[].class));
-        types.add(new JdbcType("longtext", Types.VARCHAR, String.class));
+        types.add(new JdbcType("longtext", Types.LONGVARCHAR, String.class));
         types.add(new JdbcType("mediumint", Types.INTEGER, Integer.class));
         types.add(new JdbcType("smallint", Types.SMALLINT, Short.class));
         types.add(new JdbcType("text", Types.VARCHAR, String.class));

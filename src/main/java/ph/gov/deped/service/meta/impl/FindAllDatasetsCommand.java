@@ -54,7 +54,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) void execute(FindAllDatasetsContext context) {
-        List<DatasetHead> datasetHeads = datasetHeadRepository.findAll(new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        List<DatasetHead> datasetHeads = datasetHeadRepository.findByVisibleAndOwnerId(true, 1, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
         List<Dataset> datasets = datasetHeads.parallelStream()
                 .map(head -> {
                     List<DatasetTable> datasetTables = datasetTableRepository.findByDatasetHead(head);
@@ -72,7 +72,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
                     Dataset dataset;
                     if (datasetTables.size() == 1 && datasetTables.get(0).getTableId() != null) { // Physical Table case
                         TableMetadata physicalTable = tableMetadataRepository.findOne(datasetTables.get(0).getTableId());
-                        dataset = new Table(head.getId(), toName(head.getName())    , head.getDescription(), datasetTables.get(0).getTableId(), subDatasets, elements);
+                        dataset = new Table(head.getId(), toName(head.getName()), head.getDescription(), datasetTables.get(0).getTableId(), subDatasets, elements);
                         int dbId = physicalTable.getDbId();
                         DbType dbType = DbType.values()[dbId];
                         ((Table) dataset).setDbType(dbType);

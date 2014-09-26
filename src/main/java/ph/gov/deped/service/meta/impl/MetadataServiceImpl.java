@@ -15,9 +15,16 @@ import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.command.RequestContext;
 import ph.gov.deped.data.dto.ds.Column;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Table;
+import ph.gov.deped.data.ors.ds.DatasetElement;
+import ph.gov.deped.data.ors.ds.DatasetHead;
+import ph.gov.deped.data.ors.ds.DatasetTable;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetTableRepository;
 import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 import ph.gov.deped.service.meta.api.FindAllDatasetsRequest;
@@ -29,6 +36,8 @@ import ph.gov.deped.service.meta.api.MetadataSynchronizationException;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataContext;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataRequest;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataResponse;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by ej on 8/20/14.
@@ -46,6 +55,12 @@ public @Service class MetadataServiceImpl implements MetadataService {
     private TableMetadataRepository tableMetadataRepository;
 
     private ColumnMetadataRepository columnMetadataRepository;
+
+    private DatasetHeadRepository datasetHeadRepository;
+
+    private DatasetTableRepository datasetTableRepository;
+
+    private DatasetElementRepository datasetElementRepository;
 
     public @Autowired void setSynchronizeMetadataCommand(SynchronizeMetadataCommand synchronizeMetadataCommand) {
         this.synchronizeMetadataCommand = synchronizeMetadataCommand;
@@ -67,6 +82,18 @@ public @Service class MetadataServiceImpl implements MetadataService {
         this.columnMetadataRepository = columnMetadataRepository;
     }
 
+    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
+        this.datasetHeadRepository = datasetHeadRepository;
+    }
+
+    public @Autowired void setDatasetTableRepository(DatasetTableRepository datasetTableRepository) {
+        this.datasetTableRepository = datasetTableRepository;
+    }
+
+    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
+        this.datasetElementRepository = datasetElementRepository;
+    }
+
     public @Transactional(AppMetadata.TXM) void startSynchronizing() throws MetadataSynchronizationException {
         log.entry();
         SynchronizeMetadataContext context = new SynchronizeMetadataContext(new SynchronizeMetadataRequest());
@@ -85,7 +112,7 @@ public @Service class MetadataServiceImpl implements MetadataService {
         tableMetadatas.forEach(table -> {
             List<ColumnMetadata> columnMetadatas = columnMetadataRepository.findByTableId(table.getId());
             List<Column> columnDtos = columnMetadatas.parallelStream().map(c -> new Column(c.getId(), c.getColumnName(),
-                    c.getColumnName(), c.getColumnName(), c.getColumnId(), c.getTableId())) .collect(Collectors.toList());
+                    c.getColumnName(), c.getColumnName(), c.getColumnId(), c.getTableId())) .collect(toList());
             Table physicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId());
             Table logicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId(),
                     new ArrayList<>(Arrays.asList(physicalTable)), columnDtos);
@@ -94,7 +121,7 @@ public @Service class MetadataServiceImpl implements MetadataService {
         return log.exit(datasets);
     }
 
-    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<? extends Dataset> findAllDatasets() {
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<? extends Dataset> findTopLevelDatasets() {
         FindAllDatasetsRequest request = new FindAllDatasetsRequest(new RequestContext());
         FindAllDatasetsContext context = new FindAllDatasetsContext(request);
         findAllDatasetsCommand.execute(context);
@@ -113,5 +140,28 @@ public @Service class MetadataServiceImpl implements MetadataService {
     public @Transactional Dataset saveDataset(Dataset dataset) {
 
         return dataset;
+    }
+
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findSubdatasets(long headId)  {
+        DatasetHead head = datasetHeadRepository.findOne(headId);
+        List<DatasetHead> subdatasets = datasetTableRepository.findByDatasetHead(head).parallelStream()
+                .filter(dh -> dh.getDerivedFrom() != null)
+                .map(dh -> datasetHeadRepository.findOne(dh.getDerivedFrom()))
+                .collect(toList());
+        return subdatasets.parallelStream()
+                .map(sd -> findDataset(sd.getId()))
+                .collect(toList());
+    }
+
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Element> findElements(long headId) {
+        DatasetHead head = datasetHeadRepository.findOne(headId);
+        List<DatasetTable> datasetTables = datasetTableRepository.findByDatasetHead(head);
+        List<DatasetElement> datasetElements = datasetTables.parallelStream()
+                .map(datasetElementRepository::findByDatasetTable)
+                .flatMap(es -> es.parallelStream())
+                .collect(toList());
+        return datasetElements.parallelStream()
+                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId()))
+                .collect(toList());
     }
 }
