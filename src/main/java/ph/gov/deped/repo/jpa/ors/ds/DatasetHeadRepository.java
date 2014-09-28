@@ -20,6 +20,8 @@ public interface DatasetHeadRepository extends BaseJpaRepository<DatasetHead, Lo
 
     List<DatasetHead> findByVisibleAndOwnerId(boolean visible, int ownerId, Sort sort);
 
+    List<DatasetHead> findByVisibleAndOwnerIdNot(boolean visible, int ownerId, Sort sort);
+
     DatasetHead findByName(String name);
 
     @Query("SELECT h FROM DatasetTable t JOIN t.datasetHead h WHERE t.tableId IS NOT NULL")

@@ -17,9 +17,15 @@ public interface MetadataService {
 
     List<? extends Dataset> findTopLevelDatasets();
 
+    List<Dataset> findOwnedDatasets(int ownerId);
+
+    List<Dataset> findNotOwnedDatasets(int ownerId);
+
     Dataset findDataset(long id);
 
     Dataset saveDataset(Dataset dataset);
+
+    List<Element> findSubdatasetElement(long tableId);
 
     List<Element> findElements(long headId);
 

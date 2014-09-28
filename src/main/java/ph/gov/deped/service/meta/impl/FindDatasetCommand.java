@@ -39,14 +39,14 @@ public @Command class FindDatasetCommand implements ICommand<FindDatasetContext>
                 .filter(t -> t.getDerivedFrom() != null)
                 .map(DatasetTable::getDerivedFrom)
                 .map(datasetHeadRepository::findOne)
-                .map(h -> new Dataset(h.getId(), h.getName(), h.getDescription()))
+                .map(h -> new Dataset(h.getId(), h.getName(), h.getDescription(), h.getTableName()))
                 .collect(Collectors.toList());
 
         List<Element> elements = datasetElements.parallelStream()
                 .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId()))
                 .collect(Collectors.toList());
 
-        context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), subDatasets, elements));
+        context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), head.getTableName(), subDatasets, elements));
         context.createResponse();
     }
 }

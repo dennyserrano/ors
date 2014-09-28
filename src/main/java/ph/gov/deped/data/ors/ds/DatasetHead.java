@@ -13,7 +13,7 @@ import java.io.Serializable;
  * Created by ej on 8/18/14.
  */
 @Entity
-@Table(catalog = "orsdb", uniqueConstraints = {
+@Table(uniqueConstraints = {
         @UniqueConstraint(name = "dataset_head_name_unique", columnNames = {DatasetHead.COL_NAME})
 })
 public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {

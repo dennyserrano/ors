@@ -4,7 +4,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
 import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
@@ -14,15 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/18/14.
  */
 @Entity
-@Table(catalog = "orsdb")
 public class DatasetTable extends BaseJpaEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 9140805894728670779L;

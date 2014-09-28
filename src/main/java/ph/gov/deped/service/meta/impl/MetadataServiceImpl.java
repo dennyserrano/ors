@@ -3,11 +3,11 @@ package ph.gov.deped.service.meta.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,8 +113,8 @@ public @Service class MetadataServiceImpl implements MetadataService {
             List<ColumnMetadata> columnMetadatas = columnMetadataRepository.findByTableId(table.getId());
             List<Column> columnDtos = columnMetadatas.parallelStream().map(c -> new Column(c.getId(), c.getColumnName(),
                     c.getColumnName(), c.getColumnName(), c.getColumnId(), c.getTableId())) .collect(toList());
-            Table physicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId());
-            Table logicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableId(),
+            Table physicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableName(), table.getTableId());
+            Table logicalTable = new Table(table.getId(), table.getTableName(), table.getDescription(), table.getTableName(), table.getTableId(),
                     new ArrayList<>(Arrays.asList(physicalTable)), columnDtos);
             datasets.add(logicalTable);
         });
@@ -137,6 +137,20 @@ public @Service class MetadataServiceImpl implements MetadataService {
         return response.getDataset();
     }
 
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findOwnedDatasets(int ownerId) {
+        List<DatasetHead> datasetHeads = datasetHeadRepository.findByVisibleAndOwnerId(true, ownerId, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        return datasetHeads.parallelStream()
+                .map(dh -> new Dataset(dh.getId(), dh.getName(), dh.getDescription(), dh.getTableName()))
+                .collect(toList());
+    }
+
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findNotOwnedDatasets(int ownerId) {
+        List<DatasetHead> datasetHeads = datasetHeadRepository.findByVisibleAndOwnerIdNot(true, ownerId, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        return datasetHeads.parallelStream()
+                .map(dh -> new Dataset(dh.getId(), dh.getName(), dh.getDescription(), dh.getTableName()))
+                .collect(toList());
+    }
+
     public @Transactional Dataset saveDataset(Dataset dataset) {
 
         return dataset;
@@ -150,6 +164,14 @@ public @Service class MetadataServiceImpl implements MetadataService {
                 .collect(toList());
         return subdatasets.parallelStream()
                 .map(sd -> findDataset(sd.getId()))
+                .collect(toList());
+    }
+
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Element> findSubdatasetElement(long tableId) {
+        DatasetTable datasetTable = datasetTableRepository.findOne(tableId);
+        List<DatasetElement> datasetElements = datasetElementRepository.findByDatasetTable(datasetTable);
+        return datasetElements.parallelStream()
+                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), de.getId()))
                 .collect(toList());
     }
 

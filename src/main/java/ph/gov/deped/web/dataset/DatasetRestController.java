@@ -46,6 +46,16 @@ public class DatasetRestController {
         return dataset;
     }
 
+    @RequestMapping(value = "/owner/{ownerId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<Dataset> findDatasetsByOwner(@PathVariable("ownerId") int ownerId) {
+        return metadataService.findOwnedDatasets(ownerId);
+    }
+
+    @RequestMapping(value = "/owner/not/{ownerId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<Dataset> findDatasetsNotOwnedBy(@PathVariable("ownerId") int ownerId) {
+        return metadataService.findNotOwnedDatasets(ownerId);
+    }
+
     @RequestMapping(method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Dataset saveDataset(@RequestBody Dataset dataset) {
 

@@ -17,12 +17,12 @@ public class Table extends Dataset implements Serializable {
 
     private DbType dbType;
 
-    public Table(long id, String name, String description, int tableId) {
-        this(id, name, description, tableId, Collections.emptyList(), Collections.emptyList());
+    public Table(long id, String name, String description, String tableName, int tableId) {
+        this(id, name, description, tableName, tableId, Collections.emptyList(), Collections.emptyList());
     }
 
-    public Table(long id, String name, String description, int tableId, List<? extends Dataset> subDatasets, List<? extends Element> elements) {
-        super(id, name, description, subDatasets, elements);
+    public Table(long id, String name, String description, String tableName, int tableId, List<? extends Dataset> subDatasets, List<? extends Element> elements) {
+        super(id, name, description, tableName, subDatasets, elements);
         this.tableId = tableId;
     }
 

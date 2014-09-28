@@ -11,14 +11,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/13/14.
  */
 @Entity
-@Table(catalog = "orsdb")
 public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializable {
 
     private static final long serialVersionUID = 8953494489180094068L;

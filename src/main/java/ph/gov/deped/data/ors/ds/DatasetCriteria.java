@@ -17,14 +17,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/19/14.
  */
 @Entity
-@Table(catalog = "orsdb")
 public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable {
 
     /**

@@ -62,7 +62,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
                             .filter(t -> t.getDerivedFrom() != null)
                             .map(DatasetTable::getDerivedFrom)
                             .map(datasetHeadRepository::findOne)
-                            .map(sd -> new Dataset(sd.getId(), sd.getName(), sd.getDescription()))
+                            .map(sd -> new Dataset(sd.getId(), sd.getName(), sd.getDescription(), sd.getTableName()))
                             .collect(Collectors.toList());
                     List<Element> elements = datasetTables.parallelStream()
                             .map(datasetElementRepository::findByDatasetTable)
@@ -72,13 +72,13 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
                     Dataset dataset;
                     if (datasetTables.size() == 1 && datasetTables.get(0).getTableId() != null) { // Physical Table case
                         TableMetadata physicalTable = tableMetadataRepository.findOne(datasetTables.get(0).getTableId());
-                        dataset = new Table(head.getId(), toName(head.getName()), head.getDescription(), datasetTables.get(0).getTableId(), subDatasets, elements);
+                        dataset = new Table(head.getId(), toName(head.getName()), head.getDescription(), physicalTable.getTableName(), datasetTables.get(0).getTableId(), subDatasets, elements);
                         int dbId = physicalTable.getDbId();
                         DbType dbType = DbType.values()[dbId];
                         ((Table) dataset).setDbType(dbType);
                     }
                     else {
-                        dataset = new Dataset(head.getId(), head.getName(), head.getDescription(), subDatasets, elements);
+                        dataset = new Dataset(head.getId(), head.getName(), head.getDescription(), head.getTableName(), subDatasets, elements);
                     }
                     return dataset;
                 }).sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList());

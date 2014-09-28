@@ -13,14 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/18/14.
  */
 @Entity
-@Table(catalog = "orsdb")
 public class DatasetElement extends BaseJpaEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 5690000895468705426L;

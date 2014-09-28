@@ -15,14 +15,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/19/14.
  */
 @Entity
-@Table(catalog = "orsdb")
 public class DatasetFilterChain extends BaseJpaEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 3885030780525586181L;

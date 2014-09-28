@@ -28,4 +28,9 @@ public class ElementRestController {
     public List<Element> findElementsOfHead(@PathVariable("headId") long headId) {
         return metadataService.findElements(headId);
     }
+
+    @RequestMapping(value = "/sub/{tableId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<Element> findSubdatasetElements(@PathVariable("tableId") long tableId) {
+        return metadataService.findSubdatasetElement(tableId);
+    }
 }

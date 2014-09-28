@@ -10,14 +10,12 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/14/14.
  */
 @Entity
-@Table(catalog = "orsdb")
 public class DatabaseMetadata extends BaseJpaEntity<Integer> implements Serializable {
 
     public static final int STEP_DEV = 0;

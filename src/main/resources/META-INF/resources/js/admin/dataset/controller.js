@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('DatasetApp')
-    .controller('DatasetListCtrl', ['$scope', '$state', 'DatasetService',
-        function($scope, $state, DatasetService) {
+    .controller('DatasetListCtrl', ['$scope', '$window', 'DatasetService',
+        function($scope, $window, DatasetService) {
             $scope.loadingList = true;
             DatasetService.query(function(data) {
                 $scope.datasets = data;
@@ -14,12 +14,12 @@ angular.module('DatasetApp')
             };
             
             $scope.showForm = function() {
-            	$state.go('dataset.form');
+                $window.location.href = '/admin/datasets/form';
             }
         }
     ])
-    .controller('DatasetDetailCtrl', ['$scope', '$state', '$stateParams', 'DatasetService', 'ElementService',
-        function($scope, $state, $stateParams, DatasetService, ElementService) {
+    .controller('DatasetDetailCtrl', ['$scope', '$window', '$stateParams', 'DatasetService', 'SubdatasetElementService',
+        function($scope, $window, $stateParams, DatasetService, SubdatasetElementService) {
             $scope.loadingDetail = true;
             $scope.selectedId = $stateParams.datasetId;
             DatasetService.get({'datasetId' : $stateParams.datasetId}, function(dataset) {
@@ -28,7 +28,7 @@ angular.module('DatasetApp')
             });
             
             $scope.edit = function(datasetId) {
-            	$state.go('dataset.form', {'id': datasetId});
+                $window.location.href = '/admin/datasets/form#/' + datasetId;
             };
 
             $scope.shownSubdataset = 0;
@@ -40,39 +40,16 @@ angular.module('DatasetApp')
                     $('#sd' + $scope.shownSubdataset).collapse('hide');
                 }
                 if (!$scope.elements[headId]) {
-                    ElementService.get({'headId': headId}, function(elements) {
+                    SubdatasetElementService.get({'tableId': headId}, function(elements) {
                         $scope.elements[headId] = elements;
+                        $scope.subdatasetElements = $scope.elements[headId];
                     });
                 }
-                var foundElements = $scope.elements[headId];
+                else {
+                    $scope.subdatasetElements = $scope.elements[headId];
+                }
                 $('#sd' + headId).collapse('show');
                 $scope.shownSubdataset = headId;
-                return foundElements;
             };
         }
-    ])
-    .controller('DatasetFormCtrl', ['$scope', '$state', '$stateParams', '$modalInstance', 'DatasetService',
-        function($scope, $state, $stateParams, $modalInstance, DatasetService) {
-    	
-    	    $scope.loading = false;
-    	
-    		$scope.dismiss = function() {
-    			$modalInstance.dismiss('Cancel');
-    		};
-    		
-    		$scope.save = function(isValid) {
-    	    	$modalInstance.close(dataset);
-    	    };
-    		
-    	    if ($stateParams.id) {
-    	    	$scope.loading = true;
-    	    	DatasetService.get({datasetId: $stateParams.id}, function(dataset) {
-    	    		console.log(JSON.stringify(dataset));
-    	    		$scope.id = dataset.id;
-    	    		$scope.name = dataset.name;
-    	    		$scope.description = dataset.description;
-    	    		$scope.loading = false;
-    	    	});
-    	    }
-    	}
     ]);

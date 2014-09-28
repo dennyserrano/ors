@@ -23,20 +23,23 @@ public class Dataset implements Serializable {
 
     private String description;
 
+    private String tableName;
+
     private List<Dataset> subDatasets = new ArrayList<>();
 
     private List<Element> elements = new ArrayList<>();
 
     private String icon;
 
-    public Dataset(long id, String name, String description) {
-        this(id, name, description, Collections.emptyList(), Collections.emptyList());
+    public Dataset(long id, String name, String description, String tableName) {
+        this(id, name, description, tableName, Collections.emptyList(), Collections.emptyList());
     }
 
-    public Dataset(long id, String name, String description, List<? extends Dataset> subDatasets, List<? extends Element> elements) {
+    public Dataset(long id, String name, String description, String tableName, List<? extends Dataset> subDatasets, List<? extends Element> elements) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.tableName = tableName;
         this.subDatasets.addAll(subDatasets);
         this.elements.addAll(elements);
     }
@@ -101,6 +104,14 @@ public class Dataset implements Serializable {
         this.elements = elements;
     }
 
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Dataset)) {
@@ -111,6 +122,7 @@ public class Dataset implements Serializable {
                 .append(this.id, rhs.id)
                 .append(this.name, rhs.name)
                 .append(this.description, rhs.description)
+                .append(this.tableName, rhs.tableName)
                 .isEquals();
     }
 
@@ -120,6 +132,7 @@ public class Dataset implements Serializable {
                 .append(id)
                 .append(name)
                 .append(description)
+                .append(tableName)
                 .toHashCode();
     }
 
@@ -132,6 +145,7 @@ public class Dataset implements Serializable {
                 .append("subDatasets", subDatasets)
                 .append("elements", elements)
                 .append("icon", icon)
+                .append("tableName", tableName)
                 .toString();
     }
 }

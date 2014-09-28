@@ -20,8 +20,35 @@ angular.module('DatasetApp')
             }, {
                 get: {
                     method: 'GET',
+                    isArray: true,
                     cache: $cacheFactory('elements')
                 }
             })
+        }
+    ])
+    .factory('SubdatasetElementService', ['$resource', '$cacheFactory',
+        function($resource, $cacheFactory) {
+            return $resource('/elements/sub/:tableId', {
+                tableId: '@id'
+            }, {
+                get: {
+                    method: 'GET',
+                    isArray: true,
+                    cache: $cacheFactory('subdatasetElements')
+                }
+            });
+        }
+    ])
+    .factory('OwnerService', ['$resource', '$cacheFactory',
+        function($resource, $cacheFactory) {
+            return $resource('/dataset/owner/:ownerId', {
+                ownerId: '@ownerId'
+            }, {
+                get: {
+                    method: 'GET',
+                    isArray: true,
+                    cache: $cacheFactory('ownerDatasets')
+                }
+            });
         }
     ]);
