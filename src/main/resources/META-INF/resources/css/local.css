@@ -131,10 +131,11 @@ table.tablesorter thead tr th:hover {
 	width: 225px;
 	position: fixed;
 	top: 50px;
-	height: 100%;
+	//height: 100%;
 	border-radius: 0;
 	border: none;
 	background-color: #F3F3F3;
+	overflow-y: auto;
   }
 
   /*menu overrides*/
@@ -210,3 +211,10 @@ table.tablesorter thead tr th:hover {
 	.side_ul{
 		
 		padding: 2px !important;}
+		
+		
+.scrollable-menu {
+    height: auto;
+    max-height: 100px;
+    overflow-x: hidden;
+}

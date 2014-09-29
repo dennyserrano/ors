@@ -1,5 +1,5 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,12 +10,9 @@
     <link data-th-href="@{/css/font-awesome.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
     <link data-th-href="@{/css/local.css}" rel="stylesheet" href="../../css/local.css"/>
 
-    <!-- you need to include the shieldui css and js assets in order for the charts to work -->
-    <link rel="stylesheet" href="//www.shieldui.com/shared/components/latest/css/shieldui-all.min.css"/>
-    <link rel="stylesheet" href="//www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css"/>
   </head>
   <body data-ng-app="UserApp">
-    <div id="wrapper" data-ng-controller="UserDatasetCtrl">
+    <div id="wrapper">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -24,79 +21,57 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Open Report System</a>
+        <a class="navbar-brand" href="index.html">Open Report System</a>
       </div>
       <div class="navbar-collapse collapse" id="navbar-main">
         <ul class="nav navbar-nav" style="padding-left:20px;">
 
           <li>
-            <a href="#"><i class="fa fa-bullseye"></i> Dashboard</a>
+            <a href="Index.html"><i class="fa fa-bullseye"></i> Dashboard</a>
           </li>
 
-          <li>
-            <a href="#myModal2" data-toggle="modal"><i class="fa fa-bookmark"></i> Bookmarks</a>
+          <li class="dropdown user-dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bookmark"></i> Bookmarks<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>Monograde by Level and Gender</li>
+              <li>Total Enrolment</li>
+              <li>Schools with CCT/4 P's Recipient by gender</li>
+
+            </ul>
           </li>
         </ul>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar side-nav">
             <li class="datasets">Datasets</li>
-            <li data-ng-repeat="dataset in datasets">
-              <a href="javascript:void(0);">
-                <i class="fa fa-minus-circle"></i>
-                {{ dataset.name }}
-              </a>
-              <ul style="padding-left: 45px; padding-right: 5px;">
-                <li data-ng-repeat="subdataset in dataset.subDatasets">
-                  {{ subdataset.name }}
-                </li>
+            <li><a href="index.html"> <i class="fa fa-plus-circle"></i> School Profile</a>
+
+            </li>
+            <li class="active"><a href="portfolio.html"><i class="fa fa-minus-circle"></i> Enrolment</a>
+
+
+              <ul>
+                <li>Total Enrolment</li>
+                <li>Kindergarten</li>
+                <li>Monograde</li>
+                <li>Multigrade</li>
+                <li>Combined Mono/Multi</li>
+                <li>CCT/4Ps Recipient</li>
+                <li>Balik-Aral</li>
+
               </ul>
             </li>
-            <li>
-              <a href="#">
-                <i class="fa fa-plus-circle"></i>
-                School Profile
-              </a>
+            <li><a href="index.html"><i class="fa fa-plus-circle"></i> Physical Facilities</a>
+
             </li>
-            <li class="active">
-              <a href="portfolio.html">
-                <i class="fa fa-minus-circle"></i>
-                Enrolment
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="fa fa-plus-circle"></i>
-                Physical Facilities
-              </a>
-              <a href="#" style="padding-left:30px;">
-                <i class="fa fa-plus-square-o"></i>
-                Instructional Rooms
-              </a>
-              <ul style="padding-left:45px; padding-right: 5px;">
-                <li>Classrooms by use &amp; status/type</li>
-                <li>Classrooms by funding</li>
-                <li>Classrooms needing repair</li>
-                <li>Classrooms condemned/comdemnable</li>
-                <li>Classrooms with ongoing construction by fund source</li>
-              </ul>
-              <a href="#" style="padding-left:30px;">
-                <i class="fa fa-minus-square-o"></i>
-                Non Instructional Rooms
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="fa fa-plus-circle"></i>
-                Personnel
-              </a>
+            <li><a href="index.html"><i class="fa fa-plus-circle"></i> Personnel</a>
+
             </li>
 
           </ul>
           <ul class="nav navbar-nav navbar-right navbar-user">
 
             <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Esme Ignacio<b
-                  class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Esme Ignacio<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
                 <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
@@ -108,66 +83,24 @@
         </div>
       </div>
     </nav>
-    <!--Bookmark Modal-->
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Bookmarks</h4>
-          </div>
-          <div class="modal-body">
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios0" value="option1" checked=""/>
-                Monogarade by Level and Gender
-              </label>
-            </div>
 
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""/>
-                Maecenas sed diam eget risus varius blandit sit amet non magna.
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"/>
-                Cum sociis natoque penatibus et magnis dis parturient montiees
-              </label>
-            </div>
-            <div class="radio disabled">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled=""/>
-                Nullam quis risus eget urna mollis ornare vel eu leo.
-              </label>
-            </div>
-          </div>
-          <div class="modal-footer">
-
-            <button type="button" class="btn btn-primary">Open</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="data">
     <div class="row">
     <div class="col-md-11">
-    <ol class="breadcrumb">
-      <li><a href="#">Physical Facilities</a></li>
-      <li><a href="#">Instructional Rooms</a></li>
-      <li class="active">Classrooms by use &amp; status/type</li>
-    </ol>
-    <h3>Classrooms by use and status/type</h3>
 
+    <h3>CCT/4Ps Recipient
+      <small>- Enrolment</small>
+    </h3>
     <p>
-      Refer to rooms use for specific status and/or type, i.e. Academic, Science Laboratories etc.</p>
+      Refers to a learner whose families are included in the Conditional Cash Transfer (CCT) under the Pantawid Pamilyang Pilipino Program (4Ps) of the Department of Social Welfare and Development (DSWD).
+      <br/>
+      These families were selected from the poorest households in municipalities with high poverty incidence. One relevant feature of 4Ps is the provision of educational cash grant of P3,000.00 for one
+      school year or 10 months at P300 per child per month for educational expenses on condition that these children attend school. Maximum of three children per household is allowed. Children should be
+      of school age (6-14). (Source: DepEd memo # 110 s. 2009 &quot;National Implementation of the Pantawid Pamilyang Pilipino Program 4Ps&quot;)
+    </p>
 
     <div id="description-collapsible">
-      <a data-toggle="collapse" data-parent="#description-collapsible" href="#description">View Data Elements<i
-          class="caret"></i></a>
+      <a data-toggle="collapse" data-parent="#description-collapsible" href="#description">View Data Elements<i class="caret"></i></a>
 
       <div id="description" class="panel-collapse collapse">
         <table class="table table-condensed table-bordered table-striped">
@@ -175,7 +108,7 @@
             <tr>
 
               <th width="10%">Selection</th>
-              <th width="35%">Column</th>
+              <th>Column</th>
               <th>Definition</th>
             </tr>
           </thead>
@@ -187,145 +120,33 @@
 
               <td align="center"><input type="checkbox"/></td>
 
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="#academic">Academic
-                    Classrooms Total<i class="caret"></i></a>
-
-                  <div id="academic" class="panel-collapse collapse">
-                    <ul class="list-unstyled">
-                      <li><input type="checkbox"/> Complete</li>
-                      <li><input type="checkbox"/> Incomplete</li>
-                      <li><input type="checkbox"/> Makeshift</li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-              <td>Academic Classrooms Definition (Definition of child data below when collapsed)</td>
+              <td>Grade 1 Male</td>
+              <td>Grade 1 Male</td>
             </tr>
             <tr>
               <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="#science">Science
-                    Laboratories Total<i class="caret"></i></a>
-
-                  <div id="science" class="panel-collapse collapse">
-                    <ul class="list-unstyled">
-                      <li><input type="checkbox"/> Complete</li>
-                      <li><input type="checkbox"/> Incomplete</li>
-                      <li><input type="checkbox"/> Makeshift</li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-              <td>Science Laboratories Definition</td>
+              <td>Grade 1 Female</td>
+              <td>Grade 1 Female</td>
             </tr>
             <tr>
               <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="#HE">Home Economics
-                    Classrooms Total<i class="caret"></i></a>
-
-                  <div id="HE" class="panel-collapse collapse">
-                    <ul class="list-unstyled">
-                      <li><input type="checkbox"/> Complete</li>
-                      <li><input type="checkbox"/> Incomplete</li>
-                      <li><input type="checkbox"/> Makeshift</li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-              <td>Home Economics Classrooms Definition</td>
+              <td>Grade 2 Female</td>
+              <td>Grade 2 Female</td>
             </tr>
             <tr>
               <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="#computer">Computer
-                    Classrooms Total<i class="caret"></i></a>
-
-                  <div id="computer" class="panel-collapse collapse">
-                    <ul class="list-unstyled">
-                      <li><input type="checkbox"/> Complete</li>
-                      <li><input type="checkbox"/> Incomplete</li>
-                      <li><input type="checkbox"/> Makeshift</li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-              <td>Computer Classrooms Definition</td>
+              <td>Grade 2 Female</td>
+              <td>Grade 2 Female</td>
             </tr>
             <tr>
               <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="#kinder">Kindergarten
-                    Classes Total<i class="caret"></i></a>
-
-                  <div id="kinder" class="panel-collapse collapse">
-                    <ul class="list-unstyled">
-                      <li><input type="checkbox"/> Complete</li>
-                      <li><input type="checkbox"/> Incomplete</li>
-                      <li><input type="checkbox"/> Makeshift</li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-              <td>Kindergarten Classes Definition</td>
+              <td>Total Female</td>
+              <td>Total Female</td>
             </tr>
             <tr>
               <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="#sped">Sped Classes Total<i
-                      class="caret"></i></a>
-
-                  <div id="sped" class="panel-collapse collapse">
-                    <ul class="list-unstyled">
-                      <li><input type="checkbox"/> Complete</li>
-                      <li><input type="checkbox"/> Incomplete</li>
-                      <li><input type="checkbox"/> Makeshift</li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-              <td>Sped Classes Definition (Definition of child data below when collapsed)</td>
-            </tr>
-
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="">Total Complete
-                    Classrooms</a>
-
-                </div>
-              </td>
-              <td>Total Number of complete classrooms</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="">Total Incomplete
-                    Classrooms</a>
-
-                </div>
-              </td>
-              <td>Total number of makeshift classrooms</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>
-                <div id="description-collapsible">
-                  <a data-toggle="collapse" data-parent="#description-collapsible" href="">Total makeshift
-                    Classrooms</a>
-
-                </div>
-              </td>
-              <td>Total number of makeshift classrooms</td>
+              <td>Total Male</td>
+              <td>Total Male</td>
             </tr>
           </tbody>
         </table>
@@ -333,10 +154,9 @@
       </div>
     </div>
     <hr/>
-    <h4>Selected Elements</h4>
+    <h4>Filter by:</h4>
 
-    <div class="well well-sm"><h5>Filter by:</h5>
-
+    <div class="well well-sm">
       <a class="btn btn-default btn-xs">School year <i class="caret"></i></a>
 
       <a class="btn btn-default btn-xs">General Classification<i class="caret"></i></a>
@@ -350,8 +170,7 @@
 
       <a class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
 
-      <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="btn btn-info btn-xs pull-right">View
-        Data</a>
+      <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="btn btn-info btn-xs pull-right">View Data</a>
       <ul class="dropdown-menu">
         <li>
           <a href="#">Region</a>
@@ -371,402 +190,167 @@
       </ul>
     </div>
     <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th width="20%" bgcolor="#CCEEFF">Basic School Info</th>
-        <th width="28%">Classrooms by use and status/type
-          <div class="btn-group pull-right">
-            <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span
-                class="caret"></span> </a>
-            <ul class="dropdown-menu">
-
-              <li>
-                <a href="#">Collapse All Elements</a>
-              </li>
-              <li>
-                <a href="#">Custom Sort..</a>
-              </li>
-            </ul>
-          </div>
-        </th>
-
-        <th>Balik-Aral
-          <div class="btn-group pull-right">
-            <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span
-                class="caret"></span> </a>
-            <ul class="dropdown-menu">
-
-              <li>
-                <a href="#">Collapse All Elements</a>
-              </li>
-              <li>
-                <a href="#">Custom Sort..</a>
-              </li>
-            </ul>
-          </div>
-        </th>
-        <th>Multigrade
-          <div class="btn-group pull-right">
-            <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span
-                class="caret"></span> </a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-header">Total Enrolment</li>
-              <li>
-                <a href="#">Sort smallest to largest</a>
-              </li>
-              <li>
-                <a href="#">Sort largest to smallest</a>
-              </li>
-
-              <li>
-                <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
-              </li>
-            </ul>
-          </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td>
-      <strong>School ID:</strong>
-
-      <div class="checkbox disabled">
-        <label>
-          <input type="checkbox" value="" disabled=""/>
-          Select All</label>
-        <a href="#" class="hover pull-right" rel="popover" data-toggle="popover"
-           data-content="Separate each School ID entry by a comma (,)"><i class="fa fa-question-circle pull-right"></i></a>
-
-      </div>
-      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter Specific School ID/s"/>
-      <hr/>
-      <div class="checkbox disabled">
-        <label>
-          <input type="checkbox" value="" disabled=""/>
-          School Name</label></div>
-      <div class="checkbox disabled">
-        <label>
-          <input type="checkbox" value="" disabled=""/>
-          Region</label></div>
-      <div class="checkbox disabled">
-        <label>
-          <input type="checkbox" value="" disabled=""/>
-          Division</label></div>
-      <div class="checkbox disabled">
-        <label>
-
-          Add More</label>
-        ..
-      </div>
-
-    </td>
-    <td>
-      <div><input type="checkbox"/>
-      <span id="description-collapsible">
-    <a data-toggle="collapse" data-parent="#description-collapsible" href="#academic2"> Total Academic Classrooms<i
-        class="caret"></i></a> <div class="btn-group pull-right">
-        <a class="btn btn-default btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" href="#">Value</a>
-        <ul class="dropdown-menu">
-
-          <li>
-            <a href="#">Equal to..</a>
-          </li>
-          <li>
-            <a href="#">Greater than..</a>
-          </li>
-          <li>
-            <a href="#">Less than..</a>
-          </li>
-        </ul>
-      </div>
-    <div id="academic2" class="panel-collapse collapse">
-      <ul class="list-unstyled" style="padding-left:15px;">
-        <li><input type="checkbox"/> Complete</li>
-        <li><input type="checkbox"/> Incomplete</li>
-        <li><input type="checkbox"/> Makeshift</li>
-      </ul>
-    </div>
-    </span>
-      </div>
-      <div><input type="checkbox"/>
-        <span id="description-collapsible">
-    <a data-toggle="collapse" data-parent="#description-collapsible" href="#science2"> </a><a data-toggle="collapse"
-                                                                                              data-parent="#description-collapsible"
-                                                                                              href="#academic2">Total</a> <a
-            data-toggle="collapse" data-parent="#description-collapsible" href="#science2">Science Laboratories<i
-            class="caret"></i></a><div class="btn-group pull-right">
-          <a class="btn btn-default btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" href="#">Value</a>
-          <ul class="dropdown-menu">
-
-            <li>
-              <a href="#">Equal to..</a>
-            </li>
-            <li>
-              <a href="#">Greater than..</a>
-            </li>
-            <li>
-              <a href="#">Less than..</a>
-            </li>
-          </ul>
-        </div>
-    <div id="science2" class="panel-collapse collapse">
-      <ul class="list-unstyled" style="padding-left:15px;">
-        <li><input type="checkbox"/> Complete</li>
-        <li><input type="checkbox"/> Incomplete</li>
-        <li><input type="checkbox"/> Makeshift</li>
-      </ul>
-    </div>
-    </span>
-      </div>
-      <div>
-        <input type="checkbox"/>
-     <span id="description-collapsible2"><a data-toggle="collapse" data-parent="#description-collapsible" href="#home"> </a><a
-         data-toggle="collapse" data-parent="#description-collapsible" href="#academic2">Total</a> <a
-         data-toggle="collapse" data-parent="#description-collapsible" href="#home">Home Economics Rooms<i
-         class="caret"></i></a><div class="btn-group pull-right">
-       <a class="btn btn-default btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" href="#">Value</a>
-       <ul class="dropdown-menu">
-
-         <li>
-           <a href="#">Equal to..</a>
-         </li>
-         <li>
-           <a href="#">Greater than..</a>
-         </li>
-         <li>
-           <a href="#">Less than..</a>
-         </li>
-       </ul>
-     </div>
-        <div id="home" class="panel-collapse collapse">
-          <ul class="list-unstyled" style="padding-left:15px;">
-            <li><input type="checkbox"/> Complete</li>
-            <li><input type="checkbox"/> Incomplete</li>
-            <li><input type="checkbox"/> Makeshift</li>
-          </ul>
-        </div>
-      </span></div>
-    </td>
-    <td>
-      <div>
-        <input type="checkbox"/>
-        <span id="description-collapsible3"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#g1">
-          Grade 1<i class="caret"></i></a><div class="btn-group pull-right">
-          <a class="btn btn-default btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" href="#">Value</a>
-          <ul class="dropdown-menu">
-
-            <li>
-              <a href="#">Equal to..</a>
-            </li>
-            <li>
-              <a href="#">Greater than..</a>
-            </li>
-            <li>
-              <a href="#">Less than..</a>
-            </li>
-          </ul>
-        </div>
-          <div id="g1" class="panel-collapse collapse">
-            <ul class="list-unstyled" style="padding-left:15px;">
-              <li>
-                <input type="checkbox"/>
-                Male
-              </li>
-              <li>
-                <input type="checkbox"/>
-                Female
-              </li>
-              <li>
-                <input type="checkbox"/>
-                Total
-              </li>
-            </ul>
-          </div>
-        </span></div>
-      <div>
-        <input type="checkbox"/>
-          <span id="description-collapsible4"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#g2">
-            Grade 2<i class="caret"></i></a><div class="btn-group pull-right">
-            <a class="btn btn-default btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" href="#">Value</a>
-            <ul class="dropdown-menu">
-
-              <li>
-                <a href="#">Equal to..</a>
-              </li>
-              <li>
-                <a href="#">Greater than..</a>
-              </li>
-              <li>
-                <a href="#">Less than..</a>
-              </li>
-            </ul>
-          </div>
-            <div id="g2" class="panel-collapse collapse">
-              <ul class="list-unstyled" style="padding-left:15px;">
+      <thead>
+        <tr>
+          <th width="18%">Basic School Info</th>
+          <th>CCT/4Ps Recipient
+            <div class="btn-group pull-right">
+              <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span class="caret"></span> </a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Total Enrolment</li>
                 <li>
-                  <input type="checkbox"/>
-                  Male
+                  <a href="#">Sort A to Z</a>
                 </li>
                 <li>
-                  <input type="checkbox"/>
-                  Female
+                  <a href="#">Sort Z to A</a>
                 </li>
+
                 <li>
-                  <input type="checkbox"/>
-                  Total
+                  <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
                 </li>
               </ul>
             </div>
-          </span></div>
-      <div>
-        <input type="checkbox"/>
-          <span id="description-collapsible5"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#g3">
-            Grade 3<i class="caret"></i></a><button type="button" class="btn btn-default btn-xs pull-right">Value</button>
-            <div id="g3" class="panel-collapse collapse">
-              <ul class="list-unstyled" style="padding-left:15px;">
-                <li>
-                  <input type="checkbox"/>
-                  Male
-                </li>
-                <li>
-                  <input type="checkbox"/>
-                  Female
-                </li>
-                <li>
-                  <input type="checkbox"/>
-                  Total
-                </li>
-              </ul>
-            </div>
-          </span></div>
-      <div>
-        <input type="checkbox"/>
-          <span id="description-collapsible6"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#g4">
-            Grade 4<i class="caret"></i></a><div class="btn-group pull-right">
-            <a class="btn btn-default btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" href="#">Value</a>
-            <ul class="dropdown-menu">
+          </th>
 
-              <li>
-                <a href="#">Equal to..</a>
-              </li>
-              <li>
-                <a href="#">Greater than..</a>
-              </li>
-              <li>
-                <a href="#">Less than..</a>
-              </li>
-            </ul>
-          </div>
-            <div id="g4" class="panel-collapse collapse">
-              <ul class="list-unstyled" style="padding-left:15px;">
+          <th>Balik-Aral
+            <div class="btn-group pull-right">
+              <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span class="caret"></span> </a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Total Enrolment</li>
                 <li>
-                  <input type="checkbox"/>
-                  Male
+                  <a href="#">Sort smallest to largest</a>
                 </li>
                 <li>
-                  <input type="checkbox"/>
-                  Female
+                  <a href="#">Sort largest to smallest</a>
                 </li>
+
                 <li>
-                  <input type="checkbox"/>
-                  Total
+                  <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
                 </li>
               </ul>
             </div>
-          </span></div>
-    </td>
-    <td>
-      <div>
-        <input type="checkbox"/>
-        <span id="description-collapsible7"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#b1">
-          Grade 1<i class="caret"></i></a>
-          <div id="b1" class="panel-collapse collapse">
-            <ul class="list-unstyled" style="padding-left:15px;">
-              <li>
-                <input type="checkbox"/>
-                Male
-              </li>
-              <li>
-                <input type="checkbox"/>
-                Female
-              </li>
-              <li>
-                <input type="checkbox"/>
-                Total
-              </li>
-            </ul>
-          </div>
-        </span></div>
-      <div>
-        <input type="checkbox"/>
-          <span id="description-collapsible8"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#b2">
-            Grade 2<i class="caret"></i></a>
-            <div id="b2" class="panel-collapse collapse">
-              <ul class="list-unstyled" style="padding-left:15px;">
+          </th>
+          <th>Multigrade
+            <div class="btn-group pull-right">
+              <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span class="caret"></span> </a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Total Enrolment</li>
                 <li>
-                  <input type="checkbox"/>
-                  Male
+                  <a href="#">Sort smallest to largest</a>
                 </li>
                 <li>
-                  <input type="checkbox"/>
-                  Female
+                  <a href="#">Sort largest to smallest</a>
                 </li>
+
                 <li>
-                  <input type="checkbox"/>
-                  Total
+                  <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
                 </li>
               </ul>
             </div>
-          </span></div>
-      <div>
-        <input type="checkbox"/>
-          <span id="description-collapsible9"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#b3">
-            Grade 3<i class="caret"></i></a>
-            <div id="b3" class="panel-collapse collapse">
-              <ul class="list-unstyled" style="padding-left:15px;">
-                <li>
-                  <input type="checkbox"/>
-                  Male
-                </li>
-                <li>
-                  <input type="checkbox"/>
-                  Female
-                </li>
-                <li>
-                  <input type="checkbox"/>
-                  Total
-                </li>
-              </ul>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                School ID
+              </label>
             </div>
-          </span></div>
-      <div>
-        <input type="checkbox"/>
-          <span id="description-collapsible10"> <a data-toggle="collapse" data-parent="#description-collapsible" href="#b4">
-            Grade 4<i class="caret"></i></a>
-            <div id="b4" class="panel-collapse collapse">
-              <ul class="list-unstyled" style="padding-left:15px;">
-                <li>
-                  <input type="checkbox"/>
-                  Male
-                </li>
-                <li>
-                  <input type="checkbox"/>
-                  Female
-                </li>
-                <li>
-                  <input type="checkbox"/>
-                  Total
-                </li>
-              </ul>
+            <div class="checkbox disabled">
+              <label>
+                <input type="checkbox" value="" disabled=""/>
+                School Name
+              </label>
             </div>
-          </span></div>
-    </td>
-    </tr>
-    </tbody>
+            <div class="checkbox disabled">
+              <label>
+                <input type="checkbox" value="" disabled=""/>
+                Region
+              </label>
+            </div>
+            <div class="checkbox disabled">
+              <label>
+                <input type="checkbox" value="" disabled=""/>
+                Division
+              </label>
+            </div>
+            <div class="checkbox disabled">
+              <label>
+                Add More
+              </label>
+              ..
+            </div>
+
+          </td>
+          <td>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 1 Male</label></div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 1 Female</label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 2 Male</label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 2 Female</label>
+            </div>
+          </td>
+          <td>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 1 Male</label></div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 1 Female</label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 2 Male</label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 2 Female</label>
+            </div>
+          </td>
+          <td>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 1 Male</label></div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 1 Female</label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 2 Male</label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""/>
+                Grade 2 Female</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
     </table>
-
-
     <button class="btn btn-primary btn-xs" type="submit">Save</button>
     <button class="btn btn-default btn-xs" type="submit">Save and Close</button>
     <button class="btn btn-default btn-xs" type="submit">Delete</button>
@@ -783,18 +367,15 @@
 
     <br/>
     <!-- Modal -->
-    <div class="modal fade bs-example-modal-lg " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
+    <div class="modal fade bs-example-modal-lg " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                class="sr-only">Close</span></button>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title" id="myModalLabel">View Data </h4>
           </div>
           <div class="modal-body">
-            <div align="center"><h5>Number of CCT/4Ps Recipients and Balik-Aral Enrollees in Public Elementary
-              Schools<br/>
+            <div align="center"><h5>Number of CCT/4Ps Recipients and Balik-Aral Enrollees in Public Elementary Schools<br/>
               School Year : 2014 - 2015</h5></div>
             <table class="table table-bordered table-striped table-condensed">
               <thead>
@@ -898,8 +479,6 @@
               </tbody>
             </table>
           </div>
-
-
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Export as</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -915,137 +494,12 @@
     <script data-th-src="@{/js/angular-resource.min.js}" src="../../js/angular-resource.js"></script>
     <script data-th-src="@{/js/angular-ui-router.js}" src="../../js/angular-ui-router.js"></script>
     <script data-th-src="@{/js/ui-bootstrap-tpls.js}" src="../../js/ui-bootstrap-tpls.js"></script>
-
-    <script src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-    <script src="//www.prepbootstrap.com/Content/js/gridData.js"></script>
+    <script data-th-src="@{/js/checklist-model.js}" src="../../js/checklist-model.js"></script>
 
     <script data-th-src="@{/js/user/app.js}" src="../../js/user/app.js"></script>
-
     <script data-th-src="@{/js/user/dataset/service.js}" src="../../js/user/dataset/service.js"></script>
     <script data-th-src="@{/js/user/dataset/controller.js}" src="../../js/user/dataset/controller.js"></script>
     <script data-th-src="@{/js/user/dataset/routes.js}" src="../../js/user/dataset/routes.js"></script>
-
-    <!--
-        This section initializes the chart widgets and a grid component,
-        which visualize records and allow sorting and paging.
-        For more information visit:
-        http://www.shieldui.com/documentation/javascript.chart/getting.started
-        http://www.shieldui.com/documentation/grid/javascript/getting.started
-        http://www.shieldui.com/documentation/datasource/javascript/getting.started
-    -->
-    <script type="text/javascript">
-      jQuery(function ($) {
-        var performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
-            visits = [123, 323, 443, 32],
-            budget = [23, 19, 11, 134, 242, 352, 435, 22, 637, 445, 555, 57],
-            sales = [11, 9, 31, 34, 42, 52, 35, 22, 37, 45, 55, 57];
-
-        $("#shieldui-chart1").shieldChart({
-          primaryHeader: {
-            text: "Visitors"
-          },
-          exportOptions: {
-            image: false,
-            print: false
-          },
-          dataSeries: [
-            {
-              seriesType: "area",
-              collectionAlias: "Q Data",
-              data: performance
-            }
-          ]
-        });
-
-        $("#shieldui-chart2").shieldChart({
-          primaryHeader: {
-            text: "Logins Per week"
-          },
-          exportOptions: {
-            image: false,
-            print: false
-          },
-          seriesSettings: {
-            donut: {
-              enablePointSelection: true
-            }
-          },
-          dataSeries: [
-            {
-              seriesType: "donut",
-              collectionAlias: "logins",
-              data: visits
-            }
-          ]
-        });
-
-        $("#shieldui-chart3").shieldChart({
-          primaryHeader: {
-            text: "Budget"
-          },
-          dataSeries: [
-            {
-              seriesType: "line",
-              collectionAlias: "Budget",
-              data: budget
-            }
-          ]
-        });
-
-        $("#shieldui-chart4").shieldChart({
-          primaryHeader: {
-            text: "Sales"
-          },
-          dataSeries: [
-            {
-              seriesType: "bar",
-              collectionAlias: "sales",
-              data: sales
-            }
-          ]
-        });
-
-        $("#shieldui-grid1").shieldGrid({
-          dataSource: {
-            data: gridData
-          },
-          sorting: {
-            multiple: true
-          },
-          paging: {
-            pageSize: 12,
-            pageLinksCount: 4
-          },
-          selection: {
-            type: "row",
-            multiple: true,
-            toggle: false
-          },
-          columns: [
-            { field: "id", width: "70px", title: "ID" },
-            { field: "name", title: "Person Name" },
-            { field: "company", title: "Company Name" },
-            { field: "email", title: "Email Address", width: "270px" }
-          ]
-        });
-      });
-    </script>
-
-    <script>$('[data-toggle="tooltip"]').tooltip({
-      'placement': 'top'
-    });
-    $('[data-toggle="popover"]').popover({
-      trigger: 'hover',
-      placement: 'top'
-    });
-
-    $('#userNameField').tooltip({
-      'show': true,
-      'placement': 'bottom',
-      'title': "Please remember to..."
-    });
-
-    $('#userNameField').tooltip('show');</script>
 
   </body>
 </html>
