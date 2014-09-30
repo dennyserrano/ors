@@ -25,6 +25,7 @@ public class OperatorUserType implements UserType {
 
     private static final Set<Class<? extends Operator>> operators = new HashSet<>(Arrays.asList(
             Operators.Logical.class,
+            Operators.Special.class,
             Operators.Math.class
     ));
 
@@ -56,7 +57,7 @@ public class OperatorUserType implements UserType {
     public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
         String value = rs.getString(0);
         for (Operator o : enums) {
-            if (o.toSql().equals(value)) {
+            if (o.getName().equals(value)) {
                 return o;
             }
         }
@@ -66,7 +67,7 @@ public class OperatorUserType implements UserType {
     public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException, SQLException {
         String strVal = null;
         if (value instanceof Operator) {
-            strVal = ((Operator) value).toSql();
+            strVal = ((Operator) value).getName();
         }
         if (isBlank(strVal)) {
             st.setNull(index, Types.VARCHAR);

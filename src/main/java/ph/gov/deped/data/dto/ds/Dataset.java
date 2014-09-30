@@ -1,5 +1,8 @@
 package ph.gov.deped.data.dto.ds;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,6 +16,7 @@ import java.util.List;
 /**
  * Created by ej on 8/28/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Dataset implements Serializable {
 
     private static final long serialVersionUID = -7999904235124974013L;
@@ -23,23 +27,30 @@ public class Dataset implements Serializable {
 
     private String description;
 
-    private String tableName;
-
     private List<Dataset> subDatasets = new ArrayList<>();
 
     private List<Element> elements = new ArrayList<>();
 
     private String icon;
 
-    public Dataset(long id, String name, String description, String tableName) {
-        this(id, name, description, tableName, Collections.emptyList(), Collections.emptyList());
+    private Long parentDatasetHead;
+
+    public Dataset() {}
+
+    public Dataset(long id, String name, String description, Long parentDatasetHead) {
+        this(id, name, description, parentDatasetHead, Collections.emptyList(), Collections.emptyList());
     }
 
-    public Dataset(long id, String name, String description, String tableName, List<? extends Dataset> subDatasets, List<? extends Element> elements) {
+    @JsonCreator
+    public Dataset(@JsonProperty("id") long id, @JsonProperty("name") String name,
+                   @JsonProperty("description") String description,
+                   @JsonProperty(value = "parentDatasetHead") Long parentDatasetHead,
+                   @JsonProperty(value = "subDatasets") List<Dataset> subDatasets,
+                   @JsonProperty(value = "elements") List<Element> elements) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.tableName = tableName;
+        this.parentDatasetHead = parentDatasetHead;
         this.subDatasets.addAll(subDatasets);
         this.elements.addAll(elements);
     }
@@ -56,11 +67,11 @@ public class Dataset implements Serializable {
         return description;
     }
 
-    public List<? extends Dataset> getSubDatasets() {
+    public List<Dataset> getSubDatasets() {
         return Collections.unmodifiableList(this.subDatasets);
     }
 
-    public List<? extends Element> getElements() {
+    public List<Element> getElements() {
         return Collections.unmodifiableList(this.elements);
     }
 
@@ -104,12 +115,12 @@ public class Dataset implements Serializable {
         this.elements = elements;
     }
 
-    public String getTableName() {
-        return tableName;
+    public Long getParentDatasetHead() {
+        return parentDatasetHead;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setParentDatasetHead(Long parentDatasetHead) {
+        this.parentDatasetHead = parentDatasetHead;
     }
 
     @Override
@@ -122,7 +133,7 @@ public class Dataset implements Serializable {
                 .append(this.id, rhs.id)
                 .append(this.name, rhs.name)
                 .append(this.description, rhs.description)
-                .append(this.tableName, rhs.tableName)
+                .append(this.parentDatasetHead, rhs.parentDatasetHead)
                 .isEquals();
     }
 
@@ -132,7 +143,7 @@ public class Dataset implements Serializable {
                 .append(id)
                 .append(name)
                 .append(description)
-                .append(tableName)
+                .append(parentDatasetHead)
                 .toHashCode();
     }
 
@@ -145,7 +156,7 @@ public class Dataset implements Serializable {
                 .append("subDatasets", subDatasets)
                 .append("elements", elements)
                 .append("icon", icon)
-                .append("tableName", tableName)
+                .append("tableName", parentDatasetHead)
                 .toString();
     }
 }

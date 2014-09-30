@@ -1,5 +1,8 @@
 package ph.gov.deped.data.dto.ds;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 /**
@@ -19,7 +22,11 @@ public class Element implements Serializable {
 
     private final long datasetId;
 
-    public Element(long id, String name, String description, String meaning, long datasetId) {
+    @JsonCreator
+    public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
+                   @JsonProperty("description") String description,
+                   @JsonProperty("meaning") String meaning,
+                   @JsonProperty("datasetId") long datasetId) {
         this.id = id;
         this.name = name;
         this.description = description;

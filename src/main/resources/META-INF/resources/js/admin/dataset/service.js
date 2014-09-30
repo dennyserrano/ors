@@ -26,19 +26,6 @@ angular.module('DatasetApp')
             })
         }
     ])
-    .factory('SubdatasetElementService', ['$resource', '$cacheFactory',
-        function($resource, $cacheFactory) {
-            return $resource('/elements/sub/:tableId', {
-                tableId: '@id'
-            }, {
-                get: {
-                    method: 'GET',
-                    isArray: true,
-                    cache: $cacheFactory('subdatasetElements')
-                }
-            });
-        }
-    ])
     .factory('OwnerService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/dataset/owner/:ownerId', {

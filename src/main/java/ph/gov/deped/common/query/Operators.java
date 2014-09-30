@@ -28,6 +28,10 @@ public abstract class Operators {
         public String get() {
             return operator.get();
         }
+
+        public String getName() {
+            return name();
+        }
     }
 
     public static enum Special implements Operator {
@@ -44,6 +48,10 @@ public abstract class Operators {
 
         public String get() {
             return sql.get();
+        }
+
+        public String getName() {
+            return name();
         }
     }
 
@@ -64,6 +72,10 @@ public abstract class Operators {
 
         public String get() {
             return sql;
+        }
+
+        public String getName() {
+            return name();
         }
 
         public @Override String toString() {

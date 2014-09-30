@@ -1,12 +1,5 @@
 package ph.gov.deped.service.etl.meta;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.sql.DataSource;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.cfg.NamingStrategy;
@@ -15,17 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.SpringNamingStrategy;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.data.ors.ds.DatasetTable;
 import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetTableRepository;
 import ph.gov.deped.security.SecurityContextUtil;
+
+import javax.sql.DataSource;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Created by ej on 9/11/14.
@@ -38,8 +34,6 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
 
     private DatasetHeadRepository datasetHeadRepository;
 
-    private DatasetTableRepository datasetTableRepository;
-
     private DatasetElementRepository datasetElementRepository;
     
     private NamingStrategy namingStrategy = new SpringNamingStrategy();
@@ -50,12 +44,10 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
 
     public PhysicalDatasetItemWriter(SecurityContextUtil securityContextUtil,
                                     DatasetHeadRepository datasetHeadRepository,
-                                    DatasetTableRepository datasetTableRepository,
                                     DatasetElementRepository datasetElementRepository,
                                     NamingStrategy namingStrategy, DataSource dataSource) {
         this.securityContextUtil = securityContextUtil;
         this.datasetHeadRepository = datasetHeadRepository;
-        this.datasetTableRepository = datasetTableRepository;
         this.datasetElementRepository = datasetElementRepository;
         this.namingStrategy = namingStrategy;
         this.dataSource = dataSource;
@@ -67,10 +59,6 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
 
     public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
         this.datasetHeadRepository = datasetHeadRepository;
-    }
-
-    public @Autowired void setDatasetTableRepository(DatasetTableRepository datasetTableRepository) {
-        this.datasetTableRepository = datasetTableRepository;
     }
 
     public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
@@ -112,18 +100,10 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
             head.setOwnerId(0);
             datasetHeadRepository.save(head);
 
-            DatasetTable datasetTable = new DatasetTable();
-            datasetTable.setDatasetHead(head);
-            datasetTable.setTableId(table.getTableId());
-            datasetTableRepository.save(datasetTable);
-            
-            datasetTableRepository.flush();
-            
             AtomicInteger batch = new AtomicInteger(0);
             holder.columnMetadatas.parallelStream()
                     .map(c -> {
                         DatasetElement element = new DatasetElement();
-                        element.setDatasetTable(datasetTable);
                         element.setColumnId(c.getColumnId());
                         element.setName(c.getColumnName());
                         element.setMeaning(String.format(

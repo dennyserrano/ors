@@ -2,9 +2,10 @@ package ph.gov.deped.service.meta.api;
 
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.dto.ds.Table;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ej on 8/20/14.
@@ -12,8 +13,6 @@ import java.util.List;
 public interface MetadataService {
 
     void startSynchronizing() throws MetadataSynchronizationException;
-
-    List<Table> findPhysicalDatasets();
 
     List<? extends Dataset> findTopLevelDatasets();
 
@@ -25,9 +24,9 @@ public interface MetadataService {
 
     Dataset saveDataset(Dataset dataset);
 
-    List<Element> findSubdatasetElement(long tableId);
-
     List<Element> findElements(long headId);
 
     List<Dataset> findSubdatasets(long headId);
+
+    List<Map<String, Serializable>> preview(Dataset dataset);
 }

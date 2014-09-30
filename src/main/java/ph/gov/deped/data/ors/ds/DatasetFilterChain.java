@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
+import org.springframework.cache.annotation.Cacheable;
 import ph.gov.deped.common.query.Operator;
 import ph.gov.deped.data.BaseJpaEntity;
 
@@ -21,6 +22,8 @@ import java.io.Serializable;
  * Created by ej on 8/19/14.
  */
 @Entity
+@Cacheable("DatasetFilterChains")
+@javax.persistence.Cacheable
 public class DatasetFilterChain extends BaseJpaEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 3885030780525586181L;

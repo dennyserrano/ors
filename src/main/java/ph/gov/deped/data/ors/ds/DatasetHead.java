@@ -4,15 +4,24 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.cache.annotation.Cacheable;
 import ph.gov.deped.data.BaseJpaEntity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 /**
  * Created by ej on 8/18/14.
  */
 @Entity
+@Cacheable("DatasetHeads")
+@javax.persistence.Cacheable
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "dataset_head_name_unique", columnNames = {DatasetHead.COL_NAME})
 })
@@ -38,7 +47,11 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
     private Integer ownerId;
 
     @Column(length = 50)
-    private String tableName;
+    private Long parentDatasetHead;
+
+    @Basic
+    @Column
+    private Integer tableId;
 
     @Basic
     @Column
@@ -78,8 +91,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
         return visible;
     }
 
-    public String getTableName() {
-        return tableName;
+    public Long getParentDatasetHead() {
+        return parentDatasetHead;
     }
 
     public void setId(Long id) {
@@ -102,8 +115,16 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
         this.visible = visible;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setParentDatasetHead(Long parentDatasetHead) {
+        this.parentDatasetHead = parentDatasetHead;
+    }
+
+    public Integer getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(Integer tableId) {
+        this.tableId = tableId;
     }
 
     @Override
@@ -117,7 +138,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append(this.description, rhs.description)
                 .append(this.ownerId, rhs.ownerId)
                 .append(this.visible, rhs.visible)
-                .append(this.tableName, rhs.tableName)
+                .append(this.parentDatasetHead, rhs.parentDatasetHead)
+                .append(this.tableId, rhs.tableId)
                 .isEquals();
     }
 
@@ -128,7 +150,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append(description)
                 .append(ownerId)
                 .append(visible)
-                .append(tableName)
+                .append(parentDatasetHead)
+                .append(tableId)
                 .toHashCode();
     }
 
@@ -141,7 +164,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append("description", description)
                 .append("ownerId", ownerId)
                 .append("visible", visible)
-                .append("tableName", tableName)
+                .append("parentDatasetHead", parentDatasetHead)
+                .append("tableId", tableId)
                 .toString();
     }
 }

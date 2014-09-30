@@ -72,7 +72,7 @@
     <AsyncLogger name="com.hikari" level="info" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
-    <AsyncLogger name="org.springframework" level="info" additivity="false">
+    <AsyncLogger name="org.springframework" level="debug" additivity="false">
       <AppenderRef ref="AsyncSpringLogFile"/>
     </AsyncLogger>
     <AsyncLogger name="ph.gov.deped" level="trace" additivity="false">

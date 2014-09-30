@@ -40,12 +40,6 @@ public class DatasetRestController {
         return metadataService.findSubdatasets(headId);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Dataset saveDataset(@PathVariable(DATASET_ID) long id, @RequestBody Dataset dataset) {
-
-        return dataset;
-    }
-
     @RequestMapping(value = "/owner/{ownerId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Dataset> findDatasetsByOwner(@PathVariable("ownerId") int ownerId) {
         return metadataService.findOwnedDatasets(ownerId);

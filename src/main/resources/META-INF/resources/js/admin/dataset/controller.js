@@ -18,8 +18,8 @@ angular.module('DatasetApp')
             }
         }
     ])
-    .controller('DatasetDetailCtrl', ['$scope', '$window', '$stateParams', 'DatasetService', 'SubdatasetElementService',
-        function($scope, $window, $stateParams, DatasetService, SubdatasetElementService) {
+    .controller('DatasetDetailCtrl', ['$scope', '$window', '$stateParams', 'DatasetService', 'ElementService',
+        function($scope, $window, $stateParams, DatasetService, ElementService) {
             $scope.loadingDetail = true;
             $scope.selectedId = $stateParams.datasetId;
             DatasetService.get({'datasetId' : $stateParams.datasetId}, function(dataset) {
@@ -40,7 +40,7 @@ angular.module('DatasetApp')
                     $('#sd' + $scope.shownSubdataset).collapse('hide');
                 }
                 if (!$scope.elements[headId]) {
-                    SubdatasetElementService.get({'tableId': headId}, function(elements) {
+                    ElementService.get({'headId': headId}, function(elements) {
                         $scope.elements[headId] = elements;
                         $scope.subdatasetElements = $scope.elements[headId];
                     });

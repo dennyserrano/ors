@@ -24,6 +24,6 @@ public interface DatasetHeadRepository extends BaseJpaRepository<DatasetHead, Lo
 
     DatasetHead findByName(String name);
 
-    @Query("SELECT h FROM DatasetTable t JOIN t.datasetHead h WHERE t.tableId IS NOT NULL")
-    List<DatasetHead> findAllPhysicalTables();
+    List<DatasetHead> findByParentDatasetHead(Long id);
+
 }

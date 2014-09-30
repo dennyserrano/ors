@@ -5,4 +5,5 @@ package ph.gov.deped.common.query;
  */
 public interface Operator extends SqlExpression {
 
+    String getName();
 }

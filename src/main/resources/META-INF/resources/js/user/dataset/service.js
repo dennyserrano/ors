@@ -13,6 +13,18 @@ angular.module('UserApp')
                 });
         }
     ])
+    .factory('SubdatasetService', ['$resource', '$cacheFactory',
+        function($resource, $cacheFactory) {
+            return $resource('/dataset/:datasetId/sub', {
+                datasetId: '@id'
+            }, {
+                get: {
+                    method: 'GET',
+                    cache: $cacheFactory('subdatasets')
+                }
+            })
+        }
+    ])
     .factory('ElementService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/elements/:headId', {
@@ -26,19 +38,6 @@ angular.module('UserApp')
             })
         }
     ])
-    .factory('SubdatasetElementService', ['$resource', '$cacheFactory',
-        function($resource, $cacheFactory) {
-            return $resource('/elements/sub/:tableId', {
-                tableId: '@id'
-            }, {
-                get: {
-                    method: 'GET',
-                    isArray: true,
-                    cache: $cacheFactory('subdatasetElements')
-                }
-            });
-        }
-    ])
     .factory('OwnerService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/dataset/owner/:ownerId', {
@@ -50,5 +49,15 @@ angular.module('UserApp')
                     cache: $cacheFactory('ownerDatasets')
                 }
             });
+        }
+    ])
+    .factory('PreviewDataService', ['$resource',
+        function($resource) {
+            return $resource('/preview', {}, {
+                'preview': {
+                    method: 'POST',
+                    isArray: true
+                }
+            })
         }
     ]);

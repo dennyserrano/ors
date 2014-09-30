@@ -428,3 +428,227 @@ databaseChangeLog:
             tableName: dataset_filter_chain
             columnName: date_created
             newDataType: timestamp
+  - changeSet:
+      id: ds-201409291533
+      author: ej
+      changes:
+        - dropForeignKeyConstraint:
+            constraintName: dataset_table_element_fk
+            baseTableName: dataset_element
+        - dropColumn:
+            tableName: dataset_element
+            columnName: dataset_table_id
+        - addColumn:
+            tableName: dataset_element
+            columns:
+              - column:
+                  name: dataset_head_id
+                  type: bigint
+        - addForeignKeyConstraint:
+            constraintName: dataset_head_element_fk
+            baseTableName: dataset_element
+            baseColumnNames: dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+  - changeSet:
+      id: ds-201409291541
+      author: ej
+      changes:
+        - renameColumn:
+            tableName: dataset_head
+            oldColumnName: table_name
+            columnDataType: varchar(50)
+            newColumnName: parent_dataset_head
+        - modifyDataType:
+            tableName: dataset_head
+            columnName: parent_dataset_head
+            newDataType: bigint
+  - changeSet:
+      id: ds-201409291551
+      author: ej
+      changes:
+        - dropTable:
+            tableName: dataset_table
+  - changeSet:
+      id: ds-201409291708
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: table_id
+                  type: int
+  - changeSet:
+      id: ds-201409301520
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_correlation
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: left_table_prefix
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: join_type
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_table_prefix
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - rollback:
+            - dropTable:
+                tableName: dataset_correlation
+  - changeSet:
+      id: ds-201409301602
+      author: ej
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: left_dataset_head_id_fk
+            baseTableName: dataset_correlation
+            baseColumnNames: left_dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: right_dataset_head_id_fk
+            baseTableName: dataset_correlation
+            baseColumnNames: right_dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+  - changeSet:
+      id: ds-201409301603
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_correlation_dtl
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dataset_correlation_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operator
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201409301604
+      author: ej
+      changes:
+        - dropColumn:
+            tableName: dataset_criteria
+            columnName: right_value
+  - changeSet:
+      id: ds-201409301634
+      author: ej
+      changes:
+        - addUniqueConstraint:
+            tableName: dataset_correlation
+            columnNames: left_dataset_head_id, right_dataset_head_id
+            constraintName: dataset_corrrelation_left_right_unique
+  - changeSet:
+      id: ds-201409301727
+      author: ej
+      changes:
+        - renameColumn:
+            tableName: dataset_correlation_dtl
+            oldColumnName: left_column_id
+            columnDataType: int
+            newColumnName: left_dataset_element_id
+        - modifyDataType:
+            tableName: dataset_correlation_dtl
+            columnName: left_dataset_element_id
+            newDataType: bigint
+        - renameColumn:
+            tableName: dataset_correlation_dtl
+            oldColumnName: right_column_id
+            columnDataType: int
+            newColumnName: right_dataset_element_id
+        - modifyDataType:
+            tableName: dataset_correlation_dtl
+            columnName: right_dataset_element_id
+            newDataType: bigint
+        - addForeignKeyConstraint:
+            constraintName: left_dataset_element_id_fk
+            baseTableName: dataset_correlation_dtl
+            baseColumnNames: left_dataset_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: right_dataset_element_id_fk
+            baseTableName: dataset_correlation_dtl
+            baseColumnNames: right_dataset_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id

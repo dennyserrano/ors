@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,484 +8,277 @@
     <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
     <link data-th-href="@{/css/bootstrap.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
     <link data-th-href="@{/css/font-awesome.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
-    <link data-th-href="@{/css/local.css}" rel="stylesheet" href="../../css/local.css"/>
+    <link data-th-href="@{/css/metisMenu.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
+    <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
 
   </head>
   <body data-ng-app="UserApp">
-    <div id="wrapper">
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">Open Report System</a>
-      </div>
-      <div class="navbar-collapse collapse" id="navbar-main">
+
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <script data-th-src="@{/js/modernizr.js}" src="../../js/modernizr.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script data-th-src="@{/js/html5shiv.js}" src="../../js/html5shiv.js"></script>
+    <script data-th-src="@{/js/respond.min.js}" src="../../js/respond.src.js"></script>
+    <![endif]-->
+
+    <div id="wrapper" data-ng-controller="UserDatasetCtrl">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="magin-bottom: 0;">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Open Report System</a>
+        </div>
         <ul class="nav navbar-nav" style="padding-left:20px;">
-
           <li>
-            <a href="Index.html"><i class="fa fa-bullseye"></i> Dashboard</a>
+            <a href="#"><i class="fa fa-bullseye"></i> Dashboard</a>
           </li>
-
-          <li class="dropdown user-dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bookmark"></i> Bookmarks<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li>Monograde by Level and Gender</li>
-              <li>Total Enrolment</li>
-              <li>Schools with CCT/4 P's Recipient by gender</li>
-
+          <li class="active" >
+            <a href="#" ><i class="fa fa-file-text"></i> Data Pull</a>
+          </li>
+          <li >
+            <a href="#" class="active"><i class="fa fa-code-fork"></i> Generator</a>
+          </li>
+          <li >
+            <a href="#myModal2" data-toggle="modal"><i class="fa fa-bookmark"></i> Bookmarks</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-top-links navbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <i class="fa fa-user fa-fw"></i>Ordinary User <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+              <li><a href="javascript:void(0);"><i class="fa fa-user fa-fw"></i> User Profile</a>
+              </li>
+              <li><a href="javascript:void(0);"><i class="fa fa-gear fa-fw"></i> Settings</a>
+              </li>
+              <li class="divider"></li>
+              <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+              </li>
             </ul>
           </li>
         </ul>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar side-nav">
-            <li class="datasets">Datasets</li>
-            <li><a href="index.html"> <i class="fa fa-plus-circle"></i> School Profile</a>
+        <div class="navbar-default sidebar" role="navigation">
+          <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+              <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                  <input type="text" class="form-control" placeholder="Search..."/>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </span>
+                </div>
+              </li>
+              <li>
+                <a data-th-href="@{/user/datasets}" class="active" href="dataset.html">
+                  <h4>
+                    <i class="fa fa-database fa-fw"></i>
+                    Datasets
+                  </h4>
+                </a>
+              </li>
+              <li data-ng-repeat="dataset in datasets">
+                <a href="javascript:void(0);">
+                  <i class="fa fa-minus-circle"></i>
+                  {{ dataset.name }}
+                  <span class="fa fa-angle-left"></span>
+                </a>
+                <ul class="nav-second-level list-unstyled" style="margin-bottom: 15px;">
+                  <li data-ng-repeat="subdataset in dataset.subDatasets">
+                    <a data-ng-click="setDataset(subdataset)" href="javascript:void(0);">
+                      {{ subdataset.name }}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-            </li>
-            <li class="active"><a href="portfolio.html"><i class="fa fa-minus-circle"></i> Enrolment</a>
-
-
-              <ul>
-                <li>Total Enrolment</li>
-                <li>Kindergarten</li>
-                <li>Monograde</li>
-                <li>Multigrade</li>
-                <li>Combined Mono/Multi</li>
-                <li>CCT/4Ps Recipient</li>
-                <li>Balik-Aral</li>
-
-              </ul>
-            </li>
-            <li><a href="index.html"><i class="fa fa-plus-circle"></i> Physical Facilities</a>
-
-            </li>
-            <li><a href="index.html"><i class="fa fa-plus-circle"></i> Personnel</a>
-
-            </li>
-
-          </ul>
-          <ul class="nav navbar-nav navbar-right navbar-user">
-
-            <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Esme Ignacio<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-                <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
-              </ul>
-            </li>
-          </ul>
+      <div id="page-wrapper" class="data" data-ng-show="!dataset">
+        <div class="row">
+          <br/>
+          <br/>
+          <br/>
+          <div class="col-sm-12">
+            <p>
+              <i class="fa fa-angle-double-left"></i>
+              Select a Dataset from the Sidebar.
+            </p>
+          </div>
         </div>
       </div>
-    </nav>
+      <div id="page-wrapper" class="data" data-ng-show="dataset">
+        <div class="row">
+          <div class="col-sm-12">
+            <ol class="breadcrumb">
+              <li><a href="#">Enrolment</a></li>
 
-    <div class="data">
-    <div class="row">
-    <div class="col-md-11">
+              <li class="active">Classrooms by use &amp; status/type</li>
+            </ol>
+            <h3>
+              {{ dataset.name }}
+            </h3>
+            <p>
+              {{ dataset.description }}
+            </p>
 
-    <h3>CCT/4Ps Recipient
-      <small>- Enrolment</small>
-    </h3>
-    <p>
-      Refers to a learner whose families are included in the Conditional Cash Transfer (CCT) under the Pantawid Pamilyang Pilipino Program (4Ps) of the Department of Social Welfare and Development (DSWD).
-      <br/>
-      These families were selected from the poorest households in municipalities with high poverty incidence. One relevant feature of 4Ps is the provision of educational cash grant of P3,000.00 for one
-      school year or 10 months at P300 per child per month for educational expenses on condition that these children attend school. Maximum of three children per household is allowed. Children should be
-      of school age (6-14). (Source: DepEd memo # 110 s. 2009 &quot;National Implementation of the Pantawid Pamilyang Pilipino Program 4Ps&quot;)
-    </p>
+            <div id="description">
+              <table class="table table-condensed table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th width="10%">Selection</th>
+                    <th>Column</th>
+                    <th>Definition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-repeat="availableElement in availableElements[dataset.parentDatasetHead]">
+                    <td align="center">
+                      <input type="checkbox" checklist-model="currentDataset.elements" checklist-value="availableElement"/>
+                    </td>
+                    <td>
+                      {{ availableElement.meaning }}
+                    </td>
+                    <td>
+                      {{ availableElement.description }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button data-ng-click="useElement()" class="btn btn-primary btn-xs" type="button">
+                Use Elements
+              </button>
+            </div>
+            <hr/>
+            <h4>Filter by:</h4>
 
-    <div id="description-collapsible">
-      <a data-toggle="collapse" data-parent="#description-collapsible" href="#description">View Data Elements<i class="caret"></i></a>
+            <div class="well well-sm">
+              <a class="btn btn-default btn-xs">School year <i class="caret"></i></a>
 
-      <div id="description" class="panel-collapse collapse">
-        <table class="table table-condensed table-bordered table-striped">
-          <thead>
-            <tr>
+              <a class="btn btn-default btn-xs">General Classification<i class="caret"></i></a>
 
-              <th width="10%">Selection</th>
-              <th>Column</th>
-              <th>Definition</th>
-            </tr>
-          </thead>
-          <tbody>
+              <a class="btn btn-default btn-xs">General Circular Offering <i class="caret"></i></a>
 
+              <a class="btn btn-default btn-xs">Elem Circular Classification <i class="caret"></i></a>
 
-            <tr>
+              <a class="btn btn-default btn-xs">School Type<i class="caret"></i></a>
+              <a class="btn btn-default btn-xs">Group by<i class="caret"></i></a>
 
+              <a class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
 
-              <td align="center"><input type="checkbox"/></td>
+              <a href="javascript:void(0);" data-ng-click="previewData()" data-toggle="modal"
+                 data-target="#previewDataModal" class="btn btn-info btn-xs pull-right">
+                View Data
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#">Region</a>
+                </li>
+                <li>
+                  <a href="#">Division</a>
+                </li>
+                <li>
+                  <a href="#">District</a>
+                </li>
+                <li>
+                  <a href="#">Municipality</a>
+                </li>
+                <li>
+                  <a href="#">Legislative</a>
+                </li>
+              </ul>
+            </div>
+            <table class="table table-bordered table-striped table-condensed" data-ng-show="subDatasets">
+              <thead>
+                <tr>
+                  <th class="text-center" data-ng-repeat="subdataset in subDatasets">
+                    {{ subdataset.name }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-ng-repeat="subdataset in subDatasets">
+                    <div class="checkbox" data-ng-repeat="subdatasetElement in subdataset.elements">
+                      <label>
+                        <input type="checkbox" value="{{ subdatasetElement.id }}"/>
+                        {{ subdatasetElement.meaning }} [{{ subdatasetElement.name }}]
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="hidden btn btn-primary btn-xs" type="submit">Save</button>
+            <button class="hidden btn btn-default btn-xs" type="submit">Save and Close</button>
+            <button class="hidden btn btn-default btn-xs" type="submit">Delete</button>
 
-              <td>Grade 1 Male</td>
-              <td>Grade 1 Male</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>Grade 1 Female</td>
-              <td>Grade 1 Female</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>Grade 2 Female</td>
-              <td>Grade 2 Female</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>Grade 2 Female</td>
-              <td>Grade 2 Female</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>Total Female</td>
-              <td>Total Female</td>
-            </tr>
-            <tr>
-              <td align="center"><input type="checkbox"/></td>
-              <td>Total Male</td>
-              <td>Total Male</td>
-            </tr>
-          </tbody>
-        </table>
-        <button class="btn btn-primary btn-xs" type="submit">Use Elements</button>
+          </div>
+
+        </div>
       </div>
-    </div>
-    <hr/>
-    <h4>Filter by:</h4>
 
-    <div class="well well-sm">
-      <a class="btn btn-default btn-xs">School year <i class="caret"></i></a>
-
-      <a class="btn btn-default btn-xs">General Classification<i class="caret"></i></a>
-
-      <a class="btn btn-default btn-xs">General Circular Offering <i class="caret"></i></a>
-
-      <a class="btn btn-default btn-xs">Elem Circular Classification <i class="caret"></i></a>
-
-      <a class="btn btn-default btn-xs">School Type<i class="caret"></i></a>
-      <a class="btn btn-default btn-xs">Group by<i class="caret"></i></a>
-
-      <a class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
-
-      <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="btn btn-info btn-xs pull-right">View Data</a>
-      <ul class="dropdown-menu">
-        <li>
-          <a href="#">Region</a>
-        </li>
-        <li>
-          <a href="#">Division</a>
-        </li>
-        <li>
-          <a href="#">District</a>
-        </li>
-        <li>
-          <a href="#">Municipality</a>
-        </li>
-        <li>
-          <a href="#">Legislative</a>
-        </li>
-      </ul>
-    </div>
-    <table class="table table-bordered table-striped table-condensed">
-      <thead>
-        <tr>
-          <th width="18%">Basic School Info</th>
-          <th>CCT/4Ps Recipient
-            <div class="btn-group pull-right">
-              <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span class="caret"></span> </a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Total Enrolment</li>
-                <li>
-                  <a href="#">Sort A to Z</a>
-                </li>
-                <li>
-                  <a href="#">Sort Z to A</a>
-                </li>
-
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
-                </li>
-              </ul>
+      <!-- Modal -->
+      <div class="modal fade bs-example-modal-lg " id="previewDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">View Data </h4>
             </div>
-          </th>
-
-          <th>Balik-Aral
-            <div class="btn-group pull-right">
-              <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span class="caret"></span> </a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Total Enrolment</li>
-                <li>
-                  <a href="#">Sort smallest to largest</a>
-                </li>
-                <li>
-                  <a href="#">Sort largest to smallest</a>
-                </li>
-
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
-                </li>
-              </ul>
+            <div class="modal-body">
+              <div align="center">
+                <h5>
+                  Sample Data to Export
+                </h5>
+              </div>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th data-ng-repeat="(key, value) in headers">
+                      {{ value }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-repeat="data in datas">
+                    <td data-ng-repeat="(key, value) in data">
+                      {{ value }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </th>
-          <th>Multigrade
-            <div class="btn-group pull-right">
-              <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><span class="caret"></span> </a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Total Enrolment</li>
-                <li>
-                  <a href="#">Sort smallest to largest</a>
-                </li>
-                <li>
-                  <a href="#">Sort largest to smallest</a>
-                </li>
-
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#myModal">Expand Group</a>
-                </li>
-              </ul>
+            <div class="modal-footer">
+              <form name="exportForm" action="/export" method="post">
+                <input type="hidden" id="datasetJson" name="dataset" value="{{ datasetJson }}"/>
+                <button type="submit" class="btn btn-default">Export as</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </form>
             </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                School ID
-              </label>
-            </div>
-            <div class="checkbox disabled">
-              <label>
-                <input type="checkbox" value="" disabled=""/>
-                School Name
-              </label>
-            </div>
-            <div class="checkbox disabled">
-              <label>
-                <input type="checkbox" value="" disabled=""/>
-                Region
-              </label>
-            </div>
-            <div class="checkbox disabled">
-              <label>
-                <input type="checkbox" value="" disabled=""/>
-                Division
-              </label>
-            </div>
-            <div class="checkbox disabled">
-              <label>
-                Add More
-              </label>
-              ..
-            </div>
-
-          </td>
-          <td>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 1 Male</label></div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 1 Female</label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 2 Male</label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 2 Female</label>
-            </div>
-          </td>
-          <td>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 1 Male</label></div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 1 Female</label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 2 Male</label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 2 Female</label>
-            </div>
-          </td>
-          <td>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 1 Male</label></div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 1 Female</label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 2 Male</label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""/>
-                Grade 2 Female</label>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button class="btn btn-primary btn-xs" type="submit">Save</button>
-    <button class="btn btn-default btn-xs" type="submit">Save and Close</button>
-    <button class="btn btn-default btn-xs" type="submit">Delete</button>
-
-    </div>
-
-    </div>
-    </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <!-- /.row -->
     </div>
     <!-- /#page-wrapper --><!-- /#wrapper -->
-
-    <br/>
-    <!-- Modal -->
-    <div class="modal fade bs-example-modal-lg " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">View Data </h4>
-          </div>
-          <div class="modal-body">
-            <div align="center"><h5>Number of CCT/4Ps Recipients and Balik-Aral Enrollees in Public Elementary Schools<br/>
-              School Year : 2014 - 2015</h5></div>
-            <table class="table table-bordered table-striped table-condensed">
-              <thead>
-                <tr>
-                  <th rowspan="2">School ID</th>
-                  <th colspan="2">CCT/4Ps Recipients Grade 1</th>
-                  <th colspan="2">CCT/4Ps Recipients Grade 2</th>
-                  <th colspan="2">Balik-Aral Grade 1</th>
-                  <th colspan="2">Balik-Aral Grade 2</th>
-                </tr>
-                <tr>
-                  <th>Male</th>
-                  <th>Female</th>
-                  <th>Male</th>
-                  <th>Female</th>
-                  <th>Male</th>
-                  <th>Female</th>
-                  <th>Male</th>
-                  <th>Female</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>4343324</td>
-                  <td>34243</td>
-                  <td>45</td>
-                  <td>12333</td>
-                  <td>45</td>
-                  <td>234</td>
-                  <td>4234</td>
-                  <td>234</td>
-                  <td>43535</td>
-                </tr>
-                <tr>
-                  <td>343443</td>
-                  <td>234324</td>
-                  <td>454</td>
-                  <td>12333</td>
-                  <td>354</td>
-                  <td>234</td>
-                  <td>656</td>
-                  <td>234</td>
-                  <td>45654</td>
-                </tr>
-                <tr>
-                  <td>3434</td>
-                  <td>3432</td>
-                  <td>4324</td>
-                  <td>34324</td>
-                  <td>34</td>
-                  <td>343</td>
-                  <td>43432</td>
-                  <td>4324</td>
-                  <td>3243</td>
-                </tr>
-                <tr>
-                  <td>34324</td>
-                  <td>463</td>
-                  <td>6346</td>
-                  <td>67</td>
-                  <td>657</td>
-                  <td>432</td>
-                  <td>4324</td>
-                  <td>6876</td>
-                  <td>2432</td>
-                </tr>
-                <tr>
-                  <td>34324</td>
-                  <td>6346</td>
-                  <td>3463</td>
-                  <td>65</td>
-                  <td>4</td>
-                  <td>43</td>
-                  <td>7657</td>
-                  <td>65</td>
-                  <td>432</td>
-                </tr>
-                <tr>
-                  <td>32434</td>
-                  <td>63</td>
-                  <td>46346</td>
-                  <td>363</td>
-                  <td>5436</td>
-                  <td>3243</td>
-                  <td>56</td>
-                  <td>64</td>
-                  <td>4</td>
-                </tr>
-                <tr>
-                  <td>636</td>
-                  <td>663</td>
-                  <td>346</td>
-                  <td>65</td>
-                  <td>6546</td>
-                  <td>434</td>
-                  <td>432</td>
-                  <td>432</td>
-                  <td>23432</td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Export as</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <script data-th-src="@{/js/jquery.js}" src="../../js/jquery.js"></script>
     <script data-th-src="@{/js/bootstrap.js}" src="../../js/bootstrap.js"></script>
@@ -495,6 +288,8 @@
     <script data-th-src="@{/js/angular-ui-router.js}" src="../../js/angular-ui-router.js"></script>
     <script data-th-src="@{/js/ui-bootstrap-tpls.js}" src="../../js/ui-bootstrap-tpls.js"></script>
     <script data-th-src="@{/js/checklist-model.js}" src="../../js/checklist-model.js"></script>
+    <script data-th-src="@{/js/metisMenu.js}" src="../../js/metisMenu.js"></script>
+    <script data-th-src="@{/js/ors.js}" src="../../js/dev/js"></script>
 
     <script data-th-src="@{/js/user/app.js}" src="../../js/user/app.js"></script>
     <script data-th-src="@{/js/user/dataset/service.js}" src="../../js/user/dataset/service.js"></script>

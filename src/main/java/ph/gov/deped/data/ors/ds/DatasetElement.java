@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.cache.annotation.Cacheable;
 import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
@@ -19,6 +20,8 @@ import java.io.Serializable;
  * Created by ej on 8/18/14.
  */
 @Entity
+@Cacheable("DatasetElements")
+@javax.persistence.Cacheable
 public class DatasetElement extends BaseJpaEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 5690000895468705426L;
@@ -28,8 +31,8 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "dataset_table_id", nullable = false)
-    private DatasetTable datasetTable;
+    @JoinColumn(name = "dataset_head_id", nullable = false)
+    private DatasetHead datasetHead;
 
     @Basic
     private Integer columnId;
@@ -51,18 +54,12 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
 
     public DatasetElement() {}
 
-    public DatasetElement(Long id, DatasetTable datasetTable, Integer columnId) {
-        this.id = id;
-        this.datasetTable = datasetTable;
-        this.columnId = columnId;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public DatasetTable getDatasetTable() {
-        return datasetTable;
+    public DatasetHead getDatasetHead() {
+        return datasetHead;
     }
 
     public Integer getColumnId() {
@@ -93,8 +90,8 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         this.id = id;
     }
 
-    public void setDatasetTable(DatasetTable datasetTable) {
-        this.datasetTable = datasetTable;
+    public void setDatasetHead(DatasetHead datasetHead) {
+        this.datasetHead = datasetHead;
     }
 
     public void setColumnId(Integer columnId) {
@@ -128,7 +125,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         }
         DatasetElement rhs = (DatasetElement) obj;
         return new EqualsBuilder()
-                .append(this.datasetTable, rhs.datasetTable)
+                .append(this.datasetHead, rhs.datasetHead)
                 .append(this.columnId, rhs.columnId)
                 .append(this.alias, rhs.alias)
                 .append(this.function, rhs.function)
@@ -141,7 +138,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(datasetTable)
+                .append(datasetHead)
                 .append(columnId)
                 .append(alias)
                 .append(function)
@@ -156,7 +153,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .appendSuper(super.toString())
                 .append("id", id)
-                .append("datasetTable", datasetTable)
+                .append("datasetHead", datasetHead)
                 .append("columnId", columnId)
                 .append("alias", alias)
                 .append("function", function)

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
+import org.springframework.cache.annotation.Cacheable;
 import ph.gov.deped.common.query.FilterType;
 import ph.gov.deped.common.query.Operator;
 import ph.gov.deped.data.BaseJpaEntity;
@@ -23,11 +24,10 @@ import java.io.Serializable;
  * Created by ej on 8/19/14.
  */
 @Entity
+@Cacheable("DatasetCriterias")
+@javax.persistence.Cacheable
 public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2235455537289489269L;
 
     @Id
@@ -49,9 +49,6 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     @Column(length = 10)
     @Type(type = "ph.gov.deped.common.query.OperatorUserType")
     private Operator operator;
-
-    @Column(length = 1000)
-    private String rightValue;
 
     @Basic
     private Integer valueType; // refer to java.sql.Types
@@ -90,10 +87,6 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         return operator;
     }
 
-    public String getRightValue() {
-        return rightValue;
-    }
-
     public Integer getValueType() {
         return valueType;
     }
@@ -122,10 +115,6 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         this.operator = operator;
     }
 
-    public void setRightValue(String rightValue) {
-        this.rightValue = rightValue;
-    }
-
     public void setValueType(Integer valueType) {
         this.valueType = valueType;
     }
@@ -145,7 +134,6 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .append(this.filterType, rhs.filterType)
                 .append(this.leftElement, rhs.leftElement)
                 .append(this.operator, rhs.operator)
-                .append(this.rightValue, rhs.rightValue)
                 .append(this.valueType, rhs.valueType)
                 .append(this.rightElement, rhs.rightElement)
                 .isEquals();
@@ -158,7 +146,6 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .append(filterType)
                 .append(leftElement)
                 .append(operator)
-                .append(rightValue)
                 .append(valueType)
                 .append(rightElement)
                 .toHashCode();
@@ -173,7 +160,6 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .append("filterType", filterType)
                 .append("leftElement", leftElement)
                 .append("operator", operator)
-                .append("rightValue", rightValue)
                 .append("valueType", valueType)
                 .append("rightElement", rightElement)
                 .toString();
