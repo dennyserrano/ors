@@ -7,35 +7,35 @@ import ph.gov.deped.common.command.Command;
 import ph.gov.deped.common.command.ICommand;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 
 /**
  * Created by ej on 9/9/14.
  */
 public @Command class SaveDatasetCommand implements ICommand<SaveDatasetContext> {
 
-    private DatasetHeadRepository datasetHeadRepository;
+    private DatasetRepository datasetRepository;
 
-    private DatasetElementRepository datasetElementRepository;
+    private ElementRepository elementRepository;
 
-    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
-        this.datasetHeadRepository = datasetHeadRepository;
+    public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
     }
 
-    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
-        this.datasetElementRepository = datasetElementRepository;
+    public @Autowired void setElementRepository(ElementRepository elementRepository) {
+        this.elementRepository = elementRepository;
     }
 
     public @Transactional(value = AppMetadata.TXM) void execute(SaveDatasetContext context) {
         final Dataset dataset = context.getUpdatedDataset();
-        DatasetHead head = datasetHeadRepository.findOne(dataset.getId());
+        DatasetHead head = datasetRepository.findOne(dataset.getId());
         if (head == null) {
             head = new DatasetHead();
         }
         head.setName(dataset.getName());
         head.setDescription(dataset.getDescription());
         head.setOwnerId(0);
-        datasetHeadRepository.save(head);
+        datasetRepository.save(head);
     }
 }

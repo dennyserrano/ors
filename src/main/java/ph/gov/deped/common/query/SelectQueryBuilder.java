@@ -38,7 +38,7 @@ import static ph.gov.deped.common.query.Keywords.WHERE;
  * Created by ej on 8/29/14.
  */
 public class SelectQueryBuilder implements ProjectionBuilder, FromClauseBuilder, JoinOrWhereClauseBuilder, JoinClauseBuilder, OnClauseBuilder,
-        JoinCriteriaBuilder, WhereClauseBuilder, CriteriaFilterBuilder, CriteriaChainBuilder, OrderByClauseBuilder {
+        JoinCriteriaBuilder, JoinCriteriaChainBuilder, WhereClauseBuilder, CriteriaFilterBuilder, CriteriaChainBuilder, OrderByClauseBuilder {
 
     private final List<Projection> projections = new ArrayList<>();
 
@@ -116,6 +116,10 @@ public class SelectQueryBuilder implements ProjectionBuilder, FromClauseBuilder,
         return this;
     }
 
+    public JoinOrWhereClauseBuilder from(TableMetadata tableMetadata, String tablePrefix) {
+        return from(tableMetadata.getTableName(), tablePrefix);
+    }
+
     public OnClauseBuilder leftJoin(TableMetadata tableMetadata, String tablePrefix) {
         return leftJoin(tableMetadata.getTableName(), tablePrefix);
     }
@@ -123,6 +127,26 @@ public class SelectQueryBuilder implements ProjectionBuilder, FromClauseBuilder,
     public OnClauseBuilder leftJoin(String tableName, String tablePrefix) {
         this.joinTable = new QueryTable(tablePrefix, tableName);
         this.joinType = JoinType.LEFT_JOIN;
+        return this;
+    }
+
+    public OnClauseBuilder innerJoin(TableMetadata tableMetadata, String tablePrefix) {
+        return innerJoin(tableMetadata.getTableName(), tablePrefix);
+    }
+
+    public OnClauseBuilder innerJoin(String tableName, String tablePrefix) {
+        this.joinTable = new QueryTable(tablePrefix, tableName);
+        this.joinType = JoinType.INNER_JOIN;
+        return this;
+    }
+
+    public OnClauseBuilder crossJoin(TableMetadata tableMetadata, String tablePrefix) {
+        return crossJoin(tableMetadata.getTableName(), tablePrefix);
+    }
+
+    public OnClauseBuilder crossJoin(String tableName, String tablePrefix) {
+        this.joinTable = new QueryTable(tableName, tablePrefix);
+        this.joinType = JoinType.CROSS_JOIN;
         return this;
     }
 
@@ -147,6 +171,10 @@ public class SelectQueryBuilder implements ProjectionBuilder, FromClauseBuilder,
         joinTables.add(new JoinTable(this.joinType, this.joinTable, new Criterion(this.leftExp, Operators.Logical.EQ, expression)));
         this.leftExp = null;
         return this;
+    }
+
+    public JoinOrWhereClauseBuilder and(String tablePrefix, ColumnMetadata columnMetadata) {
+        return null;
     }
 
     public CriteriaFilterBuilder where(ColumnMetadata columnMetadata) {
@@ -189,7 +217,7 @@ public class SelectQueryBuilder implements ProjectionBuilder, FromClauseBuilder,
     }
 
     public CriteriaChainBuilder isNotNull() {
-        criterion(Operators.Special.IS, NULL);
+        criterion(Operators.Special.IS_NOT, NULL);
         return this;
     }
 

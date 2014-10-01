@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 @RepositoryDefinition(domainClass = DatasetElement.class, idClass = Long.class)
-public interface DatasetElementRepository extends BaseJpaRepository<DatasetElement, Long> {
+public interface ElementRepository extends BaseJpaRepository<DatasetElement, Long> {
 
     @Override DatasetElement findOne(Long id);
 

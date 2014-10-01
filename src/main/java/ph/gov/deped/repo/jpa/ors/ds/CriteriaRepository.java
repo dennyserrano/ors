@@ -10,5 +10,5 @@ import ph.gov.deped.repo.jpa.api.BaseJpaRepository;
  */
 @Repository
 @RepositoryDefinition(domainClass = DatasetCriteria.class, idClass = Long.class)
-public interface DatasetCriteriaRepository extends BaseJpaRepository<DatasetCriteria, Long> {
+public interface CriteriaRepository extends BaseJpaRepository<DatasetCriteria, Long> {
 }

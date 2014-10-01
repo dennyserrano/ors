@@ -6,6 +6,4 @@ package ph.gov.deped.common.query;
 public interface JoinCriteriaBuilder {
 
     JoinOrWhereClauseBuilder eq(String tablePrefix, String columnName);
-
-    JoinOrWhereClauseBuilder eq(SqlExpression expression);
 }

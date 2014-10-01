@@ -13,16 +13,21 @@ import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.command.RequestContext;
 import ph.gov.deped.common.query.FromClauseBuilder;
 import ph.gov.deped.common.query.JoinOrWhereClauseBuilder;
+import ph.gov.deped.common.query.OnClauseBuilder;
 import ph.gov.deped.common.query.Projection;
 import ph.gov.deped.common.query.ProjectionBuilder;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.ors.ds.DatasetCorrelation;
+import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.CorrelationDtlRepository;
+import ph.gov.deped.repo.jpa.ors.ds.CorrelationRepository;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 import ph.gov.deped.service.meta.api.FindAllDatasetsRequest;
@@ -61,13 +66,17 @@ public @Service class MetadataServiceImpl implements MetadataService {
 
     private FindDatasetCommand findDatasetCommand;
 
-    private DatasetHeadRepository datasetHeadRepository;
+    private DatasetRepository datasetRepository;
 
-    private DatasetElementRepository datasetElementRepository;
+    private ElementRepository elementRepository;
 
     private TableMetadataRepository tableMetadataRepository;
 
     private ColumnMetadataRepository columnMetadataRepository;
+
+    private CorrelationRepository correlationRepository;
+
+    private CorrelationDtlRepository correlationDtlRepository;
 
     private DataSource dataSource;
 
@@ -83,12 +92,12 @@ public @Service class MetadataServiceImpl implements MetadataService {
         this.findDatasetCommand = findDatasetCommand;
     }
 
-    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
-        this.datasetHeadRepository = datasetHeadRepository;
+    public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
     }
 
-    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
-        this.datasetElementRepository = datasetElementRepository;
+    public @Autowired void setElementRepository(ElementRepository elementRepository) {
+        this.elementRepository = elementRepository;
     }
 
     public @Autowired void setTableMetadataRepository(TableMetadataRepository tableMetadataRepository) {
@@ -131,14 +140,14 @@ public @Service class MetadataServiceImpl implements MetadataService {
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findOwnedDatasets(int ownerId) {
-        List<DatasetHead> datasetHeads = datasetHeadRepository.findByVisibleAndOwnerId(true, ownerId, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        List<DatasetHead> datasetHeads = datasetRepository.findByVisibleAndOwnerId(true, ownerId, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
         return datasetHeads.parallelStream()
                 .map(dh -> new Dataset(dh.getId(), dh.getName(), dh.getDescription(), dh.getParentDatasetHead()))
                 .collect(toList());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findNotOwnedDatasets(int ownerId) {
-        List<DatasetHead> datasetHeads = datasetHeadRepository.findByVisibleAndOwnerIdNot(true, ownerId, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        List<DatasetHead> datasetHeads = datasetRepository.findByVisibleAndOwnerIdNot(true, ownerId, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
         return datasetHeads.parallelStream()
                 .map(dh -> new Dataset(dh.getId(), dh.getName(), dh.getDescription(), dh.getParentDatasetHead()))
                 .collect(toList());
@@ -150,15 +159,15 @@ public @Service class MetadataServiceImpl implements MetadataService {
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findSubdatasets(long headId)  {
-        List<DatasetHead> subdatasets = datasetHeadRepository.findByParentDatasetHead(headId);
+        List<DatasetHead> subdatasets = datasetRepository.findByParentDatasetHead(headId);
         return subdatasets.parallelStream()
                 .map(sd -> findDataset(sd.getId()))
                 .collect(toList());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Element> findElements(long headId) {
-        DatasetHead head = datasetHeadRepository.findOne(headId);
-        List<DatasetElement> datasetElements = datasetElementRepository.findByDatasetHead(head);
+        DatasetHead head = datasetRepository.findOne(headId);
+        List<DatasetElement> datasetElements = elementRepository.findByDatasetHead(head);
         return datasetElements.parallelStream()
                 .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId()))
                 .collect(toList());
@@ -167,7 +176,7 @@ public @Service class MetadataServiceImpl implements MetadataService {
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Map<String, Serializable>> previewData(Dataset dataset) {
         List<DatasetElement> elements = dataset.getElements().parallelStream()
                 .map(Element::getId)
-                .map(datasetElementRepository::findOne)
+                .map(elementRepository::findOne)
                 .collect(toList());
         ProjectionBuilder projectionBuilder = read();
         /**/
@@ -210,7 +219,7 @@ public @Service class MetadataServiceImpl implements MetadataService {
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Map<String, Serializable>> preview(Dataset dataset) {
         List<DatasetElement> elements = dataset.getElements().parallelStream()
                 .map(Element::getId)
-                .map(datasetElementRepository::findOne)
+                .map(elementRepository::findOne)
                 .collect(toList());
         ProjectionBuilder projectionBuilder = read();
         Map<DatasetHead, List<DatasetElement>> map = new HashMap<>();
@@ -253,11 +262,34 @@ public @Service class MetadataServiceImpl implements MetadataService {
             join = fromClauseBuilder.from(pt.tableMetadata.getTableName());
         }
         else {
-            JoinOrWhereClauseBuilder jwcb = fromClauseBuilder.from(pt.tableMetadata.getTableName(), pt.prefix);
-            for (PrefixTable table : tables) {
-                
+            PrefixTable leftTable = pt;
+            DatasetCorrelation correlation;
+            List<DatasetCorrelationDtl> correlationDetails;
+            join = fromClauseBuilder.from(leftTable.tableMetadata, leftTable.prefix);
+            OnClauseBuilder onClauseBuilder;
+            for (PrefixTable rightTable : tables) {
+                correlation = correlationRepository.findByLeftDatasetAndRightDataset(leftTable.datasetHead, rightTable.datasetHead);
+                correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
+                switch (correlation.getJoinType()) {
+                    case LEFT_JOIN:
+                        onClauseBuilder = join.leftJoin(rightTable.tableMetadata, rightTable.prefix);
+                        break;
+                    case INNER_JOIN:
+                        onClauseBuilder = join.innerJoin(rightTable.tableMetadata, rightTable.prefix);
+                        break;
+                    default: // Cross Join (comma separated joined tables)
+                        onClauseBuilder = join.crossJoin(rightTable.tableMetadata, rightTable.prefix);
+                }
+                ColumnMetadata leftColumn;
+                ColumnMetadata rightColumn;
+
+                for (DatasetCorrelationDtl correlationDetail : correlationDetails) {
+                    leftColumn = columnMetadataRepository.findOne(correlationDetail.getLeftColumnId());
+                    rightColumn = columnMetadataRepository.findOne(correlationDetail.getRightColumnId());
+                    onClauseBuilder.on(leftTable.prefix, leftColumn).eq(rightTable.prefix, rightColumn.getColumnName());
+                }
+                leftTable = rightTable;
             }
-            join = jwcb;
         }
 
         StringBuilder sql = new StringBuilder("KSJFKASDHF"); // TODO sql should came from the query builder above.

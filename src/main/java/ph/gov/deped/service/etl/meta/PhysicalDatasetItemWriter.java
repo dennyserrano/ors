@@ -13,8 +13,8 @@ import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.security.SecurityContextUtil;
 
 import javax.sql.DataSource;
@@ -32,9 +32,9 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
 
     private SecurityContextUtil securityContextUtil;
 
-    private DatasetHeadRepository datasetHeadRepository;
+    private DatasetRepository datasetRepository;
 
-    private DatasetElementRepository datasetElementRepository;
+    private ElementRepository elementRepository;
     
     private NamingStrategy namingStrategy = new SpringNamingStrategy();
     
@@ -43,12 +43,12 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
     public PhysicalDatasetItemWriter() {}
 
     public PhysicalDatasetItemWriter(SecurityContextUtil securityContextUtil,
-                                    DatasetHeadRepository datasetHeadRepository,
-                                    DatasetElementRepository datasetElementRepository,
+                                    DatasetRepository datasetRepository,
+                                    ElementRepository elementRepository,
                                     NamingStrategy namingStrategy, DataSource dataSource) {
         this.securityContextUtil = securityContextUtil;
-        this.datasetHeadRepository = datasetHeadRepository;
-        this.datasetElementRepository = datasetElementRepository;
+        this.datasetRepository = datasetRepository;
+        this.elementRepository = elementRepository;
         this.namingStrategy = namingStrategy;
         this.dataSource = dataSource;
     }
@@ -57,12 +57,12 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
         this.securityContextUtil = securityContextUtil;
     }
 
-    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
-        this.datasetHeadRepository = datasetHeadRepository;
+    public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
     }
 
-    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
-        this.datasetElementRepository = datasetElementRepository;
+    public @Autowired void setElementRepository(ElementRepository elementRepository) {
+        this.elementRepository = elementRepository;
     }
     
     public void setNamingStrategy(NamingStrategy namingStrategy) {
@@ -85,7 +85,7 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
         TableMetadata table = holder.getTableMetadata();
         DbType dbType = DbType.values()[table.getDbId()];
         final String name = dbType.getDbName().toUpperCase() + "." + namingStrategy.tableName(table.getTableName());
-        DatasetHead head = datasetHeadRepository.findByName(name);
+        DatasetHead head = datasetRepository.findByName(name);
         if (head == null) {
             head = new DatasetHead();
             head.setName(name);
@@ -98,7 +98,7 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
             }
             head.setDescription(description);
             head.setOwnerId(0);
-            datasetHeadRepository.save(head);
+            datasetRepository.save(head);
 
             AtomicInteger batch = new AtomicInteger(0);
             holder.columnMetadatas.parallelStream()
@@ -124,10 +124,10 @@ public class PhysicalDatasetItemWriter implements ItemWriter<MetadataHolder> {
     public void insertColumn(DatasetElement element, boolean flush) {
         foreignKeyChecks(false);
         securityContextUtil.createInternalUserAuthentication("SYSTEM");
-        datasetElementRepository.save(element);
+        elementRepository.save(element);
         securityContextUtil.removeAuthentication();
         if (flush) {
-            datasetElementRepository.flush();
+            elementRepository.flush();
         }
         foreignKeyChecks(true);
     }

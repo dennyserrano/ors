@@ -34,11 +34,9 @@ $(".modal").on("show.bs.modal", function() {
     $(this).find(".modal-body").css("max-height", height);
 });
 
-(function(document, $) {
-    $(function() {
-        $('#side-menu').metisMenu();
-    });
-})(document, jQuery);
+$(function() {
+    $('#side-menu').metisMenu();
+});
 
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.

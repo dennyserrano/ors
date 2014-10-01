@@ -10,8 +10,8 @@ import ph.gov.deped.common.command.ICommand;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 
 import java.util.List;
@@ -22,18 +22,18 @@ import java.util.stream.Collectors;
  */
 public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasetsContext> {
 
-    private DatasetHeadRepository datasetHeadRepository;
+    private DatasetRepository datasetRepository;
 
-    private DatasetElementRepository datasetElementRepository;
+    private ElementRepository elementRepository;
 
     private TableMetadataRepository tableMetadataRepository;
 
-    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
-        this.datasetHeadRepository = datasetHeadRepository;
+    public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
     }
 
-    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
-        this.datasetElementRepository = datasetElementRepository;
+    public @Autowired void setElementRepository(ElementRepository elementRepository) {
+        this.elementRepository = elementRepository;
     }
 
     public @Autowired void setTableMetadataRepository(TableMetadataRepository tableMetadataRepository) {
@@ -41,14 +41,14 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) void execute(FindAllDatasetsContext context) {
-        List<DatasetHead> datasetHeads = datasetHeadRepository.findByVisibleAndOwnerId(true, 1, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        List<DatasetHead> datasetHeads = datasetRepository.findByVisibleAndOwnerId(true, 1, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
         List<Dataset> datasets = datasetHeads.parallelStream()
                 .map(head -> {
-                    List<Dataset> subDatasets = datasetHeadRepository.findByParentDatasetHead(head.getId())
+                    List<Dataset> subDatasets = datasetRepository.findByParentDatasetHead(head.getId())
                             .parallelStream()
                             .map(sd -> new Dataset(sd.getId(), sd.getName(), sd.getDescription(), sd.getParentDatasetHead()))
                             .collect(Collectors.toList());
-                    List<Element> elements = datasetElementRepository.findByDatasetHead(head)
+                    List<Element> elements = elementRepository.findByDatasetHead(head)
                             .parallelStream()
                             .map(dse -> new Element(dse.getId(), dse.getName(), dse.getDescription(), dse.getMeaning(), dse.getDatasetHead().getId()))
                             .collect(Collectors.toList());

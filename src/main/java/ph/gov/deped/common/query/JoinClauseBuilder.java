@@ -12,4 +12,12 @@ public interface JoinClauseBuilder {
     OnClauseBuilder leftJoin(TableMetadata tableMetadata, String tablePrefix);
 
     OnClauseBuilder leftJoin(String tableName, String tablePrefix);
+
+    OnClauseBuilder innerJoin(TableMetadata tableMetadata, String tablePrefix);
+
+    OnClauseBuilder innerJoin(String tableName, String tablePrefix);
+
+    OnClauseBuilder crossJoin(TableMetadata tableMetadata, String tablePrefix);
+
+    OnClauseBuilder crossJoin(String tableName, String tablePrefix);
 }

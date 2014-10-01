@@ -7,8 +7,8 @@ import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetElementRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,24 +18,24 @@ import java.util.stream.Collectors;
  */
 public @Command class FindDatasetCommand implements ICommand<FindDatasetContext> {
 
-    private DatasetHeadRepository datasetHeadRepository;
+    private DatasetRepository datasetRepository;
 
-    private DatasetElementRepository datasetElementRepository;
+    private ElementRepository elementRepository;
 
-    public @Autowired void setDatasetHeadRepository(DatasetHeadRepository datasetHeadRepository) {
-        this.datasetHeadRepository = datasetHeadRepository;
+    public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
     }
 
-    public @Autowired void setDatasetElementRepository(DatasetElementRepository datasetElementRepository) {
-        this.datasetElementRepository = datasetElementRepository;
+    public @Autowired void setElementRepository(ElementRepository elementRepository) {
+        this.elementRepository = elementRepository;
     }
 
     public void execute(FindDatasetContext context) {
         final long id = context.getRequest().getId();
-        DatasetHead head = datasetHeadRepository.findOne(id);
-        List<DatasetElement> datasetElements = datasetElementRepository.findByDatasetHead(head);
+        DatasetHead head = datasetRepository.findOne(id);
+        List<DatasetElement> datasetElements = elementRepository.findByDatasetHead(head);
 
-        List<Dataset> subDatasets = datasetHeadRepository.findByParentDatasetHead(head.getId())
+        List<Dataset> subDatasets = datasetRepository.findByParentDatasetHead(head.getId())
                 .parallelStream()
                 .map(dh -> new Dataset(dh.getId(), dh.getName(), dh.getDescription(), head.getId()))
                 .collect(Collectors.toList());

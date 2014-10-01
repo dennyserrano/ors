@@ -2,12 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Open Report System</title>
 
     <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
     <link data-th-href="@{/css/bootstrap.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
-    <link data-th-href="@{/css/font-awesome.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
+    <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
     <link data-th-href="@{/css/metisMenu.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
 
@@ -88,10 +89,10 @@
                 </a>
               </li>
               <li data-ng-repeat="dataset in datasets">
-                <a href="javascript:void(0);">
+                <a href="#">
                   <i class="fa fa-minus-circle"></i>
                   {{ dataset.name }}
-                  <span class="fa fa-angle-left"></span>
+                  <span class="fa arrow"></span>
                 </a>
                 <ul class="nav-second-level list-unstyled" style="margin-bottom: 15px;">
                   <li data-ng-repeat="subdataset in dataset.subDatasets">

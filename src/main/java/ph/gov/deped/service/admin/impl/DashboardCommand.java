@@ -19,7 +19,7 @@ import ph.gov.deped.data.dto.Datasets;
 import ph.gov.deped.data.dto.Memory;
 import ph.gov.deped.data.dto.Status;
 import ph.gov.deped.data.dto.Users;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetHeadRepository;
+import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 
 public @Command class DashboardCommand implements ICommand<DashboardContext> {
     
@@ -31,7 +31,7 @@ public @Command class DashboardCommand implements ICommand<DashboardContext> {
     
     private @Autowired(required = false) @Lazy DataSource dataSource;
 
-    private @Autowired DatasetHeadRepository datasetHeadRepository;
+    private @Autowired DatasetRepository datasetRepository;
 
     public void execute(DashboardContext context) {
         Memory memory = retrieveMemory();
