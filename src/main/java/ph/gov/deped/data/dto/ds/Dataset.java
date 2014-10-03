@@ -35,6 +35,8 @@ public class Dataset implements Serializable {
 
     private Long parentDatasetHead;
 
+    private @JsonProperty("filters") List<Filter> filters = new ArrayList<>();
+
     public Dataset() {}
 
     public Dataset(long id, String name, String description, Long parentDatasetHead) {
@@ -42,11 +44,12 @@ public class Dataset implements Serializable {
     }
 
     @JsonCreator
-    public Dataset(@JsonProperty("id") long id, @JsonProperty("name") String name,
+    public Dataset(@JsonProperty("id") long id,
+                   @JsonProperty("name") String name,
                    @JsonProperty("description") String description,
-                   @JsonProperty(value = "parentDatasetHead") Long parentDatasetHead,
-                   @JsonProperty(value = "subDatasets") List<Dataset> subDatasets,
-                   @JsonProperty(value = "elements") List<Element> elements) {
+                   @JsonProperty("parentDatasetHead") Long parentDatasetHead,
+                   @JsonProperty("subDatasets") List<Dataset> subDatasets,
+                   @JsonProperty("elements") List<Element> elements) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -123,6 +126,14 @@ public class Dataset implements Serializable {
         this.parentDatasetHead = parentDatasetHead;
     }
 
+    public List<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<Filter> filters) {
+        this.filters = filters;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Dataset)) {
@@ -134,6 +145,7 @@ public class Dataset implements Serializable {
                 .append(this.name, rhs.name)
                 .append(this.description, rhs.description)
                 .append(this.parentDatasetHead, rhs.parentDatasetHead)
+                .append(this.filters, rhs.filters)
                 .isEquals();
     }
 
@@ -144,6 +156,7 @@ public class Dataset implements Serializable {
                 .append(name)
                 .append(description)
                 .append(parentDatasetHead)
+                .append(filters)
                 .toHashCode();
     }
 
@@ -157,6 +170,7 @@ public class Dataset implements Serializable {
                 .append("elements", elements)
                 .append("icon", icon)
                 .append("tableName", parentDatasetHead)
+                .append("filters", filters)
                 .toString();
     }
 }

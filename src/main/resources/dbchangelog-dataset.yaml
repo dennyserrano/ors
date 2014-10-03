@@ -652,3 +652,15 @@ databaseChangeLog:
             baseColumnNames: right_dataset_element_id
             referencedTableName: dataset_element
             referencedColumnNames: id
+  - changeSet:
+      id: ds-20141001801
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: filter_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false

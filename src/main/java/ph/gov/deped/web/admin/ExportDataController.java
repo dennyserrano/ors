@@ -6,11 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.service.meta.api.MetadataService;
+import ph.gov.deped.service.data.api.DatasetService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedWriter;
@@ -34,16 +33,16 @@ public class ExportDataController {
 
     private final String tmpDir = System.getProperty("java.io.tmpdir");
 
-    private MetadataService metadataService;
+    private DatasetService datasetService;
 
-    public @Autowired void setMetadataService(MetadataService metadataService) {
-        this.metadataService = metadataService;
+    public @Autowired void setDatasetService(DatasetService datasetService) {
+        this.datasetService = datasetService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public void export(String dataset, HttpServletResponse response) throws Exception {
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
-        List<Map<String, Serializable>> data = metadataService.preview(ds);
+        List<Map<String, Serializable>> data = datasetService.getData(ds);
         String filenameStr = tmpDir + File.separator + RandomStringUtils.randomAlphanumeric(5) + ".csv";
         File csvFile = new File(filenameStr);
         if (!csvFile.exists()) {

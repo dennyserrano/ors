@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
 import org.springframework.cache.annotation.Cacheable;
-import ph.gov.deped.common.query.Operator;
+import com.bits.sql.Operator;
 import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
@@ -42,7 +42,7 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     private Integer leftColumnId;
 
     @Column(nullable = false)
-    @Type(type = "ph.gov.deped.common.query.OperatorUserType")
+    @Type(type = "ph.gov.deped.common.OperatorUserType")
     private Operator operator;
 
     @Basic

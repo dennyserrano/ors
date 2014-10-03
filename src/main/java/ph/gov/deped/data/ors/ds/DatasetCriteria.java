@@ -6,8 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
 import org.springframework.cache.annotation.Cacheable;
-import ph.gov.deped.common.query.FilterType;
-import ph.gov.deped.common.query.Operator;
+import com.bits.sql.FilterType;
+import com.bits.sql.Operator;
 import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
@@ -38,6 +38,10 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     @JoinColumn(name = "dataset_head_id", nullable = false)
     private DatasetHead datasetHead;
 
+    @Basic
+    @Column(length = 50, nullable = false)
+    private String filterName;
+
     @Enumerated
     @Column(nullable = false)
     private FilterType filterType;
@@ -47,7 +51,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     private DatasetElement leftElement;
 
     @Column(length = 10)
-    @Type(type = "ph.gov.deped.common.query.OperatorUserType")
+    @Type(type = "ph.gov.deped.common.OperatorUserType")
     private Operator operator;
 
     @Basic
@@ -95,6 +99,10 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         return rightElement;
     }
 
+    public String getFilterName() {
+        return filterName;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -123,6 +131,10 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         this.rightElement = rightElement;
     }
 
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof DatasetCriteria)) {
@@ -131,6 +143,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         DatasetCriteria rhs = (DatasetCriteria) obj;
         return new EqualsBuilder()
                 .append(this.datasetHead, rhs.datasetHead)
+                .append(this.filterName, rhs.filterName)
                 .append(this.filterType, rhs.filterType)
                 .append(this.leftElement, rhs.leftElement)
                 .append(this.operator, rhs.operator)
@@ -143,6 +156,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(datasetHead)
+                .append(filterName)
                 .append(filterType)
                 .append(leftElement)
                 .append(operator)
@@ -157,6 +171,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .appendSuper(super.toString())
                 .append("id", id)
                 .append("datasetHead", datasetHead)
+                .append("filterName", filterName)
                 .append("filterType", filterType)
                 .append("leftElement", leftElement)
                 .append("operator", operator)

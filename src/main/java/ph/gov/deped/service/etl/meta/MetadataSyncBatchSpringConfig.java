@@ -1,12 +1,5 @@
 package ph.gov.deped.service.etl.meta;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.batch.core.Job;
@@ -30,7 +23,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
-
 import ph.gov.deped.common.DbSettings;
 import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.common.dw.JobRestartEvent;
@@ -44,6 +36,13 @@ import ph.gov.deped.repo.jpa.ors.meta.DatabaseMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 import ph.gov.deped.security.SecurityContextUtil;
 import ph.gov.deped.service.meta.api.MetadataService;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by ej on 8/18/14.
@@ -89,10 +88,6 @@ public class MetadataSyncBatchSpringConfig implements ApplicationContextAware {
 
     public @Bean MetadataRegistry metadataRegistry() {
         return new MetadataRegistry();
-    }
-
-    public @Bean MetadataParser metadataParser() {
-        return new MetadataParser();
     }
 
     public @Bean Map<DbType, DbSettings> dbTypeMap() {

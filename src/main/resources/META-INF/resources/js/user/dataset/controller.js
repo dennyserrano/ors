@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('UserDatasetCtrl', ['$scope', 'DatasetService', 'ElementService', 'PreviewDataService',
-        function($scope, DatasetService, ElementService, PreviewDataService) {
+    .controller('UserDatasetCtrl', ['$scope', 'DatasetService', 'ElementService', 'CriteriaService', 'PreviewDataService',
+        function($scope, DatasetService, ElementService, CriteriaService, PreviewDataService) {
 
             $scope.datasets = [];
             $scope.subDatasets = [];

@@ -14,7 +14,7 @@ import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.cassandra.core.keyspace.TableOption;
 
 import ph.gov.deped.common.dw.DbType;
-import ph.gov.deped.common.query.JdbcTypes;
+import com.bits.sql.JdbcTypes;
 import ph.gov.deped.data.config.CassandraMappings;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;

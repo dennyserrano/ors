@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.service.meta.api.MetadataService;
+import ph.gov.deped.service.data.api.DatasetService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,14 +20,14 @@ import java.util.Map;
 @RequestMapping("/preview")
 public class PreviewDataRestController {
 
-    private MetadataService metadataService;
+    private DatasetService datasetService;
 
-    public @Autowired void setMetadataService(MetadataService metadataService) {
-        this.metadataService = metadataService;
+    public @Autowired void setDatasetService(DatasetService datasetService) {
+        this.datasetService = datasetService;
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE })
     public List<Map<String, Serializable>> preview(@RequestBody Dataset dataset) {
-        return metadataService.preview(dataset);
+        return datasetService.getData(dataset);
     }
 }

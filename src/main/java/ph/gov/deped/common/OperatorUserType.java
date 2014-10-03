@@ -1,5 +1,7 @@
-package ph.gov.deped.common.query;
+package ph.gov.deped.common;
 
+import com.bits.sql.Operator;
+import com.bits.sql.Operators;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
@@ -26,7 +28,8 @@ public class OperatorUserType implements UserType {
     private static final Set<Class<? extends Operator>> operators = new HashSet<>(Arrays.asList(
             Operators.Logical.class,
             Operators.Special.class,
-            Operators.Math.class
+            Operators.Math.class,
+            Operators.Multiple.class
     ));
 
     private List<Operator> enums = new ArrayList<>();

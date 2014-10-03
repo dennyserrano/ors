@@ -38,6 +38,19 @@ angular.module('UserApp')
             })
         }
     ])
+    .factory('CriteriaService', ['$resource', '$cacheFactory',
+        function($resource, $cacheFactory) {
+            return $resource('/criteria/:headId', {
+                headId: '@id'
+            }, {
+                get: {
+                    method: 'GET',
+                    isArray: true,
+                    cache: $cacheFactory('criteria')
+                }
+            })
+        }
+    ])
     .factory('OwnerService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/dataset/owner/:ownerId', {

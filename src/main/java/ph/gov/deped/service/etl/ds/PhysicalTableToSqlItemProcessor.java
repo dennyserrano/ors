@@ -5,16 +5,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.batch.item.ItemProcessor;
 import ph.gov.deped.common.dw.DbType;
-import ph.gov.deped.common.query.FromClauseBuilder;
-import ph.gov.deped.common.query.ProjectionBuilder;
+import com.bits.sql.FromClauseBuilder;
+import com.bits.sql.ProjectionBuilder;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.etl.meta.MetadataHolder;
 
 import java.util.List;
 
-import static ph.gov.deped.common.query.Projections.column;
-import static ph.gov.deped.common.query.QueryBuilders.read;
+import static com.bits.sql.Projections.column;
+import static com.bits.sql.QueryBuilders.read;
 
 /**
  * Created by ej on 9/10/14.
