@@ -1,5 +1,7 @@
 package ph.gov.deped.data.dto.ds;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,23 +16,24 @@ public class Filter implements Serializable {
 
     private static final long serialVersionUID = 3942585762530779329L;
 
-    private final Criterion criterion;
+    private final long criterion;
 
-    private final Element element;
+    private final long element;
 
     private final Serializable selectedValue;
 
-    public Filter(Criterion criterion, Element element, Serializable selectedValue) {
+    @JsonCreator
+    public Filter(@JsonProperty("criterion") long criterion, @JsonProperty("element") long element, @JsonProperty("selectedValue") Object selectedValue) {
         this.criterion = criterion;
         this.element = element;
-        this.selectedValue = selectedValue;
+        this.selectedValue = (Serializable) selectedValue;
     }
 
-    public Criterion getCriterion() {
+    public long getCriterion() {
         return criterion;
     }
 
-    public Element getElement() {
+    public long getElement() {
         return element;
     }
 

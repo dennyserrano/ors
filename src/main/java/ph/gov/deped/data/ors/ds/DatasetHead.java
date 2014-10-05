@@ -31,6 +31,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
 
     public static final String COL_NAME = "name";
 
+    public static final String RANKING = "ranking";
+
     private static final long serialVersionUID = -1225186733854262660L;
 
     @Id
@@ -56,6 +58,9 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
     @Basic
     @Column
     private Boolean visible;
+
+    @Basic @Column
+    private Integer ranking;
 
     public DatasetHead() {
     }
@@ -127,6 +132,14 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
         this.tableId = tableId;
     }
 
+    public Integer getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof DatasetHead)) {
@@ -140,6 +153,7 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append(this.visible, rhs.visible)
                 .append(this.parentDatasetHead, rhs.parentDatasetHead)
                 .append(this.tableId, rhs.tableId)
+                .append(this.ranking, rhs.ranking)
                 .isEquals();
     }
 
@@ -152,6 +166,7 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append(visible)
                 .append(parentDatasetHead)
                 .append(tableId)
+                .append(ranking)
                 .toHashCode();
     }
 
@@ -166,6 +181,7 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
                 .append("visible", visible)
                 .append("parentDatasetHead", parentDatasetHead)
                 .append("tableId", tableId)
+                .append("ranking", ranking)
                 .toString();
     }
 }

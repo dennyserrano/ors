@@ -41,7 +41,8 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) void execute(FindAllDatasetsContext context) {
-        List<DatasetHead> datasetHeads = datasetRepository.findByVisibleAndOwnerId(true, 1, new Sort(Sort.Direction.ASC, DatasetHead.NAME));
+        List<DatasetHead> datasetHeads = datasetRepository.findByVisibleAndOwnerId(true, 1, new Sort(Sort.Direction.ASC, DatasetHead.RANKING));
+        datasetHeads.sort((h1, h2) -> h1.getRanking().compareTo(h2.getRanking()));
         List<Dataset> datasets = datasetHeads.parallelStream()
                 .map(head -> {
                     List<Dataset> subDatasets = datasetRepository.findByParentDatasetHead(head.getId())

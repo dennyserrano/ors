@@ -664,3 +664,13 @@ databaseChangeLog:
                   type: varchar(50)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: ds-201410060230
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: ranking
+                  type: int

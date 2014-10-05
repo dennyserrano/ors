@@ -67,7 +67,7 @@ public class MetadataHolderCassandraItemProcessor implements ItemProcessor<Strin
                 .findFirst();
     }
 
-    private DataType getCassandraDataType(int sqlType) {
+    private DataType getCassandraDataType(String sqlType) {
         Class<? extends Serializable> javaType = JdbcTypes.getJavaType(sqlType);
         return CassandraMappings.getCassandraType(javaType);
     }

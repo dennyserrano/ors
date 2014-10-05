@@ -258,3 +258,11 @@ databaseChangeLog:
             tableName: column_metadata
             columnName: column_id
             columnDataType: int
+  - changeSet:
+      id: 11
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: column_metadata
+            columnName: data_type
+            newDataType: varchar(20)

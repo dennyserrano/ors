@@ -27,7 +27,7 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
 
     private @Basic @Column(nullable = false, length = 100) String columnName;
 
-    private @Basic @Column(nullable = false) int dataType;
+    private @Basic @Column(length = 20, nullable = false) String dataType;
 
     private @Basic boolean nullable;
 
@@ -39,7 +39,7 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
 
     public ColumnMetadata() {}
 
-    public ColumnMetadata(Integer columnId, String columnName, int dataType, boolean nullable, int min, long max, boolean primaryKey) {
+    public ColumnMetadata(Integer columnId, String columnName, String dataType, boolean nullable, int min, long max, boolean primaryKey) {
         this.columnId = columnId;
         this.columnName = columnName;
         this.dataType = dataType;
@@ -65,7 +65,7 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
         return columnName;
     }
 
-    public int getDataType() {
+    public String getDataType() {
         return dataType;
     }
 
@@ -97,7 +97,7 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
         this.columnName = columnName;
     }
 
-    public void setDataType(int dataType) {
+    public void setDataType(String dataType) {
         this.dataType = dataType;
     }
 

@@ -37,17 +37,17 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     @JoinColumn(name = "dataset_correlation_id", nullable = false)
     private DatasetCorrelation datasetCorrelation;
 
-    @Basic
-    @Column(nullable = false)
-    private Integer leftColumnId;
+    @ManyToOne
+    @JoinColumn(name = "left_dataset_element_id")
+    private DatasetElement leftElement;
 
     @Column(nullable = false)
     @Type(type = "ph.gov.deped.common.OperatorUserType")
     private Operator operator;
 
-    @Basic
-    @Column(nullable = false)
-    private Integer rightColumnId;
+    @ManyToOne
+    @JoinColumn(name = "right_dataset_element_id")
+    private DatasetElement rightElement;
 
     public DatasetCorrelationDtl() {}
 
@@ -59,16 +59,16 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
         return datasetCorrelation;
     }
 
-    public Integer getLeftColumnId() {
-        return leftColumnId;
-    }
-
     public Operator getOperator() {
         return operator;
     }
 
-    public Integer getRightColumnId() {
-        return rightColumnId;
+    public DatasetElement getLeftElement() {
+        return leftElement;
+    }
+
+    public DatasetElement getRightElement() {
+        return rightElement;
     }
 
     public void setId(Long id) {
@@ -79,16 +79,16 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
         this.datasetCorrelation = datasetCorrelation;
     }
 
-    public void setLeftColumnId(Integer leftColumnId) {
-        this.leftColumnId = leftColumnId;
-    }
-
     public void setOperator(Operator operator) {
         this.operator = operator;
     }
 
-    public void setRightColumnId(Integer rightColumnId) {
-        this.rightColumnId = rightColumnId;
+    public void setLeftElement(DatasetElement leftElement) {
+        this.leftElement = leftElement;
+    }
+
+    public void setRightElement(DatasetElement rightElement) {
+        this.rightElement = rightElement;
     }
 
     @Override
@@ -99,9 +99,9 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
         DatasetCorrelationDtl rhs = (DatasetCorrelationDtl) obj;
         return new EqualsBuilder()
                 .append(this.datasetCorrelation, rhs.datasetCorrelation)
-                .append(this.leftColumnId, rhs.leftColumnId)
+                .append(this.leftElement, rhs.leftElement)
                 .append(this.operator, rhs.operator)
-                .append(this.rightColumnId, rhs.rightColumnId)
+                .append(this.rightElement, rhs.rightElement)
                 .isEquals();
     }
 
@@ -109,9 +109,9 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(datasetCorrelation)
-                .append(leftColumnId)
+                .append(leftElement)
                 .append(operator)
-                .append(rightColumnId)
+                .append(rightElement)
                 .toHashCode();
     }
 
@@ -120,9 +120,9 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
                 .append("datasetCorrelation", datasetCorrelation)
-                .append("leftColumnId", leftColumnId)
+                .append("leftElement", leftElement)
                 .append("operator", operator)
-                .append("rightColumnId", rightColumnId)
+                .append("rightElement", rightElement)
                 .toString();
     }
 }

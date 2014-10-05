@@ -13,6 +13,7 @@ import ph.gov.deped.repo.jpa.ors.ds.CriteriaRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.CriteriaService;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,16 +44,20 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         // set filter values as constant from now. see CriteriaRepositoryImpl.
         // head id and element name separated by colon (:) to be used as key
         filterValueMap.put("2:school_year", criteriaRepository::getSchoolYears);
-        filterValueMap.put("2:school_type", criteriaRepository::getSchoolTypes);
+        filterValueMap.put("2:school_type_id", criteriaRepository::getSchoolTypes);
         filterValueMap.put("2:sector_id", criteriaRepository::getGeneralClassifications);
         filterValueMap.put("2:level_of_education_id", criteriaRepository::getGeneralCurricularOfferings);
         filterValueMap.put("2:region_id", criteriaRepository::getRegionsAndDivisions);
+        filterValueMap.put("2:division_id", Collections::emptyList);
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {
         DatasetHead datasetHead = datasetRepository.findOne(headId);
         List<DatasetCriteria> criterias = criteriaRepository.findByDatasetHead(datasetHead);
 
+        if (criterias == null || criterias.isEmpty()) {
+            return Collections.emptyList();
+        }
         return criterias.parallelStream()
                 .map(c -> new Criterion(c.getId(), c.getFilterName(), c.getLeftElement().getId(), c.getOperator(),
                         filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))

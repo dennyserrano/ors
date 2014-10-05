@@ -75,7 +75,7 @@ public class MetaRepository {
             ColumnMetadata c = new ColumnMetadata();
             c.setTableId(table.getId());
             c.setColumnName(rs.getString("column_name"));
-            int dataType = JdbcTypes.getSqlType(rs.getString("data_type"));
+            String dataType = rs.getString("data_type");
             c.setDataType(dataType);
             boolean nullable = "YES".equals(rs.getString("is_nullable"));
             c.setNullable(nullable);

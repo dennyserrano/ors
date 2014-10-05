@@ -58,7 +58,7 @@ public class OperatorUserType implements UserType {
     }
 
     public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
-        String value = rs.getString(0);
+        String value = rs.getString(1);
         for (Operator o : enums) {
             if (o.getName().equals(value)) {
                 return o;

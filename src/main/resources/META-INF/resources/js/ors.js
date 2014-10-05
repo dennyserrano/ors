@@ -60,3 +60,11 @@ $(function() {
         }
     })
 });
+
+$(function() {
+    $(".change").click(function() {
+        $('.progress').removeClass("progress-bar-success");
+        $('.progress_2').addClass("progress-bar-info");
+        $('.progress_3').addClass("progress-bar-info");
+    });
+});

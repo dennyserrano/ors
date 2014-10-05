@@ -30,6 +30,9 @@ body {
 .navbar-top-links li {
     display: inline-block;
 }
+.navbar-default{
+	background-color: #333333 !important;
+}
 
 .navbar-top-links li:last-child {
     margin-right: 15px;
@@ -91,7 +94,12 @@ body {
 }
 
 .sidebar ul li {
-    border-bottom: 1px solid #e7e7e7;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-top-color: #000;
+	border-right-color: #000;
+	border-bottom-color: #000;
+	border-left-color: #000;
 }
 
 .sidebar ul li a.active {
@@ -116,7 +124,10 @@ body {
 }
 
 .sidebar .nav-second-level li a {
-    padding-left: 37px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 37px;
 }
 
 .sidebar .nav-third-level li a {
@@ -343,3 +354,117 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
+
+    color: black;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 100px;
+    overflow-x: hidden;
+}
+
+
+
+ .smpl-step {
+        margin-top: 40px;
+    }
+    .smpl-step {
+        border-bottom: solid 1px #e0e0e0;
+        padding: 0 0 10px 0;
+    }
+
+    .smpl-step > .smpl-step-step {
+        padding: 0;
+        position: relative;
+    }   
+
+    .smpl-step > .smpl-step-step .smpl-step-num {
+	font-size: 13px;
+	margin-top: -20px;
+	margin-left: 30px;
+	min-height:12px;
+	max-height:45px;
+    }
+
+    .smpl-step > .smpl-step-step .smpl-step-info {
+        font-size: 14px;
+        padding-top: 2px;
+    }
+
+    .smpl-step > .smpl-step-step > .smpl-step-icon {
+	position: absolute;
+	width: 35px;
+	height: 35px;
+	display: block;
+	top: 45px;
+	left: 50%;
+	margin-top: -45px;
+	margin-left: -10px;
+	border-radius: 50%;
+	background-color: #fbe8aa;
+	border-top-color: #fbbd19;
+	border-right-color: #fbbd19;
+	border-bottom-color: #fbbd19;
+	border-left-color: #fbbd19;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+    }
+
+    .smpl-step > .smpl-step-step > .progress {
+	position: relative;
+	border-radius: 0px;
+	height: 6px;
+	box-shadow: none;
+	margin-top: 14px;
+	background-color: #f5f5f5;
+    }
+
+   .smpl-step > .smpl-step-step > .progress > .progress-bar {
+       width: 0px;
+       box-shadow: none;
+       background: #fbe8aa;
+   }
+
+    .smpl-step > .smpl-step-step.complete > .progress > .progress-bar {
+        width: 100%;
+		
+    }
+
+    .smpl-step > .smpl-step-step.active > .progress > .progress-bar {
+        width: 50%;
+    }
+
+    .smpl-step > .smpl-step-step:first-child.active > .progress > .progress-bar {
+        width: 0%;
+    }
+
+    .smpl-step > .smpl-step-step:last-child.active > .progress > .progress-bar {
+        width: 100%;
+    }
+
+    .smpl-step > .smpl-step-step.disabled > .smpl-step-icon {
+        background-color: #f5f5f5;
+    }
+
+    .smpl-step > .smpl-step-step.disabled > .smpl-step-icon:after {
+        opacity: 0;
+    }
+
+    .smpl-step > .smpl-step-step:first-child > .progress {
+        left: 50%;
+        width: 50%;
+    }
+
+    .smpl-step > .smpl-step-step:last-child > .progress {
+        width: 50%;
+    }
+
+    .smpl-step > .smpl-step-step.disabled a.smpl-step-icon {
+        pointer-events: none;
+    }
+	
+	color:#1676c2; font-weight:bold;}
