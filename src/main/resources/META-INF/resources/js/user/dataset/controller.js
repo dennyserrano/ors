@@ -24,7 +24,7 @@ angular.module('UserApp')
                 $scope.dataset = selectedDataset;
                 var subDatasets = $scope.subDatasets ? $scope.subDatasets : [];
                 subDatasets.push($scope.dataset);
-                var headId = selectedDataset.parentDatasetHead;
+                var headId = selectedDataset.id;
                 var availableElements = $scope.availableElements ? $scope.availableElements : {};
                 if (!availableElements[headId]) {
                     ElementService.get({ 'headId': headId }, function(elements) {
@@ -47,15 +47,12 @@ angular.module('UserApp')
                 $scope.step4 = 'disabled';
             };
 
-            $scope.$watch('subDatasets', function() {
-                if ($scope.subDatasets && $scope.subDatasets.length > 0 &&
-                        $scope.subDatasets[0].elements && $scope.subDatasets[0].elements.length > 0) {
-                    $scope.step1 = 'complete';
-                    $scope.step2 = 'complete';
-                    $scope.step3 = 'active';
-                    $scope.step4 = 'disabled';
-                }
-            });
+            $scope.elementsSelected = function() {
+                $scope.step1 = 'complete';
+                $scope.step2 = 'complete';
+                $scope.step3 = 'active';
+                $scope.step4 = 'disabled';
+            };
 
             $scope.setFilter = function(criterion, option) {
                 var filters = $scope.dataset.filters ? $scope.dataset.filters : [];
@@ -71,6 +68,13 @@ angular.module('UserApp')
                 });
                 $scope.dataset.filters = filters;
                 $scope.selectedValues[criterion.filterId] = option.value;
+                if (criterion.filterId === 8) { // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
+                    angular.forEach($scope.criteria, function(c) {
+                        if (c.filterId === 9) { // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'Division'
+                            c.selection = option.childKeyValues;
+                        }
+                    });
+                }
             };
 
             $scope.previewData = function() {

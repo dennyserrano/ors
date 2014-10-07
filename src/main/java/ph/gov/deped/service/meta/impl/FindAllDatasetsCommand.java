@@ -45,7 +45,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
         datasetHeads.sort((h1, h2) -> h1.getRanking().compareTo(h2.getRanking()));
         List<Dataset> datasets = datasetHeads.parallelStream()
                 .map(head -> {
-                    List<Dataset> subDatasets = datasetRepository.findByParentDatasetHead(head.getId())
+                    List<Dataset> subDatasets = datasetRepository.findByParentDatasetHeadAndVisible(head.getId(), true)
                             .parallelStream()
                             .map(sd -> new Dataset(sd.getId(), sd.getName(), sd.getDescription(), sd.getParentDatasetHead()))
                             .collect(Collectors.toList());

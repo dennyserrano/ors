@@ -26,4 +26,6 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
 
     List<DatasetHead> findByParentDatasetHead(Long id);
 
+    List<DatasetHead> findByParentDatasetHeadAndVisible(Long id, boolean visible);
+
 }

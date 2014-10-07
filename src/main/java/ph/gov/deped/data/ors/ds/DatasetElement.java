@@ -52,6 +52,9 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @Column(length = 500)
     private String description;
 
+    @Basic @Column
+    private boolean visible;
+
     public DatasetElement() {}
 
     public Long getId() {
@@ -86,6 +89,10 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         return description;
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -118,6 +125,10 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         this.description = description;
     }
 
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof DatasetElement)) {
@@ -132,6 +143,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
                 .append(this.name, rhs.name)
                 .append(this.meaning, rhs.meaning)
                 .append(this.description, rhs.description)
+                .append(this.visible, rhs.visible)
                 .isEquals();
     }
 
@@ -145,6 +157,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
                 .append(name)
                 .append(meaning)
                 .append(description)
+                .append(visible)
                 .toHashCode();
     }
 
@@ -160,6 +173,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
                 .append("name", name)
                 .append("meaning", meaning)
                 .append("description", description)
+                .append("visible", visible)
                 .toString();
     }
 }

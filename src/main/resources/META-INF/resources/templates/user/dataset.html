@@ -12,6 +12,7 @@
     <link data-th-href="@{/css/metisMenu.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
     <link data-th-href="@{/css/custom.css}" rel="stylesheet" href="../../css/custom.css"/>
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
+    <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
 
   </head>
   <body data-ng-app="UserApp">
@@ -92,7 +93,7 @@
                 </div>
               </li>
               <li data-ng-repeat="dataset in datasets">
-                <a href="#">
+                <a href="javascript:void(0);">
                   {{ dataset.name }}
                   <span class="fa arrow"></span>
                 </a>
@@ -208,9 +209,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr data-ng-repeat="availableElement in availableElements[dataset.parentDatasetHead]">
+                  <tr data-ng-repeat="availableElement in availableElements[dataset.id]">
                     <td align="center">
-                      <input type="checkbox" checklist-model="dataset.elements" checklist-value="availableElement"/>
+                      <input type="checkbox" checklist-model="dataset.elements" checklist-value="availableElement" data-ng-click="elementsSelected()"/>
                     </td>
                     <td>
                       {{ availableElement.meaning }}
@@ -242,10 +243,6 @@
                   </li>
                 </ul>
               </div>
-              <a href="javascript:void(0);" data-ng-click="previewData()" data-toggle="modal"
-                 data-target="#previewDataModal" class="btn btn-info btn-xs pull-right">
-                View Data
-              </a>
               <ul class="dropdown-menu">
                 <li>
                   <a href="#">Region</a>
@@ -264,6 +261,12 @@
                 </li>
               </ul>
             </div>
+            <hr/>
+            <button type="button" class="btn btn-primary btn-lg"
+                    data-toggle="modal" data-target="#previewDataModal"
+                    data-ng-show="step3 === 'active' || step3 === 'complete'" data-ng-click="previewData()">
+              View Data
+            </button>
             <hr/>
 
             <h4 data-ng-show="subDatasets">Selected Datasets and Elements</h4>
@@ -314,14 +317,14 @@
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
                   <tr>
-                    <th data-ng-repeat="(key, value) in headers">
-                      {{ value }}
+                    <th data-ng-repeat="header in headers">
+                      {{ header }}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr data-ng-repeat="data in datas">
-                    <td data-ng-repeat="(key, value) in data">
+                    <td data-ng-repeat="value in data">
                       {{ value }}
                     </td>
                   </tr>

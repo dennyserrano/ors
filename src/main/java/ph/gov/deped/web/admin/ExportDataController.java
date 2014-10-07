@@ -42,7 +42,7 @@ public class ExportDataController {
     @RequestMapping(method = RequestMethod.POST)
     public void export(String dataset, HttpServletResponse response) throws Exception {
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
-        List<Map<String, Serializable>> data = datasetService.getData(ds);
+        List<List<Serializable>> data = datasetService.getData(ds, false);
         String filenameStr = tmpDir + File.separator + RandomStringUtils.randomAlphanumeric(5) + ".csv";
         File csvFile = new File(filenameStr);
         if (!csvFile.exists()) {
@@ -56,32 +56,38 @@ public class ExportDataController {
             }
         }
         try (BufferedWriter out = new BufferedWriter(new FileWriter(csvFile))) {
-            data.forEach(row -> {
-                String line = row.entrySet().stream()
-                        .map(String::valueOf)
-                        .reduce((val1, val2) -> val1 + "," + val2)
-                        .get();
-                write(out, line);
-            });
+            for (int row = 0; row < data.size(); row++) {
+                List<Serializable> values = data.get(row);
+                StringBuilder line = new StringBuilder();
+                for (int col = 0; col < values.size(); col++) {
+                    line.append(values.get(col));
+                    if (col < values.size() - 1) {
+                        line.append(",");
+                    }
+                }
+                write(out, line.toString());
+            }
         }
 
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=export.csv");
 
         try (FileInputStream fis = new FileInputStream(csvFile);
-             OutputStream os = response.getOutputStream()) {
+            OutputStream os = response.getOutputStream()) {
             byte[] buffer = new byte[1024];
             int bytesRead;
 
             while ((bytesRead = fis.read(buffer)) != -1) {
                 os.write(buffer, 0, bytesRead);
             }
+            os.flush();
         }
     }
 
     private void write(BufferedWriter out, String line) throws RuntimeException {
         try {
             out.write(line);
+            out.write("\n");
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);

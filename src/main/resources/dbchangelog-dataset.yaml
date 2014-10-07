@@ -674,3 +674,21 @@ databaseChangeLog:
               - column:
                   name: ranking
                   type: int
+  - changeSet:
+      id: ds-201410071244
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_element
+            columns:
+              - column:
+                  name: visible
+                  type: tinyint(3)
+  - changeSet:
+      id: ds-201410071425
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: dataset_criteria
+            columnName: value_type
+            newDataType: varchar(20)

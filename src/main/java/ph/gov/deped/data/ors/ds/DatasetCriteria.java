@@ -55,7 +55,8 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     private Operator operator;
 
     @Basic
-    private Integer valueType; // refer to java.sql.Types
+    @Column(length = 20)
+    private String valueType;
 
     @ManyToOne
     @JoinColumn(name = "right_element_id")
@@ -91,7 +92,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         return operator;
     }
 
-    public Integer getValueType() {
+    public String getValueType() {
         return valueType;
     }
 
@@ -123,7 +124,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         this.operator = operator;
     }
 
-    public void setValueType(Integer valueType) {
+    public void setValueType(String valueType) {
         this.valueType = valueType;
     }
 
