@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by PSY on 2014/09/30.
@@ -56,9 +55,11 @@ public class ExportDataController {
             }
         }
         try (BufferedWriter out = new BufferedWriter(new FileWriter(csvFile))) {
+            List<Serializable> values;
+            StringBuilder line;
             for (int row = 0; row < data.size(); row++) {
-                List<Serializable> values = data.get(row);
-                StringBuilder line = new StringBuilder();
+                values = data.get(row);
+                line = new StringBuilder();
                 for (int col = 0; col < values.size(); col++) {
                     line.append(values.get(col));
                     if (col < values.size() - 1) {

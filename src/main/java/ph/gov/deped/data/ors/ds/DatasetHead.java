@@ -25,7 +25,7 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "dataset_head_name_unique", columnNames = {DatasetHead.COL_NAME})
 })
-public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
+public class DatasetHead extends BaseJpaEntity<Long> implements Serializable, Comparable<DatasetHead> {
     
     public static final String NAME = "name";
 
@@ -138,6 +138,10 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable {
 
     public void setRanking(Integer ranking) {
         this.ranking = ranking;
+    }
+
+    public int compareTo(DatasetHead o) {
+        return this.getRanking().compareTo(o.getRanking());
     }
 
     @Override
