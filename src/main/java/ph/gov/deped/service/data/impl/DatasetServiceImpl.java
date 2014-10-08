@@ -341,28 +341,43 @@ public @Service class DatasetServiceImpl implements DatasetService {
         DatasetElement schoolIdElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, SCHOOL_ID);
         DatasetElement schoolYearElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, SCHOOL_YEAR);
         DatasetElement schoolNameElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, SCHOOL_NAME);
-        ColumnElement ceSchoolId = new ColumnElement(schoolIdElement, columnMetadataRepository.findOne(schoolIdElement.getColumnId()));
-        ColumnElement ceSchoolYear = new ColumnElement(schoolYearElement, columnMetadataRepository.findOne(schoolYearElement.getColumnId()));
-        ColumnElement ceSchoolName = new ColumnElement(schoolNameElement, columnMetadataRepository.findOne(schoolNameElement.getColumnId()));
+        DatasetElement schoolRegionElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, "region_name");
+        DatasetElement schoolDivisionElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, "division_name");
 
         LinkedList<ColumnElement> ces = schoolProfilePrefixTable.columns;
         Optional<ColumnElement> optionalElement = ces.stream()
-                .filter(ce -> ce.element.getId().equals(schoolNameElement.getId()))
+                .filter(ce -> ce.element.getId().equals(schoolRegionElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.add(ceSchoolName);
+            ces.add(new ColumnElement(schoolRegionElement, columnMetadataRepository.findOne(schoolRegionElement.getColumnId())));
         }
+        
+        optionalElement = ces.stream()
+                .filter(ce -> ce.element.getId().equals(schoolDivisionElement.getId()))
+                .findFirst();
+        if (!optionalElement.isPresent()) {
+            ces.add(new ColumnElement(schoolDivisionElement, columnMetadataRepository.findOne(schoolDivisionElement.getColumnId())));
+        }
+        
         optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolIdElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.add(ceSchoolId);
+            ces.add(new ColumnElement(schoolIdElement, columnMetadataRepository.findOne(schoolIdElement.getColumnId())));
         }
+        
+        optionalElement = ces.stream()
+                .filter(ce -> ce.element.getId().equals(schoolNameElement.getId()))
+                .findFirst();
+        if (!optionalElement.isPresent()) {
+            ces.add(new ColumnElement(schoolNameElement, columnMetadataRepository.findOne(schoolNameElement.getColumnId())));
+        }
+        
         optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolYearElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.add(ceSchoolYear);
+            ces.add(new ColumnElement(schoolYearElement, columnMetadataRepository.findOne(schoolYearElement.getColumnId())));
         }
     }
 

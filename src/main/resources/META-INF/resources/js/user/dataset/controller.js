@@ -97,11 +97,13 @@ angular.module('UserApp')
                     subDatasets: subDatasets,
                     filters: $scope.filters
                 };
+                $scope.loadingData = true;
                 PreviewDataService.preview(datasetToSubmit, function(data) {
                     $scope.headers = data[0];
                     data.splice(0, 1);
                     $scope.datas = data;
                     $scope.datasetJson = JSON.stringify(datasetToSubmit);
+                    $scope.loadingData = false;
                 });
             };
         }

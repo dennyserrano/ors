@@ -1,9 +1,18 @@
 package ph.gov.deped.service.data.impl;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Supplier;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.ds.Criterion;
@@ -12,14 +21,6 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.CriteriaRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.CriteriaService;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by PSY on 2014/10/03.
@@ -30,7 +31,7 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
 
     private CriteriaRepository criteriaRepository;
 
-    private final Map<String, Supplier<List<KeyValue>>> filterValueMap = new HashMap<>();
+    private final Map<String, Supplier<List<KeyValue>>> filterValueMap = new TreeMap<>();
 
     public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
         this.datasetRepository = datasetRepository;
@@ -58,7 +59,7 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         if (criterias == null || criterias.isEmpty()) {
             return Collections.emptyList();
         }
-        return criterias.parallelStream()
+        return criterias.stream()
                 .map(c -> new Criterion(c.getId(), c.getFilterName(), c.getLeftElement().getId(), c.getOperator(),
                         filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))
                 .collect(toList());

@@ -42,7 +42,7 @@
           </div>
         </div>
         <ul class="nav navbar-nav" style="padding-left:20px;">
-          <li>
+          <!-- <li>
             <a href="#"><i class="fa fa-bullseye"></i> Dashboard</a>
           </li>
           <li class="active" >
@@ -53,7 +53,7 @@
           </li>
           <li >
             <a href="#myModal2" data-toggle="modal"><i class="fa fa-bookmark"></i> Bookmarks</a>
-          </li>
+          </li> -->
         </ul>
         <ul class="nav navbar-top-links navbar-right">
           <li class="dropdown">
@@ -160,26 +160,14 @@
                 </div>
               </div>
               <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step1 === 'active'">
-                <button type="button" class="close" data-dismiss="alert">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">Close</span>
-                </button>
                 <strong>STEP 1</strong>
                 View datasets on the left navigation. Click one dataset under a category to view its corresponding Data Elements.
               </div>
               <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step2 === 'active'">
-                <button type="button" class="close" data-dismiss="alert">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">Close</span>
-                </button>
                 <strong>STEP 2</strong>
                 Select one or more Data Elements for each Dataset that you choose.
               </div>
               <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step3 === 'active'">
-                <button type="button" class="close" data-dismiss="alert">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">Close</span>
-                </button>
                 <strong>STEP 3</strong>
                 Apply filters to your selected data elements.
               </div>
@@ -187,7 +175,6 @@
 
             <ol class="breadcrumb">
               <li><a href="#">Enrolment</a></li>
-
               <li class="active">Classrooms by use &amp; status/type</li>
             </ol>
             <div style="height:190px; width:120%;  margin-left:-40px; position:fixed; background-color:#FFF;"></div>
@@ -261,7 +248,7 @@
                 <tr>
                   <td data-ng-repeat="subdataset in subDatasets">
                     <div data-ng-repeat="subdatasetElement in subdataset.elements">
-                      {{ subdatasetElement.meaning }} [{{ subdatasetElement.name }}]
+                      {{ subdatasetElement.meaning }}
                     </div>
                   </td>
                 </tr>
@@ -290,10 +277,14 @@
             <div class="modal-body">
               <div align="center">
                 <h5>
-                  Sample Data to Export
+                  Preview of Data to Export
                 </h5>
               </div>
-              <table class="table table-bordered table-striped table-condensed">
+              <div data-ng-show="loadingData">
+                <i class="fa fa-spin fa-spinner"></i>
+                Loading Sample Data
+              </div>
+              <table data-ng-show="!loadingData" class="table table-bordered table-striped table-condensed">
                 <thead>
                   <tr>
                     <th data-ng-repeat="header in headers">
@@ -309,6 +300,11 @@
                   </tr>
                 </tbody>
               </table>
+              <div align="center">
+                <small align="center" data-ng-show="!loadingData">
+                  Click &quot;Export As&quot; button to download the full data.
+                </small>
+              </div>
             </div>
             <div class="modal-footer">
               <form name="exportForm" action="/export" method="post">
