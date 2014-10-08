@@ -20,7 +20,8 @@ import java.util.Locale;
 @Import({
         ApplicationDataSourceSpringConfig.class,
         EBEISDataSourceSpringConfig.class,
-        LISDataSourceSpringConfig.class
+        LISDataSourceSpringConfig.class,
+        LiquibaseSpringConfig.class
 })
 public class DataSpringConfig {
 
