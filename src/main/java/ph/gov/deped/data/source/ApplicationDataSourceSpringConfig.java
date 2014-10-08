@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
@@ -74,7 +75,7 @@ public class ApplicationDataSourceSpringConfig implements AppMetadata {
         return ds;
     }
 
-    public @Bean SpringLiquibase liquibase() {
+    public @Profile("dev") @Bean SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog(this.liquibaseProperties.getChangeLog());
         liquibase.setContexts(this.liquibaseProperties.getContexts());
