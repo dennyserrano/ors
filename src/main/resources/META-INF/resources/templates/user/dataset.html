@@ -31,54 +31,13 @@
     <div id="wrapper" style="background-color: #333;" data-ng-controller="UserDatasetCtrl">
       <nav class="mine navbar my_header navbar-fixed-top" role="navigation" style="magin-bottom: 0;">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <button type="button" class="btn btn-default btn-back pull-left hidden" onclick="history.back()">
-            <i class="fa fa-lg fa-chevron-left"></i>
-            <span>Back</span>
-          </button>
-          <button type="button" class="btn btn-default btn-menu pull-left offcanvas-toggle">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
             <i class="fa fa-lg fa-bars"></i>
-            <span>Menu</span>
           </button>
           <div class="navbar-brand" style="color: #FFF;">
             Open Report System
           </div>
         </div>
-        <ul class="nav navbar-nav" style="padding-left:20px;">
-          <!-- <li>
-            <a href="#"><i class="fa fa-bullseye"></i> Dashboard</a>
-          </li>
-          <li class="active" >
-            <a href="#" ><i class="fa fa-file-text"></i> Data Pull</a>
-          </li>
-          <li >
-            <a href="#" class="active"><i class="fa fa-code-fork"></i> Generator</a>
-          </li>
-          <li >
-            <a href="#myModal2" data-toggle="modal"><i class="fa fa-bookmark"></i> Bookmarks</a>
-          </li> -->
-        </ul>
-        <ul class="nav navbar-top-links navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-              <i class="fa fa-user fa-fw"></i>Ordinary User <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-              <li><a href="javascript:void(0);"><i class="fa fa-user fa-fw"></i> User Profile</a>
-              </li>
-              <li><a href="javascript:void(0);"><i class="fa fa-gear fa-fw"></i> Settings</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
         <div class="navbar-default sidebar" role="navigation">
           <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
@@ -121,72 +80,66 @@
       <div id="page-wrapper" class="data">
         <div class="row">
           <div class="col-sm-12">
-            <nav class="navbar-fixed-top" style="margin-bottom: 45px; margin-left:280px;" >
-
-              <div class="">
-                <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
-                  <div class="col-xs-3 smpl-step-step {{ step1 }}">
-                    <div class="progress disabled">
-                      <div class="progress-bar"></div>
-                    </div>
-                    <a class="smpl-step-icon">
-                      <i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i>
-                    </a>
-                    <div class="smpl-step-info text-center">
-                      <small>
-                        <span style="font-weight:bold; color:#118beb;">Step 1: </span>
-                        View Datasets and Data Elements
-                      </small>
-                    </div>
+            <div class="">
+              <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
+                <div class="col-xs-3 smpl-step-step {{ step1 }}">
+                  <div class="progress disabled">
+                    <div class="progress-bar"></div>
                   </div>
-
-                  <div class="col-xs-3 smpl-step-step {{ step2 }}">
-                    <div class="progress">
-                      <div class="progress-bar"></div>
-                    </div>
-                    <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;"></i></a>
-                    <div class="smpl-step-info text-center">
-                      <small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 smpl-step-step {{ step3 }}">
-                    <div class="progress">
-                      <div class="progress-bar"></div>
-                    </div>
-                    <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
-                    <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
-                  </div>
-
-                  <div class="col-xs-3 smpl-step-step {{ step4 }}">
-                    <div class="progress">
-                      <div class="progress-bar"></div>
-                    </div>
-                    <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
-                    <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
+                  <a class="smpl-step-icon">
+                    <i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i>
+                  </a>
+                  <div class="smpl-step-info text-center">
+                    <small>
+                      <span style="font-weight:bold; color:#118beb;">Step 1: </span>
+                      View Datasets and Data Elements
+                    </small>
                   </div>
                 </div>
-              </div>
-              <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step1 === 'active'">
-                <strong>STEP 1</strong>
-                View datasets on the left navigation. Click one dataset under a category to view its corresponding Data Elements.
-              </div>
-              <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step2 === 'active'">
-                <strong>STEP 2</strong>
-                Select one or more Data Elements for each Dataset that you choose.
-              </div>
-              <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step3 === 'active'">
-                <strong>STEP 3</strong>
-                Apply filters to your selected data elements.
-              </div>
-            </nav>
 
-            <ol class="breadcrumb">
-              <li><a href="#">Enrolment</a></li>
-              <li class="active">Classrooms by use &amp; status/type</li>
-            </ol>
-            <div style="height:190px; width:120%;  margin-left:-40px; position:fixed; background-color:#FFF;"></div>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <div class="col-xs-3 smpl-step-step {{ step2 }}">
+                  <div class="progress">
+                    <div class="progress-bar"></div>
+                  </div>
+                  <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;"></i></a>
+                  <div class="smpl-step-info text-center">
+                    <small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small>
+                  </div>
+                </div>
+
+                <div class="col-xs-3 smpl-step-step {{ step3 }}">
+                  <div class="progress">
+                    <div class="progress-bar"></div>
+                  </div>
+                  <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+                  <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
+                </div>
+
+                <div class="col-xs-3 smpl-step-step {{ step4 }}">
+                  <div class="progress">
+                    <div class="progress-bar"></div>
+                  </div>
+                  <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+                  <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step1 === 'active'">
+              <strong>STEP 1</strong>
+              View datasets on the left navigation. Click one dataset under a category to view its corresponding Data Elements.
+            </div>
+            <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step2 === 'active'">
+              <strong>STEP 2</strong>
+              Select one or more Data Elements for each Dataset that you choose.
+            </div>
+            <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step3 === 'active'">
+              <strong>STEP 3</strong>
+              Apply filters to your selected data elements.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 overflow">
             <h3>
               {{ dataset.name }}
             </h3>
