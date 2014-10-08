@@ -52,7 +52,7 @@ public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final String REGION_DIVISIONS_SQL = "SELECT id, office_name FROM ref_office WHERE parent_office = ? AND office_type = ?";
 
-    private static final String DIVISIONS_SQL = "SEELCT id, office_Name FROM ref_office WHERE office_type = ?";
+    //private static final String DIVISIONS_SQL = "SEELCT id, office_Name FROM ref_office WHERE office_type = ?";
 
     private DataSource dataSource;
 
@@ -89,6 +89,8 @@ public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
                     (rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("office_name")));
             kv.setChildKeyValues(divisions);
         });
+        KeyValue nationwide = new KeyValue("", "Nationwide");
+        regions.add(0, nationwide);
         return regions;
     }
 }

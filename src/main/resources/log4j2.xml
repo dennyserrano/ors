@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO" monitorInterval="30">
   <Properties>
-    <Property name="LogFileDir">/root/ors/logs</Property>
+    <Property name="LogFileDir">${working.dir}/logs</Property>
     <Property name="IrrelevantPackages">org.junit,org.apache.maven,sun.reflect,java.lang.reflect</Property>
   </Properties>
   <Appenders>

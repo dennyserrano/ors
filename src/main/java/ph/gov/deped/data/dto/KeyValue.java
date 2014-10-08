@@ -1,12 +1,13 @@
 package ph.gov.deped.data.dto;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by PSY on 2014/10/03.
@@ -19,7 +20,7 @@ public class KeyValue implements Serializable {
 
     private final String value;
 
-    private List<KeyValue> childKeyValues;
+    private List<KeyValue> childKeyValues = new ArrayList<>();
 
     public KeyValue(String key, String value) {
         this.key = key;

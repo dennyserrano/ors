@@ -43,6 +43,8 @@
     <webjars.angular-ui-bootstrap.version>0.11.0-2</webjars.angular-ui-bootstrap.version>
     <webjars.bootswatch-simplex.version>3.2.0-1</webjars.bootswatch-simplex.version>
     <webjars.modernizr.version>2.7.1</webjars.modernizr.version>
+    
+    <working.dir>/home/ej/working/ors</working.dir>
   </properties>
 
   <dependencyManagement>
@@ -396,6 +398,23 @@
       </plugins>
     </pluginManagement>
   </build>
+  
+  <profiles>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <working.dir>/root</working.dir>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+  </profiles>
 
   <!-- Add Spring repositories -->
   <!-- (you don't need this if you are using a .RELEASE version) -->

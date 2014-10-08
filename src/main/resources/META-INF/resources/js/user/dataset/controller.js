@@ -34,6 +34,11 @@ angular.module('UserApp')
                 var scopeCriteria = $scope.criteria ? $scope.criteria : [];
                 CriteriaService.get({ 'headId': headId }, function(criteria) {
                     angular.forEach(criteria, function(criterion) {
+                        angular.forEach(scopeCriteria, function(scopeCriterion, idx) {
+                        	if (criterion.filterId === scopeCriterion.filterId) {
+                        		scopeCriterion.splice(idx, 1);
+                        	}
+                        });
                         scopeCriteria.push(criterion);
                     });
                     $scope.criteria = scopeCriteria;
@@ -90,7 +95,6 @@ angular.module('UserApp')
                     subDatasets: subDatasets,
                     filters: $scope.dataset.filters
                 };
-                console.log(JSON.stringify(datasetToSubmit));
                 PreviewDataService.preview(datasetToSubmit, function(data) {
                     $scope.headers = data[0];
                     data.splice(0, 1);
