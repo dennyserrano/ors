@@ -7,9 +7,9 @@
     <title>Open Report System</title>
 
     <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
-    <link data-th-href="@{/css/bootstrap.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
+    <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
     <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
-    <link data-th-href="@{/css/metisMenu.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
+    <link data-th-href="@{/css/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
     <link data-th-href="@{/css/custom.css}" rel="stylesheet" href="../../css/custom.css"/>
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
     <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
@@ -201,10 +201,10 @@
                       <input type="checkbox" checklist-model="dataset.elements" checklist-value="availableElement" data-ng-click="elementsSelected()"/>
                     </td>
                     <td>
-                      {{ availableElement.meaning }}
+                      {{ availableElement.description }}
                     </td>
                     <td>
-                      {{ availableElement.description }}
+                      {{ availableElement.meaning }}
                     </td>
                   </tr>
                 </tbody>
@@ -228,13 +228,6 @@
               </div>
             </div>
             
-            <button type="button" class="btn btn-primary btn-lg"
-                    data-toggle="modal" data-target="#previewDataModal"
-                    data-ng-show="step3 === 'active' || step3 === 'complete'" data-ng-click="previewData()">
-              View Data
-            </button>
-            
-
             <h4 data-ng-show="subDatasets">Selected Datasets and Elements</h4>
             <table class="table table-bordered table-striped table-condensed" data-ng-show="subDatasets">
               <thead>
@@ -254,10 +247,11 @@
                 </tr>
               </tbody>
             </table>
-            <button class="hidden btn btn-primary btn-xs" type="submit">Save</button>
-            <button class="hidden btn btn-default btn-xs" type="submit">Save and Close</button>
-            <button class="hidden btn btn-default btn-xs" type="submit">Delete</button>
-
+            <button type="button" class="btn btn-primary btn-lg"
+                    data-toggle="modal" data-target="#previewDataModal"
+                    data-ng-show="step3 === 'active' || step3 === 'complete'" data-ng-click="previewData()">
+              View Data
+            </button>
           </div>
 
         </div>
@@ -322,15 +316,15 @@
     </div>
     <!-- /#page-wrapper --><!-- /#wrapper -->
 
-    <script data-th-src="@{/js/jquery.js}" src="../../js/jquery.js"></script>
-    <script data-th-src="@{/js/bootstrap.js}" src="../../js/bootstrap.js"></script>
+    <script data-th-src="@{/js/jquery.min.js}" src="../../js/jquery.js"></script>
+    <script data-th-src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.js"></script>
     <script data-th-src="@{/js/angular.min.js}" src="../../js/angular.js"></script>
     <script data-th-src="@{/js/angular-route.min.js}" src="../../js/angular-route.js"></script>
     <script data-th-src="@{/js/angular-resource.min.js}" src="../../js/angular-resource.js"></script>
-    <script data-th-src="@{/js/angular-ui-router.js}" src="../../js/angular-ui-router.js"></script>
-    <script data-th-src="@{/js/ui-bootstrap-tpls.js}" src="../../js/ui-bootstrap-tpls.js"></script>
+    <script data-th-src="@{/js/angular-ui-router.min.js}" src="../../js/angular-ui-router.js"></script>
+    <script data-th-src="@{/js/ui-bootstrap-tpls.min.js}" src="../../js/ui-bootstrap-tpls.js"></script>
     <script data-th-src="@{/js/checklist-model.js}" src="../../js/checklist-model.js"></script>
-    <script data-th-src="@{/js/metisMenu.js}" src="../../js/metisMenu.js"></script>
+    <script data-th-src="@{/js/metisMenu.min.js}" src="../../js/metisMenu.js"></script>
     <script data-th-src="@{/js/ors.js}" src="../../js/dev/js"></script>
 
     <script data-th-src="@{/js/user/app.js}" src="../../js/user/app.js"></script>

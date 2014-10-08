@@ -61,7 +61,7 @@ public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
     private static final String REGIONS_SQL = "SELECT rr.id AS 'id', rr.short_name AS 'region_name' FROM ref_region rr " +
             "INNER JOIN ref_office ro on rr.id = ro.ref_region_id WHERE ro.office_type = ?";
 
-    private static final String REGION_DIVISIONS_SQL = "SELECT id, office_name FROM ref_office WHERE parent_office = ? AND office_type = ?";
+    private static final String REGION_DIVISIONS_SQL = "SELECT id, office_name FROM ref_office WHERE ref_region_id = ? AND office_type = ?";
 
     //private static final String DIVISIONS_SQL = "SELECT id, office_Name FROM ref_office WHERE office_type = ?";
 

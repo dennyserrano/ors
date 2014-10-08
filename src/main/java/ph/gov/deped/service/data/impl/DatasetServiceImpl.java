@@ -1,14 +1,21 @@
 package ph.gov.deped.service.data.impl;
 
-import com.bits.sql.CriteriaChainBuilder;
-import com.bits.sql.CriteriaFilterBuilder;
-import com.bits.sql.FromClauseBuilder;
-import com.bits.sql.JdbcTypes;
-import com.bits.sql.JoinOrWhereClauseBuilder;
-import com.bits.sql.OnClauseBuilder;
-import com.bits.sql.Projection;
-import com.bits.sql.ProjectionBuilder;
-import com.bits.sql.SqlValueMapper;
+import static com.bits.sql.QueryBuilders.read;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.sql.DataSource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +23,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
@@ -36,25 +44,24 @@ import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 import ph.gov.deped.service.data.api.DatasetService;
 
-import javax.sql.DataSource;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static com.bits.sql.QueryBuilders.read;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import com.bits.sql.CriteriaChainBuilder;
+import com.bits.sql.CriteriaFilterBuilder;
+import com.bits.sql.FromClauseBuilder;
+import com.bits.sql.JdbcTypes;
+import com.bits.sql.JoinOrWhereClauseBuilder;
+import com.bits.sql.OnClauseBuilder;
+import com.bits.sql.Projection;
+import com.bits.sql.ProjectionBuilder;
+import com.bits.sql.SqlValueMapper;
 
 /**
  * Created by ej on 9/10/14.
  */
 public @Service class DatasetServiceImpl implements DatasetService {
+
+    private static final String DIVISION_ID = "division_id";
+
+    private static final String REGION_ID = "region_id";
 
     private static final Logger log = LogManager.getLogger(DatasetServiceImpl.class);
 
@@ -338,6 +345,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
 
     private void lookupSchoolProfileDefaultColumns(PrefixTable schoolProfilePrefixTable) {
         DatasetHead schoolProfileDatasetHead = schoolProfilePrefixTable.datasetHead;
+        
         DatasetElement schoolIdElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, SCHOOL_ID);
         DatasetElement schoolYearElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, SCHOOL_YEAR);
         DatasetElement schoolNameElement = elementRepository.findByDatasetHeadAndName(schoolProfileDatasetHead, SCHOOL_NAME);
@@ -346,6 +354,13 @@ public @Service class DatasetServiceImpl implements DatasetService {
 
         LinkedList<ColumnElement> ces = schoolProfilePrefixTable.columns;
         Optional<ColumnElement> optionalElement = ces.stream()
+                .filter(ce -> ce.element.getId().equals(schoolDivisionElement.getId()))
+                .findFirst();
+        if (!optionalElement.isPresent()) {
+            ces.addFirst(new ColumnElement(schoolDivisionElement, columnMetadataRepository.findOne(schoolDivisionElement.getColumnId())));
+        }
+        
+        optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolRegionElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
@@ -353,31 +368,24 @@ public @Service class DatasetServiceImpl implements DatasetService {
         }
         
         optionalElement = ces.stream()
-                .filter(ce -> ce.element.getId().equals(schoolDivisionElement.getId()))
-                .findFirst();
-        if (!optionalElement.isPresent()) {
-            ces.add(new ColumnElement(schoolDivisionElement, columnMetadataRepository.findOne(schoolDivisionElement.getColumnId())));
-        }
-        
-        optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolIdElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.add(new ColumnElement(schoolIdElement, columnMetadataRepository.findOne(schoolIdElement.getColumnId())));
+            ces.addFirst(new ColumnElement(schoolIdElement, columnMetadataRepository.findOne(schoolIdElement.getColumnId())));
         }
         
         optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolNameElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.add(new ColumnElement(schoolNameElement, columnMetadataRepository.findOne(schoolNameElement.getColumnId())));
+            ces.addFirst(new ColumnElement(schoolNameElement, columnMetadataRepository.findOne(schoolNameElement.getColumnId())));
         }
         
         optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolYearElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.add(new ColumnElement(schoolYearElement, columnMetadataRepository.findOne(schoolYearElement.getColumnId())));
+            ces.addFirst(new ColumnElement(schoolYearElement, columnMetadataRepository.findOne(schoolYearElement.getColumnId())));
         }
     }
 
@@ -402,14 +410,27 @@ public @Service class DatasetServiceImpl implements DatasetService {
     private Map<Long, List<String>> lookupOrderElements() {
         Map<Long, List<String>> map = new HashMap<>();
         List<String> names = new LinkedList<>();
-        names.add("region_id");
-        names.add("division_id");
+        names.add(REGION_ID);
+        names.add(DIVISION_ID);
         names.add("sector_id");
         names.add(SCHOOL_ID);
         names.add(SCHOOL_NAME);
         map.put(SCHOOL_PROFILE_DATASET_ID, names);
         return map;
     }
+    
+    // TODO Implement the commented block later for dynamic inclusion of required/mandatory elements.
+    /*private Map<Long, List<String>> lookupMandatoryElements() {
+        Map<Long, List<String>> map = new HashMap<>();
+        List<String> names = new LinkedList<>();
+        names.add(SCHOOL_YEAR);
+        names.add(REGION_ID);
+        names.add(DIVISION_ID);
+        names.add(SCHOOL_ID);
+        names.add(SCHOOL_NAME);
+        map.put(SCHOOL_PROFILE_DATASET_ID, names);
+        return map;
+    }*/
 
     private class PrefixTable implements Comparable<PrefixTable> {
 
