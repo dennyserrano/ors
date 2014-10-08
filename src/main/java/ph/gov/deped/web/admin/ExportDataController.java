@@ -61,7 +61,7 @@ public class ExportDataController {
                 values = data.get(row);
                 line = new StringBuilder();
                 for (int col = 0; col < values.size(); col++) {
-                    line.append(values.get(col));
+                    line.append("\"").append(values.get(col)).append("\"");
                     if (col < values.size() - 1) {
                         line.append(",");
                     }

@@ -41,7 +41,7 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     private Long id;
 
     @Basic
-    @Column(length = 5, nullable = false)
+    @Column(length = 20, nullable = false)
     private String leftTablePrefix;
 
     @ManyToOne
@@ -53,7 +53,7 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     private JoinType joinType;
 
     @Basic
-    @Column(length = 5, nullable = false)
+    @Column(length = 20, nullable = false)
     private String rightTablePrefix;
 
     @ManyToOne

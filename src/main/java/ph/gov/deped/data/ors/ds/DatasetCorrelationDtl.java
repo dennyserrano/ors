@@ -1,22 +1,24 @@
 package ph.gov.deped.data.ors.ds;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Type;
-import org.springframework.cache.annotation.Cacheable;
-import com.bits.sql.Operator;
-import ph.gov.deped.data.BaseJpaEntity;
+import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.Type;
+import org.springframework.cache.annotation.Cacheable;
+
+import ph.gov.deped.data.BaseJpaEntity;
+
+import com.bits.sql.Operator;
 
 /**
  * Created by PSY on 2014/09/30.

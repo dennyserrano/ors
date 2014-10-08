@@ -692,3 +692,15 @@ databaseChangeLog:
             tableName: dataset_criteria
             columnName: value_type
             newDataType: varchar(20)
+  - changeSet:
+      id: ds-201410081751
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: dataset_correlation
+            columnName: left_table_prefix
+            newDataType: varchar(20)
+        - modifyDataType:
+            tableName: dataset_correlation
+            columnName: right_table_prefix
+            newDataType: varchar(20)
