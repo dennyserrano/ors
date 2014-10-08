@@ -18,26 +18,36 @@ import java.util.List;
 public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final List<KeyValue> SCHOOL_YEARS = new ArrayList<>(Arrays.asList(
+            new KeyValue("", "School Year"),
             new KeyValue("2014", "2014 - 2015"),
             new KeyValue("2013", "2013 - 2014"),
             new KeyValue("2012", "2012 - 2013"),
-            new KeyValue("2011", "2011 - 2012")
+            new KeyValue("2011", "2011 - 2012"),
+            new KeyValue("2010", "2010 - 2011"),
+            new KeyValue("2009", "2009 - 2010"),
+            new KeyValue("2008", "2008 - 2009"),
+            new KeyValue("2007", "2007 - 2008"),
+            new KeyValue("2006", "2006 - 2007"),
+            new KeyValue("2005", "2005 - 2006"),
+            new KeyValue("2004", "2004 - 2005"),
+            new KeyValue("2003", "2003 - 2004"),
+            new KeyValue("2002", "2002 - 2003")
     ));
 
     private static final List<KeyValue> GENERAL_CLASSIFICATIONS = new ArrayList<>(Arrays.asList(
-            new KeyValue("", "All"),
+            new KeyValue("", "General Classification"),
             new KeyValue("7", "Public"),
             new KeyValue("8", "Private")
     ));
 
     private static final List<KeyValue> GENERAL_CURRICULAR_OFFERINGS = new ArrayList<>(Arrays.asList(
-            new KeyValue("435", "Kindergarten"),
+            new KeyValue("", "General Curricular Offering"),
             new KeyValue("433", "Elementary"),
             new KeyValue("434", "Secondary")
     ));
 
     private static final List<KeyValue> SCHOOL_TYPES = new ArrayList<>(Arrays.asList(
-            new KeyValue("", "All"),
+            new KeyValue("", "School Type"),
             new KeyValue("290", "School with no annexes"),
             new KeyValue("291", "Mobile school(s)/center(s)"),
             new KeyValue("292", "Mother school"),
@@ -53,7 +63,7 @@ public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final String REGION_DIVISIONS_SQL = "SELECT id, office_name FROM ref_office WHERE parent_office = ? AND office_type = ?";
 
-    //private static final String DIVISIONS_SQL = "SEELCT id, office_Name FROM ref_office WHERE office_type = ?";
+    //private static final String DIVISIONS_SQL = "SELECT id, office_Name FROM ref_office WHERE office_type = ?";
 
     private DataSource dataSource;
 
@@ -91,6 +101,7 @@ public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
             kv.setChildKeyValues(divisions);
         });
         KeyValue nationwide = new KeyValue("", "Nationwide");
+        nationwide.setChildKeyValues(new ArrayList<>(Arrays.asList(new KeyValue("", "Division"))));
         regions.add(0, nationwide);
         return regions;
     }

@@ -255,20 +255,25 @@ public @Service class DatasetServiceImpl implements DatasetService {
             String dataType = columnMetadata.getDataType();
             Serializable value = f.getSelectedValue();
             criteriaChainBuilder.and(tablePrefix, columnMetadata.getColumnName());
-            if (value == null) {
+            if (value == null) { // null case
                 criteriaFilterBuilder.isNull();
             }
-            if (JdbcTypes.isBoolean(dataType, columnMetadata.getMax())) {
-                SqlValueMapper<Boolean> mapper = JdbcTypes.getValueMapper(dataType);
-                criteriaFilterBuilder.is(mapper.apply(value));
-            }
-            else if (JdbcTypes.isNumeric(dataType)) {
-                SqlValueMapper<Number> mapper = JdbcTypes.getValueMapper(dataType);
-                criteriaFilterBuilder.eq(mapper.apply(value));
-            }
-            else { // default is string base
-                SqlValueMapper<String> mapper = JdbcTypes.getValueMapper(dataType);
-                criteriaFilterBuilder.eq(mapper.apply(value));
+            else {
+                String str = String.valueOf(value);
+                if (!isBlank(str)) { // not null and empty value case
+                    if (JdbcTypes.isBoolean(dataType, columnMetadata.getMax())) {
+                        SqlValueMapper<Boolean> mapper = JdbcTypes.getValueMapper(dataType);
+                        criteriaFilterBuilder.is(mapper.apply(value));
+                    }
+                    else if (JdbcTypes.isNumeric(dataType)) {
+                        SqlValueMapper<Number> mapper = JdbcTypes.getValueMapper(dataType);
+                        criteriaFilterBuilder.eq(mapper.apply(value));
+                    }
+                    else { // default is string base
+                        SqlValueMapper<String> mapper = JdbcTypes.getValueMapper(dataType);
+                        criteriaFilterBuilder.eq(mapper.apply(value));
+                    }
+                }
             }
         });
 
@@ -310,15 +315,6 @@ public @Service class DatasetServiceImpl implements DatasetService {
         data.add(0, headers);
         return data;
     }
-
-    /*private DatasetHead lookupTopLevelDataset(DatasetHead childDataset) {
-        if (childDataset.getOwnerId() != null &&
-                childDataset.getOwnerId().intValue() == 1 &&
-                childDataset.getParentDatasetHead() == null) {
-            return childDataset;
-        }
-        return lookupTopLevelDataset(datasetRepository.findOne(childDataset.getParentDatasetHead()));
-    }*/
 
     private Filter lookupSchoolFilter(PrefixTable schoolProfilePrefixTable, DatasetElement schoolYearElement) {
         List<DatasetCriteria> criterias = criteriaRepository.findByDatasetHeadAndLeftElement(schoolProfilePrefixTable.datasetHead, schoolYearElement);

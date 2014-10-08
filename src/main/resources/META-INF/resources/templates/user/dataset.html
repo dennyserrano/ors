@@ -224,17 +224,14 @@
               </table>
             </div>
 
-            <h4 data-ng-show="criteria">Filter by:</h4>
-            <div data-ng-show="criteria" class="well well-sm btn-group">
+            <h4 data-ng-show="step2 === 'complete'">Filter by:</h4>
+            <div data-ng-show="step2 === 'complete'" class="well well-sm btn-group">
               <div data-ng-repeat="criterion in criteria" class="btn-group">
                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                   {{ selectedValues[criterion.filterId] || criterion.filterName }}
                   <i class="caret"></i>
                 </button>
                 <ul id="dropdown{{ criterion.filterId }}" class="dropdown-menu" role="menu" aria-labelledby="dropdown{{ criterion.filterId }}">
-                  <li role="presentation">
-                    {{ criterion.filterName }}
-                  </li>
                   <li data-ng-repeat="option in criterion.selection" role="presentation">
                     <a role="menuItem" tabindex="-1" href="javascript:void(0);" data-ng-click="setFilter(criterion, option)">
                       {{ option.value }}
