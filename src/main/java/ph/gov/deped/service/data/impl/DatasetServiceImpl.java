@@ -354,19 +354,19 @@ public @Service class DatasetServiceImpl implements DatasetService {
                 .filter(ce -> ce.element.getId().equals(schoolNameElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.addFirst(ceSchoolName);
+            ces.add(ceSchoolName);
         }
         optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolIdElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.addFirst(ceSchoolId);
+            ces.add(ceSchoolId);
         }
         optionalElement = ces.stream()
                 .filter(ce -> ce.element.getId().equals(schoolYearElement.getId()))
                 .findFirst();
         if (!optionalElement.isPresent()) {
-            ces.addFirst(ceSchoolYear);
+            ces.add(ceSchoolYear);
         }
     }
 
@@ -444,6 +444,10 @@ public @Service class DatasetServiceImpl implements DatasetService {
             }
             ColumnElement rhs = (ColumnElement) o;
             return this.element.equals(rhs.element) && this.column.equals(rhs.column);
+        }
+        
+        public @Override int hashCode() {
+            return this.element.hashCode();
         }
     }
 }

@@ -19,6 +19,19 @@ angular.module('UserApp')
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
             });
+            
+            var scopeCriteria = $scope.criteria || [];
+            CriteriaService.get({ 'headId': 8 }, function(criteria) {
+                angular.forEach(criteria, function(criterion) {
+                    angular.forEach(scopeCriteria, function(scopeCriterion, idx) {
+                    	if (criterion.filterId === scopeCriterion.filterId) {
+                    		scopeCriterion.splice(idx, 1);
+                    	}
+                    });
+                    scopeCriteria.push(criterion);
+                });
+                $scope.criteria = scopeCriteria;
+            });
 
             $scope.setDataset = function(selectedDataset) {
                 $scope.dataset = selectedDataset;
@@ -31,18 +44,7 @@ angular.module('UserApp')
                         availableElements[headId] = elements;
                     });
                 }
-                var scopeCriteria = $scope.criteria ? $scope.criteria : [];
-                CriteriaService.get({ 'headId': headId }, function(criteria) {
-                    angular.forEach(criteria, function(criterion) {
-                        angular.forEach(scopeCriteria, function(scopeCriterion, idx) {
-                        	if (criterion.filterId === scopeCriterion.filterId) {
-                        		scopeCriterion.splice(idx, 1);
-                        	}
-                        });
-                        scopeCriteria.push(criterion);
-                    });
-                    $scope.criteria = scopeCriteria;
-                });
+                
                 $scope.availableElements = availableElements;
                 $scope.subDatasets = subDatasets;
 
@@ -60,7 +62,7 @@ angular.module('UserApp')
             };
 
             $scope.setFilter = function(criterion, option) {
-                var filters = $scope.dataset.filters ? $scope.dataset.filters : [];
+                var filters = $scope.filters ? $scope.filters : [];
                 angular.forEach(filters, function(filter, idx) {
                     if (filter.criterion === criterion.filterId) {
                         filters.splice(idx, 1);
@@ -71,7 +73,7 @@ angular.module('UserApp')
                     element: criterion.elementId,
                     selectedValue: option.key
                 });
-                $scope.dataset.filters = filters;
+                $scope.filters = filters;
                 $scope.selectedValues[criterion.filterId] = option.value;
                 if (criterion.filterId === 8) { // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
                     angular.forEach($scope.criteria, function(c) {
@@ -93,7 +95,7 @@ angular.module('UserApp')
                 var datasetToSubmit = {
                     elements: elements,
                     subDatasets: subDatasets,
-                    filters: $scope.dataset.filters
+                    filters: $scope.filters
                 };
                 PreviewDataService.preview(datasetToSubmit, function(data) {
                     $scope.headers = data[0];

@@ -223,7 +223,6 @@
                 </tbody>
               </table>
             </div>
-            <hr/>
 
             <h4 data-ng-show="criteria">Filter by:</h4>
             <div data-ng-show="criteria" class="well well-sm btn-group">
@@ -243,31 +242,14 @@
                   </li>
                 </ul>
               </div>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="#">Region</a>
-                </li>
-                <li>
-                  <a href="#">Division</a>
-                </li>
-                <li>
-                  <a href="#">District</a>
-                </li>
-                <li>
-                  <a href="#">Municipality</a>
-                </li>
-                <li>
-                  <a href="#">Legislative</a>
-                </li>
-              </ul>
             </div>
-            <hr/>
+            
             <button type="button" class="btn btn-primary btn-lg"
                     data-toggle="modal" data-target="#previewDataModal"
                     data-ng-show="step3 === 'active' || step3 === 'complete'" data-ng-click="previewData()">
               View Data
             </button>
-            <hr/>
+            
 
             <h4 data-ng-show="subDatasets">Selected Datasets and Elements</h4>
             <table class="table table-bordered table-striped table-condensed" data-ng-show="subDatasets">

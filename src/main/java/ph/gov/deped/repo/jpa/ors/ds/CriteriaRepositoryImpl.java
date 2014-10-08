@@ -26,21 +26,22 @@ public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final List<KeyValue> GENERAL_CLASSIFICATIONS = new ArrayList<>(Arrays.asList(
             new KeyValue("", "All"),
-            new KeyValue("PU", "Public"),
-            new KeyValue("PR", "Private")
+            new KeyValue("7", "Public"),
+            new KeyValue("8", "Private")
     ));
 
     private static final List<KeyValue> GENERAL_CURRICULAR_OFFERINGS = new ArrayList<>(Arrays.asList(
-            new KeyValue("EL", "Elementary"),
-            new KeyValue("SE", "Secondary")
+            new KeyValue("435", "Kindergarten"),
+            new KeyValue("433", "Elementary"),
+            new KeyValue("434", "Secondary")
     ));
 
     private static final List<KeyValue> SCHOOL_TYPES = new ArrayList<>(Arrays.asList(
-            new KeyValue("0", "All"),
-            new KeyValue("1", "School with no annexes"),
-            new KeyValue("2", "Mobile school/center"),
-            new KeyValue("3", "Mother school"),
-            new KeyValue("4", "Annex or Extension school")
+            new KeyValue("", "All"),
+            new KeyValue("290", "School with no annexes"),
+            new KeyValue("291", "Mobile school(s)/center(s)"),
+            new KeyValue("292", "Mother school"),
+            new KeyValue("293", "Annex or Extension school(s)")
     ));
 
     private static final int REGION_OFFICE_TYPE = 191;
