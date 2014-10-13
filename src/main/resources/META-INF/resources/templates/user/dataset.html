@@ -10,10 +10,9 @@
     <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
     <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
     <link data-th-href="@{/css/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
+    <link data-th-href="@{/css/timeline.css}" rel="stylesheet" href="../../css/timeline.css"/>
     <link data-th-href="@{/css/custom.css}" rel="stylesheet" href="../../css/custom.css"/>
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
-    <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
-
   </head>
   <body data-ng-app="UserApp">
 
@@ -28,27 +27,28 @@
     <script data-th-src="@{/js/respond.min.js}" src="../../js/respond.src.js"></script>
     <![endif]-->
 
-    <div id="wrapper" style="background-color: #333;" data-ng-controller="UserDatasetCtrl">
-      <nav class="mine navbar my_header navbar-fixed-top" role="navigation" style="magin-bottom: 0;">
+    <div id="wrapper" data-ng-controller="UserDatasetCtrl">
+      <nav class="mine navbar my_header navbar-fixed-top" role="navigation" style="margin-bottom: 15px;">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <i class="fa fa-lg fa-bars"></i>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-          <div class="navbar-brand" style="color: #FFF;">
-            Open Report System
-          </div>
+          <div class="navbar-brand" style="color:#FFF;">Open Report System</div>
         </div>
-        <div class="navbar-default sidebar" role="navigation">
-          <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
+        <div class="gray-default sidebar" role="navigation">
+          <div class="sidebar-nav">
+            <ul class="nav">
               <li class="sidebar-search">
                 <div class="input-group custom-search-form">
                   <input type="text" class="form-control" placeholder="Search..."/>
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </span>
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </span>
                 </div>
               </li>
               <li>
@@ -59,16 +59,20 @@
                   </h4>
                 </div>
               </li>
-              <li data-ng-repeat="dataset in datasets">
-                <a href="javascript:void(0);">
-                  {{ dataset.name }}
-                  <span class="fa arrow"></span>
-                </a>
-                <ul class="nav-second-level list-unstyled lol" style="margin-bottom: 15px;">
-                  <li data-ng-repeat="subdataset in dataset.subDatasets">
-                    <a data-ng-click="setDataset(subdataset)" href="javascript:void(0);">
-                      {{ subdataset.name }}
+              <li>
+                <ul id="side-menu" class="nav tipsy">
+                  <li data-ng-repeat="dataset in datasets">
+                    <a href="javascript:void(0);">
+                      {{ dataset.name }}
+                      <span class="fa arrow"></span>
                     </a>
+                    <ul class="nav-second-level list-unstyled lol">
+                      <li data-ng-repeat="subdataset in dataset.subDatasets">
+                        <a class="subdataset" data-ng-click="setDataset(subdataset)" href="javascript:void(0);">
+                          <small>{{ subdataset.name }}</small>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </li>
@@ -77,144 +81,168 @@
         </div>
       </nav>
 
-      <div id="page-wrapper" class="data">
+      <div id="page-wrapper">
         <div class="row">
           <div class="col-sm-12">
-            <div class="">
-              <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
-                <div class="col-xs-3 smpl-step-step {{ step1 }}">
-                  <div class="progress disabled">
-                    <div class="progress-bar"></div>
+            <nav class=" navbar-fixed-top"  style=" margin-bottom: 45px; margin-left:280px;">
+              <div>
+                <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
+
+                  <div class="col-xs-3 smpl-step-step {{ step1 }}">
+                    <div class="progress disabled">
+                      <div class="progress-bar"></div>
+                    </div>
+                    <a class="smpl-step-icon">
+                      <i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i>
+                    </a>
+                    <div class="smpl-step-info text-center">
+                      <small>
+                        <span style="font-weight:bold; color:#118beb;">Step 1: </span>
+                        View and Select Dataset
+                      </small>
+                    </div>
                   </div>
-                  <a class="smpl-step-icon">
-                    <i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i>
-                  </a>
-                  <div class="smpl-step-info text-center">
-                    <small>
-                      <span style="font-weight:bold; color:#118beb;">Step 1: </span>
-                      View Datasets and Data Elements
-                    </small>
+
+                  <div class="col-xs-3 smpl-step-step {{ step2 }}">
+                    <div class="progress">
+                      <div class="progress-bar"></div>
+                    </div>
+                    <a class="smpl-step-icon">
+                      <i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;"></i>
+                    </a>
+                    <div class="smpl-step-info text-center">
+                      <small>
+                        <span style="font-weight:bold; color:#118beb;">Step 2: </span>
+                        Select Data Elements
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-3 smpl-step-step {{ step3 }}">
+                    <div class="progress">
+                      <div class="progress-bar"></div>
+                    </div>
+                    <a class="smpl-step-icon">
+                      <i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i>
+                    </a>
+                    <div class="smpl-step-info text-center">
+                      <small>
+                        <span style="font-weight:bold; color:#118beb;">Step 3: </span>
+                        Filter Data
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-3 smpl-step-step {{ step4 }}">
+                    <div class="progress">
+                      <div class="progress-bar"></div>
+                    </div>
+                    <a class="smpl-step-icon">
+                      <i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i>
+                    </a>
+                    <div class="smpl-step-info text-center">
+                      <small>
+                        <span style="font-weight:bold; color:#118beb;">Step 4: </span>
+                        Generate Output
+                      </small>
+                    </div>
                   </div>
                 </div>
-
-                <div class="col-xs-3 smpl-step-step {{ step2 }}">
-                  <div class="progress">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;"></i></a>
-                  <div class="smpl-step-info text-center">
-                    <small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small>
-                  </div>
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step1 === 'active'">
+                  <strong>STEP 1</strong>
+                  View datasets on the left navigation. Click one dataset under a category to view its corresponding Data Elements.
                 </div>
-
-                <div class="col-xs-3 smpl-step-step {{ step3 }}">
-                  <div class="progress">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
-                  <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step2 === 'active'">
+                  <strong>STEP 2</strong>
+                  Select one or more Data Elements for each Dataset that you choose.
                 </div>
-
-                <div class="col-xs-3 smpl-step-step {{ step4 }}">
-                  <div class="progress">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
-                  <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step3 === 'active'">
+                  <strong>STEP 3</strong>
+                  Apply filters to your selected data elements.
                 </div>
               </div>
-            </div>
-            <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step1 === 'active'">
-              <strong>STEP 1</strong>
-              View datasets on the left navigation. Click one dataset under a category to view its corresponding Data Elements.
-            </div>
-            <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step2 === 'active'">
-              <strong>STEP 2</strong>
-              Select one or more Data Elements for each Dataset that you choose.
-            </div>
-            <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step3 === 'active'">
-              <strong>STEP 3</strong>
-              Apply filters to your selected data elements.
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 overflow">
-            <h3>
-              {{ dataset.name }}
-            </h3>
-            <p>
-              {{ dataset.description }}
-            </p>
+            </nav>
 
-            <div id="description" data-ng-show="availableElements">
-              <table class="table table-condensed table-bordered table-striped">
+            <div style="padding-top: 170px;">
+              <h3>
+                {{ dataset.name }}
+              </h3>
+              <p>
+                {{ dataset.description }}
+              </p>
+
+              <div id="description" data-ng-show="availableElements">
+                <table class="table table-condensed table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th width="10%">Selection</th>
+                      <th>Column</th>
+                      <th>Definition</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-ng-repeat="availableElement in availableElements[dataset.id]">
+                      <td align="center">
+                        <input type="checkbox" checklist-model="dataset.elements" checklist-value="availableElement" data-ng-click="elementsSelected()"/>
+                      </td>
+                      <td>
+                        {{ availableElement.description }}
+                      </td>
+                      <td>
+                        {{ availableElement.meaning }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 data-ng-show="step2 === 'complete'">
+                Filter by:
+              </h4>
+              <div data-ng-show="step2 === 'complete'" class="well well-sm btn-group">
+                <div data-ng-repeat="criterion in criteria" class="btn-group">
+                  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    {{ selectedValues[criterion.filterId] || criterion.filterName }}
+                    <i class="caret"></i>
+                  </button>
+                  <ul id="dropdown{{ criterion.filterId }}" class="dropdown-menu" role="menu" aria-labelledby="dropdown{{ criterion.filterId }}">
+                    <li data-ng-repeat="option in criterion.selection" role="presentation">
+                      <a role="menuItem" tabindex="-1" href="javascript:void(0);" data-ng-click="setFilter(criterion, option)">
+                        {{ option.value }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h4 data-ng-show="subDatasets">
+                Selected Datasets and Elements
+              </h4>
+              <table class="table table-bordered table-striped table-condensed" data-ng-show="subDatasets">
                 <thead>
                   <tr>
-                    <th width="10%">Selection</th>
-                    <th>Column</th>
-                    <th>Definition</th>
+                    <th class="text-center" data-ng-repeat="subdataset in subDatasets">
+                      {{ subdataset.name }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr data-ng-repeat="availableElement in availableElements[dataset.id]">
-                    <td align="center">
-                      <input type="checkbox" checklist-model="dataset.elements" checklist-value="availableElement" data-ng-click="elementsSelected()"/>
-                    </td>
-                    <td>
-                      {{ availableElement.description }}
-                    </td>
-                    <td>
-                      {{ availableElement.meaning }}
+                  <tr>
+                    <td data-ng-repeat="subdataset in subDatasets">
+                      <div data-ng-repeat="subdatasetElement in subdataset.elements">
+                        {{ subdatasetElement.meaning }}
+                      </div>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <button type="button" class="btn btn-primary btn-lg"
+                      data-toggle="modal" data-target="#previewDataModal"
+                      data-ng-show="step3 === 'active' || step3 === 'complete'" data-ng-click="previewData()">
+                View Data
+              </button>
             </div>
-
-            <h4 data-ng-show="step2 === 'complete'">Filter by:</h4>
-            <div data-ng-show="step2 === 'complete'" class="well well-sm btn-group">
-              <div data-ng-repeat="criterion in criteria" class="btn-group">
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                  {{ selectedValues[criterion.filterId] || criterion.filterName }}
-                  <i class="caret"></i>
-                </button>
-                <ul id="dropdown{{ criterion.filterId }}" class="dropdown-menu" role="menu" aria-labelledby="dropdown{{ criterion.filterId }}">
-                  <li data-ng-repeat="option in criterion.selection" role="presentation">
-                    <a role="menuItem" tabindex="-1" href="javascript:void(0);" data-ng-click="setFilter(criterion, option)">
-                      {{ option.value }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            
-            <h4 data-ng-show="subDatasets">Selected Datasets and Elements</h4>
-            <table class="table table-bordered table-striped table-condensed" data-ng-show="subDatasets">
-              <thead>
-                <tr>
-                  <th class="text-center" data-ng-repeat="subdataset in subDatasets">
-                    {{ subdataset.name }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-ng-repeat="subdataset in subDatasets">
-                    <div data-ng-repeat="subdatasetElement in subdataset.elements">
-                      {{ subdatasetElement.meaning }}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <button type="button" class="btn btn-primary btn-lg"
-                    data-toggle="modal" data-target="#previewDataModal"
-                    data-ng-show="step3 === 'active' || step3 === 'complete'" data-ng-click="previewData()">
-              View Data
-            </button>
           </div>
-
         </div>
       </div>
 
@@ -272,10 +300,6 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <!-- /.row -->
-    </div>
-    <!-- /#page-wrapper --><!-- /#wrapper -->
 
     <script data-th-src="@{/js/jquery.min.js}" src="../../js/jquery.js"></script>
     <script data-th-src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.js"></script>

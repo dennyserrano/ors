@@ -86,3 +86,17 @@ table.tableSection tr {
 table.tableSection th, table.tableSection td {
   width: 33%;
 }
+
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+#side-menu .subdataset {
+  text-decoration: none;
+  color: #FFF;
+}
+
+.nav-collapse, .nav-collapse.collapse {
+  overflow: visible;
+}

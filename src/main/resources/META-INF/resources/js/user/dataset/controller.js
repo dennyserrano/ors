@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('UserDatasetCtrl', ['$scope', 'DatasetService', 'ElementService', 'CriteriaService', 'PreviewDataService',
-        function($scope, DatasetService, ElementService, CriteriaService, PreviewDataService) {
+    .controller('UserDatasetCtrl', ['$scope', '$timeout', 'DatasetService', 'ElementService', 'CriteriaService', 'PreviewDataService',
+        function($scope, $timeout, DatasetService, ElementService, CriteriaService, PreviewDataService) {
 
             $scope.datasets = [];
             $scope.elements = [];
@@ -15,6 +15,15 @@ angular.module('UserApp')
             $scope.step2 = 'disabled';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
+
+            $scope.$watch('datasets', function(newValue, oldValue) {
+                if (newValue && newValue.length > 0) {
+                    $timeout(function() {
+                        $('#side-menu').metisMenu();
+                    });
+                    console.log('Datasets listener fired!');
+                }
+            });
 
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;

@@ -1,0 +1,109 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-spring4-4.dtd">
+<!--[if lt IE 7]> <html class="no-js ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Open Report System</title>
+
+    <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
+    <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
+    <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
+    <link data-th-href="@{//cdnjs.cloudflare.com/ajax/libs/metisMenu/1.1.0/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
+    <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
+    <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
+
+  </head>
+  <body data-ng-app="UserApp">
+
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <script data-th-src="@{/js/modernizr.js}" src="../../js/modernizr.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script data-th-src="@{/js/html5shiv.js}" src="../../js/html5shiv.js"></script>
+    <script data-th-src="@{/js/respond.min.js}" src="../../js/respond.src.js"></script>
+    <![endif]-->
+
+    <div id="wrapper" data-ng-controller="UserDatasetCtrl">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="navbar navbar-inverse" style="background-color: #04508C !important;" role="navigation">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-target="#sidebar-menu" data-toggle="collapse">
+                  <span class="sr-only">
+                    Toggle navigation
+                  </span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="color: white;" href="javascript:void(0);">
+                  Open Reporting System
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 col-xs-12"><!-- Sidebar Navigation: List of Datasets -->
+          <div id="sidebar-menu" class="sidebar navbar navbar-inverse navbar-collapse" role="navigation">
+            <div class="input-group custom-search-form" style="padding-top: 20px;">
+              <input type="text" class="form-control" placeholder="Search..."/>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+            <div>
+              <h4 style="color: white;">
+                <i class="fa fa-database fa-fw"></i>
+                Datasets
+              </h4>
+            </div>
+            <ul id="side-menu" class="nav">
+              <li data-ng-repeat="dataset in datasets">
+                <a href="javascript:void(0);">
+                  {{ dataset.name }}
+                  <span class="fa arrow"></span>
+                </a>
+                <ul>
+                  <li data-ng-repeat="subdataset in dataset.subDatasets">
+                    <a class="subdataset" data-ng-click="setDataset(subdataset)" href="javascript:void(0);">
+                      <small>{{ subdataset.name }}</small>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script data-th-src="@{/js/jquery.min.js}" src="../../js/jquery.js"></script>
+    <script data-th-src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.js"></script>
+    <script data-th-src="@{/js/angular.min.js}" src="../../js/angular.js"></script>
+    <script data-th-src="@{/js/angular-route.min.js}" src="../../js/angular-route.js"></script>
+    <script data-th-src="@{/js/angular-resource.min.js}" src="../../js/angular-resource.js"></script>
+    <script data-th-src="@{/js/angular-ui-router.min.js}" src="../../js/angular-ui-router.js"></script>
+    <script data-th-src="@{/js/ui-bootstrap-tpls.min.js}" src="../../js/ui-bootstrap-tpls.js"></script>
+    <script data-th-src="@{/js/checklist-model.js}" src="../../js/checklist-model.js"></script>
+    <script data-th-src="@{/js/metisMenu.js}" src="../../js/metisMenu.js"></script>
+    <script data-th-src="@{/js/ors.js}" src="../../js/dev/js"></script>
+
+    <script data-th-src="@{/js/user/app.js}" src="../../js/user/app.js"></script>
+    <script data-th-src="@{/js/user/dataset/service.js}" src="../../js/user/dataset/service.js"></script>
+    <script data-th-src="@{/js/user/dataset/controller.js}" src="../../js/user/dataset/controller.js"></script>
+    <script data-th-src="@{/js/user/dataset/routes.js}" src="../../js/user/dataset/routes.js"></script>
+  </body>
+</html>
