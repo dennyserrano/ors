@@ -10,6 +10,7 @@
     <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
     <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
     <link data-th-href="@{/css/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
+    <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
     <link data-th-href="@{/css/timeline.css}" rel="stylesheet" href="../../css/timeline.css"/>
     <link data-th-href="@{/css/custom.css}" rel="stylesheet" href="../../css/custom.css"/>
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
@@ -267,22 +268,24 @@
                 <i class="fa fa-spin fa-spinner"></i>
                 Loading Sample Data
               </div>
-              <table data-ng-show="!loadingData" class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th data-ng-repeat="header in headers">
-                      {{ header }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr data-ng-repeat="data in datas">
-                    <td data-ng-repeat="value in data">
-                      {{ value }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-responsive table-bordered">
+                <table data-ng-show="!loadingData" class="table table-bordered table-condensed">
+                  <thead>
+                    <tr>
+                      <th data-ng-repeat="header in headers">
+                        {{ header }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-ng-repeat="data in datas">
+                      <td data-ng-repeat="value in data">
+                        {{ value }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <div align="center">
                 <small align="center" data-ng-show="!loadingData">
                   Click &quot;Export As&quot; button to download the full data.

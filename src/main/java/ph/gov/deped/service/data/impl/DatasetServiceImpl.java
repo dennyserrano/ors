@@ -1,21 +1,14 @@
 package ph.gov.deped.service.data.impl;
 
-import static com.bits.sql.QueryBuilders.read;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.sql.DataSource;
-
+import com.bits.sql.CriteriaChainBuilder;
+import com.bits.sql.CriteriaFilterBuilder;
+import com.bits.sql.FromClauseBuilder;
+import com.bits.sql.JdbcTypes;
+import com.bits.sql.JoinOrWhereClauseBuilder;
+import com.bits.sql.OnClauseBuilder;
+import com.bits.sql.Projection;
+import com.bits.sql.ProjectionBuilder;
+import com.bits.sql.SqlValueMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
@@ -44,34 +36,41 @@ import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 import ph.gov.deped.service.data.api.DatasetService;
 
-import com.bits.sql.CriteriaChainBuilder;
-import com.bits.sql.CriteriaFilterBuilder;
-import com.bits.sql.FromClauseBuilder;
-import com.bits.sql.JdbcTypes;
-import com.bits.sql.JoinOrWhereClauseBuilder;
-import com.bits.sql.OnClauseBuilder;
-import com.bits.sql.Projection;
-import com.bits.sql.ProjectionBuilder;
-import com.bits.sql.SqlValueMapper;
+import javax.sql.DataSource;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.bits.sql.QueryBuilders.read;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Created by ej on 9/10/14.
  */
 public @Service class DatasetServiceImpl implements DatasetService {
 
+    private static final Logger log = LogManager.getLogger(DatasetServiceImpl.class);
+
+    private static final long SCHOOL_PROFILE_DATASET_ID = 8;
+
     private static final String DIVISION_ID = "division_id";
 
     private static final String REGION_ID = "region_id";
 
-    private static final Logger log = LogManager.getLogger(DatasetServiceImpl.class);
+    private static final String SCHOOL_YEAR = "school_year";
 
-    public static final String SCHOOL_YEAR = "school_year";
+    private static final String SCHOOL_NAME = "school_name";
 
-    public static final long SCHOOL_PROFILE_DATASET_ID = 8;
+    private static final String SCHOOL_ID = "school_id";
 
-    public static final String SCHOOL_NAME = "school_name";
-
-    public static final String SCHOOL_ID = "school_id";
+    private static final String SECTOR_ID = "sector_id";
 
     private TableMetadataRepository tableMetadataRepository;
 
@@ -336,13 +335,15 @@ public @Service class DatasetServiceImpl implements DatasetService {
                     .filter(prefixTable -> prefixTable.datasetHead.getId().equals(entry.getKey()))
                     .findFirst();
             PrefixTable prefixTable;
-            if (!selectedTable.isPresent()) {
+            if (selectedTable.isPresent()) {
+                prefixTable = selectedTable.get();
+            }
+            else {
                 DatasetHead datasetHead = datasetRepository.findOne(entry.getKey());
                 prefixTable = new PrefixTable();
                 prefixTable.datasetHead = datasetHead;
-            }
-            else {
-                prefixTable = selectedTable.get();
+                prefixTable.tableMetadata = tableMetadataRepository.findOne(datasetHead.getTableId());
+                prefixTables.add(0, prefixTable);
             }
             lookupMandatoryElements(prefixTable, entry.getValue());
         });
@@ -350,17 +351,20 @@ public @Service class DatasetServiceImpl implements DatasetService {
     
     private void lookupMandatoryElements(PrefixTable prefixTable, List<String> mandatoryElements) {
         DatasetHead datasetHead = prefixTable.datasetHead;
-        mandatoryElements.forEach(elementName -> {
-            Optional<DatasetElement> selectedElement = prefixTable.columns.stream()
-                    .map(ce -> ce.element)
-                    .filter(element -> element != null)
-                    .filter(element -> element.getName().equals(elementName))
-                    .findFirst();
-            if (!selectedElement.isPresent()) {
-                DatasetElement de = elementRepository.findByDatasetHeadAndName(datasetHead, elementName);
-                prefixTable.columns.add(new ColumnElement(de, columnMetadataRepository.findOne(de.getColumnId())));
-            }
-        });
+        // remove mandatory elements first
+        List<ColumnElement> userSelectedNonMandatoryFields = prefixTable.columns.parallelStream()
+                .filter(ce -> !mandatoryElements.contains(ce.element.getName()))
+                .collect(toCollection(LinkedList::new));
+        // lookup mandatory elements
+        List<ColumnElement> mandatoryFields = mandatoryElements.stream()
+                .map(elementName -> elementRepository.findByDatasetHeadAndName(datasetHead, elementName))
+                .filter(element -> element != null)
+                .map(element -> new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId())))
+                .collect(toCollection(LinkedList::new));
+        // combine mandatory elements and user selected elements
+        prefixTable.columns = new LinkedList<>();
+        prefixTable.columns.addAll(0, mandatoryFields);
+        prefixTable.columns.addAll(userSelectedNonMandatoryFields);
     }
 
     private void lookupPrefixes(Map<Integer, String> tablePrefixMap, List<PrefixTable> prefixTables) {
@@ -386,7 +390,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
         List<String> names = new LinkedList<>();
         names.add(REGION_ID);
         names.add(DIVISION_ID);
-        names.add("sector_id");
+        names.add(SECTOR_ID);
         names.add(SCHOOL_ID);
         names.add(SCHOOL_NAME);
         map.put(SCHOOL_PROFILE_DATASET_ID, names);
@@ -398,8 +402,8 @@ public @Service class DatasetServiceImpl implements DatasetService {
         Map<Long, List<String>> map = new HashMap<>();
         List<String> names = new LinkedList<>();
         names.add(SCHOOL_YEAR);
-        names.add(REGION_ID);
-        names.add(DIVISION_ID);
+        names.add("region_name");
+        names.add("division_name");
         names.add(SCHOOL_ID);
         names.add(SCHOOL_NAME);
         map.put(SCHOOL_PROFILE_DATASET_ID, names);
