@@ -20,4 +20,6 @@ public interface ElementRepository extends BaseJpaRepository<DatasetElement, Lon
     List<DatasetElement> findByDatasetHead(DatasetHead datasetHead);
 
     DatasetElement findByDatasetHeadAndName(DatasetHead datasetHead, String name);
+
+    DatasetElement findByDatasetHeadIdAndName(long id, String schoolYear);
 }

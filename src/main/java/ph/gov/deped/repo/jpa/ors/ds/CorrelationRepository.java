@@ -18,4 +18,6 @@ public interface CorrelationRepository extends BaseJpaRepository<DatasetCorrelat
     DatasetCorrelation findByLeftDatasetAndRightDataset(DatasetHead leftDataset, DatasetHead rightDataset);
 
     List<DatasetCorrelation> findByLeftDataset(DatasetHead datasetHead);
+
+    DatasetCorrelation findByLeftDatasetIdAndRightDatasetId(long leftDatasetId, long rightDatasetId);
 }

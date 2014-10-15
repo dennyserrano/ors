@@ -8,7 +8,7 @@
 
     <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
     <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
-    <link data-th-href="@{/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
+    <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
     <link data-th-href="@{/css/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
     <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
     <link data-th-href="@{/css/timeline.css}" rel="stylesheet" href="../../css/timeline.css"/>
@@ -309,7 +309,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <form name="exportForm" action="/export" method="post">
+              <form data-th-action="@{/export}" name="exportForm" action="/export" method="post">
                 <input type="hidden" id="datasetJson" name="dataset" value="{{ datasetJson }}"/>
                 <button type="submit" class="btn btn-default">Export as</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

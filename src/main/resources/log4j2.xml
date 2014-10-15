@@ -56,6 +56,7 @@
   <Loggers>
     <AsyncLogger name="org.hibernate" level="info" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
+      <AppenderRef ref="Console"/>
     </AsyncLogger>
     <AsyncLogger name="com.datastax.driver" level="info" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
@@ -72,8 +73,13 @@
     <AsyncLogger name="com.hikari" level="info" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
+    <AsyncLogger name="org.springframework.web" level="debug" additivity="false">
+      <AppenderRef ref="AsyncSpringLogFile"/>
+      <AppenderRef ref="Console"/>
+    </AsyncLogger>
     <AsyncLogger name="org.springframework" level="info" additivity="false">
       <AppenderRef ref="AsyncSpringLogFile"/>
+      <AppenderRef ref="Console"/>
     </AsyncLogger>
     <AsyncLogger name="ph.gov.deped" level="trace" additivity="false">
       <AppenderRef ref="AsyncOrsLogFile"/>

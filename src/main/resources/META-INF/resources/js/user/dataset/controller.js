@@ -127,12 +127,14 @@ angular.module('UserApp')
                     subDatasets: subDatasets,
                     filters: $scope.filters
                 };
+                console.log(angular.toJson(datasetToSubmit));
                 $scope.loadingData = true;
                 PreviewDataService.preview(datasetToSubmit, function(data) {
                     $scope.headers = data[0];
                     data.splice(0, 1); // removes the header
                     $scope.datas = angular.copy(data);
                     $scope.loadingData = false;
+                    $scope.datasetJson = angular.toJson(datasetToSubmit);
                 });
             };
 

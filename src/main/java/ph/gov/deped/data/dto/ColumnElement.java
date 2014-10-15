@@ -1,0 +1,152 @@
+package ph.gov.deped.data.dto;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import ph.gov.deped.data.ors.ds.DatasetElement;
+import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import ph.gov.deped.service.data.impl.DatasetServiceImpl;
+
+import java.io.Serializable;
+
+/**
+* Created by PSY on 2014/10/15.
+*/
+public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Serializable {
+
+    private static final long serialVersionUID = -8460528631378807133L;
+
+    private long elementId;
+
+    private int columnId;
+
+    private String elementName;
+
+    private String columnName;
+
+    private String elementDescription;
+
+    private long datasetId;
+
+    private String tablePrefix;
+
+    private String dataType;
+
+    private Serializable value;
+
+    public ColumnElement(DatasetElement element, ColumnMetadata column) {
+        this.elementId = element.getId();
+        this.columnId = column.getColumnId();
+        this.elementName = element.getName();
+        this.columnName = column.getColumnName();
+        this.elementDescription = element.getDescription();
+        this.datasetId = element.getDatasetHead().getId();
+        this.dataType = column.getDataType();
+    }
+
+    // used for cloning this object
+    public ColumnElement(long elementId, int columnId, String elementName, String columnName, String elementDescription,
+                         long datasetId, String dataType, String tablePrefix, Serializable value) {
+        this.elementId = elementId;
+        this.columnId = columnId;
+        this.elementName = elementName;
+        this.columnName = columnName;
+        this.elementDescription = elementDescription;
+        this.datasetId = datasetId;
+        this.dataType = dataType;
+        this.tablePrefix = tablePrefix;
+        this.value = value;
+    }
+
+    public long getElementId() {
+        return elementId;
+    }
+
+    public int getColumnId() {
+        return columnId;
+    }
+
+    public String getElementName() {
+        return elementName;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public String getElementDescription() {
+        return elementDescription;
+    }
+
+    public long getDatasetId() {
+        return datasetId;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public Serializable getValue() {
+        return value;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
+    }
+
+    public void setValue(Serializable value) {
+        this.value = value;
+    }
+
+    public int compareTo(ColumnElement o) {
+        int comparison = new Long(datasetId).compareTo(new Long(o.datasetId));
+        if (comparison == 0) {
+            return new Long(elementId).compareTo(new Long(o.elementId));
+        }
+        return comparison;
+    }
+
+    protected @Override ColumnElement clone() throws CloneNotSupportedException {
+        return new ColumnElement(this.elementId, this.columnId, this.elementName, this.columnName, this.elementDescription,
+                this.datasetId, this.dataType, this.tablePrefix, this.value);
+    }
+
+    public @Override boolean equals(Object o) {
+        if (o == null || !(o instanceof ColumnElement)) {
+            return false;
+        }
+        ColumnElement rhs = (ColumnElement) o;
+        return new EqualsBuilder()
+                .append(this.elementId, rhs.elementId)
+                .append(this.columnId, rhs.columnId)
+                .append(this.datasetId, rhs.datasetId)
+                .isEquals();
+    }
+
+    public @Override int hashCode() {
+        return new HashCodeBuilder()
+                .append(this.elementId)
+                .append(this.columnId)
+                .append(this.datasetId)
+                .toHashCode();
+    }
+
+    public @Override String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("elementId", elementId)
+                .append("columnId", columnId)
+                .append("elementName", elementName)
+                .append("columnName", columnName)
+                .append("elementDescription", elementDescription)
+                .append("datasetId", datasetId)
+                .append("tablePrefix", tablePrefix)
+                .append("dataType", dataType)
+                .append("value", value)
+                .toString();
+    }
+}
