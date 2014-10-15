@@ -21,12 +21,27 @@ angular.module('UserApp')
                     $timeout(function() {
                         $('#side-menu').metisMenu();
                     });
-                    console.log('Datasets listener fired!');
                 }
             });
 
+            $scope.$watch('selectAllElements', function(newValue, oldValue) {
+                if (newValue == oldValue) {
+                    return;
+                }
+                if (newValue) {
+                    $scope.dataset.elements = $scope.availableElements[$scope.dataset.id];
+                    $scope.elementsSelected();
+                }
+                else {
+                    $scope.dataset.elements = [];
+                    $scope.datasetSelected();
+                }
+            });
+
+            $scope.loadingDatasets = true;
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
+                $scope.loadingDatasets = false;
             });
             
             var scopeCriteria = $scope.criteria || [];
@@ -42,7 +57,15 @@ angular.module('UserApp')
                 $scope.criteria = scopeCriteria;
             });
 
+            $scope.datasetSelected = function() {
+                $scope.step1 = 'complete';
+                $scope.step2 = 'active';
+                $scope.step3 = 'disabled';
+                $scope.step4 = 'disabled';
+            };
+
             $scope.setDataset = function(selectedDataset) {
+                $scope.loadingAvailableElements = true;
                 $scope.dataset = selectedDataset;
                 var subDatasets = $scope.subDatasets ? $scope.subDatasets : [];
                 subDatasets.push($scope.dataset);
@@ -57,10 +80,8 @@ angular.module('UserApp')
                 $scope.availableElements = availableElements;
                 $scope.subDatasets = subDatasets;
 
-                $scope.step1 = 'complete';
-                $scope.step2 = 'active';
-                $scope.step3 = 'disabled';
-                $scope.step4 = 'disabled';
+                $scope.datasetSelected();
+                $scope.loadingAvailableElements = false;
             };
 
             $scope.elementsSelected = function() {
@@ -109,11 +130,16 @@ angular.module('UserApp')
                 $scope.loadingData = true;
                 PreviewDataService.preview(datasetToSubmit, function(data) {
                     $scope.headers = data[0];
-                    data.splice(0, 1);
-                    $scope.datas = data;
-                    $scope.datasetJson = JSON.stringify(datasetToSubmit);
+                    data.splice(0, 1); // removes the header
+                    $scope.datas = angular.copy(data);
                     $scope.loadingData = false;
                 });
+            };
+
+            $scope.keys = function(obj) {
+                obj = angular.copy(obj);
+                var returnedKeys =  obj ? Object.keys(obj) : [];
+                return returnedKeys;
             };
         }
     ]);

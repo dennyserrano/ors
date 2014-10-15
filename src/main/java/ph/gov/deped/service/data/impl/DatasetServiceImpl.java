@@ -38,6 +38,7 @@ import ph.gov.deped.service.data.api.DatasetService;
 
 import javax.sql.DataSource;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,6 +48,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.bits.sql.QueryBuilders.read;
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -167,9 +169,11 @@ public @Service class DatasetServiceImpl implements DatasetService {
         ColumnElement columnElement;
         for (int i = 0; i < prefixTables.size(); i++) {
             PrefixTable pt = prefixTables.get(i);
+            log.trace("Sorting Dataset Head: [{}]", pt.datasetHead.getName());
             for (int j = 0; j < pt.columns.size(); j++) {
                 columnElement = pt.columns.get(j);
                 sortedColumns.add(columnElement);
+                log.trace("Column and Element [{}] added to sortedColumns.", columnElement.element.getName());
                 fromClauseBuilder = projectionBuilder.select(new Projection(pt.prefix, columnElement.column.getColumnName(), columnElement.element.getName()));
             }
         }
@@ -298,21 +302,20 @@ public @Service class DatasetServiceImpl implements DatasetService {
         JdbcTemplate template = new JdbcTemplate(dataSource);
         List<List<Serializable>> data = template.query(sql.toString(), (rs, rowNum) -> {
             List<Serializable> row = new LinkedList<>();
-            String columnName;
-            Serializable value;
-            for (int i = 0; i < sortedColumns.size(); i++) {
-                ColumnElement ce = sortedColumns.get(i);
-                columnName = ce.element.getName();
-                value = (Serializable) rs.getObject(columnName);
-                row.add(value);
-            }
+            sortedColumns.forEach(ce -> {
+                try {
+                    row.add((Serializable) rs.getObject(ce.element.getName()));
+                }
+                catch (SQLException ex) {
+                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of  elemnet [%s].", ce.element.getName())));
+                }
+            });
             return row;
         });
-        List<Serializable> headers = new LinkedList<>();
-        for (int i = 0; i < sortedColumns.size(); i++) {
-            columnElement = sortedColumns.get(i);
-            headers.add(columnElement.element.getDescription());
-        }
+        List<Serializable> headers = sortedColumns.stream()
+                .map(ce -> ce.element.getDescription())
+                .collect(toCollection(LinkedList::new));
+        log.trace("Headers Final Order [{}].", headers);
         data.add(0, headers);
         return data;
     }
@@ -328,7 +331,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
         return localDate.getYear();
     }
     
-    private void lookupMandatoryDatasets(List<PrefixTable> prefixTables) {
+    private void lookupMandatoryDatasets(LinkedList<PrefixTable> prefixTables) {
         Map<Long, List<String>> mandatoryElements = lookupMandatoryElements();
         mandatoryElements.entrySet().forEach(entry -> {
             Optional<PrefixTable> selectedTable = prefixTables.parallelStream()
@@ -343,7 +346,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
                 prefixTable = new PrefixTable();
                 prefixTable.datasetHead = datasetHead;
                 prefixTable.tableMetadata = tableMetadataRepository.findOne(datasetHead.getTableId());
-                prefixTables.add(0, prefixTable);
+                prefixTables.addFirst(prefixTable);
             }
             lookupMandatoryElements(prefixTable, entry.getValue());
         });
@@ -402,7 +405,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
         Map<Long, List<String>> map = new HashMap<>();
         List<String> names = new LinkedList<>();
         names.add(SCHOOL_YEAR);
-        names.add("region_name");
+        names.add("region_shortname");
         names.add("division_name");
         names.add(SCHOOL_ID);
         names.add(SCHOOL_NAME);

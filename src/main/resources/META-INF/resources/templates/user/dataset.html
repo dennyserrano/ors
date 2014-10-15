@@ -8,7 +8,7 @@
 
     <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
     <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
-    <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
+    <link data-th-href="@{/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
     <link data-th-href="@{/css/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
     <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
     <link data-th-href="@{/css/timeline.css}" rel="stylesheet" href="../../css/timeline.css"/>
@@ -60,7 +60,13 @@
                   </h4>
                 </div>
               </li>
-              <li>
+              <li data-ng-show="loadingDatasets">
+                <div style="color: #FFF;">
+                  <i class="fa fa-spin fa-spinner"></i>
+                  Loading Datasets...
+                </div>
+              </li>
+              <li data-ng-show="!loadingDatasets">
                 <ul id="side-menu" class="nav tipsy">
                   <li data-ng-repeat="dataset in datasets">
                     <a href="javascript:void(0);">
@@ -85,7 +91,7 @@
       <div id="page-wrapper">
         <div class="row">
           <div class="col-sm-12">
-            <nav class=" navbar-fixed-top"  style=" margin-bottom: 45px; margin-left:280px;">
+            <nav class="navbar-fixed-top" style="margin-left:280px; background-color: #FFF; z-index: 1;">
               <div>
                 <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
 
@@ -149,15 +155,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step1 === 'active'">
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%; margin-bottom: 0 !important;" data-ng-show="step1 === 'active'">
                   <strong>STEP 1</strong>
                   View datasets on the left navigation. Click one dataset under a category to view its corresponding Data Elements.
                 </div>
-                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step2 === 'active'">
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%; margin-bottom: 0 !important" data-ng-show="step2 === 'active'">
                   <strong>STEP 2</strong>
                   Select one or more Data Elements for each Dataset that you choose.
                 </div>
-                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%;" data-ng-show="step3 === 'active'">
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:97%; margin-bottom: 0 !important" data-ng-show="step3 === 'active'">
                   <strong>STEP 3</strong>
                   Apply filters to your selected data elements.
                 </div>
@@ -172,16 +178,26 @@
                 {{ dataset.description }}
               </p>
 
-              <div id="description" data-ng-show="availableElements">
+              <div id="description" data-ng-show="availableElements &amp;&amp; availableElements[dataset.id].length &gt; 0">
                 <table class="table table-condensed table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th width="10%">Selection</th>
+                      <th width="10%">
+                        <input type="checkbox" name="selectAllElements" data-ng-model="selectAllElements"/>
+                      </th>
                       <th>Column</th>
                       <th>Definition</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody data-ng-show="loadingAvailableElements">
+                    <tr>
+                      <td colspan="3">
+                        <i class="fa fa-spin fa-spinner"></i>
+                        Loading Elements...
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody data-ng-show="!loadingAvailableElements">
                     <tr data-ng-repeat="availableElement in availableElements[dataset.id]">
                       <td align="center">
                         <input type="checkbox" checklist-model="dataset.elements" checklist-value="availableElement" data-ng-click="elementsSelected()"/>
@@ -266,20 +282,20 @@
               </div>
               <div data-ng-show="loadingData">
                 <i class="fa fa-spin fa-spinner"></i>
-                Loading Sample Data
+                Loading Sample Data...
               </div>
-              <div class="table-responsive table-bordered">
+              <div class="table-responsive">
                 <table data-ng-show="!loadingData" class="table table-bordered table-condensed">
                   <thead>
                     <tr>
-                      <th data-ng-repeat="header in headers">
-                        {{ header }}
+                      <th data-ng-repeat="header in keys(headers)">
+                        {{ headers[header] }}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr data-ng-repeat="data in datas">
-                      <td data-ng-repeat="value in data">
+                      <td data-ng-repeat="key in keys(data)" data-ng-init="value = data[key]">
                         {{ value }}
                       </td>
                     </tr>
