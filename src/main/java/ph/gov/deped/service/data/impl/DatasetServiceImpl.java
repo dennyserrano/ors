@@ -145,7 +145,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
                     entry.getValue().forEach(element -> {
                         ColumnMetadata cm = columnMetadataRepository.findOne(element.getColumnId());
                         ColumnElement ce = new ColumnElement(element, cm);
-                        p.getColumns().add(ce);
+                        p.addColumn(ce);
                     });
                     return p;
                 })
@@ -307,7 +307,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
                     row.add((Serializable) rs.getObject(ce.getElementName()));
                 }
                 catch (SQLException ex) {
-                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of  elemnet [%s].", ce.getElementName())));
+                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName())));
                 }
             });
             return row;

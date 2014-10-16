@@ -44,7 +44,7 @@
     <webjars.bootswatch-simplex.version>3.2.0-1</webjars.bootswatch-simplex.version>
     <webjars.modernizr.version>2.7.1</webjars.modernizr.version>
     
-    <working.dir>C:/Users/PSY/working/ors</working.dir>
+    <working.dir>/home/ej/working/ors</working.dir>
   </properties>
 
   <dependencyManagement>
