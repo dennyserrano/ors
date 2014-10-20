@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export;
+package ph.gov.deped.data.export.xlsx;
 
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -50,15 +50,15 @@ public class FontStyle implements XlsxStyleBuilder<Font>, Serializable {
     public Font build(Workbook wb) {
         Font font = wb.createFont();
         if (height != null) {
-            font.setFontHeight(height.shortValue());
+            font.setFontHeightInPoints(height.shortValue());
         }
         if (color != null) {
             font.setColor(color.shortValue());
         }
-        if (bold != null && bold.booleanValue()) {
-            font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+        if (bold != null) {
+            font.setBoldweight(Font.BOLDWEIGHT_BOLD);
         }
-        if (italic != null && italic.booleanValue()) {
+        if (italic != null) {
             font.setItalic(italic);
         }
         if (underline != null) {

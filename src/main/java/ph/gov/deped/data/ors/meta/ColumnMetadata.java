@@ -31,15 +31,15 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
 
     private @Basic boolean nullable;
 
-    private @Basic int min; // also the scale in numeric types
+    private @Basic Integer min; // also the scale in numeric types
 
-    private @Basic long max; // also the precision in numeric types
+    private @Basic Long max; // also the precision in numeric types
 
     private @Basic @Column(nullable = false) boolean primaryKey = false;
 
     public ColumnMetadata() {}
 
-    public ColumnMetadata(Integer columnId, String columnName, String dataType, boolean nullable, int min, long max, boolean primaryKey) {
+    public ColumnMetadata(Integer columnId, String columnName, String dataType, boolean nullable, Integer min, Long max, boolean primaryKey) {
         this.columnId = columnId;
         this.columnName = columnName;
         this.dataType = dataType;
@@ -73,11 +73,11 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
         return nullable;
     }
 
-    public int getMin() {
+    public Integer getMin() {
         return min;
     }
 
-    public long getMax() {
+    public Long getMax() {
         return max;
     }
 
@@ -105,11 +105,11 @@ public class ColumnMetadata extends BaseJpaEntity<Integer> implements Serializab
         this.nullable = nullable;
     }
 
-    public void setMin(int min) {
+    public void setMin(Integer min) {
         this.min = min;
     }
 
-    public void setMax(long max) {
+    public void setMax(Long max) {
         this.max = max;
     }
 

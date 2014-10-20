@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export;
+package ph.gov.deped.data.export.xlsx;
 
 import org.apache.poi.ss.usermodel.Workbook;
 

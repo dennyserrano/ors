@@ -1,6 +1,7 @@
 package ph.gov.deped.service.data.api;
 
-import java.io.Serializable;
+import ph.gov.deped.data.dto.ColumnElement;
+
 import java.util.List;
 
 /**
@@ -8,5 +9,5 @@ import java.util.List;
  */
 public interface ExportService {
 
-    String export(List<List<Serializable>> data, ExportType exportType);
+    String export(List<List<ColumnElement>> data, ExportType exportType);
 }

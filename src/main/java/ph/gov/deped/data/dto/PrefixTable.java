@@ -8,7 +8,9 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
 
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -33,7 +35,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
     private int ranking;
 
-    protected LinkedList<ColumnElement> columns = new LinkedList<>();
+    protected Set<ColumnElement> columns = new LinkedHashSet<>();
 
     public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, ColumnElement... columnElements) {
         this.datasetId = datasetHead.getId();
@@ -73,7 +75,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         return ranking;
     }
 
-    public LinkedList<ColumnElement> getColumns() {
+    public Set<ColumnElement> getColumns() {
         return columns;
     }
 

@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.service.data.impl.DatasetServiceImpl;
 
 import java.io.Serializable;
 
@@ -32,6 +31,10 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
     private String tablePrefix;
 
     private String dataType;
+    
+    private Long precision;
+    
+    private int scale;
 
     private Serializable value;
 
@@ -43,11 +46,13 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.elementDescription = element.getDescription();
         this.datasetId = element.getDatasetHead().getId();
         this.dataType = column.getDataType();
+        this.scale = column.getMin();
+        this.precision = column.getMax();
     }
 
-    // used for cloning this object
-    public ColumnElement(long elementId, int columnId, String elementName, String columnName, String elementDescription,
-                         long datasetId, String dataType, String tablePrefix, Serializable value) {
+    // Copy Constructor: used for cloning this object
+    private ColumnElement(long elementId, int columnId, String elementName, String columnName, String elementDescription,
+                         long datasetId, String dataType, Long precision, int scale, String tablePrefix, Serializable value) {
         this.elementId = elementId;
         this.columnId = columnId;
         this.elementName = elementName;
@@ -55,6 +60,8 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.elementDescription = elementDescription;
         this.datasetId = datasetId;
         this.dataType = dataType;
+        this.precision = precision;
+        this.scale = scale;
         this.tablePrefix = tablePrefix;
         this.value = value;
     }
@@ -87,12 +94,20 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         return dataType;
     }
 
+    public Long getPrecision() {
+        return precision;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
     public String getTablePrefix() {
         return tablePrefix;
     }
 
-    public Serializable getValue() {
-        return value;
+    public <O extends Serializable> O getValue() {
+        return (O) value;
     }
 
     public void setTablePrefix(String tablePrefix) {
@@ -111,9 +126,9 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         return comparison;
     }
 
-    protected @Override ColumnElement clone() throws CloneNotSupportedException {
+    public @Override ColumnElement clone() {
         return new ColumnElement(this.elementId, this.columnId, this.elementName, this.columnName, this.elementDescription,
-                this.datasetId, this.dataType, this.tablePrefix, this.value);
+                this.datasetId, this.dataType, this.precision, this.scale, this.tablePrefix, this.value);
     }
 
     public @Override boolean equals(Object o) {
@@ -146,6 +161,8 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
                 .append("datasetId", datasetId)
                 .append("tablePrefix", tablePrefix)
                 .append("dataType", dataType)
+                .append("precision", precision)
+                .append("scale", scale)
                 .append("value", value)
                 .toString();
     }

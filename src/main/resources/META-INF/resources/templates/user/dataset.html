@@ -289,14 +289,14 @@
                   <thead>
                     <tr>
                       <th data-ng-repeat="header in keys(headers)">
-                        {{ headers[header] }}
+                        {{ headers[header].value }}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr data-ng-repeat="data in datas">
                       <td data-ng-repeat="key in keys(data)" data-ng-init="value = data[key]">
-                        {{ value }}
+                        {{ value.value }}
                       </td>
                     </tr>
                   </tbody>

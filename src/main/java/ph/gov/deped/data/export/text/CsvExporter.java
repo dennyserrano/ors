@@ -1,15 +1,15 @@
-package ph.gov.deped.data.export;
+package ph.gov.deped.data.export.text;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.export.Exporter;
 import ph.gov.deped.service.data.api.ExportType;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ public class CsvExporter implements Exporter {
 
     private static final Logger log = LogManager.getLogger(CsvExporter.class);
 
-    public void export(String filename, List<List<Serializable>> data) {
+    public void export(String filename, List<List<ColumnElement>> data) {
         if (!filename.endsWith(EXTENSION)) {
             filename = filename + EXTENSION;
         }
@@ -37,13 +37,13 @@ public class CsvExporter implements Exporter {
             }
         }
         try (BufferedWriter out = new BufferedWriter(new FileWriter(csvFile))) {
-            List<Serializable> values;
+            List<ColumnElement> values;
             StringBuilder line;
             for (int row = 0; row < data.size(); row++) {
                 values = data.get(row);
                 line = new StringBuilder();
                 for (int col = 0; col < values.size(); col++) {
-                    line.append("\"").append(values.get(col)).append("\"");
+                    line.append("\"").append(values.get(col).getValue()).append("\"");
                     if (col < values.size() - 1) {
                         line.append(",");
                     }

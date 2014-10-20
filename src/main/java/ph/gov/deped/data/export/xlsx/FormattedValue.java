@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export;
+package ph.gov.deped.data.export.xlsx;
 
 import java.io.Serializable;
 
@@ -8,6 +8,6 @@ import java.io.Serializable;
 public interface FormattedValue extends Serializable {
     
     CellFormat getCellFormat();
-    
-    String getCellContents();
+
+    <O extends Serializable> O getCellContents();
 }

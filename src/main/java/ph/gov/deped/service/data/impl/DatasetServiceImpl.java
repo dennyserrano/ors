@@ -1,14 +1,6 @@
 package ph.gov.deped.service.data.impl;
 
-import com.bits.sql.CriteriaChainBuilder;
-import com.bits.sql.CriteriaFilterBuilder;
-import com.bits.sql.FromClauseBuilder;
-import com.bits.sql.JdbcTypes;
-import com.bits.sql.JoinOrWhereClauseBuilder;
-import com.bits.sql.OnClauseBuilder;
-import com.bits.sql.Projection;
-import com.bits.sql.ProjectionBuilder;
-import com.bits.sql.SqlValueMapper;
+import com.bits.sql.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +14,9 @@ import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
-import ph.gov.deped.data.ors.ds.DatasetCriteria;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
+import ph.gov.deped.data.ors.ds.*;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.repo.jpa.ors.ds.CorrelationDtlRepository;
-import ph.gov.deped.repo.jpa.ors.ds.CorrelationRepository;
-import ph.gov.deped.repo.jpa.ors.ds.CriteriaRepository;
-import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
-import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
+import ph.gov.deped.repo.jpa.ors.ds.*;
 import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
 import ph.gov.deped.service.data.api.DatasetService;
@@ -41,13 +25,11 @@ import javax.sql.DataSource;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
+import static com.bits.sql.JdbcTypes.isBoolean;
+import static com.bits.sql.JdbcTypes.isNumeric;
+import static com.bits.sql.JdbcTypes.isWholeType;
 import static com.bits.sql.QueryBuilders.read;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toCollection;
@@ -123,7 +105,8 @@ public @Service class DatasetServiceImpl implements DatasetService {
         this.datasetRepository = datasetRepository;
     }
 
-    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<List<Serializable>> getData(Dataset dataset, boolean previewOnly) {
+    public @Transactional(value = AppMetadata.TXM, readOnly = true) List<List<ColumnElement>> getData(
+            Dataset dataset, boolean previewOnly) {
         List<DatasetElement> elements = dataset.getElements().stream()
                 .map(Element::getId)
                 .map(elementRepository::findOne)
@@ -166,11 +149,13 @@ public @Service class DatasetServiceImpl implements DatasetService {
         LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
         FromClauseBuilder fromClauseBuilder = null;
         ColumnElement columnElement;
+        List<ColumnElement> ces;
         for (int i = 0; i < prefixTables.size(); i++) {
             PrefixTable pt = prefixTables.get(i);
+            ces = new ArrayList<>(pt.getColumns());
             log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
             for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = pt.getColumns().get(j);
+                columnElement = ces.get(j);
                 sortedColumns.add(columnElement);
                 log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
                 fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
@@ -266,11 +251,12 @@ public @Service class DatasetServiceImpl implements DatasetService {
             else {
                 String str = String.valueOf(value);
                 if (!isBlank(str)) { // not null and empty value case
-                    if (JdbcTypes.isBoolean(dataType, columnMetadata.getMax())) {
-                        SqlValueMapper<Boolean> mapper = JdbcTypes.getValueMapper(dataType);
-                        criteriaFilterBuilder.is(mapper.apply(value));
+                    if (isBoolean(dataType, columnMetadata.getMax())) {
+                        SqlValueMapper<Short> mapper = JdbcTypes.getValueMapper(dataType);
+                        Short converted = mapper.apply(value);
+                        criteriaFilterBuilder.is((converted != null && converted.shortValue() > 0) ? Boolean.TRUE : Boolean.FALSE);
                     }
-                    else if (JdbcTypes.isNumeric(dataType)) {
+                    else if (isNumeric(dataType)) {
                         SqlValueMapper<Number> mapper = JdbcTypes.getValueMapper(dataType);
                         criteriaFilterBuilder.eq(mapper.apply(value));
                     }
@@ -300,22 +286,30 @@ public @Service class DatasetServiceImpl implements DatasetService {
         }
         log.debug("Generated SQL [{}]", sql);
         JdbcTemplate template = new JdbcTemplate(dataSource);
-        List<List<Serializable>> data = template.query(sql.toString(), (rs, rowNum) -> {
-            List<Serializable> row = new LinkedList<>();
+        List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
+            List<ColumnElement> row = new LinkedList<>();
             sortedColumns.forEach(ce -> {
                 try {
-                    row.add((Serializable) rs.getObject(ce.getElementName()));
+                    ColumnElement columnElementWithValue = ce.clone(); 
+                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                    columnElementWithValue.setValue(value);
+                    row.add(columnElementWithValue);
                 }
                 catch (SQLException ex) {
-                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName())));
+                    log.catching(ex);
+                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
                 }
             });
             return row;
         });
-        List<Serializable> headers = sortedColumns.stream()
-                .map(ce -> ce.getElementDescription())
+        
+        LinkedList<ColumnElement> headers = sortedColumns.stream()
+                .map(ColumnElement::clone) // copy the original user selected column elements
+                .map(ce -> {
+                    ce.setValue(ce.getElementDescription()); // set the value as the element description
+                    return ce;
+                })
                 .collect(toCollection(LinkedList::new));
-        log.trace("Headers Final Order [{}].", headers);
         data.add(0, headers);
         return data;
     }
@@ -332,7 +326,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
     }
     
     private void lookupMandatoryDatasets(LinkedList<PrefixTable> prefixTables) {
-        Map<Long, List<String>> mandatoryElements = lookupMandatoryElements();
+        Map<Long, Set<String>> mandatoryElements = lookupMandatoryElements();
         mandatoryElements.entrySet().forEach(entry -> {
             Optional<PrefixTable> selectedTable = prefixTables.parallelStream()
                     .filter(prefixTable -> prefixTable.getDatasetId() == entry.getKey())
@@ -350,21 +344,24 @@ public @Service class DatasetServiceImpl implements DatasetService {
         });
     }
     
-    private void lookupMandatoryElements(PrefixTable prefixTable, List<String> mandatoryElements) {
+    private void lookupMandatoryElements(PrefixTable prefixTable, Set<String> mandatoryElements) {
         long datasetId = prefixTable.getDatasetId();
         // remove mandatory elements first
-        List<ColumnElement> userSelectedNonMandatoryFields = prefixTable.getColumns().parallelStream()
+        Set<ColumnElement> userSelectedNonMandatoryFields = prefixTable.getColumns().stream()
                 .filter(ce -> !mandatoryElements.contains(ce.getElementName()))
-                .collect(toCollection(LinkedList::new));
+                .collect(toCollection(LinkedHashSet::new));
         // lookup mandatory elements
-        List<ColumnElement> mandatoryFields = mandatoryElements.stream()
+        Set<ColumnElement> mandatoryFields = mandatoryElements.stream()
                 .map(elementName -> elementRepository.findByDatasetHeadIdAndName(datasetId, elementName))
                 .filter(element -> element != null)
                 .map(element -> new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId())))
-                .collect(toCollection(LinkedList::new));
+                .collect(toCollection(LinkedHashSet::new));
         // combine mandatory elements and user selected elements
-        prefixTable.getColumns().addAll(0, mandatoryFields);
-        prefixTable.getColumns().addAll(userSelectedNonMandatoryFields);
+        Set<ColumnElement> uniqueElements = new LinkedHashSet<>(mandatoryFields);
+        uniqueElements.addAll(userSelectedNonMandatoryFields);
+        // replace the list of column elements under this prefixed table.
+        prefixTable.getColumns().clear();
+        uniqueElements.forEach(prefixTable::addColumn);
     }
 
     private void lookupPrefixes(Map<Integer, String> tablePrefixMap, List<PrefixTable> prefixTables) {
@@ -398,9 +395,9 @@ public @Service class DatasetServiceImpl implements DatasetService {
     }
     
     // Map of Head ID and Mandatory Element Names
-    private Map<Long, List<String>> lookupMandatoryElements() {
-        Map<Long, List<String>> map = new HashMap<>();
-        List<String> names = new LinkedList<>();
+    private Map<Long, Set<String>> lookupMandatoryElements() {
+        Map<Long, Set<String>> map = new HashMap<>();
+        Set<String> names = new LinkedHashSet<>();
         names.add(SCHOOL_YEAR);
         names.add("region_shortname");
         names.add("division_name");

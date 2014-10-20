@@ -3,14 +3,14 @@ package ph.gov.deped.service.data.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ph.gov.deped.config.OrsSettings;
-import ph.gov.deped.data.export.CsvExporter;
+import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.export.Exporter;
-import ph.gov.deped.data.export.XlsxExporter;
+import ph.gov.deped.data.export.text.CsvExporter;
+import ph.gov.deped.data.export.xlsx.XlsxExporter;
 import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.api.ExportType;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ public @Service class ExportServiceImpl implements ExportService {
         this.orsSettings = orsSettings;
     }
 
-    public String export(List<List<Serializable>> data, ExportType exportType) {
+    public String export(List<List<ColumnElement>> data, ExportType exportType) {
         Exporter exporter = exporters.get(exportType);
         if (exporter == null) {
             throw new UnsupportedOperationException(String.format("Exporter for type [%s] is not yet supported.", exportType));

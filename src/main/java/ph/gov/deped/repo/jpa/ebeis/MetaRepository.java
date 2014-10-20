@@ -84,8 +84,8 @@ public class MetaRepository {
                 c.setMax(rs.getLong("character_maximum_length"));
             }
             else {
-                c.setMin(rs.getInt("numeric_scale"));
-                c.setMax(rs.getInt("numeric_precision"));
+                c.setMin(rs.getInt("numeric_scale")); // digits after the decimal point
+                c.setMax(rs.getLong("numeric_precision")); // how many digits including digits after the decimal point
             }
             if ("PRI".equals(rs.getString("column_key"))) {
                 c.setPrimaryKey(true);

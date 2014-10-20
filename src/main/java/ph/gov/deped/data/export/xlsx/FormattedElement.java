@@ -1,12 +1,15 @@
-package ph.gov.deped.data.export;
+package ph.gov.deped.data.export.xlsx;
 
 import ph.gov.deped.data.dto.ColumnElement;
 
 import java.io.Serializable;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
  * Created by ej on 10/16/14.
  */
+@SuppressWarnings({"unchecked"})
 public class FormattedElement implements FormattedValue, Serializable {
 
     private static final long serialVersionUID = -1034249000455070779L;
@@ -14,18 +17,21 @@ public class FormattedElement implements FormattedValue, Serializable {
     private ColumnElement columnElement;
     
     private CellFormat cellFormat;
-
-    public FormattedElement() {
-        this(null);
-    }
+    
+    private Serializable valueOverride;
 
     public FormattedElement(ColumnElement columnElement) {
         this(columnElement, null);
     }
 
     public FormattedElement(ColumnElement columnElement, CellFormat cellFormat) {
+        this(columnElement, cellFormat, columnElement.getValue());
+    }
+
+    public FormattedElement(ColumnElement columnElement, CellFormat cellFormat, Serializable valueOverride) {
         this.columnElement = columnElement;
         this.cellFormat = cellFormat;
+        this.valueOverride = valueOverride;
     }
 
     public ColumnElement getColumnElement() {
@@ -40,11 +46,19 @@ public class FormattedElement implements FormattedValue, Serializable {
         this.cellFormat = cellFormat;
     }
 
+    public void setValueOverride(String valueOverride) {
+        this.valueOverride = valueOverride;
+    }
+
     public CellFormat getCellFormat() {
         return cellFormat;
     }
     
-    public String getCellContents() {
-        return String.valueOf(this.columnElement.getValue());
+    public Integer getCellType() {
+        return cellFormat.getCellType();
+    }
+    
+    public <O extends Serializable> O getCellContents() {
+        return (O) valueOverride == null ? this.columnElement.getValue() : (O) valueOverride;
     }
 }

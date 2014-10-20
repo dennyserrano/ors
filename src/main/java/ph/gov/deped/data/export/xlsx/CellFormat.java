@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export;
+package ph.gov.deped.data.export.xlsx;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -16,6 +16,8 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
     private FontStyle fontStyle;
     
     private String dataFormat;
+    
+    private Integer cellType;
     
     private Short borderWeightLeft;
     
@@ -60,6 +62,15 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
      */
     public void setDataFormat(String dataFormat) {
         this.dataFormat = dataFormat;
+    }
+
+    /**
+     * @see org.apache.poi.ss.usermodel.Cell
+     * 
+     * @param cellType
+     */
+    public void setCellType(int cellType) {
+        this.cellType = cellType;
     }
 
     public void setBorderWeightLeft(Short borderWeightLeft) {
@@ -125,7 +136,11 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
     public void setWrapText(Boolean wrapText) {
         this.wrapText = wrapText;
     }
-    
+
+    protected Integer getCellType() {
+        return cellType;
+    }
+
     public CellStyle build(Workbook wb) {
         CellStyle cs = wb.createCellStyle();
         if (fontStyle != null) {
@@ -177,10 +192,10 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
         if (horizontalAlign != null) {
             cs.setAlignment(horizontalAlign.shortValue());
         }
-        if (shrinkToFit != null && shrinkToFit) {
+        if (shrinkToFit != null) {
             cs.setShrinkToFit(shrinkToFit);
         }
-        if (wrapText != null && wrapText) {
+        if (wrapText != null) {
             cs.setWrapText(wrapText);
         }
         return cs;

@@ -1,15 +1,12 @@
 package ph.gov.deped.web.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportService;
@@ -19,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -44,7 +40,7 @@ public class ExportDataController {
     @RequestMapping(method = RequestMethod.POST)
     public void export(@RequestParam("dataset") String dataset, HttpServletResponse response) throws Exception {
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
-        List<List<Serializable>> data = datasetService.getData(ds, false);
+        List<List<ColumnElement>> data = datasetService.getData(ds, false);
 
         ExportType exportType = ExportType.XLSX; // TODO Should be user defined from request; constant for now.
         String filename = exportService.export(data, exportType);

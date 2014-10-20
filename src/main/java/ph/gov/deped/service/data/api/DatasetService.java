@@ -1,5 +1,6 @@
 package ph.gov.deped.service.data.api;
 
+import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 
 import java.io.Serializable;
@@ -11,5 +12,5 @@ import java.util.Map;
  */
 public interface DatasetService {
 
-    List<List<Serializable>> getData(Dataset dataset, boolean previewOnly);
+    List<List<ColumnElement>> getData(Dataset dataset, boolean previewOnly);
 }
