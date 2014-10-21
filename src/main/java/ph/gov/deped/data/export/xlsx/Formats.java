@@ -8,20 +8,24 @@ import org.apache.poi.ss.usermodel.CellStyle;
  */
 public abstract class Formats {
     
-    private static final short DEFAULT_FONT_SIZE = 12;
+    private static final short DEFAULT_FONT_SIZE = 8;
     
-    private static final String DEFAULT_INTEGER_FORMAT = "#,###";
+    private static final String DEFAULT_INTEGER_FORMAT = "#,##0";
     
     private static final String DEFAULT_DECIMAL_FORMAT = "#,###.00";
     
-    private static final String DEFAULT_DATE_FORMAT = "mmm dd, yyyy";
+    private static final String DEFAULT_DATE_FORMAT = "mm-dd-yyyy";
     
     private static final String DEFAULT_TIME_FORMAT = "hh:mm:ss A/P";
     
     private static final String DEFAULT_DATETIME_FORMAT = DEFAULT_DATE_FORMAT + " " + DEFAULT_TIME_FORMAT;
     
+    public static FontStyle defaultFont() {
+        return new FontStyle().setHeight(DEFAULT_FONT_SIZE).setFontName(FontStyle.DEFAULT_FONT_NAME);
+    }
+    
     public static FontStyle normal() {
-        return new FontStyle().setHeight(DEFAULT_FONT_SIZE);
+        return new FontStyle().setHeight(DEFAULT_FONT_SIZE).setFontName(FontStyle.DEFAULT_FONT_NAME);
     }
     
     public static FontStyle bold() {
@@ -55,12 +59,12 @@ public abstract class Formats {
     public static CellFormat defaultHeader() {
         CellFormat cf = new CellFormat();
         cf.setFontStyle(heading5());
-        cf.setWrapText(Boolean.TRUE);
         return cf;
     }
     
     public static CellFormat text() {
         CellFormat cf = new CellFormat();
+        cf.setFontStyle(defaultFont());
         cf.setCellType(Cell.CELL_TYPE_STRING);
         cf.setWrapText(Boolean.TRUE);
         return cf;
@@ -70,6 +74,7 @@ public abstract class Formats {
         CellFormat cf = new CellFormat();
         cf.setDataFormat(DEFAULT_INTEGER_FORMAT);
         cf.setCellType(Cell.CELL_TYPE_NUMERIC);
+        cf.setFontStyle(defaultFont());
         cf.setIndentation(CellStyle.ALIGN_RIGHT);
         return cf;
     }
@@ -78,6 +83,7 @@ public abstract class Formats {
         CellFormat cf = new CellFormat();
         cf.setDataFormat(DEFAULT_DECIMAL_FORMAT);
         cf.setCellType(Cell.CELL_TYPE_NUMERIC);
+        cf.setFontStyle(defaultFont());
         cf.setIndentation(CellStyle.ALIGN_RIGHT);
         return cf;
     }
@@ -85,6 +91,7 @@ public abstract class Formats {
     public static CellFormat date() {
         CellFormat cf = new CellFormat();
         cf.setDataFormat(DEFAULT_DATE_FORMAT);
+        cf.setFontStyle(defaultFont());
         cf.setCellType(Cell.CELL_TYPE_STRING);
         return cf;
     }
@@ -92,12 +99,14 @@ public abstract class Formats {
     public static CellFormat date(String dataFormat) {
         CellFormat cf = new CellFormat();
         cf.setDataFormat(dataFormat);
+        cf.setFontStyle(defaultFont());
         cf.setCellType(Cell.CELL_TYPE_STRING);
         return cf;
     }
     
     public static CellFormat time() {
         CellFormat cf = new CellFormat();
+        cf.setFontStyle(defaultFont());
         cf.setDataFormat(DEFAULT_TIME_FORMAT);
         cf.setCellType(Cell.CELL_TYPE_STRING);
         return cf;
@@ -105,6 +114,7 @@ public abstract class Formats {
     
     public static CellFormat datetime() {
         CellFormat cf = new CellFormat();
+        cf.setFontStyle(defaultFont());
         cf.setDataFormat(DEFAULT_DATETIME_FORMAT);
         cf.setCellType(Cell.CELL_TYPE_STRING);
         return cf;

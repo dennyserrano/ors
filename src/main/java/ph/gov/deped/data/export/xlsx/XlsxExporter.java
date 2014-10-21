@@ -1,11 +1,9 @@
 package ph.gov.deped.data.export.xlsx;
 
-import com.bits.sql.JdbcTypes;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.streaming.SXSSFCell;
-import org.apache.poi.xssf.streaming.SXSSFRow;
-import org.apache.poi.xssf.streaming.SXSSFSheet;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.export.Exporter;
 import ph.gov.deped.service.data.api.ExportType;
@@ -32,19 +30,21 @@ public class XlsxExporter implements Exporter {
         if (!filename.endsWith(EXTENSION)) {
             filename = filename + EXTENSION;
         }
-        SXSSFWorkbook wb = new SXSSFWorkbook(100);
-        SXSSFSheet sheet = (SXSSFSheet) wb.createSheet();
-        SXSSFRow row;
-        SXSSFCell cell;
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet();
+        XSSFRow row;
+        XSSFCell cell;
         List<ColumnElement> rowData;
         ColumnElement ce;
         FormattedElement fe;
         Map<String, FormattedElement> columnFormat = formatColumns(data);
+        XlsxCellWriter writer = new XlsxCellWriter();
+        
         for (int r = 0; r < data.size(); r++) {
-            row = (SXSSFRow) sheet.createRow(r);
+            row = sheet.createRow(r);
             rowData = data.get(r);
             for (int c = 0; c < rowData.size(); c++) {
-                cell = (SXSSFCell) row.createCell(c);
+                cell = row.createCell(c);
                 ce = rowData.get(c);
                 if (r == 0) { // first row is always the header
                     fe = headerValue().format(ce);
@@ -52,8 +52,14 @@ public class XlsxExporter implements Exporter {
                 else {
                     fe = new FormattedElement(ce, columnFormat.get(ce.getElementName()).getCellFormat());
                 }
-                write(wb, row, cell, fe);
+                writer.publish(wb, row, cell, fe);
             }
+        }
+
+        // late apply auto sizing for each columns
+        int colCount = data.size();
+        for (int c = 0; c < colCount; c++) {
+            sheet.autoSizeColumn(c);
         }
 
         File xlsxFile = new File(filename);
@@ -116,30 +122,5 @@ public class XlsxExporter implements Exporter {
                 })
                 .forEach(fe -> columnFormat.put(fe.getColumnElement().getElementName(), fe));
         return  columnFormat;
-    }
-    
-    private void write(SXSSFWorkbook wb, SXSSFRow row, SXSSFCell cell, FormattedElement fe) {
-        CellStyle cellStyle = fe.getCellFormat().build(wb);
-        cell.setCellStyle(cellStyle);
-        if (fe.getCellType() != null) {
-            cell.setCellType(fe.getCellType().intValue());
-        }
-        if (row.getRowNum() == 0) {
-            cell.setCellValue((String) fe.getCellContents());
-        }
-        else {
-            if (isBoolean(fe.getColumnElement().getDataType(), fe.getColumnElement().getPrecision())) {
-                cell.setCellValue((String) fe.getCellContents());
-            }
-            else if (isNumeric(fe.getColumnElement().getDataType())) {
-                cell.setCellValue(JdbcTypes.getDoubleValue(fe.getCellContents()));
-            }
-            else if (isCalendarType(fe.getColumnElement().getDataType())) {
-                cell.setCellValue(JdbcTypes.getDateValue(fe.getCellContents()));
-            }
-            else {
-                cell.setCellValue(JdbcTypes.getStringValue(fe.getCellContents()));
-            }
-        }
     }
 }

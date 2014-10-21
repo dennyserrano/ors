@@ -5,12 +5,18 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.Serializable;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
 * Created by ej on 10/16/14.
 */
 public class FontStyle implements XlsxStyleBuilder<Font>, Serializable {
 
+    public static final String DEFAULT_FONT_NAME = "Arial";
+    
     private static final long serialVersionUID = 2115195258993046530L;
+    
+    private String fontName;
     
     private Short height;
     
@@ -21,7 +27,12 @@ public class FontStyle implements XlsxStyleBuilder<Font>, Serializable {
     private Boolean italic;
     
     private Byte underline;
-    
+
+    public FontStyle setFontName(String fontName) {
+        this.fontName = fontName;
+        return this;
+    }
+
     public FontStyle setHeight(short height) {
         this.height = height;
         return this;
@@ -49,6 +60,9 @@ public class FontStyle implements XlsxStyleBuilder<Font>, Serializable {
     
     public Font build(Workbook wb) {
         Font font = wb.createFont();
+        if (!isBlank(fontName)) {
+            font.setFontName(fontName);
+        }
         if (height != null) {
             font.setFontHeightInPoints(height.shortValue());
         }
