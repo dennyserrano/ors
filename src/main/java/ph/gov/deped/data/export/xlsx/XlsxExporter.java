@@ -57,8 +57,8 @@ public class XlsxExporter implements Exporter {
         }
 
         // late apply auto sizing for each columns
-        int colCount = data.size();
-        for (int c = 0; c < colCount; c++) {
+        row = sheet.getRow(0);
+        for (int c = 0; c < row.getLastCellNum(); c++) {
             sheet.autoSizeColumn(c);
         }
 
