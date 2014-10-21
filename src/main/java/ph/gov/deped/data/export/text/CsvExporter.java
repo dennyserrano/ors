@@ -43,7 +43,7 @@ public class CsvExporter implements Exporter {
                 values = data.get(row);
                 line = new StringBuilder();
                 for (int col = 0; col < values.size(); col++) {
-                    line.append("\"").append(values.get(col).getValue()).append("\"");
+                    line.append("\"").append(String.valueOf(values.get(col).getValue())).append("\"");
                     if (col < values.size() - 1) {
                         line.append(",");
                     }
