@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -59,6 +59,7 @@ public abstract class Formats {
     public static CellFormat defaultHeader() {
         CellFormat cf = new CellFormat();
         cf.setFontStyle(heading5());
+        cf.setCellType(Cell.CELL_TYPE_STRING);
         return cf;
     }
     
@@ -120,12 +121,17 @@ public abstract class Formats {
         return cf;
     }
     
+    public static ElementFormatter booleanValue() {
+        return ce -> new FormattedElement(ce, defaultHeader(),
+                (ce.getValue() != null && ((Boolean) ce.getValue()) ? "YES" : "NO"));
+    }
+    
     public static ElementFormatter headerValue() {
         return ce -> new FormattedElement(ce, defaultHeader(), ce.getValue());
     }
     
     public static ElementFormatter stringValue() {
-        return ce -> new FormattedElement(ce, text());
+        return ce -> new FormattedElement(ce, text(), String.valueOf((Object) ce.getValue()));
     }
     
     public static ElementFormatter longValue() {
@@ -136,8 +142,8 @@ public abstract class Formats {
         return ce -> new FormattedElement(ce, decimal());
     }
     
-    public static ElementFormatter dateFormattedValue(String dataFormat) {
-        return ce -> new FormattedElement(ce, date(dataFormat));
+    public static ElementFormatter yearValue() {
+        return ce -> new FormattedElement(ce, date("####"));
     }
     
     public static ElementFormatter dateValue() {

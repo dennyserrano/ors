@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Open Report System</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="css/plugins/timeline.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+      <link href="css/custom.css" rel="stylesheet">
+    <link href="css/open_report.css" rel="stylesheet">
+    
+    
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper" style="background-color:#FFF; ">
+
+        <!-- Navigation -->
+        <nav class="mine navbar my_header my-default  navbar-default  navbar-fixed-top" role="navigation" style="margin-bottom: 15px;" >
+            <div class="navbar-header"  >
+              <div class="navbar-brand" style="color:#FFF;">Open Report System</div>
+          </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+          
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>Esme Ignacio <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+          </ul>
+          
+            <!-- /.navbar-static-side -->
+        </nav>
+
+      <div class="container-fluid" >
+        <div class="row">
+         
+        <ul class="col-sm-12 list-unstyled" id="tracker">
+       <li>
+          
+       <div style="margin-left:27px;" >
+    <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
+        <div class="col-xs-3 smpl-step-step complete">
+            
+            <div class="progress disabled">
+                <div class="progress-bar"></div>
+            </div>
+            <a class="smpl-step-icon"><i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i></a>
+            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 1: </span> View  and Select Datasets</small></div>
+        </div>
+
+        <div class="col-xs-3 smpl-step-step complete">           
+           
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;""></i></a>
+            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small></div>
+        </div>
+        <div class="col-xs-3 smpl-step-step complete">          
+            
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;""></i></a>
+            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
+        </div>
+        <div class="col-xs-3 smpl-step-step complete">           
+            
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+             <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
+            </div>
+    </div>
+</div>
+<div class="alert alert-info alert-dismissible" role="alert" ><strong>STEP 4 </strong>You've reached the final step! Export your generated output according to your file preference.</div></li>
+<!--breadcrumbs
+<ol class="breadcrumb">
+  <li><a href="#">Enrolment</a></li>
+
+  <li class="active">Classrooms by use &amp; status/type</li>
+</ol>
+-->
+
+
+
+
+<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+<p style="text-align:center; font-weight:bold;">DEPARTMENT OF EDUCATION<br>
+  ENHANCED BASIC EDUCATION INFORMATION SYSTEM  <br>
+  School Year : 2014 - 2015</strong><br></p>
+
+<!-- Indicates a successful or positive action --><li class="table-responsive">
+<table class="table table-condensed table-bordered table-striped">
+  <thead>
+<tr>
+
+<th width="8%">School ID</th>
+<th width="11%">School Name</th>
+<th width="8%">School Region</th>
+<th width="9%">CCT/4P's Kinder Male</th>
+<th width="9%">CCT/4P's Kinder Female</th>
+<th width="9%">CCT/4P's Grade 1 Male</th>
+<th width="9%">CCT/4P's Grade 1 Female</th>
+<th width="8%">Balik-Aral Kinder Male</th>
+<th width="7%">Balik-Aral Kinder Female</th>
+<th width="8%">Balik-Aral Grade 1 Male</th>
+<th width="8%">Balik-Aral Grade 1 Female</th>
+<th width="6%">Total</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td align="center">&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+<td align="center">&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td align="center">&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td align="center">&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td align="center">&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+  <td align="center">&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  </tr>
+<tr>
+  <td align="center">&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  </tr>
+<tr>
+  <td align="center">&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</tbody>
+</table><br></li>
+<div class="alert alert-warning alert-dismissible" role="alert" >
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+ <strong>Note:</strong> This is just a preview of your final output based on your chosen datasets and data elements from the previous steps. If you are happy with the data displayed on the table above, click the &quot;Export as&quot; button below, and choose your  file preference accordingly. If you wish to add or remove specific  data on the current output, click the previous step button.</div>
+
+
+<button type="button" class="btn btn-primary btn-md" >Previous Step</button>
+<div class="btn-group dropup">
+  
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    <span >Export as </span><span class="caret"></span>
+    
+  </button>
+  <ul class="dropdown-menu" >
+    <li><a href="#">.xls</a></li>
+    <li><a href="#">.xlsx</a></li>
+    <li><a href="#">.pdf</a></li>
+  </ul>
+</div>
+        </ul>
+            <!-- /.col-lg-12 -->
+        </div>
+      <br>
+            <!-- /.row -->
+   </div>
+ 
+ </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/Menu/localmenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/open_report.js"></script>
+    
+  <script>  $( ".change" ).click(function() {
+  	$('.progress').removeClass("progress-bar-success");
+    $('.progress_2').addClass("progress-bar-info");
+	 $('.progress_3').addClass("progress-bar-info");
+});
+</script>
+
+
+</body>
+
+</html>

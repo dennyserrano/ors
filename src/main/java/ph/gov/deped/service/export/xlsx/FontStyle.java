@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -8,9 +8,15 @@ import java.io.Serializable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
-* Created by ej on 10/16/14.
+ * @see org.apache.poi.ss.usermodel.Font
+ * @since  Oct 16, 2014
+ * @author ej
 */
 public class FontStyle implements XlsxStyleBuilder<Font>, Serializable {
+    
+    public static final String[] FIELDS = new String[] {
+            "fontName", "height", "color", "bold", "italic", "underline"
+    };
 
     public static final String DEFAULT_FONT_NAME = "Arial";
     

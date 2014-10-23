@@ -1,12 +1,16 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.export.Exporter;
+import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
+import ph.gov.deped.service.export.Exporter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,15 +20,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.bits.sql.JdbcTypes.*;
-import static ph.gov.deped.data.export.xlsx.Formats.*;
-
 /**
  * Created by PSY on 2014/10/15.
  */
 public class XlsxExporter implements Exporter {
+    
+    private static final Logger log = LogManager.getLogger(XlsxExporter.class);
 
     public static final String EXTENSION = "." + ExportType.XLSX.getExtension();
+    
+    private ExcelCellWriter excelCellWriter;
+    
+    private FormattingRepository formattingRepository;
+
+    public @Autowired void setExcelCellWriter(ExcelCellWriter excelCellWriter) {
+        this.excelCellWriter = excelCellWriter;
+    }
+
+    public @Autowired void setFormattingRepository(FormattingRepository formattingRepository) {
+        this.formattingRepository = formattingRepository;
+    }
 
     public void export(String filename, List<List<ColumnElement>> data) {
         if (!filename.endsWith(EXTENSION)) {
@@ -38,8 +53,8 @@ public class XlsxExporter implements Exporter {
         ColumnElement ce;
         FormattedElement fe;
         Map<String, FormattedElement> columnFormat = formatColumns(data);
-        XlsxCellWriter writer = new XlsxCellWriter();
         
+        long startTimestamp = System.currentTimeMillis();
         for (int r = 0; r < data.size(); r++) {
             row = sheet.createRow(r);
             rowData = data.get(r);
@@ -47,14 +62,16 @@ public class XlsxExporter implements Exporter {
                 cell = row.createCell(c);
                 ce = rowData.get(c);
                 if (r == 0) { // first row is always the header
-                    fe = headerValue().format(ce);
+                    fe = Formats.headerValue().format(ce);
                 }
                 else {
                     fe = new FormattedElement(ce, columnFormat.get(ce.getElementName()).getCellFormat());
                 }
-                writer.publish(wb, row, cell, fe);
+                excelCellWriter.write(wb, row, cell, fe);
             }
         }
+        long totalWriteTime = System.currentTimeMillis() - startTimestamp;
+        log.debug("Total Write Time [{}]", totalWriteTime);
 
         // late apply auto sizing for each columns
         row = sheet.getRow(0);
@@ -75,7 +92,7 @@ public class XlsxExporter implements Exporter {
             wb.write(out);
         }
         catch (FileNotFoundException ex) {
-            throw new RuntimeException(String.format("XLSX File not yet created or was not created [%s].", filename), ex);
+            throw new RuntimeException(String.format("XLSX File [%s] was not created.", filename), ex);
         }
         catch (IOException ex) {
             throw new RuntimeException(String.format("Problem writing to XSLX file [%s].", filename), ex);
@@ -87,38 +104,12 @@ public class XlsxExporter implements Exporter {
         List<ColumnElement> headers = data.get(0);
         headers.stream()
                 .map(ce -> {
-                    FormattedElement fe;
                     String dataType = ce.getDataType();
-                    if ("school_id".equals(ce.getElementName())) {
-                        fe = stringValue().format(ce);
+                    ElementFormatter ef = formattingRepository.findByDatasetElement(ce.getDatasetId(), ce.getElementName());
+                    if (ef == null) {
+                        ef = formattingRepository.findByKey(dataType);
                     }
-                    else if ("school_year".equals(ce.getElementName()) || "sy_from".equals(ce.getElementName())) {
-                        fe = dateFormattedValue("####").format(ce);
-                    }
-                    else if (isBoolean(dataType, ce.getPrecision())) {
-                        fe = stringValue().format(ce);
-                        Boolean b = ce.getValue();
-                        fe.setValueOverride((b != null && b) ? "YES" : "NO");
-                    }
-                    else if (isWholeType(dataType)) {
-                        fe = longValue().format(ce);
-                    }
-                    else if (isDecimalType(dataType)) {
-                        fe = decimalValue().format(ce);
-                    }
-                    else if ("date".equals(dataType)) {
-                        fe = dateValue().format(ce);
-                    }
-                    else if ("time".equals(dataType)) {
-                        fe = timeValue().format(ce);
-                    }
-                    else if ("datetime".equals(dataType) || "timestamp".equals(dataType)) {
-                        fe = datetimeValue().format(ce);
-                    }
-                    else {
-                        fe = stringValue().format(ce);
-                    }
-                    return fe;
+                    return ef.format(ce);
                 })
                 .forEach(fe -> columnFormat.put(fe.getColumnElement().getElementName(), fe));
         return  columnFormat;

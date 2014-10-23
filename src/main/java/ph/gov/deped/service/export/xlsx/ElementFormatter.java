@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
 import ph.gov.deped.data.dto.ColumnElement;
 

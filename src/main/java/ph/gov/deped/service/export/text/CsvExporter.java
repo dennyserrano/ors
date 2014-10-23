@@ -1,9 +1,9 @@
-package ph.gov.deped.data.export.text;
+package ph.gov.deped.service.export.text;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.export.Exporter;
+import ph.gov.deped.service.export.Exporter;
 import ph.gov.deped.service.data.api.ExportType;
 
 import java.io.BufferedWriter;

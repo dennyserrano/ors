@@ -1,10 +1,8 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
 import ph.gov.deped.data.dto.ColumnElement;
 
 import java.io.Serializable;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Created by ej on 10/16/14.

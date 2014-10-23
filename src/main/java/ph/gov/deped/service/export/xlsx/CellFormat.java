@@ -1,4 +1,4 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -10,6 +10,11 @@ import java.io.Serializable;
 * Created by ej on 10/16/14.
 */
 public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
+    
+    public static final String[] FIELDS = new String[] {
+            "fontStyle", "dataFormat", "cellType", "indentation", "rotation",
+            "verticalAlign", "horizontalAlign", "shrinkToFit", "wrapText"
+    };
 
     private static final long serialVersionUID = -28263102408794187L;
     
@@ -18,26 +23,6 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
     private String dataFormat;
     
     private Integer cellType;
-    
-    private Short borderWeightLeft;
-    
-    private Short borderWeightRight;
-    
-    private Short borderWeightTop;
-    
-    private Short borderWeightBottom;
-    
-    private Short borderColorLeft;
-    
-    private Short borderColorRight;
-    
-    private Short borderColorTop;
-    
-    private Short borderColorBottom;
-    
-    private Short fillPattern;
-    
-    private Short fillBackgroundColor;
     
     private Short indentation;
     
@@ -71,46 +56,6 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
      */
     public void setCellType(int cellType) {
         this.cellType = cellType;
-    }
-
-    public void setBorderWeightLeft(Short borderWeightLeft) {
-        this.borderWeightLeft = borderWeightLeft;
-    }
-
-    public void setBorderWeightRight(Short borderWeightRight) {
-        this.borderWeightRight = borderWeightRight;
-    }
-
-    public void setBorderWeightTop(Short borderWeightTop) {
-        this.borderWeightTop = borderWeightTop;
-    }
-
-    public void setBorderWeightBottom(Short borderWeightBottom) {
-        this.borderWeightBottom = borderWeightBottom;
-    }
-
-    public void setBorderColorLeft(Short borderColorLeft) {
-        this.borderColorLeft = borderColorLeft;
-    }
-
-    public void setBorderColorRight(Short borderColorRight) {
-        this.borderColorRight = borderColorRight;
-    }
-
-    public void setBorderColorTop(Short borderColorTop) {
-        this.borderColorTop = borderColorTop;
-    }
-
-    public void setBorderColorBottom(Short borderColorBottom) {
-        this.borderColorBottom = borderColorBottom;
-    }
-
-    public void setFillPattern(Short fillPattern) {
-        this.fillPattern = fillPattern;
-    }
-
-    public void setFillBackgroundColor(Short fillBackgroundColor) {
-        this.fillBackgroundColor = fillBackgroundColor;
     }
 
     public void setIndentation(Short indentation) {
@@ -149,36 +94,6 @@ public class CellFormat implements XlsxStyleBuilder<CellStyle>, Serializable {
         if (dataFormat != null) {
             DataFormat df = wb.createDataFormat();
             cs.setDataFormat(df.getFormat(this.dataFormat));
-        }
-        if (borderWeightLeft != null) {
-            cs.setBorderLeft(borderWeightLeft.shortValue());
-        }
-        if (borderWeightRight != null) {
-            cs.setBorderRight(borderWeightRight.shortValue());
-        }
-        if (borderWeightTop != null) {
-            cs.setBorderTop(borderWeightTop.shortValue());
-        }
-        if (borderWeightBottom != null) {
-            cs.setBorderBottom(borderWeightBottom.shortValue());
-        }
-        if (borderColorLeft != null) {
-            cs.setLeftBorderColor(borderColorLeft.shortValue());
-        }
-        if (borderColorRight != null) {
-            cs.setRightBorderColor(borderColorRight.shortValue());
-        }
-        if (borderColorTop != null) {
-            cs.setTopBorderColor(borderColorTop.shortValue());
-        }
-        if (borderColorBottom != null) {
-            cs.setBottomBorderColor(borderColorBottom.shortValue());
-        }
-        if (fillPattern != null) {
-            cs.setFillPattern(fillPattern.shortValue());
-        }
-        if (fillBackgroundColor != null) {
-            cs.setFillBackgroundColor(fillBackgroundColor.shortValue());
         }
         if (indentation != null) {
             cs.setIndention(indentation.shortValue());

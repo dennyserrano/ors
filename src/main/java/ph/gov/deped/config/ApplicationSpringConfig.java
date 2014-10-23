@@ -4,10 +4,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.support.AbstractApplicationContext;
 import reactor.spring.context.RingBufferApplicationEventPublisher;
 
 /**
@@ -29,7 +32,13 @@ import reactor.spring.context.RingBufferApplicationEventPublisher;
         RootSpringConfig.class,
         WebSpringConfig.class
 })
-public class ApplicationSpringConfig {
+public class ApplicationSpringConfig implements ApplicationContextAware {
+    
+    private ApplicationContext applicationContext;
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     public @Bean ApplicationEventPublisher applicationEventPublisher() {
         return new RingBufferApplicationEventPublisher(8, true);

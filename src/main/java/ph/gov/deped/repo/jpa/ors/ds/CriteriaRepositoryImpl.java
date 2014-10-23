@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by PSY on 2014/10/03.
  */
-public class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
+class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final List<KeyValue> SCHOOL_YEARS = new ArrayList<>(Arrays.asList(
             new KeyValue("", "School Year"),

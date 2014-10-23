@@ -1,10 +1,11 @@
-package ph.gov.deped.data.export.xlsx;
+package ph.gov.deped.service.export.xlsx;
 
 import java.io.Serializable;
 
 /**
  * Created by ej on 10/16/14.
  */
+@SuppressWarnings({"unchecked"})
 public class FormattedHeader implements FormattedValue, Serializable {
 
     private static final long serialVersionUID = -5250741297468936971L;

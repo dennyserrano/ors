@@ -106,6 +106,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         return tablePrefix;
     }
 
+    @SuppressWarnings({"unchecked"})
     public <O extends Serializable> O getValue() {
         return (O) value;
     }
