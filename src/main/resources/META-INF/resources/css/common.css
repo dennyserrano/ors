@@ -6,6 +6,11 @@
        url('../fonts/DroidSansMono.ttf') format('truetype');
 }
 
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 /* centered columns styles */
 .row-centered {
   text-align:center;
@@ -99,4 +104,21 @@ table.tableSection th, table.tableSection td {
 
 .nav-collapse, .nav-collapse.collapse {
   overflow: visible;
+}
+
+.nav > li > a {
+  padding: 0;
+  color: #FFF;
+}
+
+#sidebar-nav {
+  border: none;
+}
+
+@media (max-width: 768px) {
+  #sidebar-nav {
+    max-height: 250px;
+    float: left;
+    width: 100%;
+  }
 }

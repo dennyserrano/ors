@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/user/datasets")
 public class DatasetsUserViewController {
 
-    public static final String DATASETS_VIEW = "user/dataset";
+    public static final String DATASETS_VIEW = "user/datasets";
 
     @RequestMapping(method = RequestMethod.GET)
     public String datasets() {

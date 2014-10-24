@@ -13,7 +13,7 @@
     <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../../css/normalize.css"/>
     <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" href="../../css/bootstrap.css"/>
     <link data-th-href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}" rel="stylesheet" href="../../css/font-awesome.css"/>
-    <link data-th-href="@{//cdnjs.cloudflare.com/ajax/libs/metisMenu/1.1.0/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
+    <link data-th-href="@{/css/metisMenu.min.css}" rel="stylesheet" href="../../css/metisMenu.css"/>
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
     <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
 
@@ -31,13 +31,14 @@
     <script data-th-src="@{/js/respond.min.js}" src="../../js/respond.src.js"></script>
     <![endif]-->
 
-    <div id="wrapper" data-ng-controller="UserDatasetCtrl">
+    <div id="wrapper">
+      
       <div class="row">
         <div class="col-sm-12">
           <div class="navbar navbar-inverse" style="background-color: #04508C !important;" role="navigation">
             <div class="container-fluid">
               <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-target="#sidebar-menu" data-toggle="collapse">
+                <button type="button" class="navbar-toggle collapsed" data-target="#sidebar-nav" data-toggle="collapse">
                   <span class="sr-only">
                     Toggle navigation
                   </span>
@@ -53,38 +54,16 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-3 col-xs-12"><!-- Sidebar Navigation: List of Datasets -->
-          <div id="sidebar-menu" class="sidebar navbar navbar-inverse navbar-collapse" role="navigation">
-            <div class="input-group custom-search-form" style="padding-top: 20px;">
-              <input type="text" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-            <div>
-              <h4 style="color: white;">
-                <i class="fa fa-database fa-fw"></i>
-                Datasets
-              </h4>
-            </div>
-            <ul id="side-menu" class="nav">
-              <li data-ng-repeat="dataset in datasets">
-                <a href="javascript:void(0);">
-                  {{ dataset.name }}
-                  <span class="fa arrow"></span>
-                </a>
-                <ul>
-                  <li data-ng-repeat="subdataset in dataset.subDatasets">
-                    <a class="subdataset" data-ng-click="setDataset(subdataset)" href="javascript:void(0);">
-                      <small>{{ subdataset.name }}</small>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+      
+      <!-- Main Contents -->
+      <div id="page-wrapper" class="row" ui-view=""></div>
+
+      <!-- Footer Bar -->
+      <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+          <div class="bootcards-desktop-footer text-center clearfix">
+            <small>&copy; Copyright 2014 Department of Education</small>
+            <small>Republic of the Philippines</small>
           </div>
         </div>
       </div>
@@ -103,7 +82,7 @@
 
     <script data-th-src="@{/js/user/app.js}" src="../../js/user/app.js"></script>
     <script data-th-src="@{/js/user/dataset/service.js}" src="../../js/user/dataset/service.js"></script>
-    <script data-th-src="@{/js/user/dataset/controller.js}" src="../../js/user/dataset/controller.js"></script>
+    <script data-th-src="@{/js/user/dataset/step1ctrl.js}" src="../../js/user/dataset/step1ctrl.js"></script>
     <script data-th-src="@{/js/user/dataset/routes.js}" src="../../js/user/dataset/routes.js"></script>
   </body>
 </html>
