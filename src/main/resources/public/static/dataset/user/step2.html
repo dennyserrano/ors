@@ -1,442 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
+<div data-ng-controller="Step2Ctrl">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div style="margin-left:7px;" id="tracker">
+          <div class="row smpl-step">
 
-<head>
+            <div class="col-xs-3 smpl-step-step {{ step1 }}">
+              <div class="progress disabled">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 1: </span> View  and Select Datasets</small></div>
+            </div>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+            <div class="col-xs-3 smpl-step-step {{ step2 }}">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small></div>
+            </div>
 
-    <title>Open Report System</title>
+            <div class="col-xs-3 smpl-step-step {{ step3 }}">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
+            </div>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+            <div class="col-xs-3 smpl-step-step {{ step4 }}">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
+            </div>
 
-    <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Timeline CSS -->
-    <link href="css/plugins/timeline.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-      <link href="css/custom.css" rel="stylesheet">
-    <link href="css/open_report.css" rel="stylesheet">
-    
-    
-
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <div id="wrapper" style="background-color:#FFF; ">
-
-        <!-- Navigation -->
-        <nav class="mine navbar my_header my-default  navbar-default  navbar-fixed-top" role="navigation" style="margin-bottom: 15px;" >
-            <div class="navbar-header"  >
-              <div class="navbar-brand" style="color:#FFF;">Open Report System</div>
           </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-          
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>Esme Ignacio <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-          </ul>
-          
-            <!-- /.navbar-static-side -->
-        </nav>
-
-      <div class="container-fluid" >
-        <div class="row">
-         
-        <ul class="col-sm-12 list-unstyled" id="tracker">
-       <li>
-          
-       <div style="margin-left:27px;" >
-    <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
-        <div class="col-xs-3 smpl-step-step complete">
-            
-            <div class="progress disabled">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i></a>
-            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 1: </span> View  and Select Datasets</small></div>
         </div>
-
-        <div class="col-xs-3 smpl-step-step active">           
-           
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;""></i></a>
-            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small></div>
+        <div class="alert alert-info" role="alert">
+          <strong>STEP 2</strong>
+          Select/deselect Data Elements under each Dataset you have chosen.
         </div>
-        <div class="col-xs-3 smpl-step-step disabled">          
-            
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;""></i></a>
-            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
-        </div>
-        <div class="col-xs-3 smpl-step-step disabled">           
-            
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
-             <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
-            </div>
+      </div>
     </div>
-</div>
-<div class="alert alert-info alert-dismissible" role="alert" >
-  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <strong>STEP 2 </strong>Select/deselect Data Elements under each Dataset you have chosen.</div></li>
-<!--breadcrumbs
-<ol class="breadcrumb">
-  <li><a href="#">Enrolment</a></li>
-
-  <li class="active">Classrooms by use &amp; status/type</li>
-</ol>
--->
-
-
-
-
-<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-
-
-<!-- Indicates a successful or positive action --><li class="table-responsive">
-<table  border="0" cellspacing="0" cellpadding="0" class=" table table-bordered table-striped table-condensed">
-  <tr>
-    <th colspan="3" style="background-color:#f3f3f3; width:30%;">School Basic Info</th>
-    <th colspan="3" style="background-color:#f3f3f3; width:30%; ">CCT/4Ps Recipient  </th>
-   
-    <th colspan="3" style="background-color:#f3f3f3; width:30%; ">Total Enrolment </th>
- 
-    </tr>
-  <tr style="background-color:#04508c; color:#FFF;">
-    <th ><input type="checkbox" checked/>    
-    <th >Data Element    
-    <th>Definition    
-    <th >
-   <input type="checkbox" checked/>
-    </a>
-    <th>Data Element</th>
-    <th>Definition</th>
-    <th><input type="checkbox" checked/></th>
-    <th >Data Element</th>
-    <th>Definition</th>
-  </tr>
-  <tr>
-    <td ><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td >School ID</td>
-    <td >Definition</td>
-    <td ><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td >Kindergarten Male</td>
-    <td >Definition</td>
-    <td ><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td >Kindergarten Male</td>
-    <td >Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>School Name</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Kindergarten Female</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Kindergarten Female</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Region</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 1 Male</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 1 Male</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Division</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 1 Female</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 1 Female</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <th><input type="checkbox" /></th>
-    <td>Other</td>
-    <td >Definition</td>
-    <th><a href="#">
-      <input type="checkbox" checked/>
-    </a></th>
-    <td>Grade 2 Male</td>
-    <td >Definition</td>
-    <th><a href="#">
-      <input type="checkbox" checked/>
-    </a></th>
-    <td>Grade 2 Male</td>
-    <td >Definition</td>
-    </tr>
-  <tr>
-    <td ><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td >Other</td>
-    <td>Definition</td>
-    <td ><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 2 Female</td>
-    <td>Definition</td>
-    <td ><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 2 Female</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 3 Male</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 3 Male</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 3 Female</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 3 Female</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td >Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 4 Male</td>
-    <td >Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 4 Male</td>
-    <td >Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 4 Female</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 4 Female</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 5 Male</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 5 Male</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 5 Female</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 5 Female</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 6 Male</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 6 Male</td>
-    <td>Definition</td>
-    </tr>
-  <tr>
-    <td><a href="#">
-      <input type="checkbox" />
-    </a></td>
-    <td>Other</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 6 Female</td>
-    <td>Definition</td>
-    <td><a href="#">
-      <input type="checkbox" checked/>
-    </a></td>
-    <td>Grade 6 Female</td>
-    <td>Definition</td>
-    </tr>
-</table><br></li>
-<div class="alert alert-warning alert-dismissible" role="alert" >
-  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  Are you done selecting data elements? If yes, click the next step button below. If you wish to add or remove a dataset, click the previous step button.</div>
-
-
-<button type="button" onclick="window.location = 'step1_prototype.html'" class="btn btn-primary btn-md" >Previous Step</button>
-<button type="button" onclick="window.location = 'step3.html'" class="btn btn-primary btn-md" >Next Step</button>
-        </ul>
-            <!-- /.col-lg-12 -->
+    
+    <div class="row">
+      <div class="col-sm-12">
+        <div style="position: relative;">
+          <div style="overflow-x: auto;">
+            <div style="display: table-row;">
+              <div data-ng-repeat="subdataset in dataset.subDatasets" class="table-wrapper">
+                <table class="table table-bordered table-striped table-condensed" cellpadding="0" cellspacing="0" border="0">
+                  <thead>
+                    <tr>
+                      <th style="background-color:#f3f3f3;" colspan="3">
+                        {{ subdataset.name }}
+                      </th>
+                    </tr>
+                    <tr style="background-color:#04508c; color:#FFF;">
+                      <th>
+                        <input type="checkbox"/>
+                      </th>
+                      <th>
+                        Data Element
+                      </th>
+                      <th>
+                        Definition
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-ng-repeat="element in subdataset.elements">
+                      <td>
+                        <input type="checkbox"/>
+                      </td>
+                      <td>
+                        {{ element.name }}
+                      </td>
+                      <td>
+                        {{ element.meaning }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-      <br><br>
-            <!-- /.row -->
-   </div>
- 
- </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/Menu/localmenu.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
+      </div>
+    </div>
     
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/open_report.js"></script>
-    
-  <script>  $( ".change" ).click(function() {
-  	$('.progress').removeClass("progress-bar-success");
-    $('.progress_2').addClass("progress-bar-info");
-	 $('.progress_3').addClass("progress-bar-info");
-});
-</script>
-
-
-</body>
-
-</html>
+  </div>
+</div>

@@ -18,6 +18,8 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Dataset implements Serializable {
+    
+    public static final String ATTR_NAME = "__dataset__";
 
     private static final long serialVersionUID = -7999904235124974013L;
 

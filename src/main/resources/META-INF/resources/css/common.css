@@ -122,3 +122,18 @@ table.tableSection th, table.tableSection td {
     width: 100%;
   }
 }
+
+@media (min-width: 768px) {
+  .table-wrapper {
+    display: table-cell;
+    zoom: 1;
+  }
+  
+  table.table > thead > tr > th {
+    white-space: nowrap;
+  }
+
+  table.table > tbody > tr > td {
+    white-space: nowrap;
+  }
+}

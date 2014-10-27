@@ -73,4 +73,10 @@ angular.module('UserApp')
                 }
             })
         }
-    ]);
+    ])
+    .factory('UserDatasetService', ['$resource',
+        function($resource) {
+            return $resource('/user/dataset');
+        }
+    ])
+;

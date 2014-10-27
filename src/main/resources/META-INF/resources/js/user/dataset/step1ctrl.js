@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step1Ctrl', ['$scope', '$timeout', 'DatasetService', 'ElementService',
-        function($scope, $timeout, DatasetService, ElementService) {
+    .controller('Step1Ctrl', ['$scope', '$timeout', '$state', 'DatasetService', 'ElementService', 'UserDatasetService',
+        function($scope, $timeout, $state, DatasetService, ElementService, UserDatasetService) {
+
+            UserDatasetService.get({}, function(dataset) {
+                $scope.dataset = dataset;
+            });
             
-            $scope.subdatasets = [];
-            $scope.datasets = [];
+            $scope.subDatasets = []; // selected datasets
+            $scope.datasets = []; // the dataset menu
             $scope.step1 = 'active';
             $scope.step2 = 'disabled';
             $scope.step3 = 'disabled';
@@ -31,6 +35,16 @@ angular.module('UserApp')
                         subdataset.elements = elements;
                     });
                 }
+            };
+            
+            $scope.save = function(dataset) {
+                dataset.subDatasets = $scope.subDatasets;
+                dataset.elements = [];
+                UserDatasetService.save({}, dataset, function(response) {
+                    if (response.code === 'SUCCESS') {
+                        $state.go('step2');
+                    }
+                });
             };
         }
     ]

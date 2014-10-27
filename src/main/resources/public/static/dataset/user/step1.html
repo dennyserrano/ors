@@ -26,7 +26,7 @@
             <li data-ng-repeat="subdataset in dataset.subDatasets">
               <a class="subdataset" href="javascript:void(0);">
                 <label>
-                  <input type="checkbox" checklist-model="subdatasets" checklist-value="subdataset"/>
+                  <input type="checkbox" checklist-model="subDatasets" checklist-value="subdataset"/>
                   <small>{{ subdataset.name }}</small>
                 </label>
               </a>
@@ -88,14 +88,14 @@
           Selected Datasets
         </h4>
         <div class="list-group">
-          <div data-ng-repeat="subdataset in subdatasets" class="list-group-item">
+          <div data-ng-repeat="subdataset in subDatasets" data-ng-init="loadElements(subdataset)" class="list-group-item">
             <h4 class="list-group-item-heading">
               {{ subdataset.name }}
             </h4>
             <p class="list-group-item-text">
               {{ subdataset.description }}
             </p>
-            <a class="elements" data-ng-click="loadElements(subdataset)" data-parent="#description-collapsible" data-toggle="collapse" data-target="#elements{{ subdataset.id }}">
+            <a class="elements" data-parent="#description-collapsible" data-toggle="collapse" data-target="#elements{{ subdataset.id }}">
               <i class="fa fa-caret-right"></i>
               <small>
                 View Data Elements
@@ -127,7 +127,19 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-primary" data-ui-sref="dataset.user.step2">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">x</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <small>
+            Are you done selecting datasets? If yes, click the next step button below.
+            If you wish to add more, view and select additional dataset/s on the left menu.<br/>
+            <strong>Note: </strong>
+            You can delete selected dataset by clicking its title on the table above and deselecting it from the left menu.
+          </small>
+        </div>
+        <button class="btn btn-primary" data-ng-click="save(dataset)">
           Next
         </button>
       </div>
