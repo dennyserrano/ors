@@ -61,7 +61,7 @@
                     </tr>
                     <tr style="background-color:#04508c; color:#FFF;">
                       <th>
-                        <input type="checkbox" data-ng-checked="subdataset.elements.length === elements[subdataset.id].length"/>
+                        <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
                       </th>
                       <th>
                         Data Element
@@ -74,7 +74,7 @@
                   <tbody>
                     <tr data-ng-repeat="element in subdataset.elements">
                       <td>
-                        <input type="checkbox" checklist-model="elements[subdataset.id]" checklist-value="element"
+                        <input type="checkbox" checklist-model="selectedElements[subdataset.id]" checklist-value="element"
                                data-ng-checked="elementSelected(subdataset, element)"/>
                       </td>
                       <td>
