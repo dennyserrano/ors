@@ -52,7 +52,7 @@
           <div style="overflow-x: auto;">
             <div style="display: table-row;">
               <div data-ng-repeat="subdataset in dataset.subDatasets" class="table-wrapper">
-                <table class="table table-bordered table-striped table-condensed" cellpadding="0" cellspacing="0" border="0">
+                <table class="table table-bordered table-striped table-condensed" style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
                   <thead>
                     <tr>
                       <th style="background-color:#f3f3f3;" colspan="3">
@@ -61,7 +61,7 @@
                     </tr>
                     <tr style="background-color:#04508c; color:#FFF;">
                       <th>
-                        <input type="checkbox"/>
+                        <input type="checkbox" data-ng-checked="subdataset.elements.length === elements[subdataset.id].length"/>
                       </th>
                       <th>
                         Data Element
@@ -74,7 +74,8 @@
                   <tbody>
                     <tr data-ng-repeat="element in subdataset.elements">
                       <td>
-                        <input type="checkbox"/>
+                        <input type="checkbox" checklist-model="elements[subdataset.id]" checklist-value="element"
+                               data-ng-checked="elementSelected(subdataset, element)"/>
                       </td>
                       <td>
                         {{ element.name }}
@@ -92,5 +93,15 @@
       </div>
     </div>
     
+    <div class="row">
+      <div class="col-sm-12">
+        <button type="button" class="btn btn-primary" data-ui-sref="step1">
+          Previous
+        </button>
+        <button type="button" class="btn btn-primary" data-ui-sref="step3">
+          Next
+        </button>
+      </div>
+    </div>
   </div>
 </div>
