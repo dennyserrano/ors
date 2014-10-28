@@ -1,244 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Open Report System</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Timeline CSS -->
-    <link href="css/plugins/timeline.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-      <link href="css/custom.css" rel="stylesheet">
-    <link href="css/open_report.css" rel="stylesheet">
+<div data-ng-controller="Step3Ctrl">
+  <div class="col-sm-12">
     
-    
+    <div class="row">
+      <div class="col-sm-12">
+        <div style="margin-left:7px;" id="tracker">
+          <div class="row smpl-step">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <div id="wrapper" style="background-color:#FFF; ">
-
-        <!-- Navigation -->
-        <nav class="mine navbar my_header my-default  navbar-default  navbar-fixed-top" role="navigation" style="margin-bottom: 15px;" >
-            <div class="navbar-header"  >
-                
-                <div class="navbar-brand" style="color:#FFF;">Open Report System</div>
-            </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-          
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>Esme Ignacio <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-          
-            <!-- /.navbar-static-side -->
-        </nav>
-
-      <div class="container-fluid" >
-        <div class="row">
-         
-        <ul class="col-sm-12 list-unstyled" id="tracker">
-       <li>
-          
-       <div style="margin-left:27px;" >
-    <div class="row smpl-step" style="border-bottom: 0; min-width: 25%; width:100%; padding-top:20px;">
-        <div class="col-xs-3 smpl-step-step complete">
-            
-            <div class="progress disabled">
+            <div class="col-xs-3 smpl-step-step {{ step1 }}">
+              <div class="progress disabled">
                 <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 1: </span> View  and Select Datasets</small></div>
             </div>
-            <a class="smpl-step-icon"><i class="fa fa-database" style="font-size: 23px; padding-left: 8px; padding-top: 5px; color: #fbbd19;"></i></a>
-            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 1: </span> View  and Select Datasets</small></div>
+
+            <div class="col-xs-3 smpl-step-step {{ step2 }}">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small></div>
+            </div>
+
+            <div class="col-xs-3 smpl-step-step {{ step3 }}">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
+            </div>
+
+            <div class="col-xs-3 smpl-step-step {{ step4 }}">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
+              <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
+            </div>
+
+          </div>
         </div>
-
-        <div class="col-xs-3 smpl-step-step complete">           
-           
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-check-square-o" style="font-size: 22px; padding-left: 8px; padding-top: 7px; color: #fbbd19;""></i></a>
-            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 2: </span>Select Data Elements</small></div>
+        <div class="alert alert-info" role="alert">
+          <strong>STEP 3</strong>
+          Apply filters to your selected data by choosing relevant attributes in the parameters below.
         </div>
-        <div class="col-xs-3 smpl-step-step active">          
-            
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-filter" style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;""></i></a>
-            <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 3: </span> Filter Data</small></div>
-        </div>
-        <div class="col-xs-3 smpl-step-step disabled">           
-            
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <a class="smpl-step-icon"><i class="fa fa-file " style="font-size: 22px; padding-left: 9px; padding-top: 5px; color: #fbbd19;"></i></a>
-             <div class="smpl-step-info text-center"><small><span style="font-weight:bold; color:#118beb;">Step 4: </span> Generate Output</small></div>
-            </div>
+      </div>
     </div>
-</div>
-<div class="alert alert-info alert-dismissible" role="alert" ><strong>STEP 3 </strong>Apply filters to your selected data by choosing relevant attributes in the parameters below.</div></li>
-<!--breadcrumbs
-<ol class="breadcrumb">
-  <li><a href="#">Enrolment</a></li>
-
-  <li class="active">Classrooms by use &amp; status/type</li>
-</ol>
--->
-
-
-
-
-<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-
-
-<!-- Indicates a successful or positive action --><h4>Filter Data</h4>
-
-<!-- Indicates a successful or positive action -->
-<div class="well " style="padding:20px 80px 20px 80px;"><div class="row">
-<div >
-<ul class="list-unstyled list-inline">
-<li class="col-lg-3"><h5><strong>School Year: </strong></h5>
-<select class="form-control">
-<option>SY: 2014-2015</option>
-<option>SY: 2014-2015</option>
-<option>SY: 2014-2015</option>
-<option>SY: 2014-2015</option>
-<option>SY: 2014-2015</option>
-</select>
-</li>
-<li class=" col-lg-3"><h5><strong>General Classification:</strong> </h5>
-<select class="form-control">
-<option>All</option>
-<option>Public</option>
-<option>Private</option>
-
-</select>
-
-</li>
-<li class=" col-lg-3"><h5><strong>General Curricular Offering: </strong></h5>
-<select class="form-control">
-<option>Elementary</option>
-<option>Secondary</option>
-
-</select>
-
-</li>
-<li class=" col-lg-3"><h5><strong>School Type: </strong></h5>
-<select class="form-control">
-<option>All</option>
-<option>School with no Annexes</option>
-<option>Mobile school/center</option>
-<option>Mother school</option>
-<option>Annex or Extension school</option>
-
-</select>
-
-</li>
-</ul>
-
-</div>
-<div>
-<ul class="list-unstyled list-inline">
-<li class=" col-lg-3"><h5><strong>Group by: </strong></h5>
-<select class="form-control">
-<option>Region</option>
-<option>Division</option>
-<option>District</option>
-<option>Municipality</option>
-<option>Legislative</option>
-
-</select>
-
-</li>
-</ul>
-</div>
-</div></div>
-<div class="alert alert-warning alert-dismissible" role="alert" >
-  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  Are you done filtering your data? If yes, click the next step button below. If you wish to add or remove data element/s, click the previous step button.</div>
-
-
-<button type="button" onclick="window.location = 'step2.html'" class="btn btn-primary btn-md" >Previous Step</button>
-<button type="button" onclick="window.location = 'step4.html'" class="btn btn-primary btn-md" >Next Step</button>
-        </ul>
-            <!-- /.col-lg-12 -->
+    
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="well">
+          
         </div>
-      <br>
-            <!-- /.row -->
-   </div>
- 
- 
-    <!-- /#wrapper -->
-
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/Menu/localmenu.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
+      </div>
+    </div>
     
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/open_report.js"></script>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <small>
+            Are you done filtering your data? If yes, click the next step button below.
+            If you wish to add or remove data element/s, click the previous step button.
+          </small>
+        </div>
+      </div>
+    </div>
     
-  <script>  $( ".change" ).click(function() {
-  	$('.progress').removeClass("progress-bar-success");
-    $('.progress_2').addClass("progress-bar-info");
-	 $('.progress_3').addClass("progress-bar-info");
-});
-</script>
-
-
-</body>
-
-</html>
+  </div>
+</div>

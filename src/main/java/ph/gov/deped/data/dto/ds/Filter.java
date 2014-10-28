@@ -23,7 +23,9 @@ public class Filter implements Serializable {
     private final Serializable selectedValue;
 
     @JsonCreator
-    public Filter(@JsonProperty("criterion") long criterion, @JsonProperty("element") long element, @JsonProperty("selectedValue") Object selectedValue) {
+    public Filter(@JsonProperty("criterion") long criterion,
+                  @JsonProperty("element") long element,
+                  @JsonProperty("selectedValue") Object selectedValue) {
         this.criterion = criterion;
         this.element = element;
         this.selectedValue = (Serializable) selectedValue;

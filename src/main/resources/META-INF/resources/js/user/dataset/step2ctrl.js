@@ -47,6 +47,21 @@ angular.module('UserApp')
                 }
                 $scope.allElementsSelected[subdataset.id] = result;
             };
+            
+            $scope.save = function() {
+                var dataset = $scope.dataset;
+                dataset.elements = [];
+                angular.forEach($scope.selectedElements, function(elements, datasetId, obj) {
+                    angular.forEach(elements, function(selectedElement) {
+                        dataset.elements.push(selectedElement);
+                    });
+                });
+                UserDatasetService.save({}, dataset, function(response) {
+                    if (response.code === 'SUCCESS') {
+                        $state.go('step2');
+                    }
+                });
+            };
         }
     ]
 );

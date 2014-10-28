@@ -94,11 +94,22 @@
     </div>
     
     <div class="row">
+      <div class="col-sm 12">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <small>
+            Are you done selecting data elements? If yes, click the next step button below.
+            If you wish to add or remove a dataset, click the previous step button.
+          </small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
       <div class="col-sm-12">
         <button type="button" class="btn btn-primary" data-ui-sref="step1">
           Previous
         </button>
-        <button type="button" class="btn btn-primary" data-ui-sref="step3">
+        <button type="button" class="btn btn-primary" data-ng-click="save()">
           Next
         </button>
       </div>
