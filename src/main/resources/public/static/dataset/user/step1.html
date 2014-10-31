@@ -16,11 +16,11 @@
           Datasets
         </h4>
       </div>
-      <div data-ng-show="loadingDatasets" class="datasets" style="color: #FFF;">
+      <div data-ng-show="loadingDatasets === 0" class="datasets" style="color: #FFF;">
         <i class="fa fa-spin fa-spinner"></i>
         Loading Datasets...
       </div>
-      <ul data-ng-show="!loadingDatasets" id="side-menu" class="nav datasets">
+      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets">
         <li data-ng-repeat="dataset in datasets">
           <a href="javascript:void(0);">
             {{ dataset.name }}
@@ -38,6 +38,11 @@
           </ul>
         </li>
       </ul>
+      <div data-ng-show="loadingDatasets === 2" class="datasets alert alert-danger" style="color: #FFF;">
+        <small>
+          {{ loadingDatasetsError }}
+        </small>
+      </div>
     </div>
   </div>
   <div class="col-sm-9 col-xs-12">

@@ -9,24 +9,30 @@ angular.module('UserApp')
             $scope.step3 = 'complete';
             $scope.step4 = 'active';
             
-            $scope.loadingData = true;
+            $scope.loadingData = 0;
+            $scope.headers = [];
             $scope.datas = [];
             
             var previewDataCallback = function(data) {
                 $scope.headers = data[0];
                 data.splice(0, 1); // removes the header
                 $scope.datas = angular.copy(data);
-                $scope.loadingData = false;
+                $scope.loadingData = 1;
             };
             
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
                 $scope.datasetJson = angular.toJson(dataset);
                 PreviewDataService(dataset, previewDataCallback);
+            }, function(response) {
+                $scope.loadingData = 2;
+                $scope.loadingDataError = 'Failed to load Preview of Data. [HTTP Status: ' + response.status + '].';
             });
-            
-            $scope.export = function() {
-                $('#exportForm').submit();
+
+            $scope.keys = function(obj) {
+                obj = angular.copy(obj);
+                var returnedKeys =  obj ? Object.keys(obj) : [];
+                return returnedKeys;
             };
         }
     ]

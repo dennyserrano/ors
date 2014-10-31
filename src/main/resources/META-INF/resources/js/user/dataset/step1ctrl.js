@@ -10,14 +10,7 @@ angular.module('UserApp')
             $scope.step2 = 'disabled';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
-            
-            var subdatasetsCallback = function(selectedDataset) {
-                $scope.selectedDatasets.push(selectedDataset);
-            };
-
-            UserDatasetService.get({}, function(dataset) {
-                angular.forEach(dataset.subDatasets, subdatasetsCallback);
-            });
+            $scope.loadingDatasets = 0;
             
             var datasetsScopeWatcherCallback = function(newValue, oldValue) {
                 if (newValue && newValue.length > 0) {
@@ -28,8 +21,7 @@ angular.module('UserApp')
             };
             
             $scope.$watch('datasets', datasetsScopeWatcherCallback);
-            
-            $scope.loadingDatasets = true;
+
             var subDataset;
             var selectedDatasetsIteratorCallback = function(selectedDataset, index) {
                 if (subDataset.id === selectedDataset.id) {
@@ -43,10 +35,22 @@ angular.module('UserApp')
             var datasetsIteratorCallback = function(dataset) {
                 angular.forEach(dataset.subDatasets, subDatasetsIteratorCallback);
             };
+            
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
-                $scope.loadingDatasets = false;
+                $scope.loadingDatasets = 1;
                 angular.forEach($scope.datasets, datasetsIteratorCallback);
+            }, function(response) {
+                $scope.loadingDatasets = 2;
+                $scope.loadingDatasetsError = 'Failed to load Datasets. [HTTP Status: ' + response.status + ']';
+            });
+
+            var subdatasetsCallback = function(selectedDataset) {
+                $scope.selectedDatasets.push(selectedDataset);
+            };
+
+            UserDatasetService.get({}, function(dataset) {
+                angular.forEach(dataset.subDatasets, subdatasetsCallback);
             });
             
             $scope.loadElements = function(subdataset) {

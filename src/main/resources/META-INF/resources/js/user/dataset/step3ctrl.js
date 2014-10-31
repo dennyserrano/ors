@@ -10,7 +10,8 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
 
             $scope.selectedValues = {};
-            $scope.loadingFilters = true;
+            $scope.filters = [];
+            $scope.loadingFilters = 0;
 
             var schoolProfileDatasetId = 8; // value came from the database (sisdbtest.dataset_head).
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
@@ -22,16 +23,22 @@ angular.module('UserApp')
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
                 $scope.selectedValues[c.filterId] = c.selection[0];
+                angular.forEach($scope.filters, function(filter) {
+                    if (filter.criterion === c.filterId) {
+                        $scope.selectedValues[c.filterId] = filter.selectedValue;
+                    }
+                });
                 $scope.setFilter(c);
+            };
+            
+            var divisionCriteriaFilter = function(criterion) {
+                if (criterion.filterId === divisionFilterId) {
+                    divisionCriterion = criterion;
+                }
             };
 
             var criteriaServiceCallback = function(criteria) {
-                angular.forEach(criteria, function(criterion) {
-                    if (criterion.filterId === divisionFilterId) {
-                        divisionCriterion = criterion;
-                    }
-
-                });
+                angular.forEach(criteria, divisionCriteriaFilter);
                 angular.forEach(criteria, criteriaIteratorCallback);
             };
 
@@ -41,7 +48,7 @@ angular.module('UserApp')
             
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
-                availableCriteria = dataset.filters;
+                $scope.filters = dataset.filters;
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
                         hasSchoolProfileSelected = true;
@@ -52,24 +59,36 @@ angular.module('UserApp')
                 }
                 angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
-                $scope.loadingFilters = false;
+                $scope.loadingFilters = 1;
+            }, function(response) {
+                $scope.loadingFilters = 2;
+                $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';
             });
             
             $scope.setFilter = function(criterion) {
-                var selectedOption = $scope.selectedValues[criterion.filterId]
-                var filters = $scope.filters ? $scope.filters : [];
-                angular.forEach(filters, function(filter, idx) {
+                var selectedOption = $scope.selectedValues[criterion.filterId];
+                var filterFound = false;
+                var findFilterCallback = function(filter) {
                     if (filter.criterion === criterion.filterId) {
-                        filters.splice(idx, 1);
+                        filterFound = true;
                     }
-                });
-                filters.push({
-                    criterion: criterion.filterId,
-                    element: criterion.elementId,
-                    selectedValue: selectedOption.key
-                });
-                $scope.filters = filters;
-                if (!$scope.loadingFilters && criterion.filterId === regionFilterId) {
+                };
+                angular.forEach($scope.filters, findFilterCallback);
+                if (!filterFound) {
+                    $scope.filters.push({
+                        criterion: criterion.filterId,
+                        element: criterion.elementId,
+                        selectedValue: selectedOption.key
+                    });
+                }
+                else {
+                    angular.forEach($scope.filters, function(filter) {
+                        if (filter.criterion === criterion.filterId && filter.element === criterion.elementId) {
+                            filter.selectedValue = selectedOption.key;
+                        }
+                    });
+                }
+                if (criterion.filterId === regionFilterId) {
                     divisionCriterion.selection = selectedOption.childKeyValues;
                 }
             };

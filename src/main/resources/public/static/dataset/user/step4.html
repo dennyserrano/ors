@@ -51,19 +51,19 @@
       <div class="col-sm-12">
         <p class="text-center">
           DEPARTMENT OF EDUCATION<br/>
-          ENHANCED BASIC EDUCATION INFOMRATION SYSTEM
+          ENHANCED BASIC EDUCATION INFORMATION SYSTEM
         </p>
       </div>
     </div>
 
-    <div data-ng-show="loadingData" class="row">
+    <div data-ng-show="loadingData === 0" class="row">
       <div class="col-sm-12">
         <fa class="fa fa-spin fa-spinner"></fa>
         Loading Preview of Data...
       </div>
     </div>
     
-    <div data-ng-show="!loadingData" class="row">
+    <div data-ng-show="loadingData === 1" class="row">
       <div class="col-sm-12">
         <div style="position: relative;">
           <div style="overflow-x: auto;">
@@ -89,8 +89,16 @@
         </div>
       </div>
     </div>
+    
+    <div data-ng-show="loadingData === 2" class="row">
+      <div class="col-sm-12">
+        <div class="alert alert-danger">
+          {{ loadingDataError }}
+        </div>
+      </div>
+    </div>
 
-    <div class="row">
+    <div data-ng-show="loadingData === 1" class="row">
       <div class="col-sm-12">
         <div class="alert alert-warning alert-dismissible" role="alert">
           <small>
@@ -101,14 +109,14 @@
       </div>
     </div>
     
-    <div class="row">
+    <div data-ng-show="loadingData > 0" class="row">
       <div class="col-sm-12">
         <form name="exportForm" id="exportForm" action="/export" method="post">
           <input type="hidden" name="dataset" value="{{ datasetJson }}"/>
-          <button type="button" class="btn btn-primary btn-md" data-ui-sref="step3">
+          <button type="button" class="btn btn-default btn-md" data-ui-sref="step3">
             Previous Step
           </button>
-          <button type="button" class="btn btn-primary-btn-md">
+          <button type="submit" class="btn btn-primary btn-md">
             Export
           </button>
         </form>

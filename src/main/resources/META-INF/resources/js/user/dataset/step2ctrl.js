@@ -9,6 +9,7 @@ angular.module('UserApp')
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
             
+            $scope.loadingElements = 0;
             $scope.allElementsSelected = {};
 
             $scope.selectedElements = {};
@@ -18,7 +19,11 @@ angular.module('UserApp')
                     $scope.allElementsSelected[subdataset.id] = false;
                     $scope.selectedElements[subdataset.id] = [];
                     $scope.selectAllElements(subdataset);
-                });
+                })
+                $scope.loadingElements = 1;
+            }, function(response) {
+                $scope.loadingElements = 2;
+                $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
             });
             
             $scope.elementSelected = function(subdataset, element) {
