@@ -10,34 +10,43 @@ angular.module('UserApp')
             $scope.step2 = 'disabled';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
+            
+            var subdatasetsCallback = function(selectedDataset) {
+                $scope.selectedDatasets.push(selectedDataset);
+            };
 
             UserDatasetService.get({}, function(dataset) {
-                angular.forEach(dataset.subDatasets, function(selectedDataset) {
-                    $scope.selectedDatasets.push(selectedDataset);
-                });
+                angular.forEach(dataset.subDatasets, subdatasetsCallback);
             });
             
-            $scope.$watch('datasets', function(newValue, oldValue) {
+            var datasetsScopeWatcherCallback = function(newValue, oldValue) {
                 if (newValue && newValue.length > 0) {
                     $timeout(function() {
                         $('#side-menu').metisMenu();
-                    }, 10);
+                    }, 50);
                 }
-            });
+            };
+            
+            $scope.$watch('datasets', datasetsScopeWatcherCallback);
             
             $scope.loadingDatasets = true;
+            var subDataset;
+            var selectedDatasetsIteratorCallback = function(selectedDataset, index) {
+                if (subDataset.id === selectedDataset.id) {
+                    $scope.selectedDatasets[index] = subDataset;
+                }
+            };
+            var subDatasetsIteratorCallback = function(sd) {
+                subDataset = sd;
+                angular.forEach($scope.selectedDatasets, selectedDatasetsIteratorCallback);
+            }
+            var datasetsIteratorCallback = function(dataset) {
+                angular.forEach(dataset.subDatasets, subDatasetsIteratorCallback);
+            };
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
                 $scope.loadingDatasets = false;
-                angular.forEach($scope.datasets, function(dataset) {
-                    angular.forEach(dataset.subDatasets, function(subDataset) {
-                        angular.forEach($scope.selectedDatasets, function(selectedDataset, index) {
-                            if (subDataset.id === selectedDataset.id) {
-                                $scope.selectedDatasets[index] = subDataset;
-                            }
-                        });
-                    });
-                });
+                angular.forEach($scope.datasets, datasetsIteratorCallback);
             });
             
             $scope.loadElements = function(subdataset) {
@@ -50,11 +59,12 @@ angular.module('UserApp')
             
             $scope.datasetSelected = function(subdataset) {
                 var selected = false;
-                angular.forEach($scope.selectedDatasets, function(selectedSubdataset) {
+                var selectedDatasetIteratorCallback = function(selectedSubdataset) {
                     if (subdataset.id === selectedSubdataset.id) {
                         selected = true;
                     }
-                });
+                };
+                angular.forEach($scope.selectedDatasets, selectedDatasetIteratorCallback);
                 return selected;
             };
             

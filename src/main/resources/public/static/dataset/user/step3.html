@@ -1,4 +1,4 @@
-<div data-ng-controller="Step3Ctrl">
+<div data-ng-cloak="" data-ng-controller="Step3Ctrl" class="step step3">
   <div class="col-sm-12">
     
     <div class="row">
@@ -46,25 +46,57 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="col-sm-12">
-        <div class="well">
-          
-        </div>
+        <h4>
+          Filter Data
+        </h4>
       </div>
     </div>
     
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="alert alert-warning alert-dismissible" role="alert">
-          <small>
-            Are you done filtering your data? If yes, click the next step button below.
-            If you wish to add or remove data element/s, click the previous step button.
-          </small>
+    <form name="datasetFilterForm" role="form" data-ng-submit="save()">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well form-horizontal">
+            <div data-ng-repeat="availableCriterion in availableCriteria" class="form-group">
+              <label for="filter{{ availableCriterion.filterId }}" class="col-sm-2 control-label">
+                {{ availableCriterion.filterName }}
+              </label>
+              <div class="col-sm-6">
+                <select id="filter{{ availableCriterion.filterId }}" class="form-control"
+                        data-ng-model="selectedValues[availableCriterion.filterId]"
+                        data-ng-change="setFilter(availableCriterion)"
+                        data-ng-options="option.value for option in availableCriterion.selection">
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="alert alert-warning alert-dismissible" role="alert">
+            <small>
+              Are you done filtering your data? If yes, click the next step button below.
+              If you wish to add or remove data element/s, click the previous step button.
+            </small>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-primary" data-ui-sref="step2">
+            Previous
+          </button>
+          <button type="button" class="btn btn-primary" data-ng-click="save()">
+            Next
+          </button>
+        </div>
+      </div>
+    </form>
     
   </div>
 </div>

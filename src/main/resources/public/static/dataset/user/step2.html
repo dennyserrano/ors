@@ -1,4 +1,4 @@
-<div data-ng-controller="Step2Ctrl">
+<div data-ng-cloak="" data-ng-controller="Step2Ctrl" class="step step2">
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-12">
@@ -71,7 +71,14 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody data-ng-show="subdataset.elements.length === 0">
+                    <tr>
+                      <td colspan="3">
+                        No Elements found.
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody data-ng-show="subdataset.elements.length > 0">
                     <tr data-ng-repeat="element in subdataset.elements">
                       <td>
                         <input type="checkbox" checklist-model="selectedElements[subdataset.id]" checklist-value="element"

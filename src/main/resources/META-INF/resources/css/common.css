@@ -137,3 +137,16 @@ table.tableSection th, table.tableSection td {
     white-space: nowrap;
   }
 }
+
+.datasets {
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+}
+
+.datasets.ng-hide-add, .datasets.ng-hide-remove {
+  transition: 0s linear all;
+}
+
+.datasets.ng-hide {
+  opacity: 0;
+}

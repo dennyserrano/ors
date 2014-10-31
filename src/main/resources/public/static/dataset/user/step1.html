@@ -1,14 +1,14 @@
-<div data-ng-controller="Step1Ctrl">
+<div data-ng-cloak="" data-ng-controller="Step1Ctrl" class="step step1">
   
   <div class="col-sm-3 col-xs-12">
     <div id="sidebar-nav" class="sidebar navbar navbar-inverse collapse navbar-collapse" role="navigation">
       <div class="input-group custom-search-form" style="padding-top: 20px;">
         <input type="text" class="form-control" placeholder="Search..."/>
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
-          <i class="fa fa-search"></i>
-        </button>
-      </span>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
       </div>
       <div>
         <h4 style="color: white;">
@@ -16,7 +16,11 @@
           Datasets
         </h4>
       </div>
-      <ul id="side-menu" class="nav">
+      <div data-ng-show="loadingDatasets" class="datasets" style="color: #FFF;">
+        <i class="fa fa-spin fa-spinner"></i>
+        Loading Datasets...
+      </div>
+      <ul data-ng-show="!loadingDatasets" id="side-menu" class="nav datasets">
         <li data-ng-repeat="dataset in datasets">
           <a href="javascript:void(0);">
             {{ dataset.name }}
@@ -95,7 +99,14 @@
             <p class="list-group-item-text">
               {{ subdataset.description }}
             </p>
-            <a class="elements" data-parent="#description-collapsible" data-toggle="collapse" data-target="#elements{{ subdataset.id }}">
+            <div data-ng-show="!subdataset.elements || subdataset.elements.length === 0">
+              <i class="fa fa-spin fa-spinner"></i>
+              <small>
+                Loading Elements of &quot;{{ subdataset.name }}&quot;...
+              </small>
+            </div>
+            <a data-ng-show="subdataset.elements && subdataset.elements.length > 0" class="elements"
+               data-parent="#description-collapsible" data-toggle="collapse" data-target="#elements{{ subdataset.id }}">
               <i class="fa fa-caret-right"></i>
               <small>
                 View Data Elements
@@ -113,7 +124,14 @@
                     </td>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody data-ng-show="subdataset.elements.length === 0">
+                  <tr>
+                    <td colspan="2">
+                      No Elements found.
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody data-ng-show="subdataset.elements.length > 0">
                   <tr data-ng-repeat="element in subdataset.elements">
                     <td>
                       {{ element.name }}

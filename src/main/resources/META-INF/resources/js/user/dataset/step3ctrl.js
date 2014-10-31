@@ -1,40 +1,83 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step3Ctrl', ['$scope', 'UserDatasetService', 'CriteriaService',
-        function($scope, UserDatasetService, CriteriaService) {
+    .controller('Step3Ctrl', ['$scope', '$state', 'UserDatasetService', 'CriteriaService',
+        function($scope, $state, UserDatasetService, CriteriaService) {
             
-            var schoolProfileDatasetId = 8; // check from the database.
-
             $scope.step1 = 'complete';
             $scope.step2 = 'complete';
             $scope.step3 = 'active';
             $scope.step4 = 'disabled';
 
+            $scope.selectedValues = {};
+
+            var schoolProfileDatasetId = 8; // value came from the database (sisdbtest.dataset_head).
+            var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
+            var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'Divison'
+            var availableCriteria = [];
+            var hasSchoolProfileSelected = false;
+            var divisionCriterion;
+
+            var criteriaIteratorCallback = function(c) {
+                availableCriteria.push(c);
+                $scope.selectedValues[c.filterId] = c.selection[0];
+                if (c.filterId === divisionFilterId) {
+                    divisionCriterion = c;
+                }
+            };
+
+            var criteriaServiceCallback = function(criteria) {
+                angular.forEach(criteria, criteriaIteratorCallback);
+                $scope.availableCriteria = availableCriteria;
+            };
+
+            var selectedDatsetsCallback = function(selectedDataset) {
+                CriteriaService.get({ 'headId': selectedDataset.id }, criteriaServiceCallback);
+            };
+            
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
-            });
-
-            var availableCriteria = $scope.availableCriteria || [];
-            var hasSchoolProfileSelected = false;
-            angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
-                if (selectedDataset.id === schoolProfileDatasetId) {
-                    hasSchoolProfileSelected = true;
-                }
-            });
-            angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
-                CriteriaService.get({ 'headId': selectedDataset.id }, function(criteria) {
-                    angular.forEach(criteria, function(criterion) {
-                        angular.forEach(availableCriteria, function(availableCriterion, idx) {
-                            if (criterion.filterId === availableCriterion.filterId) {
-                                availableCriterion.splice(idx, 1);
-                            }
-                        });
-                        availableCriteria.push(criterion);
-                    });
-                    $scope.availableCriteria = availableCriteria;
+                availableCriteria = dataset.filters;
+                angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
+                    if (selectedDataset.id === schoolProfileDatasetId) {
+                        hasSchoolProfileSelected = true;
+                    }
                 });
+                if (!hasSchoolProfileSelected) {
+                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
+                }
+                angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
+                $scope.availableCriteria = availableCriteria;
             });
+            
+            $scope.setFilter = function(criterion) {
+                var selectedOption = $scope.selectedValues[criterion.filterId]
+                var filters = $scope.filters ? $scope.filters : [];
+                angular.forEach(filters, function(filter, idx) {
+                    if (filter.criterion === criterion.filterId) {
+                        filters.splice(idx, 1);
+                    }
+                });
+                filters.push({
+                    criterion: criterion.filterId,
+                    element: criterion.elementId,
+                    selectedValue: selectedOption.key
+                });
+                $scope.filters = filters;
+                if (criterion.filterId === regionFilterId) {
+                    divisionCriterion.selection = selectedOption.childKeyValues;
+                }
+            };
+            
+            $scope.save = function() {
+                var dataset = $scope.dataset;
+                dataset.filters = $scope.filters;
+                UserDatasetService.save({}, dataset, function(response) {
+                    if (response.code === 'SUCCESS') {
+                        $state.go('step4');
+                    }
+                });
+            };
         }
     ]
 );

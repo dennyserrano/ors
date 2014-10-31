@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step2Ctrl', ['$scope', 'UserDatasetService',
-        function($scope, UserDatasetService) {
+    .controller('Step2Ctrl', ['$scope', '$state', 'UserDatasetService',
+        function($scope, $state, UserDatasetService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'active';
@@ -51,14 +51,16 @@ angular.module('UserApp')
             $scope.save = function() {
                 var dataset = $scope.dataset;
                 dataset.elements = [];
-                angular.forEach($scope.selectedElements, function(elements, datasetId, obj) {
-                    angular.forEach(elements, function(selectedElement) {
-                        dataset.elements.push(selectedElement);
-                    });
-                });
+                var elementsIteratorCallback = function(selectedElement) {
+                    dataset.elements.push(selectedElement);
+                };
+                var selectedElementsIteratorCallback = function(elements, datasetId, obj) {
+                    angular.forEach(elements, elementsIteratorCallback);
+                };
+                angular.forEach($scope.selectedElements, selectedElementsIteratorCallback);
                 UserDatasetService.save({}, dataset, function(response) {
                     if (response.code === 'SUCCESS') {
-                        $state.go('step2');
+                        $state.go('step3');
                     }
                 });
             };

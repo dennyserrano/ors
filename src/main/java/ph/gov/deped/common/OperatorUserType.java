@@ -35,9 +35,9 @@ public class OperatorUserType implements UserType {
     private List<Operator> enums = new ArrayList<>();
 
     public OperatorUserType() {
-        enums = operators.stream()
+        enums = operators.parallelStream()
                 .map(o -> o.getEnumConstants())
-                .flatMap(constants -> Arrays.asList(constants).stream())
+                .flatMap(constants -> Arrays.asList(constants).parallelStream())
                 .collect(Collectors.toList());
     }
 
@@ -58,7 +58,7 @@ public class OperatorUserType implements UserType {
     }
 
     public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
-        String value = rs.getString(1);
+        String value = rs.getString(names[0]);
         for (Operator o : enums) {
             if (o.getName().equals(value)) {
                 return o;

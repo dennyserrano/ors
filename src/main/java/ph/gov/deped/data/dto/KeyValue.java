@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,7 +24,8 @@ public class KeyValue implements Serializable {
 
     private List<KeyValue> childKeyValues = new ArrayList<>();
 
-    public KeyValue(String key, String value) {
+    @JsonCreator
+    public KeyValue(@JsonProperty("key") String key, @JsonProperty("value") String value) {
         this.key = key;
         this.value = value;
     }

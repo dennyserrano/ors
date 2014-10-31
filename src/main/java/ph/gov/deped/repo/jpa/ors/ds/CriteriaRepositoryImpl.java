@@ -18,7 +18,6 @@ import java.util.List;
 class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final List<KeyValue> SCHOOL_YEARS = new ArrayList<>(Arrays.asList(
-            new KeyValue("", "School Year"),
             new KeyValue("2014", "2014 - 2015"),
             new KeyValue("2013", "2013 - 2014"),
             new KeyValue("2012", "2012 - 2013"),
@@ -35,19 +34,18 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
     ));
 
     private static final List<KeyValue> GENERAL_CLASSIFICATIONS = new ArrayList<>(Arrays.asList(
-            new KeyValue("", "General Classification"),
+            new KeyValue("", "All"),
             new KeyValue("7", "Public"),
             new KeyValue("8", "Private")
     ));
 
     private static final List<KeyValue> GENERAL_CURRICULAR_OFFERINGS = new ArrayList<>(Arrays.asList(
-            new KeyValue("", "General Curricular Offering"),
             new KeyValue("433", "Elementary"),
             new KeyValue("434", "Secondary")
     ));
 
     private static final List<KeyValue> SCHOOL_TYPES = new ArrayList<>(Arrays.asList(
-            new KeyValue("", "School Type"),
+            new KeyValue("", "All"),
             new KeyValue("290", "School with no annexes"),
             new KeyValue("291", "Mobile school(s)/center(s)"),
             new KeyValue("292", "Mother school"),

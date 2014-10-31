@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('UserApp', ['ui.router', 'ui.bootstrap', 'ngResource', 'checklist-model']);
+angular.module('UserApp', ['ui.router', 'ui.bootstrap', 'ngResource', 'ngAnimate', 'checklist-model']);
