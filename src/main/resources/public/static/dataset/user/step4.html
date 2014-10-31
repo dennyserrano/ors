@@ -55,8 +55,15 @@
         </p>
       </div>
     </div>
+
+    <div data-ng-show="loadingData" class="row">
+      <div class="col-sm-12">
+        <fa class="fa fa-spin fa-spinner"></fa>
+        Loading Preview of Data...
+      </div>
+    </div>
     
-    <div class="row">
+    <div data-ng-show="!loadingData" class="row">
       <div class="col-sm-12">
         <div style="position: relative;">
           <div style="overflow-x: auto;">
@@ -96,20 +103,35 @@
     
     <div class="row">
       <div class="col-sm-12">
-        <button type="button" class="btn btn-primary btn-md" data-ui-sref="step3">
-          Previous Step
-        </button>
-        <div class="btn-group dropup">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <span>Export as </span>
-            <span class="caret"></span>
+        <form name="exportForm" id="exportForm" action="/export" method="post">
+          <input type="hidden" name="dataset" value="{{ datasetJson }}"/>
+          <button type="button" class="btn btn-primary btn-md" data-ui-sref="step3">
+            Previous Step
           </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="javascript:void(0);">.xls</a></li>
-            <li><a href="javascript:void(0);">.xlsx</a></li>
-            <li><a href="javascript:void(0);">.pdf</a></li>
-          </ul>
-        </div>
+          <div class="btn-group dropup">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span>Export as </span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="javascript:void(0);">
+                  .xlsx
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0);">
+                  .xls
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0);">
+                  .pdf
+                </a>
+              </li>
+            </ul>
+          </div>
+        </form>
       </div>
     </div>
     
