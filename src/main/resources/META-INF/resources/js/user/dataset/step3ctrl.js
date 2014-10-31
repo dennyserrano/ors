@@ -10,6 +10,7 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
 
             $scope.selectedValues = {};
+            $scope.loadingFilters = true;
 
             var schoolProfileDatasetId = 8; // value came from the database (sisdbtest.dataset_head).
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
@@ -21,14 +22,17 @@ angular.module('UserApp')
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
                 $scope.selectedValues[c.filterId] = c.selection[0];
-                if (c.filterId === divisionFilterId) {
-                    divisionCriterion = c;
-                }
+                $scope.setFilter(c);
             };
 
             var criteriaServiceCallback = function(criteria) {
+                angular.forEach(criteria, function(criterion) {
+                    if (criterion.filterId === divisionFilterId) {
+                        divisionCriterion = criterion;
+                    }
+
+                });
                 angular.forEach(criteria, criteriaIteratorCallback);
-                $scope.availableCriteria = availableCriteria;
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -48,6 +52,7 @@ angular.module('UserApp')
                 }
                 angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
+                $scope.loadingFilters = false;
             });
             
             $scope.setFilter = function(criterion) {
@@ -64,7 +69,7 @@ angular.module('UserApp')
                     selectedValue: selectedOption.key
                 });
                 $scope.filters = filters;
-                if (criterion.filterId === regionFilterId) {
+                if (!$scope.loadingFilters && criterion.filterId === regionFilterId) {
                     divisionCriterion.selection = selectedOption.childKeyValues;
                 }
             };

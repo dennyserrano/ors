@@ -99,7 +99,7 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
             kv.setChildKeyValues(divisions);
         });
         KeyValue nationwide = new KeyValue("", "Nationwide");
-        nationwide.setChildKeyValues(new ArrayList<>(Arrays.asList(new KeyValue("", "Division"))));
+        nationwide.setChildKeyValues(new ArrayList<>(Arrays.asList(new KeyValue("", ""))));
         regions.add(0, nationwide);
         return regions;
     }

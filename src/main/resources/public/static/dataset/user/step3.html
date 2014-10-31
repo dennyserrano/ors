@@ -58,7 +58,11 @@
     <form name="datasetFilterForm" role="form" data-ng-submit="save()">
       <div class="row">
         <div class="col-sm-12">
-          <div class="well form-horizontal">
+          <div data-ng-show="loadingFilters" class="well form-horizontal">
+            <i class="fa fa-spin fa-spinner"></i>
+            Loading Filters...
+          </div>
+          <div data-ng-show="!loadingFilters" class="well form-horizontal">
             <div data-ng-repeat="availableCriterion in availableCriteria" class="form-group">
               <label for="filter{{ availableCriterion.filterId }}" class="col-sm-2 control-label">
                 {{ availableCriterion.filterName }}
