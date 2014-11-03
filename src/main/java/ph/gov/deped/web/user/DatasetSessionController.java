@@ -1,9 +1,13 @@
 package ph.gov.deped.web.user;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import ph.gov.deped.data.dto.JsonResponse;
 import ph.gov.deped.data.dto.ds.Dataset;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -12,7 +16,6 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/user/dataset")
-@SessionAttributes(value = { Dataset.ATTR_NAME }, types = { Dataset.class })
 public class DatasetSessionController {
     
     @RequestMapping(method = RequestMethod.GET)
@@ -21,8 +24,11 @@ public class DatasetSessionController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public JsonResponse save(@RequestBody Dataset dataset, HttpSession httpSession) {
+    public JsonResponse save(@RequestBody Dataset dataset, HttpServletRequest request, HttpSession httpSession) {
+        if (httpSession == null) {
+            httpSession = request.getSession(true);
+        }
         httpSession.setAttribute(Dataset.ATTR_NAME, dataset);
-        return new JsonResponse(httpSession.getId(), "SUCCESS", "Saved to HTTP Session");
+        return new JsonResponse(httpSession.getId(), "SUCCESS", String.format("Saved to HTTP Session [%s]", httpSession.getId()));
     }
 }

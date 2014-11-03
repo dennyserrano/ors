@@ -47,7 +47,7 @@
       </div>
     </div>
     
-    <div class="row">
+    <div data-ng-show="loadingData === 1" class="row">
       <div class="col-sm-12">
         <p class="text-center">
           DEPARTMENT OF EDUCATION<br/>
@@ -68,7 +68,7 @@
         <div style="position: relative;">
           <div style="overflow-x: auto;">
             <div class="table-responsive table-wrapper">
-              <table data-ng-show="!loadingData" class="table table-bordered table-condensed">
+              <table data-ng-show="loadingData === 1" class="table table-bordered table-condensed">
                 <thead>
                   <tr>
                     <th data-ng-repeat="header in keys(headers)">
@@ -97,7 +97,7 @@
         </div>
       </div>
     </div>
-
+    
     <div data-ng-show="loadingData === 1" class="row">
       <div class="col-sm-12">
         <div class="alert alert-warning alert-dismissible" role="alert">

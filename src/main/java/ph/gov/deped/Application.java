@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import ph.gov.deped.config.ApplicationSpringConfig;
 
 /**
@@ -15,7 +16,7 @@ public class Application {
 
     public static void main(String[] args) {
         Locale.setDefault(new Locale(defaultLocale));
-        //SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
         SpringApplication.run(new Class<?>[] {ApplicationSpringConfig.class}, args).registerShutdownHook();
     }
 }

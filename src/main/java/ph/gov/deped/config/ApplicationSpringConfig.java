@@ -10,7 +10,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import ph.gov.deped.web.OrsHttpSessionListener;
 import reactor.spring.context.RingBufferApplicationEventPublisher;
 
 /**
@@ -29,6 +30,7 @@ import reactor.spring.context.RingBufferApplicationEventPublisher;
         CassandraSettings.class
 })
 @Import({
+        //ApplicationSecuritySpringConfig.class,
         RootSpringConfig.class,
         WebSpringConfig.class
 })
@@ -62,5 +64,13 @@ public class ApplicationSpringConfig implements ApplicationContextAware {
 
     public @Bean CassandraSettings cassandraSettings() {
         return new CassandraSettings();
+    }
+    
+    public @Bean OrsHttpSessionListener orsHttpSessionListener() {
+        return new OrsHttpSessionListener();
+    }
+    
+    public @Bean HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 }

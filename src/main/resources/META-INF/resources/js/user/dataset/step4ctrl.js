@@ -23,7 +23,7 @@ angular.module('UserApp')
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
                 $scope.datasetJson = angular.toJson(dataset);
-                PreviewDataService(dataset, previewDataCallback);
+                PreviewDataService.preview(dataset, previewDataCallback);
             }, function(response) {
                 $scope.loadingData = 2;
                 $scope.loadingDataError = 'Failed to load Preview of Data. [HTTP Status: ' + response.status + '].';

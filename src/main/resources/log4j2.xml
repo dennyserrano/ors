@@ -54,39 +54,42 @@
     </Async>
   </Appenders>
   <Loggers>
-    <AsyncLogger name="org.hibernate" level="info" additivity="false">
+    <AsyncLogger name="org.hibernate" level="warn" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
       <AppenderRef ref="Console"/>
     </AsyncLogger>
-    <AsyncLogger name="com.datastax.driver" level="info" additivity="false">
+    <AsyncLogger name="com.datastax.driver" level="warn" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
-    <AsyncLogger name="org.springframework.orm" level="info" additivity="false">
+    <AsyncLogger name="org.springframework.orm" level="warn" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
-    <AsyncLogger name="org.springframework.jdbc" level="info" additivity="false">
+    <AsyncLogger name="org.springframework.jdbc" level="warn" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
-    <AsyncLogger name="org.springframework.data" level="info" additivity="false">
+    <AsyncLogger name="org.springframework.data" level="warn" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
-    <AsyncLogger name="com.hikari" level="info" additivity="false">
+    <AsyncLogger name="com.hikari" level="warn" additivity="false">
       <AppenderRef ref="AsyncOrmLogFile"/>
     </AsyncLogger>
-    <AsyncLogger name="org.springframework.web" level="info" additivity="false">
+    <AsyncLogger name="org.springframework.web" level="warn" additivity="false">
+      <AppenderRef ref="AsyncSpringLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework.security" level="warn" additivity="false">
       <AppenderRef ref="AsyncSpringLogFile"/>
       <AppenderRef ref="Console"/>
     </AsyncLogger>
-    <AsyncLogger name="org.springframework" level="info" additivity="false">
+    <AsyncLogger name="org.springframework" level="warn" additivity="false">
       <AppenderRef ref="AsyncSpringLogFile"/>
       <AppenderRef ref="Console"/>
     </AsyncLogger>
-    <AsyncLogger name="ph.gov.deped" level="trace" additivity="false">
+    <AsyncLogger name="ph.gov.deped" level="debug" additivity="false">
       <AppenderRef ref="AsyncOrsLogFile"/>
+      <AppenderRef ref="Console"/>
     </AsyncLogger>
     <Root level="debug">
       <AppenderRef ref="Console"/>
-      <AppenderRef ref="AsyncOrsLogFile"/>
     </Root>
   </Loggers>
 </Configuration>
