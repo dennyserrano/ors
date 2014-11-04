@@ -138,6 +138,11 @@ table.tableSection th, table.tableSection td {
   }
 }
 
+#trackerRow {
+  z-index: 999;
+  background-color: #FFF;
+}
+
 .datasets {
   -webkit-transition: all linear 0.5s;
   transition: all linear 0.5s;
@@ -149,4 +154,42 @@ table.tableSection th, table.tableSection td {
 
 .datasets.ng-hide {
   opacity: 0;
+}
+
+.topbar {
+  padding: 0;
+}
+
+.nopadding [class^="col-"] {
+  padding: 0;
+  margin: 0;
+}
+
+.nav > li {
+  color: #FFF;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+  background-color: lightslategrey;
+}
+
+.dataset-toggle {
+  position: relative;
+  float: right;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-color: #f0b327;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding-top: 7px;
+  padding-right: 6px;
+  padding-bottom: 7px;
+  padding-left: 6px;
+}
+
+.dataset-toggle:hover, .dataset-toggle:focus {
+  background-color: lightslategrey !important;
+  color: #FFF;
 }

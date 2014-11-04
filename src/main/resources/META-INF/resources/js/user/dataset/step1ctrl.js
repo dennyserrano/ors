@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step1Ctrl', ['$scope', '$timeout', '$state', 'DatasetService', 'ElementService', 'UserDatasetService',
-        function($scope, $timeout, $state, DatasetService, ElementService, UserDatasetService) {
+    .controller('Step1Ctrl', ['$scope', '$timeout', '$state', '$window', 'DatasetService', 'ElementService', 'UserDatasetService',
+        function($scope, $timeout, $state, $window, DatasetService, ElementService, UserDatasetService) {
 
             $scope.selectedDatasets = []; // selected datasets
             $scope.datasets = []; // the dataset menu
@@ -40,6 +40,7 @@ angular.module('UserApp')
                 $scope.datasets = datasets;
                 $scope.loadingDatasets = 1;
                 angular.forEach($scope.datasets, datasetsIteratorCallback);
+                $window.ORS.ResizeElements();
             }, function(response) {
                 $scope.loadingDatasets = 2;
                 $scope.loadingDatasetsError = 'Failed to load Datasets. [HTTP Status: ' + response.status + ']';

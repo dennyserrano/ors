@@ -18,6 +18,8 @@ public interface ElementRepository extends BaseJpaRepository<DatasetElement, Lon
     @Override DatasetElement findOne(Long id);
 
     List<DatasetElement> findByDatasetHead(DatasetHead datasetHead);
+    
+    List<DatasetElement> findByDatasetHeadId(Long datasetHeadHd);
 
     DatasetElement findByDatasetHeadAndName(DatasetHead datasetHead, String name);
 

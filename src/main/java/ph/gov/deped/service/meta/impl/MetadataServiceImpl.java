@@ -119,10 +119,9 @@ public @Service class MetadataServiceImpl implements MetadataService {
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Element> findElements(long headId) {
-        DatasetHead head = datasetRepository.findOne(headId);
-        List<DatasetElement> datasetElements = elementRepository.findByDatasetHead(head);
+        List<DatasetElement> datasetElements = elementRepository.findByDatasetHeadId(headId);
         return datasetElements.parallelStream()
-                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId()))
+                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), headId))
                 .collect(toList());
     }
 }

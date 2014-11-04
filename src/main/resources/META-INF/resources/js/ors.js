@@ -5,6 +5,33 @@
     ORS.Admin = ORS.Admin || {};
     ORS.User = ORS.User || {};
 
+    //Loads the correct sidebar on window load,
+    //collapses the sidebar on window resize.
+    // Sets the min-height of #page-wrapper to window size
+    ORS.ResizeElements = function() {
+        var topOffset = 50;
+        var width = $(window).width();
+        if (width < 768) {
+            $('div#sidebar-nav').addClass('collapse');
+            topOffset = 100; // 2-row-menu
+        } else {
+            $('div#sidebar-nav').removeClass('collapse');
+            $('div#sidebar-nav').removeAttr('style');
+        }
+
+        var height = $(document).height();
+        height = height - topOffset;
+        if (height < 1) height = 1;
+        if (height > topOffset) {
+            $("#page-wrapper").css("min-height", (height) + "px");
+            //$('#sidebar-nav').css('height', height + 'px');
+            //$('#sidebar-nav').css('overflow', 'auto');
+        }
+
+        var trackerHeight = $('#trackerRow').height();
+        $('#datasetContents').css('padding-top', trackerHeight + 'px');
+    };
+
     window.ORS = ORS;
 
 })(window);
@@ -34,29 +61,7 @@ $(".modal").on("show.bs.modal", function() {
     $(this).find(".modal-body").css("max-height", height);
 });
 
-//Loads the correct sidebar on window load,
-//collapses the sidebar on window resize.
-// Sets the min-height of #page-wrapper to window size
-$(function() {
-    $(window).bind("load resize", function() {
-        var topOffset = 50;
-        var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
-        if (width < 768) {
-            $('div#sidebar-nav').addClass('collapse');
-            topOffset = 100; // 2-row-menu
-        } else {
-            $('div#sidebar-nav').removeClass('collapse');
-            $('div#sidebar-nav').removeAttr('style');
-        }
-
-        var height = (this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height;
-        height = height - topOffset;
-        if (height < 1) height = 1;
-        if (height > topOffset) {
-            $("#page-wrapper").css("min-height", (height) + "px");
-        }
-    })
-});
+$(window).resize(ORS.ResizeElements);
 
 $(function() {
     $(".change").click(function() {

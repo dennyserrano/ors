@@ -22,7 +22,7 @@
     <script data-th-src="@{/js/angular.min.js}" src="../../js/angular.js"></script>
 
   </head>
-  <body data-ng-app="UserApp">
+  <body style="padding-top: 53px;" data-ng-app="UserApp">
 
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -35,32 +35,26 @@
     <script data-th-src="@{/js/respond.min.js}" src="../../js/respond.src.js"></script>
     <![endif]-->
 
-    <div id="wrapper">
-      
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="navbar navbar-inverse" style="background-color: #04508C !important;" role="navigation">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-target="#sidebar-nav" data-toggle="collapse">
-                  <span class="sr-only">
-                    Toggle navigation
-                  </span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" style="color: white;" href="javascript:void(0);">
-                  Open Reporting System
-                </a>
-              </div>
-            </div>
-          </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #04508C !important;" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button id="sidebar-btn" type="button" class="navbar-toggle collapsed dataset-toggle" data-target="#sidebar-nav" data-toggle="collapse">
+              <span class="sr-only">
+                Show Datasets
+              </span>
+            Datasets
+          </button>
+          <a class="navbar-brand" style="color: white;" href="javascript:void(0);">
+            Open Reporting System
+          </a>
         </div>
       </div>
+    </nav>
+
+    <div id="wrapper" class="container-fluid">
       
       <!-- Main Contents -->
-      <div id="page-wrapper" class="row" ui-view=""></div>
+      <div class="row nopadding" ui-view=""></div>
 
       <!-- Footer Bar 
       <div class="navbar navbar-default">
@@ -91,5 +85,6 @@
     <script data-th-src="@{/js/user/dataset/step3ctrl.js}" src="../../js/user/dataset/step3ctrl.js"></script>
     <script data-th-src="@{/js/user/dataset/step4ctrl.js}" src="../../js/user/dataset/step4ctrl.js"></script>
     <script data-th-src="@{/js/user/dataset/routes.js}" src="../../js/user/dataset/routes.js"></script>
+    <script data-th-src="@{/js/user/dataset/init.js}" src="../../js/user/dataset/init.js"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 <div data-ng-cloak="" data-ng-controller="Step2Ctrl" class="step step2">
   <div class="col-sm-12">
-    <div class="row">
+    <div id="trackerRow" class="row">
       <div class="col-sm-12">
         <div style="margin-left:7px;" id="tracker">
           <div class="row smpl-step">
@@ -48,11 +48,12 @@
     
     <div data-ng-show="loadingElements === 0" class="row">
       <div class="col-sm-12">
-        
+        <i class="fa fa-spin fa-spinner"></i>
+        Loading Elements...
       </div>
     </div>
     
-    <div data-ng-show="loadingElements === 1" class="row">
+    <div id="datasetContents" data-ng-show="loadingElements === 1" class="row">
       <div class="col-sm-12">
         <div style="position: relative;">
           <div style="overflow-x: auto;">

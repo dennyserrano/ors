@@ -21,6 +21,7 @@ angular.module('UserApp')
                     $scope.selectAllElements(subdataset);
                 })
                 $scope.loadingElements = 1;
+                $window.ORS.ResizeElements();
             }, function(response) {
                 $scope.loadingElements = 2;
                 $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
