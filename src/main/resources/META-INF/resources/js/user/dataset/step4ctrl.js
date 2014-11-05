@@ -24,6 +24,7 @@ angular.module('UserApp')
                 $scope.dataset = dataset;
                 $scope.datasetJson = angular.toJson(dataset);
                 PreviewDataService.preview(dataset, previewDataCallback);
+                $window.ORS.ResizeElements();
             }, function(response) {
                 $scope.loadingData = 2;
                 $scope.loadingDataError = 'Failed to load Preview of Data. [HTTP Status: ' + response.status + '].';
