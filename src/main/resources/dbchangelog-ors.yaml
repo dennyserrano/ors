@@ -266,3 +266,106 @@ databaseChangeLog:
             tableName: column_metadata
             columnName: data_type
             newDataType: varchar(20)
+  - changeSet:
+      id: 12
+      author: ej
+      changes:
+        - createTable:
+            tableName: relation_metadata
+            columns:
+              - column:
+                  name: relation_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: left_table_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_table_prefix
+                  type: varchar(50)
+                  constraints:
+                    nullable: False
+              - column:
+                  name: join_type
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_table_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_table_prefix
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: 13
+      author: ej
+      changes:
+        - createTable:
+            tableName: relation_dtl_metadata
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: relation_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operator
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)

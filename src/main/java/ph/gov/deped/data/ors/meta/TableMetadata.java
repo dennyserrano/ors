@@ -4,12 +4,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.cache.annotation.Cacheable;
 import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -17,6 +17,8 @@ import java.io.Serializable;
  * Created by ej on 8/13/14.
  */
 @Entity
+@Cacheable("TableMetadataCache")
+@javax.persistence.Cacheable
 public class TableMetadata extends BaseJpaEntity<Integer> implements Serializable {
 
     public static final String TBL_NAME = "table_metadata";
@@ -39,7 +41,7 @@ public class TableMetadata extends BaseJpaEntity<Integer> implements Serializabl
 
     private static final long serialVersionUID = -7588817531339832278L;
 
-    private @Id @GeneratedValue Integer tableId;
+    private @Id Integer tableId;
 
     private @Basic @Column(nullable = false) Integer dbId;
 

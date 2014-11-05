@@ -1,6 +1,9 @@
 package ph.gov.deped.web.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +16,11 @@ import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.api.ExportType;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +29,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/export")
 public class ExportDataController {
+    
+    private static final Logger log = LogManager.getLogger(ExportDataController.class);
+    
+    private static final ExportType DEFAULT_EXPORT_TYPE = ExportType.XLSX;
 
     private DatasetService datasetService;
 
@@ -38,12 +47,19 @@ public class ExportDataController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void export(@RequestParam("dataset") String dataset, HttpServletResponse response) throws Exception {
+    public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
-        List<List<ColumnElement>> data = datasetService.getData(ds, false);
+        List<List<ColumnElement>> data = new ArrayList<>();
+        try {
+            data = datasetService.getData(ds, false);
+        }
+        catch (Exception ex) {
+            log.error("Unable to generate exported data.");
+            log.throwing(ex);
+        }
 
-        ExportType exportType = ExportType.XLSX; // TODO Should be user defined from request; constant for now.
-        String filename = exportService.export(data, exportType);
+        ExportType exportType = DEFAULT_EXPORT_TYPE; // TODO Should be user defined from request; constant for now.
+        String filename = exportService.export(httpSession.getId(), data, exportType);
 
         response.setContentType(exportType.getContentType());
         response.setHeader("Content-Disposition", "attachment; filename=export." + exportType.getExtension());

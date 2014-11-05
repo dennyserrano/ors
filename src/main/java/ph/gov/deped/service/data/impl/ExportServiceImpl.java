@@ -30,9 +30,14 @@ public @Service class ExportServiceImpl implements ExportService {
         this.xlsxExporter = xlsxExporter;
     }
 
-    public String export(List<List<ColumnElement>> data, ExportType exportType) {
+    public String export(String sessionId, List<List<ColumnElement>> data, ExportType exportType) {
         String filename = orsSettings.getTmpDir() + File.separator + randomAlphabetic(8) + "." + exportType.getExtension();
-        xlsxExporter.export(filename, data);
+        try {
+            xlsxExporter.export(filename, data);
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(String.format("Failed to generate exported data to file [%s].", ex), ex);
+        }
         return filename;
     }
 }

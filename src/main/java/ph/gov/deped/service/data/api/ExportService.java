@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ExportService {
 
-    String export(List<List<ColumnElement>> data, ExportType exportType);
+    String export(String sessionId, List<List<ColumnElement>> data, ExportType exportType);
 }

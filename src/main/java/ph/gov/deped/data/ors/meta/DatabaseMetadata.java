@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.cache.annotation.Cacheable;
 import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
@@ -16,6 +17,8 @@ import java.io.Serializable;
  * Created by ej on 8/14/14.
  */
 @Entity
+@Cacheable("DatabaseMetadataCache")
+@javax.persistence.Cacheable
 public class DatabaseMetadata extends BaseJpaEntity<Integer> implements Serializable {
 
     public static final int STEP_DEV = 0;
