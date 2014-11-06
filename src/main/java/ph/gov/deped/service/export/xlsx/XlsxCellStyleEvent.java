@@ -4,28 +4,27 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.Serializable;
-
 /**
- * Created by ej on 10/21/14.
+ * @author ej
+ * @since Nov 05, 2014 17:57
  */
-public class XlsxCellWriteEvent {
-    
+public class XlsxCellStyleEvent {
+
     private Workbook workbook;
-    
+
     private Row row;
-    
+
     private Cell cell;
-    
-    private Serializable value;
 
-    public XlsxCellWriteEvent() {}
+    private FormattedElement formattedElement;
 
-    public XlsxCellWriteEvent(Workbook workbook, Row row, Cell cell, Serializable value) {
+    public XlsxCellStyleEvent() {}
+
+    public XlsxCellStyleEvent(Workbook workbook, Row row, Cell cell, FormattedElement formattedElement) {
         this.workbook = workbook;
         this.row = row;
         this.cell = cell;
-        this.value = value;
+        this.formattedElement = formattedElement;
     }
 
     public Workbook getWorkbook() {
@@ -52,11 +51,11 @@ public class XlsxCellWriteEvent {
         this.cell = cell;
     }
 
-    public Serializable getValue() {
-        return value;
+    public FormattedElement getFormattedElement() {
+        return formattedElement;
     }
 
-    public void setValue(Serializable value) {
-        this.value = value;
+    public void setFormattedElement(FormattedElement formattedElement) {
+        this.formattedElement = formattedElement;
     }
 }

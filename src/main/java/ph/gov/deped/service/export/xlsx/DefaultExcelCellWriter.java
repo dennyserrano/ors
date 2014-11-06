@@ -1,7 +1,6 @@
 package ph.gov.deped.service.export.xlsx;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -14,17 +13,11 @@ import java.util.Date;
  */
 public class DefaultExcelCellWriter implements ExcelCellWriter {
 
-    public void write(Workbook wb, Row row, Cell cell, FormattedElement fe) {
-        CellStyle cellStyle = fe.getCellFormat().build(wb);
-        cell.setCellStyle(cellStyle);
-        if (fe.getCellType() != null) {
-            cell.setCellType(fe.getCellType().intValue());
-        }
+    public void write(Workbook wb, Row row, Cell cell, Serializable value) {
         if (row.getRowNum() == 0) {
-            cell.setCellValue((String) fe.getCellContents());
+            cell.setCellValue((String) value);
         }
         else {
-            Serializable value = fe.getCellContents();
             if (value == null) {
                 cell.setCellType(Cell.CELL_TYPE_BLANK);
             }

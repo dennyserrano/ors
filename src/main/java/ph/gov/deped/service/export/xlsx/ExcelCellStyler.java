@@ -4,12 +4,11 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.Serializable;
-
 /**
- * Created by ej on 10/22/14.
+ * @author ej
+ * @since Nov 05, 2014 20:24
  */
-public interface ExcelCellWriter {
-    
-    void write(Workbook wb, Row row, Cell cell, Serializable value);
+public interface ExcelCellStyler {
+
+    void applyStyle(Workbook wb, Row row, Cell cell, FormattedElement fe);
 }

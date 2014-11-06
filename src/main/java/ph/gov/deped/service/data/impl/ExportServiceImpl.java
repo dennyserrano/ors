@@ -9,6 +9,9 @@ import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.api.ExportType;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -31,13 +34,23 @@ public @Service class ExportServiceImpl implements ExportService {
     }
 
     public String export(String sessionId, List<List<ColumnElement>> data, ExportType exportType) {
-        String filename = orsSettings.getTmpDir() + File.separator + randomAlphabetic(8) + "." + exportType.getExtension();
+        String filename = randomAlphabetic(8) + "." + exportType.getExtension();
+        String tempPath = orsSettings.getTmpDir() + File.separator + filename;
         try {
-            xlsxExporter.export(filename, data);
+            xlsxExporter.export(tempPath, data);
         }
         catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to generate exported data to file [%s].", ex), ex);
         }
-        return filename;
+        
+        String downloadPath = orsSettings.getWorkingDir() + File.separator + filename;
+        try {
+            Files.move(Paths.get(tempPath), Paths.get(downloadPath));
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(String.format("Unable to move XLSX File from [%s] to [%s].", tempPath, downloadPath), ex);
+        }
+        
+        return downloadPath;
     }
 }
