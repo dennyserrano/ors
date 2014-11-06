@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step2Ctrl', ['$scope', '$state', 'UserDatasetService',
-        function($scope, $state, UserDatasetService) {
+    .controller('Step2Ctrl', ['$scope', '$state', '$window', 'UserDatasetService',
+        function($scope, $state, $window, UserDatasetService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'active';

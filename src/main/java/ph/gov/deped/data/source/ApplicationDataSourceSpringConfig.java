@@ -54,6 +54,23 @@ public class ApplicationDataSourceSpringConfig implements AppMetadata {
         mysqlDs.setPassword(orsSettings.getDbPass());
         mysqlDs.setQueryTimeoutKillsConnection(true);
         mysqlDs.setZeroDateTimeBehavior("convertToNull");
+        mysqlDs.setCachePreparedStatements(true);
+        mysqlDs.setCachePrepStmts(true);
+        mysqlDs.setUseServerPreparedStmts(true);
+        mysqlDs.setUseServerPrepStmts(true);
+        mysqlDs.setCacheServerConfiguration(true);
+        mysqlDs.setUseLocalSessionState(true);
+        mysqlDs.setUseLocalTransactionState(true);
+        mysqlDs.setUseUnbufferedInput(false);
+        mysqlDs.setUseReadAheadInput(false);
+        try {
+            mysqlDs.setPreparedStatementCacheSize(200);
+            mysqlDs.setPrepStmtCacheSize(200);
+            mysqlDs.setPrepStmtCacheSqlLimit(2048);
+        }
+        catch (SQLException ex) {
+            log.error(ex);
+        }
 
         HikariDataSource ds = new HikariDataSource();
         ds.setMaximumPoolSize(8);

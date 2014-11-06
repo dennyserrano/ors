@@ -2,8 +2,12 @@
 
 angular.module('UserApp').run(function($rootScope) {
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-        if (toState.name !== 'step1') {
-            $('#sidebar-btn').hide();
+        var sidebarBtn = $('#sidebar-btn');
+        if (fromState.name === 'step1') { // forward
+            sidebarBtn.hide();
+        }
+        if (toState.name === 'step1') { // reverse
+            sidebarBtn.show();
         }
     });
 });

@@ -115,6 +115,13 @@ table.tableSection th, table.tableSection td {
   border: none;
 }
 
+#trackerRow {
+  z-index: 999;
+  background-color: #FFF;
+  position: fixed;
+  float: right;
+}
+
 @media (max-width: 768px) {
   #sidebar-nav {
     max-height: 250px;
@@ -136,11 +143,6 @@ table.tableSection th, table.tableSection td {
   table.table > tbody > tr > td {
     white-space: nowrap;
   }
-}
-
-#trackerRow {
-  z-index: 999;
-  background-color: #FFF;
 }
 
 .datasets {
