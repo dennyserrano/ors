@@ -53,53 +53,49 @@
       </div>
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
-        <div style="position: relative;">
-          <div style="overflow-x: auto;">
-            <div style="display: table-row;">
-              <div data-ng-repeat="subdataset in dataset.subDatasets" class="table-wrapper">
-                <table class="table table-bordered table-striped table-condensed" style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
-                  <thead>
-                    <tr>
-                      <th style="background-color:#f3f3f3;" colspan="3">
-                        {{ subdataset.name }}
-                      </th>
-                    </tr>
-                    <tr style="background-color:#04508c; color:#FFF;">
-                      <th>
-                        <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
-                      </th>
-                      <th>
-                        Data Element
-                      </th>
-                      <th>
-                        Definition
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody data-ng-show="subdataset.elements.length === 0">
-                    <tr>
-                      <td colspan="3">
-                        No Elements found.
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody data-ng-show="subdataset.elements.length > 0">
-                    <tr data-ng-repeat="element in subdataset.elements">
-                      <td>
-                        <input type="checkbox" checklist-model="selectedElements[subdataset.id]" checklist-value="element"
-                               data-ng-checked="elementSelected(subdataset, element)"/>
-                      </td>
-                      <td>
-                        {{ element.name }}
-                      </td>
-                      <td>
-                        {{ element.meaning }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <div id="elements" class="table-responsive" double-scroll-bar-horizontal="" data-ng-if="loadingElements === 1">
+          <div data-ng-repeat="subdataset in dataset.subDatasets" class="table-wrapper">
+            <table class="table table-bordered table-striped table-condensed" style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
+              <thead>
+                <tr>
+                  <th style="background-color:#f3f3f3;" colspan="3">
+                    {{ subdataset.name }}
+                  </th>
+                </tr>
+                <tr style="background-color:#04508c; color:#FFF;">
+                  <th>
+                    <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
+                  </th>
+                  <th>
+                    Data Element
+                  </th>
+                  <th>
+                    Definition
+                  </th>
+                </tr>
+              </thead>
+              <tbody data-ng-show="subdataset.elements.length === 0">
+                <tr>
+                  <td colspan="3">
+                    No Elements found.
+                  </td>
+                </tr>
+              </tbody>
+              <tbody data-ng-show="subdataset.elements.length > 0">
+                <tr data-ng-repeat="element in subdataset.elements">
+                  <td>
+                    <input type="checkbox" checklist-model="selectedElements[subdataset.id]" checklist-value="element"
+                           data-ng-checked="elementSelected(subdataset, element)"/>
+                  </td>
+                  <td>
+                    {{ element.name }}
+                  </td>
+                  <td>
+                    {{ element.meaning }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

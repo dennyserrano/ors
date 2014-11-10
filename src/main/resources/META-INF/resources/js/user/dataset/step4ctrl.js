@@ -11,6 +11,9 @@ angular.module('UserApp')
             
             $scope.loadingData = 0;
             $window.ORS.ResizeElements();
+            var trackerRowHeight = $('#trackerRow').outerHeight();
+            $('#previewData').css('padding-top', 54 + trackerRowHeight + 'px');
+            $window.ORS.FitToWidth($('#previewTable')[0]);
             $scope.headers = [];
             $scope.datas = [];
             
@@ -19,8 +22,6 @@ angular.module('UserApp')
                 data.splice(0, 1); // removes the header
                 $scope.datas = angular.copy(data);
                 $scope.loadingData = 1;
-                var trackerRowHeight = $('#trackerRow').outerHeight();
-                $('#previewData').css('padding-top', 52 + trackerRowHeight + 'px');
             };
             
             UserDatasetService.get({}, function(dataset) {
