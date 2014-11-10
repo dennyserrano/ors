@@ -704,3 +704,37 @@ databaseChangeLog:
             tableName: dataset_correlation
             columnName: right_table_prefix
             newDataType: varchar(20)
+  - changeSet:
+      id: ds-201411071441
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: input_type
+                  type: smallint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: ds-201411101055
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: visible
+                  type: tinyint(3)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: ds-201411101110
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: label
+                  type: varchar(50)

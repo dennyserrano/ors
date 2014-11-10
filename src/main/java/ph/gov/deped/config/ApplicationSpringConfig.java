@@ -22,13 +22,7 @@ import reactor.spring.context.RingBufferApplicationEventPublisher;
         DataSourceAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class
 })
-@EnableConfigurationProperties({
-        LocalSettings.class,
-        OrsSettings.class,
-        LisSettings.class,
-        EbeisSettings.class,
-        CassandraSettings.class
-})
+@EnableConfigurationProperties
 @Import({
         //ApplicationSecuritySpringConfig.class,
         RootSpringConfig.class,
@@ -64,6 +58,10 @@ public class ApplicationSpringConfig implements ApplicationContextAware {
 
     public @Bean CassandraSettings cassandraSettings() {
         return new CassandraSettings();
+    }
+    
+    public @Bean FilterSettings filterSettings() {
+        return new FilterSettings();
     }
     
     public @Bean OrsHttpSessionListener orsHttpSessionListener() {

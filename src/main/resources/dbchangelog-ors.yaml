@@ -369,3 +369,15 @@ databaseChangeLog:
               - column:
                   name: updated_by
                   type: varchar(50)
+  - changeSet:
+        id: 14
+        author: ej
+        changes:
+          - modifyDataType:
+              tableName: table_metadata
+              columnName: date_created
+              newDataType: timestamp
+          - modifyDataType:
+              tableName: column_metadata
+              columnName: date_created
+              newDataType: timestamp

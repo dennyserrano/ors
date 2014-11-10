@@ -104,7 +104,7 @@
     </div>
     <div id="datasetContents" class="row">
       <div class="col-sm-12">
-        <h4>
+        <h4 data-ng-show="selectedDatasets && selectedDatasets.length > 0">
           Selected Datasets
         </h4>
         <div class="list-group">
@@ -161,7 +161,7 @@
             </div>
           </div>
         </div>
-        <div class="alert alert-warning alert-dismissible" role="alert">
+        <div data-ng-show="selectedDatasets && selectedDatasets.length > 0" class="alert alert-warning alert-dismissible" role="alert">
           <small>
             Are you done selecting datasets? If yes, click the next step button below.
             If you wish to add more, view and select additional dataset/s on the left menu.<br/>
@@ -169,7 +169,7 @@
             You can delete selected dataset by clicking its title on the table above and deselecting it from the left menu.
           </small>
         </div>
-        <button class="btn btn-primary" data-ng-click="save()">
+        <button data-ng-show="selectedDatasets && selectedDatasets.length > 0" data-ng-click="save()" class="btn btn-primary">
           Next
         </button>
       </div>

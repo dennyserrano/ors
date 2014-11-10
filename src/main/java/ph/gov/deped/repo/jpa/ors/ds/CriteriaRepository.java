@@ -17,6 +17,8 @@ import java.util.List;
 public interface CriteriaRepository extends BaseJpaRepository<DatasetCriteria, Long>, DefaultCriteriaRepository {
 
     List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
+    
+    List<DatasetCriteria> findByDatasetHeadAndVisible(DatasetHead datasetHead, boolean visible);
 
     List<DatasetCriteria> findByLeftElement(DatasetElement leftElement);
 

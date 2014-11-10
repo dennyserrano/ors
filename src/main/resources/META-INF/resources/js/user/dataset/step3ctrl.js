@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step3Ctrl', ['$scope', '$state', '$window', 'UserDatasetService', 'CriteriaService',
-        function($scope, $state, $window, UserDatasetService, CriteriaService) {
+    .controller('Step3Ctrl', ['$scope', '$state', '$window', 'UserDatasetService', 'CriteriaService', 'SchoolNameCriteriaService',
+        function($scope, $state, $window, UserDatasetService, CriteriaService, SchoolNameCriteriaService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'complete';
@@ -12,10 +12,12 @@ angular.module('UserApp')
             $scope.selectedValues = {};
             $scope.filters = [];
             $scope.loadingFilters = 0;
-
+            $window.ORS.ResizeElements();
+            
             var schoolProfileDatasetId = 8; // value came from the database (sisdbtest.dataset_head).
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
             var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'Divison'
+            var schoolNameFilterId = 16; // number 16 from sisdbtest.dataset_criteria.id where filter_name = 'School Name'
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
@@ -45,7 +47,7 @@ angular.module('UserApp')
             var selectedDatsetsCallback = function(selectedDataset) {
                 CriteriaService.get({ 'headId': selectedDataset.id }, criteriaServiceCallback);
             };
-            
+
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
                 $scope.filters = dataset.filters;
@@ -60,7 +62,6 @@ angular.module('UserApp')
                 angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
                 $scope.loadingFilters = 1;
-                $window.ORS.ResizeElements();
             }, function(response) {
                 $scope.loadingFilters = 2;
                 $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';
@@ -89,9 +90,34 @@ angular.module('UserApp')
                         }
                     });
                 }
+                // TODO dynamic filters with callback or specialized actions.
                 if (criterion.filterId === regionFilterId) {
                     divisionCriterion.selection = selectedOption.childKeyValues;
                 }
+            };
+            
+            $scope.searchSchools = function(schoolName) {
+                angular.forEach($scope.filters, function(filter) {
+                    if (filter.criterion === schoolNameFilterId) {
+                        filter.selectedValue = schoolName;
+                    }
+                });
+                var schools = [];
+                SchoolNameCriteriaService.searchSchool({}, $scope.filters, function(schoolNames) {
+                    angular.forEach(schoolNames, function(s) {
+                        schools.push(s);
+                    });
+                });
+                return schools;
+            };
+            
+            $scope.selectSchool = function(item, model, label) {
+                angular.forEach($scope.filters, function(filter) {
+                    if (filter.criterion === schoolNameFilterId) {
+                        filter.selectedValue = item.key;
+                    }
+                });
+                $scope.loadingSchools = false;
             };
             
             $scope.save = function() {

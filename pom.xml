@@ -69,12 +69,6 @@
   <!-- Add typical dependencies for a web application -->
   <dependencies>
     <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-servlet-api</artifactId>
-      <version>${tomcat.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
       <version>${javax.inject.version}</version>
@@ -422,6 +416,21 @@
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-core</artifactId>
+          <version>${tomcat.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-el</artifactId>
+          <version>${tomcat.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-logging-juli</artifactId>
+          <version>${tomcat.version}</version>
         </dependency>
       </dependencies>
     </profile>

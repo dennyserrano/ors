@@ -18,4 +18,6 @@ public interface DefaultCriteriaRepository {
     List<KeyValue> getSchoolTypes();
 
     List<KeyValue> getRegionsAndDivisions();
+
+    List<KeyValue> searchSchool(int schoolYear, int levelOfEducation, String schoolName);
 }

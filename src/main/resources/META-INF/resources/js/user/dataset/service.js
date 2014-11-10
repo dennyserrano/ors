@@ -51,6 +51,16 @@ angular.module('UserApp')
             })
         }
     ])
+    .factory('SchoolNameCriteriaService', ['$resource',
+        function($resource) {
+            return $resource('/criteria/school', {}, {
+                'searchSchool': {
+                    method: 'POST',
+                    isArray: true
+                }
+            });
+        }
+    ])
     .factory('OwnerService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/dataset/owner/:ownerId', {

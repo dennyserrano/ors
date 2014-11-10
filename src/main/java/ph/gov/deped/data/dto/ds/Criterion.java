@@ -26,20 +26,28 @@ public class Criterion implements Serializable {
     private final long elementId;
 
     private final Operator operator;
+    
+    private final InputType inputType;
 
     private final List<KeyValue> selection;
+    
+    private final String label;
 
     @JsonCreator
     public Criterion(@JsonProperty("filterId") long filterId,
                      @JsonProperty("filterName") String filterName,
                      @JsonProperty("elementId") long elementId,
                      @JsonProperty("operator") Operator operator,
+                     @JsonProperty("inputType") InputType inputType,
+                     @JsonProperty("label") String label,
                      @JsonProperty("selection") List<KeyValue> selection) {
         this.filterId = filterId;
         this.filterName = filterName;
         this.elementId = elementId;
         this.operator = operator;
+        this.inputType = inputType;
         this.selection = selection;
+        this.label = label;
     }
 
     public long getFilterId() {
@@ -58,6 +66,14 @@ public class Criterion implements Serializable {
         return operator;
     }
 
+    public InputType getInputType() {
+        return inputType;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
     public List<KeyValue> getSelection() {
         return selection;
     }
@@ -74,6 +90,8 @@ public class Criterion implements Serializable {
                 .append(this.elementId, rhs.elementId)
                 .append(this.operator, rhs.operator)
                 .append(this.selection, rhs.selection)
+                .append(this.inputType, rhs.inputType)
+                .append(this.label, rhs.label)
                 .isEquals();
     }
 
@@ -85,6 +103,8 @@ public class Criterion implements Serializable {
                 .append(elementId)
                 .append(operator)
                 .append(selection)
+                .append(inputType)
+                .append(label)
                 .toHashCode();
     }
 
@@ -96,6 +116,8 @@ public class Criterion implements Serializable {
                 .append("elementId", elementId)
                 .append("operator", operator)
                 .append("selection", selection)
+                .append("inputType", inputType)
+                .append("label", label)
                 .toString();
     }
 }

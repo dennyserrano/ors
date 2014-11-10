@@ -10,6 +10,7 @@ angular.module('UserApp')
             $scope.step4 = 'active';
             
             $scope.loadingData = 0;
+            $window.ORS.ResizeElements();
             $scope.headers = [];
             $scope.datas = [];
             
@@ -18,13 +19,14 @@ angular.module('UserApp')
                 data.splice(0, 1); // removes the header
                 $scope.datas = angular.copy(data);
                 $scope.loadingData = 1;
+                var trackerRowHeight = $('#trackerRow').outerHeight();
+                $('#previewData').css('padding-top', 52 + trackerRowHeight + 'px');
             };
             
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
                 $scope.datasetJson = angular.toJson(dataset);
                 PreviewDataService.preview(dataset, previewDataCallback);
-                $window.ORS.ResizeElements();
             }, function(response) {
                 $scope.loadingData = 2;
                 $scope.loadingDataError = 'Failed to load Preview of Data. [HTTP Status: ' + response.status + '].';

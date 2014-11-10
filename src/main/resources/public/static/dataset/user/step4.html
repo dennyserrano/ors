@@ -47,8 +47,8 @@
       </div>
     </div>
     
-    <div data-ng-show="loadingData === 1" class="row">
-      <div class="col-sm-12">
+    <div id="datasetContents" class="row" style="position: relative; float: left; width: 100%;">
+      <div class="col-sm-12" style="position: fixed; float: left; width: 100%; background-color: #FFF; z-index: 999;">
         <p class="text-center">
           DEPARTMENT OF EDUCATION<br/>
           ENHANCED BASIC EDUCATION INFORMATION SYSTEM
@@ -56,15 +56,13 @@
       </div>
     </div>
 
-    <div data-ng-show="loadingData === 0" class="row">
-      <div class="col-sm-12">
+    <div id="previewData" class="row">
+      <div data-ng-show="loadingData === 0" class="col-sm-12">
         <fa class="fa fa-spin fa-spinner"></fa>
         Loading Preview of Data...
       </div>
-    </div>
-    
-    <div data-ng-show="loadingData === 1" class="row">
-      <div class="col-sm-12">
+
+      <div data-ng-show="loadingData === 1" class="col-sm-12">
         <div style="position: relative;">
           <div style="overflow-x: auto;">
             <div class="table-responsive table-wrapper">
@@ -88,10 +86,8 @@
           </div>
         </div>
       </div>
-    </div>
-    
-    <div data-ng-show="loadingData === 2" class="row">
-      <div class="col-sm-12">
+      
+      <div data-ng-show="loadingData === 2" class="col-sm-12">
         <div class="alert alert-danger">
           {{ loadingDataError }}
         </div>
@@ -118,6 +114,9 @@
           </button>
           <button type="submit" class="btn btn-primary btn-md">
             Export
+          </button>
+          <button type="button" class="btn bt-default btn-md" data-ui-sref="step1">
+            Go Back to Step 1
           </button>
         </form>
       </div>

@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import com.bits.sql.FilterType;
 import com.bits.sql.Operator;
 import ph.gov.deped.data.BaseJpaEntity;
+import ph.gov.deped.data.dto.ds.InputType;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -61,15 +62,28 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     @ManyToOne
     @JoinColumn(name = "right_element_id")
     private DatasetElement rightElement;
+    
+    @Enumerated
+    @Column(nullable = false)
+    private InputType inputType;
+    
+    @Column(nullable = false)
+    private boolean visible;
+    
+    @Column(length = 50)
+    private String label;
 
     public DatasetCriteria() {}
 
-    public DatasetCriteria(Long id, DatasetHead datasetHead, FilterType filterType, DatasetElement leftElement, Operator operator) {
+    public DatasetCriteria(Long id, DatasetHead datasetHead, FilterType filterType, DatasetElement leftElement,
+                           Operator operator, boolean visible, String label) {
         this.id = id;
         this.datasetHead = datasetHead;
         this.filterType = filterType;
         this.leftElement = leftElement;
         this.operator = operator;
+        this.visible = visible;
+        this.label = label;
     }
 
     public Long getId() {
@@ -104,6 +118,18 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         return filterName;
     }
 
+    public InputType getInputType() {
+        return inputType;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -136,6 +162,18 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
         this.filterName = filterName;
     }
 
+    public void setInputType(InputType inputType) {
+        this.inputType = inputType;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof DatasetCriteria)) {
@@ -150,6 +188,9 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .append(this.operator, rhs.operator)
                 .append(this.valueType, rhs.valueType)
                 .append(this.rightElement, rhs.rightElement)
+                .append(this.inputType, rhs.inputType)
+                .append(this.visible, rhs.visible)
+                .append(this.label, rhs.label)
                 .isEquals();
     }
 
@@ -163,6 +204,9 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .append(operator)
                 .append(valueType)
                 .append(rightElement)
+                .append(inputType)
+                .append(visible)
+                .append(label)
                 .toHashCode();
     }
 
@@ -178,6 +222,9 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
                 .append("operator", operator)
                 .append("valueType", valueType)
                 .append("rightElement", rightElement)
+                .append("inputType", inputType)
+                .append("visible", visible)
+                .append("label", label)
                 .toString();
     }
 }

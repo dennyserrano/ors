@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ph.gov.deped.common.AppMetadata;
+import ph.gov.deped.config.FilterSettings;
 import ph.gov.deped.data.dto.KeyValue;
 
 import javax.sql.DataSource;
@@ -52,21 +53,16 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
             new KeyValue("293", "Annex or Extension school(s)")
     ));
 
-    private static final int REGION_OFFICE_TYPE = 191;
-
-    private static final int DIVSION_OFFICE_TYPE = 192;
-
-    private static final String REGIONS_SQL = "SELECT rr.id AS 'id', rr.short_name AS 'region_name' FROM ref_region rr " +
-            "INNER JOIN ref_office ro on rr.id = ro.ref_region_id WHERE ro.office_type = ?";
-
-    private static final String REGION_DIVISIONS_SQL = "SELECT id, office_name FROM ref_office WHERE ref_region_id = ? AND office_type = ?";
-
-    //private static final String DIVISIONS_SQL = "SELECT id, office_Name FROM ref_office WHERE office_type = ?";
-
     private DataSource dataSource;
+    
+    private FilterSettings filterSettings;
 
     public @Autowired @Qualifier(AppMetadata.DS) void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public @Autowired void setFilterSettings(FilterSettings filterSettings) {
+        this.filterSettings = filterSettings;
     }
 
     public List<KeyValue> getSchoolYears() {
@@ -87,14 +83,14 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     public List<KeyValue> getRegionsAndDivisions() {
         JdbcTemplate template = new JdbcTemplate(dataSource);
-        List<KeyValue> regions = template.query(REGIONS_SQL,
-                new Object[] { REGION_OFFICE_TYPE },
+        List<KeyValue> regions = template.query(filterSettings.getRegionSql(),
+                new Object[] { filterSettings.getRegionOfficeType() },
                 new int[] { Types.INTEGER },
                 (rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("region_name")));
         regions.forEach(kv -> {
-            List<KeyValue> divisions = template.query(REGION_DIVISIONS_SQL,
-                    new Object[]{Integer.parseInt(kv.getKey()), DIVSION_OFFICE_TYPE},
-                    new int[]{Types.INTEGER, Types.INTEGER},
+            List<KeyValue> divisions = template.query(filterSettings.getDivisionSql(),
+                    new Object[] { Integer.parseInt(kv.getKey()), filterSettings.getDivisionOfficeType() },
+                    new int[] { Types.INTEGER, Types.INTEGER },
                     (rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("office_name")));
             kv.setChildKeyValues(divisions);
         });
@@ -102,5 +98,13 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
         nationwide.setChildKeyValues(new ArrayList<>(Arrays.asList(new KeyValue("", ""))));
         regions.add(0, nationwide);
         return regions;
+    }
+    
+    public List<KeyValue> searchSchool(int schoolYear, int levelOfEducation, String schoolName) {
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        return template.query(filterSettings.getSchoolNameSql(),
+                new Object[] { schoolYear, levelOfEducation, "%" + schoolName + "%" },
+                new int[] { Types.SMALLINT, Types.SMALLINT, Types.VARCHAR },
+                (rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("school_id")), rs.getString("school_name")));
     }
 }

@@ -46,15 +46,13 @@
       </div>
     </div>
     
-    <div data-ng-show="loadingElements === 0" class="row">
-      <div class="col-sm-12">
+    <div id="datasetContents" class="row">
+      <div data-ng-show="loadingElements === 0" class="col-sm-12">
         <i class="fa fa-spin fa-spinner"></i>
         Loading Elements...
       </div>
-    </div>
-    
-    <div id="datasetContents" data-ng-show="loadingElements === 1" class="row">
-      <div class="col-sm-12">
+
+      <div data-ng-show="loadingElements === 1" class="col-sm-12">
         <div style="position: relative;">
           <div style="overflow-x: auto;">
             <div style="display: table-row;">
@@ -105,17 +103,15 @@
           </div>
         </div>
       </div>
-    </div>
-    
-    <div data-ng-show="loadingElements === 2" class="row">
-      <div class="col-sm-12">
+
+      <div data-ng-show="loadingElements === 2" class="col-sm-12">
         <div class="alert alert-danger">
           {{ loadingElementsError }}
         </div>
       </div>
     </div>
     
-    <div class="row">
+    <div data-ng-show="loadingElements === 1" class="row">
       <div class="col-sm 12">
         <div class="alert alert-warning alert-dismissible" role="alert">
           <small>
