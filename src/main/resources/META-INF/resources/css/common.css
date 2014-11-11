@@ -95,11 +95,13 @@ table.tableSection th, table.tableSection td {
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
+
 }
 
 #side-menu .subdataset {
   text-decoration: none;
   color: #FFF;
+
 }
 
 .nav-collapse, .nav-collapse.collapse {
@@ -113,6 +115,7 @@ table.tableSection th, table.tableSection td {
 
 #sidebar-nav {
   border: none;
+  width: 330px;
 }
 
 #trackerRow {
@@ -120,6 +123,7 @@ table.tableSection th, table.tableSection td {
   background-color: #FFF;
   position: fixed;
   float: right;
+
 }
 
 @media (max-width: 768px) {
@@ -172,8 +176,8 @@ table.tableSection th, table.tableSection td {
 }
 
 .nav > li > a:hover, .nav > li > a:focus {
-  background-color: orange;
-  color: #000;
+  background-color: #f0b327;
+    color: #000;
 }
 
 .dataset-toggle {
@@ -198,9 +202,9 @@ table.tableSection th, table.tableSection td {
 }
 
 ul.nav > li.menu-item {
-  margin-left: 5px;
+  margin-left: 0px;
 }
 
 li.menu-item > ul.nav {
-  margin-left: 5px;
+  margin-left: 15px;
 }
