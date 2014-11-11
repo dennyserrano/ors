@@ -120,6 +120,7 @@ table.tableSection th, table.tableSection td {
   background-color: #FFF;
   position: fixed;
   float: right;
+
 }
 
 @media (max-width: 768px) {
@@ -172,7 +173,7 @@ table.tableSection th, table.tableSection td {
 }
 
 .nav > li > a:hover, .nav > li > a:focus {
-  background-color: lightslategrey;
+  background-color: #f0b327;
 }
 
 .dataset-toggle {

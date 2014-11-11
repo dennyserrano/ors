@@ -73,7 +73,8 @@
 }
 
 .sidebar .sidebar-search {
-    padding: 15px;
+    
+
 }
 
 .sidebar ul li {
@@ -83,10 +84,17 @@
     border-right-color: #000;
     border-bottom-color: #000;
     border-left-color: #000;
+
+   
 }
 
-.sidebar ul li a.active {
-    background-color: #eee;
+.sidebar ul li a{
+    position: relative;
+	display: block;
+	padding-top: 5px;
+	padding-right: 15px;
+	padding-bottom: 5px;
+	padding-left: 15px;
 }
 
 .sidebar .arrow {
@@ -107,9 +115,6 @@
 }
 
 .sidebar .nav-second-level li a {
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
     padding-left: 37px;
 }
 
@@ -343,7 +348,7 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
 
 .smpl-step {
     width: 100%;
-    border-bottom: solid 1px #e0e0e0;
+    border-bottom: solid 0px #e0e0e0;
     padding: 0 0 10px 0;
 }
 
