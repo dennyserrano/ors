@@ -18,7 +18,7 @@
   </script>
   
   <div class="col-sm-3 col-xs-12" style="padding-right: 5px; ">
-    <div id="sidebar-nav" class="sidebar navbar navbar-inverse collapse" role="navigation" >
+    <div id="sidebar-nav" class="sidebar navbar navbar-inverse navbar-collapse " role="navigation" >
       <div class="input-group custom-search-form" style="padding: 27px 12px 0px 7px; ">
         <input type="text" class="form-control" placeholder="Search..."/>
         <span class="input-group-btn">
@@ -27,7 +27,7 @@
           </button>
         </span>
       </div>
-      <div style="padding: 0px 7px 0px 7px;"><h3 style="color: white;"><i class="fa fa-database"></i>
+      <div ><h3 style="color: white;"><i class="fa fa-database"></i>
           Datasets
         </h3>
       </div>
@@ -35,8 +35,10 @@
         <i class="fa fa-spin fa-spinner"></i>
         Loading Datasets...
       </div>
-      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled" style="width: 300px; min-height: 460px;">
+
+      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled" ">
         <li data-ng-repeat="dataset in datasets" class="menu-item">
+
           <a href="javascript:void(0);">
             {{ dataset.name }}
             <span class="fa arrow"></span>
@@ -130,11 +132,11 @@
               <table class="table table-condensed table-striped table-bordered" style="table-layout: fixed;">
                 <thead>
                   <tr>
-                    <td>
+                    <td class="text-center">
                       Element Name
                     </td>
-                    <td>
-                      Definition
+                    <td class="text-center">
+                      Description
                     </td>
                   </tr>
                 </thead>
@@ -148,7 +150,7 @@
                 <tbody data-ng-show="subdataset.elements.length > 0">
                   <tr bindonce data-ng-repeat="element in subdataset.elements">
                     <td bo-text="element.name"></td>
-                    <td style="white-space: normal !important;" bo-text="element.meaning"></td>
+                    <td style="white-space: normal !important;" bo-text="element.description"></td>
                   </tr>
                 </tbody>
               </table>

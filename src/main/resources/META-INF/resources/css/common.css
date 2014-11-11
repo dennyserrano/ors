@@ -95,11 +95,13 @@ table.tableSection th, table.tableSection td {
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
+
 }
 
 #side-menu .subdataset {
   text-decoration: none;
   color: #FFF;
+
 }
 
 .nav-collapse, .nav-collapse.collapse {
@@ -113,6 +115,7 @@ table.tableSection th, table.tableSection td {
 
 #sidebar-nav {
   border: none;
+  width: 330px;
 }
 
 #trackerRow {

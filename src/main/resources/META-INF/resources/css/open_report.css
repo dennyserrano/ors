@@ -134,6 +134,7 @@
     .sidebar {
         z-index: 1;
         position: absolute;
+        min-height: 560px;
     }
 
     .navbar-top-links .dropdown-messages,

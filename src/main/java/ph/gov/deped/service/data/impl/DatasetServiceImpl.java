@@ -306,7 +306,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
         LinkedList<ColumnElement> headers = sortedColumns.stream()
                 .map(ColumnElement::clone) // copy the original user selected column elements
                 .map(ce -> {
-                    ce.setValue(ce.getElementDescription()); // set the value as the element description
+                    ce.setValue(ce.getElementName()); // set the value as the element description
                     return ce;
                 })
                 .collect(toCollection(LinkedList::new));
