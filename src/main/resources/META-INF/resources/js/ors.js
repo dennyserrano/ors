@@ -31,6 +31,18 @@
         var trackerHeight = $('#trackerRow').height();
         $('#datasetContents').css('padding-top', trackerHeight + 'px');
     };
+    
+    ORS.DoubleScroll = function(element) {
+        ORS.FitToWidth(element);
+        $(element).doubleScroll({
+            resetOnWindowResize: true
+        });
+    };
+    
+    ORS.FitToWidth = function(element) {
+        var windowWidth = $(window).width();
+        $(element).css('width', windowWidth + 'px');
+    };
 
     window.ORS = ORS;
 
@@ -61,12 +73,7 @@ $(".modal").on("show.bs.modal", function() {
     $(this).find(".modal-body").css("max-height", height);
 });
 
-$(window).resize(ORS.ResizeElements);
-
-$(function() {
-    $(".change").click(function() {
-        $('.progress').removeClass("progress-bar-success");
-        $('.progress_2').addClass("progress-bar-info");
-        $('.progress_3').addClass("progress-bar-info");
-    });
+$(window).resize(function() {
+    ORS.ResizeElements();
 });
+

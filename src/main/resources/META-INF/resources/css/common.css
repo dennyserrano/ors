@@ -174,6 +174,7 @@ table.tableSection th, table.tableSection td {
 
 .nav > li > a:hover, .nav > li > a:focus {
   background-color: #f0b327;
+    color: #000;
 }
 
 .dataset-toggle {
@@ -195,4 +196,12 @@ table.tableSection th, table.tableSection td {
 .dataset-toggle:hover, .dataset-toggle:focus {
   background-color: lightslategrey !important;
   color: #FFF;
+}
+
+ul.nav > li.menu-item {
+  margin-left: 0px;
+}
+
+li.menu-item > ul.nav {
+  margin-left: 15px;
 }

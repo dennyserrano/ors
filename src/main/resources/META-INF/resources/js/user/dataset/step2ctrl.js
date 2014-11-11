@@ -11,6 +11,7 @@ angular.module('UserApp')
             
             $scope.loadingElements = 0;
             $window.ORS.ResizeElements();
+            $window.ORS.FitToWidth($('#elements')[0]);
             $scope.allElementsSelected = {};
 
             $scope.selectedElements = {};

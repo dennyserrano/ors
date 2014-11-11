@@ -31,19 +31,19 @@ public class ExporterSpringConfig {
         return new XlsxExporter();
     }
     
-    public @Bean DefaultExcelCellWriter defaultExcelCellWriter() {
+    public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {
         return new DefaultExcelCellWriter();
     }
     
-    public @Bean @Primary DisruptedExcelCellWriter disruptedExcelCellWriter() {
-        return new DisruptedExcelCellWriter();
+    public @Bean DisruptedExcelCellWriter disruptedExcelCellWriter() {
+        return new DisruptedExcelCellWriter(defaultExcelCellWriter());
     }
     
-    public @Bean @Primary DefaultExcelCellStyler defaultExcelCellStyler() {
+    public @Bean DefaultExcelCellStyler defaultExcelCellStyler() {
         return new DefaultExcelCellStyler();
     }
     
-    public @Bean DisruptedExcelCellStyler disruptedExcelCellStyler() {
+    public @Bean @Primary DisruptedExcelCellStyler disruptedExcelCellStyler() {
         return new DisruptedExcelCellStyler();
     }
 }
