@@ -37,8 +37,8 @@
         <i class="fa fa-spin fa-spinner"></i>
         Loading Datasets...
       </div>
-      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled">
-        <li data-ng-repeat="dataset in datasets" class="menu-item">
+      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled menu-item">
+        <li data-ng-repeat="dataset in datasets">
           <a href="javascript:void(0);">
             {{ dataset.name }}
             <span class="fa arrow"></span>
@@ -132,11 +132,11 @@
               <table class="table table-condensed table-striped table-bordered" style="table-layout: fixed;">
                 <thead>
                   <tr>
-                    <td>
+                    <td class="text-center">
                       Element Name
                     </td>
-                    <td>
-                      Definition
+                    <td class="text-center">
+                      Description
                     </td>
                   </tr>
                 </thead>
@@ -150,7 +150,7 @@
                 <tbody data-ng-show="subdataset.elements.length > 0">
                   <tr bindonce data-ng-repeat="element in subdataset.elements">
                     <td bo-text="element.name"></td>
-                    <td style="white-space: normal !important;" bo-text="element.meaning"></td>
+                    <td style="white-space: normal !important;" bo-text="element.description"></td>
                   </tr>
                 </tbody>
               </table>
