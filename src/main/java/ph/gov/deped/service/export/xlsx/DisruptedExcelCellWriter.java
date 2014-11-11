@@ -25,6 +25,8 @@ public class DisruptedExcelCellWriter extends DefaultExcelCellWriter implements 
     
     private static final int DEFAULT_BUFFER_SIZE = 4096;
     
+    private final DefaultExcelCellWriter defaultExcelCellWriter;
+    
     private int bufferSize = DEFAULT_BUFFER_SIZE;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -32,6 +34,10 @@ public class DisruptedExcelCellWriter extends DefaultExcelCellWriter implements 
     private Disruptor<XlsxCellWriteEvent> disruptor;
     
     private RingBuffer<XlsxCellWriteEvent> ringBuffer;
+
+    public DisruptedExcelCellWriter(DefaultExcelCellWriter defaultExcelCellWriter) {
+        this.defaultExcelCellWriter = defaultExcelCellWriter;
+    }
 
     public void setBufferSize(int bufferSize) {
         this.bufferSize = bufferSize;

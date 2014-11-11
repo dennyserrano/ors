@@ -67,16 +67,12 @@
           <table data-ng-show="loadingData === 1" class="table table-bordered table-condensed">
             <thead>
               <tr>
-                <th data-ng-repeat="header in keys(headers)">
-                  {{ headers[header].value }}
-                </th>
+                <th bindonce data-ng-repeat="header in keys(headers)" bo-text="headers[header].value"></th>
               </tr>
             </thead>
             <tbody>
-              <tr data-ng-repeat="data in datas">
-                <td data-ng-repeat="key in keys(data)" data-ng-init="value = data[key]">
-                  {{ value.value }}
-                </td>
+              <tr bindonce data-ng-repeat="data in datas">
+                <td bindonce data-ng-repeat="key in keys(data)" data-ng-init="value = data[key]" bo-text="value.value"></td>
               </tr>
             </tbody>
           </table>

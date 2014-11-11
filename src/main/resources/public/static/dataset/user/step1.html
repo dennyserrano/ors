@@ -37,14 +37,14 @@
         <i class="fa fa-spin fa-spinner"></i>
         Loading Datasets...
       </div>
-      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets">
-        <li data-ng-repeat="dataset in datasets">
+      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled">
+        <li data-ng-repeat="dataset in datasets" class="menu-item">
           <a href="javascript:void(0);">
             {{ dataset.name }}
             <span class="fa arrow"></span>
           </a>
           <ul class="nav">
-            <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'">
+            <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'" class="menu-item">
             </li>
           </ul>
         </li>
@@ -115,7 +115,7 @@
             <p class="list-group-item-text">
               {{ subdataset.description }}
             </p>
-            <div data-ng-show="!subdataset.elements || subdataset.elements.length === 0">
+            <div data-ng-if="!subdataset.elements || subdataset.elements.length === 0">
               <i class="fa fa-spin fa-spinner"></i>
               <small>
                 Loading Elements of &quot;{{ subdataset.name }}&quot;...
@@ -140,7 +140,7 @@
                     </td>
                   </tr>
                 </thead>
-                <tbody data-ng-show="subdataset.elements.length === 0">
+                <tbody data-ng-if="subdataset.elements.length === 0">
                   <tr>
                     <td colspan="2">
                       No Elements found.
@@ -148,13 +148,9 @@
                   </tr>
                 </tbody>
                 <tbody data-ng-show="subdataset.elements.length > 0">
-                  <tr data-ng-repeat="element in subdataset.elements">
-                    <td>
-                      {{ element.name }}
-                    </td>
-                    <td style="white-space: normal !important;">
-                      {{ element.meaning }}
-                    </td>
+                  <tr bindonce data-ng-repeat="element in subdataset.elements">
+                    <td bo-text="element.name"></td>
+                    <td style="white-space: normal !important;" bo-text="element.meaning"></td>
                   </tr>
                 </tbody>
               </table>

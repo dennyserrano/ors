@@ -144,6 +144,9 @@ public class XlsxExporter implements Exporter {
             cell = row.getCell(c);
             excelCellStyler.applyStyle(wb, row, cell, fe);
         }
+        
+        // Freeze first row or the headers row
+        sheet.createFreezePane(0, 1);
 
         // late apply auto sizing for each columns
         /*row = sheet.getRow(0);

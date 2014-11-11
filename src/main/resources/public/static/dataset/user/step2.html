@@ -47,7 +47,7 @@
     </div>
     
     <div id="datasetContents" class="row">
-      <div data-ng-show="loadingElements === 0" class="col-sm-12">
+      <div data-ng-if="loadingElements === 0" class="col-sm-12">
         <i class="fa fa-spin fa-spinner"></i>
         Loading Elements...
       </div>
@@ -82,17 +82,13 @@
                 </tr>
               </tbody>
               <tbody data-ng-show="subdataset.elements.length > 0">
-                <tr data-ng-repeat="element in subdataset.elements">
+                <tr bindonce data-ng-repeat="element in subdataset.elements">
                   <td>
                     <input type="checkbox" checklist-model="selectedElements[subdataset.id]" checklist-value="element"
                            data-ng-checked="elementSelected(subdataset, element)"/>
                   </td>
-                  <td>
-                    {{ element.name }}
-                  </td>
-                  <td>
-                    {{ element.meaning }}
-                  </td>
+                  <td bo-text="element.name"></td>
+                  <td bo-text="element.meaning"></td>
                 </tr>
               </tbody>
             </table>
@@ -100,14 +96,14 @@
         </div>
       </div>
 
-      <div data-ng-show="loadingElements === 2" class="col-sm-12">
+      <div data-ng-if="loadingElements === 2" class="col-sm-12">
         <div class="alert alert-danger">
           {{ loadingElementsError }}
         </div>
       </div>
     </div>
     
-    <div data-ng-show="loadingElements === 1" class="row">
+    <div data-ng-if="loadingElements === 1" class="row">
       <div class="col-sm 12">
         <div class="alert alert-warning alert-dismissible" role="alert">
           <small>
@@ -118,7 +114,7 @@
       </div>
     </div>
     
-    <div class="row">
+    <div data-ng-if="loadingElements === 1" class="row">
       <div class="col-sm-12">
         <button type="button" class="btn btn-default" data-ui-sref="step1">
           Previous
