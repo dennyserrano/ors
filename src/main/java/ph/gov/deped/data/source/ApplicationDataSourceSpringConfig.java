@@ -1,9 +1,7 @@
 package ph.gov.deped.data.source;
 
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
+import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +15,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.config.OrsSettings;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Created by ej on 8/15/14.

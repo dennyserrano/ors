@@ -50,7 +50,7 @@ angular.module('UserApp')
 
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
-                $scope.filters = dataset.filters;
+                $scope.filters = dataset.filters || [];
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
                         hasSchoolProfileSelected = true;
@@ -102,16 +102,14 @@ angular.module('UserApp')
                         filter.selectedValue = schoolName;
                     }
                 });
-                var schools = [];
-                SchoolNameCriteriaService.searchSchool({}, $scope.filters, function(schoolNames) {
-                    angular.forEach(schoolNames, function(s) {
-                        schools.push(s);
-                    });
+                var promise = SchoolNameCriteriaService.searchSchool({}, $scope.filters).$promise;
+                promise.then(function(response) {
+                    return response;
                 });
-                return schools;
+                return promise;
             };
             
-            $scope.selectSchool = function(item, model, label) {
+            $scope.selectSchool = function(item) {
                 angular.forEach($scope.filters, function(filter) {
                     if (filter.criterion === schoolNameFilterId) {
                         filter.selectedValue = item.key;
