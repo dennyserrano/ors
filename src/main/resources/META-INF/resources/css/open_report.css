@@ -7,6 +7,7 @@
 #wrapper {
     width: 100%;
     padding: 0 !important;
+    
 }
 
 .navbar-top-links li {
@@ -68,8 +69,9 @@
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
-    padding-right: 0;
-    padding-left: 0;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+   
 }
 
 .sidebar .sidebar-search {
@@ -109,6 +111,9 @@
     content: "\f107";
 }
 
+
+
+
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
     border-bottom: 0 !important;
@@ -120,13 +125,18 @@
     text-decoration: none;
 
 }
-.sidebar .nav-second-level li a:before {
+ .my-caret li a:before {
 
     font-family: FontAwesome;
     content: "\f0da";
 }
 
-.sidebar .nav-third-level li a {
+ .my-caret  li .active > a:before {
+
+    font-family: FontAwesome;
+    content: "\f0d7";
+}
+.sidebar .nav-third-level  li a {
     padding-left: 52px;
 }
 
@@ -134,7 +144,7 @@
     .sidebar {
         z-index: 1;
         position: absolute;
-        min-height: 560px;
+    
     }
 
     .navbar-top-links .dropdown-messages,
@@ -466,6 +476,13 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
         overflow-y: auto;
 
     }
+       #go-right{
+      margin-left: 340px;
+      }
+      .sidebar-height{
+      min-height: 570px;
+      }
+    
 }
 
 @media only screen and (max-width: 768px) {
@@ -477,17 +494,27 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
         height: 100%;
         max-height: 200px;
         overflow-y: auto;
-
+      
     }
+    #push-down{
+ padding-top: 10px;
+ }
+    
+     
+    
 }
+
+
 
 @media only screen and (min-width: 1024px) and (max-width: 768px) {
     #tracker {
-        margin-top: 0px;
+        margin-top: 2px;
     }
 
     select {
         width: auto
     }
+    
+ 
 
 }
