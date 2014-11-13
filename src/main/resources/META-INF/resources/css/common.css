@@ -202,13 +202,7 @@ width: 330px;
   color: #FFF;
 }
 
-ul.nav > li.menu-item {
-  margin-left: 0px;
-}
 
-li.menu-item > ul.nav {
-  margin-left: 15px;
-}
 /*! perfect-scrollbar - v0.5.3
 * http://noraesae.github.com/perfect-scrollbar/
 * Copyright (c) 2014 Hyunje Alex Jun; Licensed MIT */

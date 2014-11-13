@@ -17,7 +17,7 @@
     </label>
   </script>
  
-  <div class="col-sm-3 col-xs-12 my_scroll navbar-fixed-top" style="margin-top: 50px;">
+  <div class="col-sm-3 col-xs-12 navbar-fixed-top" style="margin-top: 50px;">
     <div id="sidebar-nav" class="gray-default  sidebar navbar navbar-inverse navbar-collapse sidebar-height " role="navigation" >
       <div class="input-group custom-search-form " style="padding: 7px 7px 0px 7px; ">
         <input type="text" class="form-control" placeholder="Search..."/>
@@ -31,25 +31,25 @@
           Datasets
         </h3>
       </div>
-      <div data-ng-show="loadingDatasets === 0" class="datasets " style="color: #FFF;">
+      <div data-ng-show="loadingDatasets === 0" class="datasets" style="color: #FFF;">
         <i class="fa fa-spin fa-spinner"></i>
         Loading Datasets...
-      </div><div class=" my-scroll" id="wrapper ">
+      </div>
 
       <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled " >
-        <li data-ng-repeat="dataset in datasets" class="menu-item ">
+        <li data-ng-repeat="dataset in datasets" >
 
           <a href="javascript:void(0);">
             {{ dataset.name }}
             <span class="fa arrow"></span>
           </a>
-          <ul class="my-caret nav-second-level list-unstyled lol" style="padding-left: 29px;" >
-            <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'" style="padding-right: 20px; "> 
+          <ul class="my-caret nav-second-level list-unstyled lol menu-item" style="padding-left: 25px;" >
+            <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'"  > 
             </li>
             
           </ul>
         </li>
-      </ul></div>
+      </ul>
       <div data-ng-show="loadingDatasets === 2" class="datasets alert alert-danger" style="color: #FFF;">
         <small>
           {{ loadingDatasetsError }}

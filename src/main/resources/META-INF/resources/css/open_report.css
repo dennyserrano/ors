@@ -97,6 +97,12 @@
 	padding-right: 15px;
 	padding-bottom: 5px;
 	padding-left: 15px;
+	
+}
+.sidebar .menu-item li{
+ 
+	margin-left: 20px;
+	padding-right: 20px;
 }
 
 .sidebar .arrow {
@@ -123,8 +129,11 @@
     padding-left: 5px;
     color: #FFF;
     text-decoration: none;
+   margin-left: -5px;
 
 }
+
+
  .my-caret li a:before {
 
     font-family: FontAwesome;
@@ -135,6 +144,7 @@
 
     font-family: FontAwesome;
     content: "\f0d7";
+    
 }
 .sidebar .nav-third-level  li a {
     padding-left: 52px;
@@ -482,6 +492,13 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
       .sidebar-height{
       min-height: 570px;
       }
+       .my-scroll {
+       
+        height: 570px;
+        width: 250px;
+        overflow:hidden;
+        position: absolute;
+      }
     
 }
 
@@ -497,7 +514,7 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
       
     }
     #push-down{
- padding-top: 10px;
+     padding-top: 10px;
  }
     
      
