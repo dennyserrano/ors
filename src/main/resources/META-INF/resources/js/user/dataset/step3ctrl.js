@@ -109,13 +109,10 @@ angular.module('UserApp')
                 return promise;
             };
             
-            $scope.selectSchool = function(item) {
-                angular.forEach($scope.filters, function(filter) {
-                    if (filter.criterion === schoolNameFilterId) {
-                        filter.selectedValue = item.key;
-                    }
-                });
-                $scope.loadingSchools = false;
+            $scope.selectSchool = function(item, model, label, availableCriterion) {
+                $scope.selectedValues[availableCriterion.filterId] = item;
+                $scope.selectedSchoolName = item.value;
+                $scope.setFilter(availableCriterion);
             };
             
             $scope.save = function() {

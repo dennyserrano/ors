@@ -1,5 +1,6 @@
 package ph.gov.deped.data.dto.ds;
 
+import com.bits.sql.FilterType;
 import com.bits.sql.Operator;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,6 +23,8 @@ public class Criterion implements Serializable {
     private final long filterId;
 
     private final String filterName;
+    
+    private final FilterType filterType;
 
     private final long elementId;
 
@@ -36,6 +39,7 @@ public class Criterion implements Serializable {
     @JsonCreator
     public Criterion(@JsonProperty("filterId") long filterId,
                      @JsonProperty("filterName") String filterName,
+                     @JsonProperty("filterType") FilterType filterType, 
                      @JsonProperty("elementId") long elementId,
                      @JsonProperty("operator") Operator operator,
                      @JsonProperty("inputType") InputType inputType,
@@ -43,6 +47,7 @@ public class Criterion implements Serializable {
                      @JsonProperty("selection") List<KeyValue> selection) {
         this.filterId = filterId;
         this.filterName = filterName;
+        this.filterType = filterType;
         this.elementId = elementId;
         this.operator = operator;
         this.inputType = inputType;
@@ -56,6 +61,10 @@ public class Criterion implements Serializable {
 
     public String getFilterName() {
         return filterName;
+    }
+
+    public FilterType getFilterType() {
+        return filterType;
     }
 
     public long getElementId() {
@@ -87,6 +96,7 @@ public class Criterion implements Serializable {
         return new EqualsBuilder()
                 .append(this.filterId, rhs.filterId)
                 .append(this.filterName, rhs.filterName)
+                .append(this.filterType, rhs.filterType)
                 .append(this.elementId, rhs.elementId)
                 .append(this.operator, rhs.operator)
                 .append(this.selection, rhs.selection)
@@ -100,6 +110,7 @@ public class Criterion implements Serializable {
         return new HashCodeBuilder()
                 .append(filterId)
                 .append(filterName)
+                .append(filterType)
                 .append(elementId)
                 .append(operator)
                 .append(selection)
@@ -113,6 +124,7 @@ public class Criterion implements Serializable {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("filterId", filterId)
                 .append("filterName", filterName)
+                .append("filterType", filterType)
                 .append("elementId", elementId)
                 .append("operator", operator)
                 .append("selection", selection)

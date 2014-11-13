@@ -19,5 +19,5 @@ public interface DefaultCriteriaRepository {
 
     List<KeyValue> getRegionsAndDivisions();
 
-    List<KeyValue> searchSchool(int schoolYear, int levelOfEducation, String schoolName);
+    List<KeyValue> searchSchool(int schoolYear, int levelOfEducation, Integer sectorId, Integer regionId, Integer divisionId, String schoolName);
 }

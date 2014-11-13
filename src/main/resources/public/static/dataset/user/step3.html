@@ -68,12 +68,14 @@
                 {{ availableCriterion.label }}
               </label>
               <div data-ng-if="availableCriterion.filterId === 16" class="col-sm-4">
+                <input type="hidden" name="selectedSchoolId" id="selectedSchoolId"
+                       data-ng-model="selectedValues[availableCriterion.filterId]"/>
                 <input type="text" id="filter{{ availableCriterion.filterId }}" autocomplete="off"
                        name="{{ availableCriterion.filterName }}" class="form-control"
-                       data-ng-model="selectedValues[availableCriterion.filterId]"
-                       typeahead="school.key as school.value for school in searchSchools($viewValue)"
+                       data-ng-model="selectedSchoolName" typeahead-wait-ms="500"
+                       typeahead="school.value for school in searchSchools($viewValue)"
                        typeahead-loading="loadingSchools" typeahead-min-length="3"
-                       typeahead-on-select="selectSchool($item)" typeahead-wait-ms="500"/>
+                       typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)"/>
                 <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
                 <small data-ng-show="loadingSchools">Loading list of Schools...</small>
               </div>

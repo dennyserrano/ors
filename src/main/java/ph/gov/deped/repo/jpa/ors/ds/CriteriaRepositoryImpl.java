@@ -1,5 +1,6 @@
 package ph.gov.deped.repo.jpa.ors.ds;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,6 +9,7 @@ import ph.gov.deped.config.FilterSettings;
 import ph.gov.deped.data.dto.KeyValue;
 
 import javax.sql.DataSource;
+import java.io.Serializable;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,11 +102,43 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
         return regions;
     }
     
-    public List<KeyValue> searchSchool(int schoolYear, int levelOfEducation, String schoolName) {
+    public List<KeyValue> searchSchool(int schoolYear, int levelOfEducation, Integer sectorId, Integer regionId, Integer divisionId, String schoolName) {
         JdbcTemplate template = new JdbcTemplate(dataSource);
-        return template.query(filterSettings.getSchoolNameSql(),
-                new Object[] { schoolYear, levelOfEducation, "%" + schoolName + "%" },
-                new int[] { Types.SMALLINT, Types.SMALLINT, Types.VARCHAR },
+        List<Serializable> params = new ArrayList<>();
+        List<Integer> paramTypes = new ArrayList<>();
+        
+        StringBuffer sql = new StringBuffer(filterSettings.getSchoolNameSql());
+        
+        params.add(schoolYear);
+        paramTypes.add(Types.SMALLINT);
+        
+        params.add(levelOfEducation);
+        paramTypes.add(Types.SMALLINT);
+        
+        params.add("%" + schoolName + "%");
+        paramTypes.add(Types.VARCHAR);
+        
+        if (sectorId != null && sectorId > 0) {
+            params.add(sectorId);
+            paramTypes.add(Types.SMALLINT);
+            sql.append(" AND sector_id = ?");
+        }
+        
+        if (regionId != null && regionId > 0) {
+            params.add(regionId);
+            paramTypes.add(Types.TINYINT);
+            sql.append(" AND region_id = ?");
+        }
+        
+        if (divisionId != null && divisionId > 0) {
+            params.add(divisionId);
+            paramTypes.add(Types.INTEGER);
+            sql.append(" AND division_id = ?");
+        }
+        
+        return template.query(sql.toString(),
+                params.toArray(new Object[params.size()]),
+                ArrayUtils.toPrimitive(paramTypes.toArray(new Integer[paramTypes.size()])), 
                 (rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("school_id")), rs.getString("school_name")));
     }
 }

@@ -23,6 +23,8 @@ public class FilterSettings implements Serializable {
     
     private int schoolYearId;
     
+    private int sectorId;
+    
     private int levelOfEducationId;
     
     private String regionSql;
@@ -105,6 +107,14 @@ public class FilterSettings implements Serializable {
 
     public void setSchoolYearId(int schoolYearId) {
         this.schoolYearId = schoolYearId;
+    }
+
+    public int getSectorId() {
+        return sectorId;
+    }
+
+    public void setSectorId(int sectorId) {
+        this.sectorId = sectorId;
     }
 
     public int getLevelOfEducationId() {
