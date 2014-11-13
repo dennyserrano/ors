@@ -77,3 +77,6 @@ $(window).resize(function() {
     ORS.ResizeElements();
 });
 
+$(document).ready(function ($) {
+    $('.my-scroll').perfectScrollbar();
+  });

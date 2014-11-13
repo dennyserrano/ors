@@ -16,10 +16,10 @@
       <small>{{ subdataset.name }}</small>
     </label>
   </script>
-  
-  <div class="col-sm-3 col-xs-12" style="padding-right: 5px; ">
-    <div id="sidebar-nav" class="sidebar navbar navbar-inverse navbar-collapse " role="navigation" >
-      <div class="input-group custom-search-form" style="padding: 27px 12px 0px 7px; ">
+ 
+  <div class="col-sm-3 col-xs-12 navbar-fixed-top" style="margin-top: 50px;">
+    <div id="sidebar-nav" class="gray-default  sidebar navbar navbar-inverse navbar-collapse sidebar-height " role="navigation" >
+      <div class="input-group custom-search-form " style="padding: 7px 7px 0px 7px; ">
         <input type="text" class="form-control" placeholder="Search..."/>
         <span class="input-group-btn">
           <button class="btn btn-default" type="button">
@@ -31,21 +31,22 @@
           Datasets
         </h3>
       </div>
-      <div data-ng-show="loadingDatasets === 0" class="datasets " style="color: #FFF;">
+      <div data-ng-show="loadingDatasets === 0" class="datasets" style="color: #FFF;">
         <i class="fa fa-spin fa-spinner"></i>
         Loading Datasets...
       </div>
 
-      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled" ">
-        <li data-ng-repeat="dataset in datasets" class="menu-item">
+      <ul data-ng-show="loadingDatasets === 1" id="side-menu" class="nav datasets list-unstyled " >
+        <li data-ng-repeat="dataset in datasets" >
 
           <a href="javascript:void(0);">
             {{ dataset.name }}
             <span class="fa arrow"></span>
           </a>
-          <ul class="nav-second-level list-unstyled lol" style="padding-left: 29px;">
-            <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'" style="padding-right: 20px; "> 
+          <ul class="my-caret nav-second-level list-unstyled lol menu-item" style="padding-left: 25px;" >
+            <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'"  > 
             </li>
+            
           </ul>
         </li>
       </ul>
@@ -56,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-9 col-xs-12" style="padding-left: 5px;">
+  <div class="col-sm-9 col-xs-12 " id="go-right">
     <div id="trackerRow" class="row" style="position: fixed; float: right;">
       <div class="col-sm-12">
         <div style="margin-left:7px;" id="tracker">
@@ -102,9 +103,9 @@
         </div>
       </div>
     </div>
-    <div id="datasetContents" class="row">
-      <div class="col-sm-12">
-        <h4 data-ng-show="selectedDatasets && selectedDatasets.length > 0">
+    <div id="datasetContents" class="row ">
+      <div class="col-sm-12 " >
+        <h4 data-ng-show="selectedDatasets && selectedDatasets.length > 0" id="push-down">
           Selected Datasets
         </h4>
         <div class="list-group">
