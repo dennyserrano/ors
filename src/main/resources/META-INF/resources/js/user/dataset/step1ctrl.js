@@ -51,7 +51,12 @@ angular.module('UserApp')
             };
 
             UserDatasetService.get({}, function(dataset) {
-                angular.forEach(dataset.subDatasets, subdatasetsCallback);
+                if (dataset) {
+                    $scope.dataset = dataset;
+                    if (dataset.subDatasets && dataset.subDatasets.length > 0) {
+                        angular.forEach(dataset.subDatasets, subdatasetsCallback);
+                    }
+                }
             });
             
             $scope.loadElements = function(subdataset) {

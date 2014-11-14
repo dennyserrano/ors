@@ -115,7 +115,7 @@ table.tableSection th, table.tableSection td {
 
 #sidebar-nav {
   border: none;
-width: 330px;
+  padding-right: 0;
 }
 
 
@@ -127,7 +127,7 @@ width: 330px;
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #sidebar-nav {
     max-height: 250px;
     float: left;
@@ -147,6 +147,10 @@ width: 330px;
 
   table.table > tbody > tr > td {
     white-space: nowrap;
+  }
+  
+  #sidebar-nav {
+    max-height: none;
   }
 }
 

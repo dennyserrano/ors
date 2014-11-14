@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import ph.gov.deped.data.dto.KeyValue;
 
 import java.io.Serializable;
 
@@ -20,15 +21,15 @@ public class Filter implements Serializable {
 
     private final long element;
 
-    private final Serializable selectedValue;
+    private final KeyValue selectedOption;
 
     @JsonCreator
     public Filter(@JsonProperty("criterion") long criterion,
                   @JsonProperty("element") long element,
-                  @JsonProperty("selectedValue") Object selectedValue) {
+                  @JsonProperty("selectedOption") KeyValue selectedOption) {
         this.criterion = criterion;
         this.element = element;
-        this.selectedValue = (Serializable) selectedValue;
+        this.selectedOption = selectedOption;
     }
 
     public long getCriterion() {
@@ -39,8 +40,8 @@ public class Filter implements Serializable {
         return element;
     }
 
-    public Serializable getSelectedValue() {
-        return selectedValue;
+    public KeyValue getSelectedOption() {
+        return selectedOption;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class Filter implements Serializable {
         return new EqualsBuilder()
                 .append(this.criterion, rhs.criterion)
                 .append(this.element, rhs.element)
-                .append(this.selectedValue, rhs.selectedValue)
+                .append(this.selectedOption, rhs.selectedOption)
                 .isEquals();
     }
 
@@ -61,7 +62,7 @@ public class Filter implements Serializable {
         return new HashCodeBuilder()
                 .append(criterion)
                 .append(element)
-                .append(selectedValue)
+                .append(selectedOption)
                 .toHashCode();
     }
 
@@ -70,7 +71,7 @@ public class Filter implements Serializable {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("criterion", criterion)
                 .append("element", element)
-                .append("selectedValue", selectedValue)
+                .append("selectedOption", selectedOption)
                 .toString();
     }
 }

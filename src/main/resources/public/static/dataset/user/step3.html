@@ -76,6 +76,11 @@
                        typeahead="school.value for school in searchSchools($viewValue)"
                        typeahead-loading="loadingSchools" typeahead-min-length="3"
                        typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)"/>
+                <small>
+                  <i>
+                    The list of schools are based on the filters defined above.
+                  </i>
+                </small>
                 <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
                 <small data-ng-show="loadingSchools">Loading list of Schools...</small>
               </div>

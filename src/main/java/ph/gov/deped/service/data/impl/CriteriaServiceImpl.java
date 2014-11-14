@@ -76,34 +76,34 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         Optional<Filter> schoolYearOptional = findFilter(filterSettings.getSchoolYearId(), filters);
         String schoolYearStr = criteriaRepository.getSchoolYears().get(0).getKey();
         if (schoolYearOptional.isPresent()) {
-            schoolYearStr = String.valueOf(schoolYearOptional.get().getSelectedValue());
+            schoolYearStr = String.valueOf(schoolYearOptional.get().getSelectedOption().getKey());
         }
         int schoolYear = Integer.parseInt(schoolYearStr);
         
         Optional<Filter> levelOfEduOptional = findFilter(filterSettings.getLevelOfEducationId(), filters);
         String levelOfEduStr = criteriaRepository.getGeneralCurricularOfferings().get(0).getKey();
         if (levelOfEduOptional.isPresent()) {
-            levelOfEduStr = String.valueOf(levelOfEduOptional.get().getSelectedValue());
+            levelOfEduStr = String.valueOf(levelOfEduOptional.get().getSelectedOption().getKey());
         }
         int levelOfEducation = Integer.parseInt(levelOfEduStr);
         
         Optional<Filter> sectorOptional = findFilter(filterSettings.getSectorId(), filters);
         Integer sectorId = null;
         if (sectorOptional.isPresent()) {
-            String sectorStr = String.valueOf(sectorOptional.get().getSelectedValue());
+            String sectorStr = String.valueOf(sectorOptional.get().getSelectedOption().getKey());
             sectorId = new Integer(sectorStr);
         }
         
         Optional<Filter> schoolNameOptional = findFilter(filterSettings.getSchoolNameId(), filters);
         String schoolName = "";
         if (schoolNameOptional.isPresent()) {
-            schoolName = String.valueOf(schoolNameOptional.get().getSelectedValue());
+            schoolName = String.valueOf(schoolNameOptional.get().getSelectedOption().getKey());
         }
         
         Optional<Filter> regionFilter = findFilter(filterSettings.getRegionId(), filters);
         Integer regionId = null;
-        if (regionFilter.isPresent() && regionFilter.get().getSelectedValue() != null) {
-            String regionStr = String.valueOf(regionFilter.get().getSelectedValue());
+        if (regionFilter.isPresent() && regionFilter.get().getSelectedOption() != null) {
+            String regionStr = String.valueOf(regionFilter.get().getSelectedOption().getKey());
             if (!isBlank(regionStr)) {
                 regionId = new Integer(regionStr);
             }
@@ -111,8 +111,8 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
 
         Optional<Filter> divisionFilter = findFilter(filterSettings.getDivisionId(), filters);
         Integer divisionId = null;
-        if (divisionFilter.isPresent() && divisionFilter.get().getSelectedValue() != null) {
-            String divisionStr = String.valueOf(divisionFilter.get().getSelectedValue());
+        if (divisionFilter.isPresent() && divisionFilter.get().getSelectedOption() != null) {
+            String divisionStr = String.valueOf(divisionFilter.get().getSelectedOption().getKey());
             if (!isBlank(divisionStr)) {
                 divisionId = new Integer(divisionStr);
             }

@@ -23,13 +23,15 @@ angular.module('UserApp')
             var divisionCriterion;
 
             var criteriaIteratorCallback = function(c) {
-                availableCriteria.push(c);
-                $scope.selectedValues[c.filterId] = c.selection[0];
-                angular.forEach($scope.filters, function(filter) {
-                    if (filter.criterion === c.filterId) {
-                        $scope.selectedValues[c.filterId] = filter.selectedValue;
-                    }
-                });
+                if (c && c.selection) {
+                    availableCriteria.push(c);
+                    $scope.selectedValues[c.filterId] = c.selection[0];
+                    angular.forEach($scope.filters, function(filter) {
+                        if (filter.criterion === c.filterId) {
+                            $scope.selectedValues[c.filterId] = filter.selectedOption;
+                        }
+                    });
+                }
                 $scope.setFilter(c);
             };
             
@@ -49,7 +51,7 @@ angular.module('UserApp')
             };
 
             UserDatasetService.get({}, function(dataset) {
-                $scope.dataset = dataset;
+                $scope.dataset = dataset || {};
                 $scope.filters = dataset.filters || [];
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
@@ -80,13 +82,13 @@ angular.module('UserApp')
                     $scope.filters.push({
                         criterion: criterion.filterId,
                         element: criterion.elementId,
-                        selectedValue: selectedOption.key
+                        selectedOption: selectedOption
                     });
                 }
                 else {
                     angular.forEach($scope.filters, function(filter) {
                         if (filter.criterion === criterion.filterId && filter.element === criterion.elementId) {
-                            filter.selectedValue = selectedOption.key;
+                            filter.selectedOption = selectedOption;
                         }
                     });
                 }
@@ -99,7 +101,9 @@ angular.module('UserApp')
             $scope.searchSchools = function(schoolName) {
                 angular.forEach($scope.filters, function(filter) {
                     if (filter.criterion === schoolNameFilterId) {
-                        filter.selectedValue = schoolName;
+                        filter.selectedOption = {
+                            key: schoolName
+                        };
                     }
                 });
                 var promise = SchoolNameCriteriaService.searchSchool({}, $scope.filters).$promise;

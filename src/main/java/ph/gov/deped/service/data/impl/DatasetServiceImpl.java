@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
@@ -29,7 +30,6 @@ import java.util.*;
 
 import static com.bits.sql.JdbcTypes.isBoolean;
 import static com.bits.sql.JdbcTypes.isNumeric;
-import static com.bits.sql.JdbcTypes.isWholeType;
 import static com.bits.sql.QueryBuilders.read;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toCollection;
@@ -231,11 +231,11 @@ public @Service class DatasetServiceImpl implements DatasetService {
         // set school year filter first before the other filters
         CriteriaFilterBuilder criteriaFilterBuilder = join.where(schoolProfilePrefixTable.getTablePrefix(), schoolYearElement.getColumnName());
         CriteriaChainBuilder criteriaChainBuilder;
-        if (filter.getSelectedValue() == null) {
+        if (filter.getSelectedOption() == null) {
             criteriaChainBuilder = criteriaFilterBuilder.eq(getCurrentYear());
         }
         else {
-            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedValue())));
+            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOption().getKey())));
         }
         filters.forEach(f -> {
             DatasetCriteria criterion = criteriaRepository.findOne(f.getCriterion());
@@ -243,7 +243,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
             ColumnMetadata columnMetadata = columnMetadataRepository.findOne(datasetElement.getColumnId());
             String tablePrefix = tablePrefixMap.get(columnMetadata.getTableId());
             String dataType = columnMetadata.getDataType();
-            Serializable value = f.getSelectedValue();
+            String value = f.getSelectedOption().getKey();
             criteriaChainBuilder.and(tablePrefix, columnMetadata.getColumnName());
             if (value == null) { // null case
                 criteriaFilterBuilder.isNull();
@@ -317,7 +317,8 @@ public @Service class DatasetServiceImpl implements DatasetService {
     private Filter lookupSchoolFilter(PrefixTable schoolProfilePrefixTable, long schoolYearElementId) {
         List<DatasetCriteria> criterias = criteriaRepository.findByDatasetHeadIdAndLeftElementId(schoolProfilePrefixTable.getDatasetId(), schoolYearElementId);
         DatasetCriteria schoolYearDatasetCriteria = criterias.get(0);
-        return new Filter(schoolYearDatasetCriteria.getId(), schoolYearElementId, getCurrentYear());
+        int currentYear = getCurrentYear();
+        return new Filter(schoolYearDatasetCriteria.getId(), schoolYearElementId, new KeyValue(String.valueOf(getCurrentYear()), ""));
     }
 
     private int getCurrentYear() {

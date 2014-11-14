@@ -16,7 +16,6 @@
             topOffset = 100; // 2-row-menu
         } else {
             $('div#sidebar-nav').removeClass('collapse');
-            $('div#sidebar-nav').removeAttr('style');
         }
 
         var height = $(document).height();
@@ -30,13 +29,6 @@
 
         var trackerHeight = $('#trackerRow').height();
         $('#datasetContents').css('padding-top', trackerHeight + 'px');
-    };
-    
-    ORS.DoubleScroll = function(element) {
-        ORS.FitToWidth(element);
-        $(element).doubleScroll({
-            resetOnWindowResize: true
-        });
     };
     
     ORS.FitToWidth = function(element) {

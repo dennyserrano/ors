@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.WebUtils;
 import ph.gov.deped.data.dto.JsonResponse;
 import ph.gov.deped.data.dto.ds.Dataset;
 
@@ -20,7 +21,10 @@ public class DatasetSessionController {
     
     @RequestMapping(method = RequestMethod.GET)
     public Dataset get(HttpSession httpSession) {
-        return (Dataset) httpSession.getAttribute(Dataset.ATTR_NAME);
+        Object mutext = WebUtils.getSessionMutex(httpSession);
+        synchronized (mutext) {
+            return (Dataset) httpSession.getAttribute(Dataset.ATTR_NAME);
+        }
     }
     
     @RequestMapping(method = RequestMethod.POST)
@@ -28,7 +32,10 @@ public class DatasetSessionController {
         if (httpSession == null) {
             httpSession = request.getSession(true);
         }
-        httpSession.setAttribute(Dataset.ATTR_NAME, dataset);
+        Object mutext = WebUtils.getSessionMutex(httpSession);
+        synchronized (mutext) {
+            httpSession.setAttribute(Dataset.ATTR_NAME, dataset);
+        }
         return new JsonResponse(httpSession.getId(), "SUCCESS", String.format("Saved to HTTP Session [%s]", httpSession.getId()));
     }
 }
