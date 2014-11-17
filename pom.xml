@@ -328,9 +328,6 @@
         <filtering>true</filtering>
       </resource>
     </resources>
-    <filters>
-      <filter>src/main/resources/ors-${profile}.properties</filter>
-    </filters>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -441,6 +438,11 @@
           <version>${tomcat.version}</version>
         </dependency>
       </dependencies>
+      <build>
+        <filters>
+          <filter>src/main/resources/ors-dev.properties</filter>
+        </filters>
+      </build>
     </profile>
     <profile>
       <id>dev-tomcat</id>
@@ -457,6 +459,11 @@
           <scope>provided</scope>
         </dependency>
       </dependencies>
+      <build>
+        <filters>
+          <filter>src/main/resources/ors-dev.properties</filter>
+        </filters>
+      </build>
     </profile>
     <profile>
       <id>prod</id>
@@ -483,6 +490,9 @@
             <filtering>true</filtering>
           </resource>
         </resources>
+        <filters>
+          <filter>src/main/resources/ors-prod.properties</filter>
+        </filters>
       </build>
     </profile>
   </profiles>
