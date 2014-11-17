@@ -19,7 +19,7 @@ public interface AppMetadata extends Constants {
 
     public static final String DS_PASS_KEY = ors + DB_PASS_SUFFIX;
 
-    public static final String PROPS = ors + "-${spring.profiles.active}" + PROPS_SUFFIX;
+    public static final String PROPS = ors + PROPS_SUFFIX;
 
     public static final String ORS_EMF_PACKAGES_KEY = "ors.emf.packagesToScan";
 

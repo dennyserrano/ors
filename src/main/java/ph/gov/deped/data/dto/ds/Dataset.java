@@ -144,10 +144,6 @@ public class Dataset implements Serializable {
         Dataset rhs = (Dataset) obj;
         return new EqualsBuilder()
                 .append(this.id, rhs.id)
-                .append(this.name, rhs.name)
-                .append(this.description, rhs.description)
-                .append(this.parentDatasetHead, rhs.parentDatasetHead)
-                .append(this.filters, rhs.filters)
                 .isEquals();
     }
 
@@ -155,10 +151,6 @@ public class Dataset implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
-                .append(name)
-                .append(description)
-                .append(parentDatasetHead)
-                .append(filters)
                 .toHashCode();
     }
 

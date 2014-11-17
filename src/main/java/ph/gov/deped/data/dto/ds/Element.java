@@ -2,6 +2,10 @@ package ph.gov.deped.data.dto.ds;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
@@ -52,5 +56,34 @@ public class Element implements Serializable {
 
     public long getDatasetId() {
         return datasetId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Element)) {
+            return false;
+        }
+        Element rhs = (Element) obj;
+        return new EqualsBuilder()
+                .append(this.id, rhs.id)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(id)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("id", id)
+                .append("name", name)
+                .append("description", description)
+                .append("meaning", meaning)
+                .append("datasetId", datasetId)
+                .toString();
     }
 }
