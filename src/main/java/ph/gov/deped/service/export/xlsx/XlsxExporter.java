@@ -214,6 +214,9 @@ public class XlsxExporter implements Exporter {
                     if (ef == null) {
                         ef = formattingRepository.findByKey(dataType);
                     }
+                    if (ef == null) {
+                        throw new RuntimeException(String.format("Unable to find formatting for [%s].", ce.getDataType()));
+                    }
                     return ef.format(ce);
                 })
                 .forEach(fe -> columnFormat.put(atomicInteger.getAndIncrement(), fe.getCellFormat()));

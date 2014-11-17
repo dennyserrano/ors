@@ -91,7 +91,9 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         Integer sectorId = null;
         if (sectorOptional.isPresent()) {
             String sectorStr = String.valueOf(sectorOptional.get().getSelectedOption().getKey());
-            sectorId = new Integer(sectorStr);
+            if (!isBlank(sectorStr)) {
+                sectorId = new Integer(sectorStr);
+            }
         }
         
         Optional<Filter> schoolNameOptional = findFilter(filterSettings.getSchoolNameId(), filters);

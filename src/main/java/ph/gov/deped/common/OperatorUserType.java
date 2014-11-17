@@ -29,7 +29,8 @@ public class OperatorUserType implements UserType {
             Operators.Logical.class,
             Operators.Special.class,
             Operators.Math.class,
-            Operators.Multiple.class
+            Operators.Multiple.class,
+            Operators.Like.class
     ));
 
     private List<Operator> enums = new ArrayList<>();

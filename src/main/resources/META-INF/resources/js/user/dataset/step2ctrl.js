@@ -56,6 +56,7 @@ angular.module('UserApp')
             };
             
             $scope.save = function() {
+                $scope.saving = true;
                 var dataset = $scope.dataset;
                 dataset.elements = [];
                 var elementsIteratorCallback = function(selectedElement) {

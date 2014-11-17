@@ -79,6 +79,7 @@ angular.module('UserApp')
             };
             
             $scope.save = function() {
+                $scope.saving = true;
                 var dataset = {};
                 dataset.subDatasets = $scope.selectedDatasets;
                 dataset.elements = [];

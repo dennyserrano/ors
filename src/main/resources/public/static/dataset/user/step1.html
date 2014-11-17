@@ -161,9 +161,11 @@
             You can delete selected dataset by clicking its title on the table above and deselecting it from the left menu.
           </small>
         </div>
-        <button data-ng-show="selectedDatasets && selectedDatasets.length > 0" data-ng-click="save()" class="btn btn-primary">
+        <button data-ng-show="selectedDatasets && selectedDatasets.length > 0"
+                data-ng-disabled="saving" data-ng-click="save()" class="btn btn-primary">
           Next
         </button>
+        <i data-ng-show="saving" class="fa fa-spin fa-spinner"></i>
       </div>
     </div>
   </div>
