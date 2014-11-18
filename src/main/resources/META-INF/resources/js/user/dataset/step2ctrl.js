@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step2Ctrl', ['$scope', '$state', '$window', 'UserDatasetService',
-        function($scope, $state, $window, UserDatasetService) {
+    .controller('Step2Ctrl', ['$scope', '$state', '$window', '$timeout', '$compile', 'UserDatasetService', 'ElementService',
+        function($scope, $state, $window, $timeout, $compile, UserDatasetService, ElementService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'active';
@@ -13,6 +13,14 @@ angular.module('UserApp')
             $window.ORS.ResizeElements();
             $window.ORS.FitToWidth($('#elements')[0]);
             $scope.allElementsSelected = {};
+            
+            $scope.$watch('loadingElements', function(newVal, oldVal) {
+                if (oldVal === 0 && newVal === 1) {
+                    $timeout(function() {
+                        $window.ORS.InitStickyTableHeaders();
+                    }, 50);
+                }
+            });
 
             $scope.selectedElements = {};
             UserDatasetService.get({}, function(dataset) {
@@ -21,8 +29,14 @@ angular.module('UserApp')
                     $scope.allElementsSelected[subdataset.id] = false;
                     $scope.selectedElements[subdataset.id] = [];
                     $scope.selectAllElements(subdataset);
-                })
-                $scope.loadingElements = 1;
+                });
+                ElementService.query({}, function(table) { // table: ElementsTable
+                    $scope.elementsTable = table;
+                    $scope.loadingElements = 1;
+                }, function(response) {
+                    $scope.loadingElements = 2;
+                    $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
+                });
             }, function(response) {
                 $scope.loadingElements = 2;
                 $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';

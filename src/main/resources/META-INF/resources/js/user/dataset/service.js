@@ -34,6 +34,10 @@ angular.module('UserApp')
                     method: 'GET',
                     isArray: true,
                     cache: $cacheFactory('elements')
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
                 }
             })
         }

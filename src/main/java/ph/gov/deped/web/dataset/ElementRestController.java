@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import ph.gov.deped.data.dto.ElementsTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.meta.api.MetadataService;
@@ -35,21 +36,26 @@ public class ElementRestController {
     }
     
     @RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<Dataset, Map<Long, Element>> renderElements(HttpSession httpSession) {
-        Map<Dataset, Map<Long, Element>> table = new HashMap<>();
+    public ElementsTable elements(HttpSession httpSession) {
         Dataset dataset = (Dataset) httpSession.getAttribute(Dataset.ATTR_NAME);
-        dataset.getSubDatasets().stream()
-            .map(d -> { // initialize the container for each row
-                Map<Long, Element> row = table.get(d);
-                if (row == null) {
-                    table.put(d, (row = new HashMap<>()));
-                }
-                return d;
-            })
-            .forEach(d -> {
-                Map<Long, Element> row = table.get(d);
-                d.getElements().forEach(e -> row.put(e.getDatasetId(), e));
-            });
+        ElementsTable table = new ElementsTable();
+        dataset.getSubDatasets().stream().forEach(table::addDataset);
+        int largestNumber = dataset.getSubDatasets().parallelStream()
+                .map(Dataset::getElements)
+                .mapToInt(List::size)
+                .max().getAsInt();
+        List<Map<Long, Element>> elements = new ArrayList<>();
+        for (int i = 0; i < largestNumber; i++) {
+            int idx = i;
+            Map<Long, Element> row = new HashMap<>();
+            dataset.getSubDatasets().stream()
+                    .filter(d -> idx < d.getElements().size())
+                    .map(d -> d.getElements())
+                    .map(es -> es.get(idx))
+                    .forEach(e -> row.put(e.getDatasetId(), e));
+            elements.add(i, row);
+        }
+        table.setElements(elements);
         return table;
     }
 }

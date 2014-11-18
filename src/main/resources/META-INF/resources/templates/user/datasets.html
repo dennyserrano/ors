@@ -18,8 +18,7 @@
     <link data-th-href="@{/css/open_report.css}" rel="stylesheet" href="../../css/open_report.css"/>
     <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../../css/common.css"/>
     <link data-th-href="@{/css/animations.css}" rel="stylesheet" href="../../css/animations.css"/>
-      <link data-th-href="@{/css/perfect-scrollbar.css}" rel="stylesheet" href="../../css/perfect-scrollbar.css"/>
-    <link data-th-href="@{/css/perfect-scrollbar.min.css}" rel="stylesheet" href="../../css/perfect-scrollbar.min.css"/>
+    <link data-th-href="@{/css/perfect-scrollbar.min.css}" rel="stylesheet" href="../../css/perfect-scrollbar.css"/>
 
     <script data-th-src="@{/js/angular.min.js}" src="../../js/angular.js"></script>
 
@@ -56,7 +55,14 @@
     <div id="wrapper" class="container-fluid">
       
       <!-- Main Contents -->
-      <div class="row nopadding" ui-view=""></div>
+      <div class="row nopadding">
+        <div ui-view="">
+          <h4>
+            <i class="fa fa-spin fa-spinner fa-lg"></i>
+            Loading Page...
+          </h4>
+        </div>
+      </div>
 
       <!-- Footer Bar 
       <div class="navbar navbar-default">
@@ -72,6 +78,7 @@
     <script data-th-src="@{/js/jquery.min.js}" src="../../js/jquery.js"></script>
     <script data-th-src="@{/js/perfect-scrollbar.min.js}" src="../../js/perfect-scrollbar.js"></script>
     <script data-th-src="@{/js/jquery.doubleScroll.js}" src="../../js/jquery.doubleScroll.js"></script>
+    <script data-th-src="@{/js/jquery.ba-throttle-debounce.min.js}" src="../../js/jquery.ba-throttle-debounce.js"></script>
     <script data-th-src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.js"></script>
     <script data-th-src="@{/js/angular-animate.min.js}" src="../../js/angular-animate.js"></script>
     <script data-th-src="@{/js/angular-route.min.js}" src="../../js/angular-route.js"></script>
@@ -83,6 +90,7 @@
     <script data-th-src="@{/js/double-scroll-bars.min.js}" src="../../js/double-scroll-bars.js"></script>
     <script data-th-src="@{/js/bindonce.min.js}" src="../../js/bindonce.js"></script>
     <script data-th-src="@{/js/ors.js}" src="../../js/dev/js"></script>
+    <script data-th-src="@{/js/stickyheaders.js}" src="../../js/stickyheaders.js"></script>
 
     <script data-th-src="@{/js/user/app.js}" src="../../js/user/app.js"></script>
     <script data-th-src="@{/js/user/dataset/service.js}" src="../../js/user/dataset/service.js"></script>
@@ -92,6 +100,6 @@
     <script data-th-src="@{/js/user/dataset/step4ctrl.js}" src="../../js/user/dataset/step4ctrl.js"></script>
     <script data-th-src="@{/js/user/dataset/routes.js}" src="../../js/user/dataset/routes.js"></script>
     <script data-th-src="@{/js/user/dataset/init.js}" src="../../js/user/dataset/init.js"></script>
-   
+       
   </body>
 </html>

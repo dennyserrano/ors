@@ -53,45 +53,43 @@
       </div>
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
-        <div id="elements" class="table-responsive" double-scroll-bar-horizontal="" data-ng-if="loadingElements === 1">
-          <div data-ng-repeat="subdataset in dataset.subDatasets" class="table-wrapper">
-            <table class="table table-bordered table-striped table-condensed" style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
+        <div id="elements" double-scroll-bar-horizontal="" class="table-responsive">
+          <div class="table-wrapper">
+
+            <table class="table table-bordered table-striped table-condensed"
+                   style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
               <thead>
                 <tr>
-                  <th style="background-color:#f3f3f3;" colspan="3">
+                  <th data-ng-repeat="subdataset in elementsTable.datasets" colspan="3">
                     {{ subdataset.name }}
                   </th>
                 </tr>
-                <tr style="background-color:#04508c; color:#FFF;">
-                  <th>
+                <tr>
+                  <th data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
                     <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
                   </th>
                   <th>
                     Element Name
                   </th>
-                  <th>
+                  <th data-ng-repeat-end="">
                     Description
                   </th>
                 </tr>
               </thead>
-              <tbody data-ng-if="subdataset.elements.length === 0">
-                <tr>
-                  <td colspan="3">
-                    No Elements found.
-                  </td>
-                </tr>
-              </tbody>
-              <tbody data-ng-show="subdataset.elements.length > 0">
-                <tr bindonce data-ng-repeat="element in subdataset.elements">
-                  <td>
-                    <input type="checkbox" checklist-model="selectedElements[subdataset.id]" checklist-value="element"
+              <tbody>
+                <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
+                  <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
+                      data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
+                    <input type="checkbox" checklist-value="element" data-ng-if="element"
+                           checklist-model="selectedElements[subdataset.id]"
                            data-ng-checked="elementSelected(subdataset, element)"/>
                   </td>
                   <td bo-text="element.name"></td>
-                  <td bo-text="element.meaning"></td>
+                  <td bo-text="element.meaning" data-ng-repeat-end=""></td>
                 </tr>
               </tbody>
             </table>
+            
           </div>
         </div>
       </div>
