@@ -73,6 +73,7 @@
                 <input type="text" id="filter{{ availableCriterion.filterId }}" autocomplete="off"
                        name="{{ availableCriterion.filterName }}" class="form-control"
                        data-ng-model="selectedSchoolName" typeahead-wait-ms="500"
+                       typeahead-editable="false"
                        typeahead="school.value for school in searchSchools($viewValue)"
                        typeahead-loading="loadingSchools" typeahead-min-length="3"
                        typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)"/>

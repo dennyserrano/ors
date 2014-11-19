@@ -27,17 +27,27 @@ angular.module('UserApp')
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
+            var schoolIdFilter;
 
             var criteriaIteratorCallback = function(c) {
-                if (c && c.selection) {
-                    availableCriteria.push(c);
-                    $scope.selectedValues[c.filterId] = c.selection[0];
-                    angular.forEach($scope.filters, function(filter) {
-                        if (filter.criterion === c.filterId) {
-                            $scope.selectedValues[c.filterId] = filter.selectedOption;
-                        }
-                    });
+                availableCriteria.push(c);
+                if (c.filterId === divisionFilterId) {
+                    divisionCriterion = c;
                 }
+                if (c && c.selection) {
+                    $scope.selectedValues[c.filterId] = c.selection[0];
+                }
+                else {
+                    $scope.selectedValues[c.filterId] = {
+                        key: '',
+                        value: ''
+                    };
+                }
+                angular.forEach($scope.filters, function(filter) {
+                    if (filter.criterion === c.filterId) {
+                        $scope.selectedValues[c.filterId] = filter.selectedOption;
+                    }
+                });
                 $scope.setFilter(c);
             };
             
@@ -59,6 +69,11 @@ angular.module('UserApp')
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset || {};
                 $scope.filters = dataset.filters || [];
+                angular.forEach($scope.filters, function(filter) {
+                    if (filter.criterion === schoolNameFilterId) {
+                        schoolIdFilter = filter;
+                    }
+                });
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
                         hasSchoolProfileSelected = true;
@@ -127,6 +142,9 @@ angular.module('UserApp')
             
             $scope.save = function() {
                 $scope.saving = true;
+                if (!$scope.selectedSchoolName) {
+                    schoolIdFilter.selectedOption = $scope.selectedValues[schoolNameFilterId];
+                }
                 var dataset = $scope.dataset;
                 dataset.filters = $scope.filters;
                 UserDatasetService.save({}, dataset, function(response) {
