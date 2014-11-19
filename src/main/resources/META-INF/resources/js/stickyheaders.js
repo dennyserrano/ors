@@ -125,8 +125,8 @@
 
                         // Set fail safe limit (last three row might be too tall)
                         // Set arbitrary limit at 0.25 of viewport height, or you can use an arbitrary pixel value
-                        if(a > $w.height()*0.5) {
-                            a = $w.height()*0.5;
+                        if(a > $w.height()) {
+                            a = $w.height();
                         }
 
                         // Add the height of sticky header

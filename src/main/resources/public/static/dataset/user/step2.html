@@ -54,18 +54,16 @@
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
         <div id="elements" double-scroll-bar-horizontal="" class="table-responsive">
-          <div class="table-wrapper">
+          <div id="tableWrapper" class="table-wrapper">
 
-            <table class="table table-bordered table-striped table-condensed"
+            <table id="elementsTable" class="table table-bordered table-striped table-condensed"
                    style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
-              <thead>
+              <thead class="white-bg">
                 <tr>
-                  <th data-ng-repeat="subdataset in elementsTable.datasets" colspan="3">
-                    {{ subdataset.name }}
-                  </th>
+                  <th bindonce data-ng-repeat="subdataset in elementsTable.datasets" colspan="3" bo-text="subdataset.name"></th>
                 </tr>
                 <tr>
-                  <th data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
+                  <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
                     <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
                   </th>
                   <th>
@@ -117,7 +115,7 @@
         <button type="button" class="btn btn-default" data-ui-sref="step1">
           Previous
         </button>
-        <button data-ng-disabled="saving" type="button" class="btn btn-primary" data-ng-click="save()">
+        <button id="nextBtn" data-ng-disabled="saving" type="button" class="btn btn-primary" data-ng-click="save()">
           Next
         </button>
         <i data-ng-show="saving" class="fa fa-spin fa-spinner"></i>

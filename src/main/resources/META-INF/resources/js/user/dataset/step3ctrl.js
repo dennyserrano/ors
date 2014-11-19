@@ -12,7 +12,13 @@ angular.module('UserApp')
             $scope.selectedValues = {};
             $scope.filters = [];
             $scope.loadingFilters = 0;
-            $window.ORS.ResizeElements();
+            
+            $scope.$watch('loadingFilters', function(newVal, oldVal) {
+                if (oldVal === 0 && newVal === 1) {
+                    $window.ORS.AdjustDatasetContents(0);
+                    $window.scrollTo(0, 0);
+                }
+            });
             
             var schoolProfileDatasetId = 8; // value came from the database (sisdbtest.dataset_head).
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'

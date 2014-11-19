@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step4Ctrl', ['$scope', '$window', 'UserDatasetService', 'PreviewDataService',
-        function($scope, $window, UserDatasetService, PreviewDataService) {
+    .controller('Step4Ctrl', ['$scope', '$window', '$timeout', 'UserDatasetService', 'PreviewDataService',
+        function($scope, $window, $timeout, UserDatasetService, PreviewDataService) {
 
             $scope.step1 = 'complete';
             $scope.step2 = 'complete';
@@ -10,12 +10,42 @@ angular.module('UserApp')
             $scope.step4 = 'active';
             
             $scope.loadingData = 0;
-            $window.ORS.ResizeElements();
-            var trackerRowHeight = $('#trackerRow').outerHeight();
-            $('#previewData').css('padding-top', 54 + trackerRowHeight + 'px');
-            $window.ORS.FitToWidth($('#previewTable')[0]);
             $scope.headers = [];
             $scope.datas = [];
+            
+            var adjustTable = function() {
+                var width = $(window).width();
+                var offset = 40;
+                if (width < 768) {
+                    offset = 80;
+                }
+                $('#previewTable').stickyTableHeaders({
+                    fixedOffset: $('#trackerRow').outerHeight() + $('#datasetContents').outerHeight() - offset
+                });
+            };
+            
+            $(window).resize(function() {
+                if ($('#previewTable').visible(true)) {
+                    adjustTable();
+                }
+            });
+
+            $scope.$watch('loadingData', function(newVal, oldVal) {
+                if (oldVal === 0 && newVal === 1) {
+                    $timeout(function() {
+                        var trackerRow = $('#trackerRow');
+                        var datasetContents = $('#datasetContents p');
+                        $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight()) + 'px');
+                        $window.ORS.AdjustDatasetContents(0);
+                        $window.ORS.FitToWidth($('#previewContainer'));
+                        $window.scrollTo(0, 0);
+                    }, 50);
+                }
+            });
+            
+            $scope.$on('render-done', function(event) {
+                $timeout(adjustTable, 50);
+            });
             
             var previewDataCallback = function(data) {
                 $scope.headers = data[0];
@@ -34,9 +64,7 @@ angular.module('UserApp')
             });
 
             $scope.keys = function(obj) {
-                obj = angular.copy(obj);
-                var returnedKeys =  obj ? Object.keys(obj) : [];
-                return returnedKeys;
+                return obj ? Object.keys(obj) : [];
             };
         }
     ]

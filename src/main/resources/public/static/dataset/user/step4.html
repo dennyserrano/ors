@@ -47,7 +47,7 @@
       </div>
     </div>
     
-    <div id="datasetContents" class="row" style="position: relative; float: left; width: 100%;">
+    <div id="datasetContents" class="row" style="position: absolute;">
       <div class="col-sm-12" style="position: fixed; float: left; width: 100%; background-color: #FFF; z-index: 999;">
         <p class="text-center">
           DEPARTMENT OF EDUCATION<br/>
@@ -57,29 +57,29 @@
     </div>
 
     <div id="previewData" class="row">
-      <div data-ng-show="loadingData === 0" class="col-sm-12">
+      <div data-ng-if="loadingData === 0" class="col-sm-12">
         <fa class="fa fa-spin fa-spinner"></fa>
         Loading Preview of Data...
       </div>
 
       <div data-ng-show="loadingData === 1" class="col-sm-12">
-        <div id="previewTable" class="table-responsive" double-scroll-bar-horizontal="" data-ng-if="loadingData === 1">
-          <table data-ng-show="loadingData === 1" class="table table-bordered table-condensed">
-            <thead>
+        <div id="previewContainer" class="table-responsive" double-scroll-bar-horizontal="">
+          <table id="previewTable" class="table table-bordered table-condensed">
+            <thead class="white-bg">
               <tr>
                 <th bindonce data-ng-repeat="header in keys(headers)" bo-text="headers[header].value"></th>
               </tr>
             </thead>
             <tbody>
               <tr bindonce data-ng-repeat="data in datas">
-                <td bindonce data-ng-repeat="key in keys(data)" data-ng-init="value = data[key]" bo-text="value.value"></td>
+                <td bindonce data-ng-repeat="key in keys(data)" data-ng-init="value = data[key]" bo-text="value.value" callback-on-render></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
       
-      <div data-ng-show="loadingData === 2" class="col-sm-12">
+      <div data-ng-if="loadingData === 2" class="col-sm-12">
         <div class="alert alert-danger">
           {{ loadingDataError }}
         </div>

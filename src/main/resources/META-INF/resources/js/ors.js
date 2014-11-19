@@ -26,9 +26,12 @@
             //$('#sidebar-nav').css('height', height + 'px');
             //$('#sidebar-nav').css('overflow', 'auto');
         }
-
-        var trackerHeight = $('#trackerRow').height();
-        $('#datasetContents').css('padding-top', trackerHeight + 'px');
+    };
+    
+    ORS.AdjustDatasetContents = function(offset) {
+        var trackerHeight = $('#trackerRow').outerHeight();
+        var additionalOffset = offset || 0;
+        $('#datasetContents').css('padding-top', (trackerHeight + additionalOffset) + 'px');
     };
     
     ORS.FitToWidth = function(element) {

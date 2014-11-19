@@ -10,14 +10,22 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
             
             $scope.loadingElements = 0;
-            $window.ORS.ResizeElements();
-            $window.ORS.FitToWidth($('#elements')[0]);
             $scope.allElementsSelected = {};
             
             $scope.$watch('loadingElements', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
                     $timeout(function() {
-                        $window.ORS.InitStickyTableHeaders();
+                        var elementsTable = $('#elementsTable');
+                        var trackerRow = $('#trackerRow');
+                        elementsTable.stickyTableHeaders({
+                            fixedOffset: trackerRow.outerHeight() + 54
+                        });
+                        $('#nextBtn').on('click', function(e){
+                            elementsTable.stickyTableHeaders('destroy');
+                        });
+                        $window.ORS.FitToWidth($('#elements'));
+                        $window.ORS.AdjustDatasetContents(0);
+                        $window.scrollTo(0, 0);
                     }, 50);
                 }
             });

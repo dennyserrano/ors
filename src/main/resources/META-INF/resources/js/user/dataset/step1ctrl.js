@@ -16,6 +16,7 @@ angular.module('UserApp')
                 if (newValue && newValue.length > 0) {
                     $timeout(function() {
                         $('#side-menu').metisMenu();
+                        $window.ORS.AdjustDatasetContents(0);
                     }, 50);
                 }
             };
@@ -38,9 +39,8 @@ angular.module('UserApp')
             
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
-                $scope.loadingDatasets = 1;
                 angular.forEach($scope.datasets, datasetsIteratorCallback);
-                $window.ORS.ResizeElements();
+                $scope.loadingDatasets = 1;
             }, function(response) {
                 $scope.loadingDatasets = 2;
                 $scope.loadingDatasetsError = 'Failed to load Datasets. [HTTP Status: ' + response.status + ']';
