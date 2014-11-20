@@ -65,7 +65,7 @@
       <div data-ng-show="loadingData === 1" class="col-sm-12">
         <div id="previewContainer" class="table-responsive" double-scroll-bar-horizontal="">
           <table id="previewTable" class="table table-bordered table-condensed">
-            <thead class="white-bg">
+            <thead class="gray-bg">
               <tr>
                 <th bindonce data-ng-repeat="header in keys(headers)" bo-text="headers[header].value"></th>
               </tr>
@@ -81,7 +81,7 @@
       
       <div data-ng-if="loadingData === 2" class="col-sm-12">
         <div class="alert alert-danger">
-          {{ loadingDataError }}
+          {{ ::loadingDataError }}
         </div>
       </div>
     </div>

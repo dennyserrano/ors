@@ -62,7 +62,7 @@
                 <tr>
                   <th bindonce data-ng-repeat="subdataset in elementsTable.datasets" colspan="3" bo-text="subdataset.name"></th>
                 </tr>
-                <tr>
+                <tr style="background-color: blue; color: #FFF;">
                   <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
                     <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
                   </th>
@@ -94,7 +94,7 @@
 
       <div data-ng-if="loadingElements === 2" class="col-sm-12">
         <div class="alert alert-danger">
-          {{ loadingElementsError }}
+          {{ ::loadingElementsError }}
         </div>
       </div>
     </div>

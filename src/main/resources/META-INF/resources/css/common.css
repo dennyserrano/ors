@@ -379,3 +379,8 @@ table.tableSection th, table.tableSection td {
 thead.white-bg {
   background-color: #FFF;
 }
+
+thead.gray-bg {
+  background-color: gray;
+  color: #FFF;
+}

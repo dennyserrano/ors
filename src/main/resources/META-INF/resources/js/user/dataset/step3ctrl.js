@@ -69,11 +69,6 @@ angular.module('UserApp')
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset || {};
                 $scope.filters = dataset.filters || [];
-                angular.forEach($scope.filters, function(filter) {
-                    if (filter.criterion === schoolNameFilterId) {
-                        schoolIdFilter = filter;
-                    }
-                });
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
                         hasSchoolProfileSelected = true;
@@ -142,11 +137,15 @@ angular.module('UserApp')
             
             $scope.save = function() {
                 $scope.saving = true;
-                if (!$scope.selectedSchoolName) {
-                    schoolIdFilter.selectedOption = $scope.selectedValues[schoolNameFilterId];
-                }
                 var dataset = $scope.dataset;
                 dataset.filters = $scope.filters;
+                angular.forEach(dataset.filters, function(filter) {
+                    if (filter.criterion === schoolNameFilterId) {
+                        if (!$scope.selectedSchoolName) {
+                            filter.selectedOption = $scope.selectedValues[schoolNameFilterId];
+                        }
+                    }
+                });
                 UserDatasetService.save({}, dataset, function(response) {
                     if (response.code === 'SUCCESS') {
                         $state.go('step4');

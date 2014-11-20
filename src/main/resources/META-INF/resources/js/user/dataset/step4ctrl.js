@@ -35,7 +35,7 @@ angular.module('UserApp')
                     $timeout(function() {
                         var trackerRow = $('#trackerRow');
                         var datasetContents = $('#datasetContents p');
-                        $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight()) + 'px');
+                        $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight() + 15) + 'px');
                         $window.ORS.AdjustDatasetContents(0);
                         $window.ORS.FitToWidth($('#previewContainer'));
                         $window.scrollTo(0, 0);
