@@ -64,7 +64,9 @@
                 </tr>
                 <tr style="background-color: blue; color: #FFF;">
                   <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
-                    <input type="checkbox" data-ng-model="allElementsSelected[subdataset.id]" data-ng-click="selectAllElements(subdataset)"/>
+                    <input type="checkbox" id="subdataset{{ ::subdataset.id }}"
+                           data-ng-checked="allElementsSelected[subdataset.id]"
+                           data-ng-click="toggleAllElementsSelection(subdataset.id)"/>
                   </th>
                   <th>
                     Element Name
@@ -78,9 +80,8 @@
                 <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
                   <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
                       data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
-                    <input type="checkbox" checklist-value="element" data-ng-if="element"
-                           checklist-model="selectedElements[subdataset.id]"
-                           data-ng-checked="elementSelected(subdataset, element)"/>
+                    <input type="checkbox" id="element{{ ::element.id }}"
+                           data-ng-model="elementsSelection[subdataset.id][element.id]"/>
                   </td>
                   <td bo-text="element.name"></td>
                   <td bo-text="element.meaning" data-ng-repeat-end=""></td>

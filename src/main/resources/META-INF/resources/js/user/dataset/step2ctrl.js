@@ -10,7 +10,10 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
             
             $scope.loadingElements = 0;
+            // Top checkbox per dataset for select all elements per dataset functionality
             $scope.allElementsSelected = {};
+            // Index of Elements selection (elementsSelection[subdataset.id][element.id])
+            $scope.elementsSelection = {};
             
             $scope.$watch('loadingElements', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
@@ -29,14 +32,21 @@ angular.module('UserApp')
                     }, 50);
                 }
             });
-
-            $scope.selectedElements = {};
+            
+            var initializeElementIndex = function(subdataset) {
+                var elementsSelection = {};
+                angular.forEach(subdataset.elements, function(subdatasetElement) {
+                    elementsSelection[subdatasetElement.id] = false;
+                });
+                $scope.elementsSelection[subdataset.id] = elementsSelection;
+            };
+            
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
                 angular.forEach(dataset.subDatasets, function(subdataset) {
                     $scope.allElementsSelected[subdataset.id] = false;
-                    $scope.selectedElements[subdataset.id] = [];
-                    $scope.selectAllElements(subdataset);
+                    initializeElementIndex(subdataset);
+                    $scope.toggleAllElementsSelection(subdataset.id);
                 });
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
@@ -50,44 +60,26 @@ angular.module('UserApp')
                 $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
             });
             
-            $scope.elementSelected = function(subdataset, element) {
-                var selected = false;
-                var selectedElements = $scope.selectedElements[subdataset.id];
-                angular.forEach(selectedElements, function(selectedElement) {
-                    if (element.id === selectedElement.id) {
-                        selected = true;
-                    }
+            $scope.toggleAllElementsSelection = function(datasetId) {
+                $scope.allElementsSelected[datasetId] = !$scope.allElementsSelected[datasetId];
+                angular.forEach($scope.elementsSelection[datasetId], function(value, elementId, obj) {
+                    $scope.elementsSelection[datasetId][elementId] = $scope.allElementsSelected[datasetId];
                 });
-                $scope.allElementsSelected[subdataset.id] = $scope.selectedElements[subdataset.id].length == subdataset.elements.length;
-                return selected;
-            };
-
-            $scope.selectAllElements = function(subdataset) {
-                var result = !$scope.allElementsSelected[subdataset.id];
-                if (!result) {
-                    $scope.selectedElements[subdataset.id] = [];
-                }
-                else {
-                    angular.forEach(subdataset.elements, function(element) {
-                        if (!$scope.elementSelected(subdataset, element)) {
-                            $scope.selectedElements[subdataset.id].push(element);
-                        }
-                    });
-                }
-                $scope.allElementsSelected[subdataset.id] = result;
             };
             
             $scope.save = function() {
                 $scope.saving = true;
                 var dataset = $scope.dataset;
                 dataset.elements = [];
-                var elementsIteratorCallback = function(selectedElement) {
-                    dataset.elements.push(selectedElement);
-                };
-                var selectedElementsIteratorCallback = function(elements, datasetId, obj) {
-                    angular.forEach(elements, elementsIteratorCallback);
-                };
-                angular.forEach($scope.selectedElements, selectedElementsIteratorCallback);
+                
+                var elementsSelection = $scope.elementsSelection;
+                angular.forEach(dataset.subDatasets, function(subdataset) {
+                    angular.forEach(subdataset.elements, function(element) {
+                        if (elementsSelection[subdataset.id][element.id]) {
+                            dataset.elements.push(element);
+                        }
+                    });
+                });
                 UserDatasetService.save({}, dataset, function(response) {
                     if (response.code === 'SUCCESS') {
                         $state.go('step3');
