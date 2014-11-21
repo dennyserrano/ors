@@ -36,7 +36,6 @@ angular.module('UserApp')
                         var trackerRow = $('#trackerRow');
                         var datasetContents = $('#datasetContents p');
                         $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight() + 15) + 'px');
-                        $window.ORS.AdjustDatasetContents(0);
                         $window.ORS.FitToWidth($('#previewContainer'));
                         $window.scrollTo(0, 0);
                     }, 50);
@@ -51,6 +50,7 @@ angular.module('UserApp')
                 $scope.headers = data[0];
                 data.splice(0, 1); // removes the header
                 $scope.datas = angular.copy(data);
+                $window.ORS.AdjustDatasetContents(0);
                 $scope.loadingData = 1;
             };
             

@@ -15,15 +15,14 @@ angular.module('UserApp')
             
             $scope.$watch('loadingFilters', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
-                    $window.ORS.AdjustDatasetContents(0);
                     $window.scrollTo(0, 0);
                 }
             });
             
             var schoolProfileDatasetId = 8; // value came from the database (sisdbtest.dataset_head).
-            var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'Region'
-            var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'Divison'
-            var schoolNameFilterId = 16; // number 16 from sisdbtest.dataset_criteria.id where filter_name = 'School Name'
+            var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_region'
+            var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_division'
+            var schoolNameFilterId = 16; // number 16 from sisdbtest.dataset_criteria.id where filter_name = 'sp_schoolName'
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
@@ -80,6 +79,7 @@ angular.module('UserApp')
                 angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
                 $scope.loadingFilters = 1;
+                $window.ORS.AdjustDatasetContents(0);
             }, function(response) {
                 $scope.loadingFilters = 2;
                 $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';

@@ -80,7 +80,7 @@
                 <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
                   <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
                       data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
-                    <input type="checkbox" id="element{{ ::element.id }}"
+                    <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
                            data-ng-model="elementsSelection[subdataset.id][element.id]"/>
                   </td>
                   <td bo-text="element.name"></td>
@@ -113,7 +113,7 @@
     
     <div data-ng-if="loadingElements === 1" class="row">
       <div class="col-sm-12">
-        <button type="button" class="btn btn-default" data-ui-sref="step1">
+        <button type="button" class="btn btn-default" data-ng-click="previous()">
           Previous
         </button>
         <button id="nextBtn" data-ng-disabled="saving" type="button" class="btn btn-primary" data-ng-click="save()">

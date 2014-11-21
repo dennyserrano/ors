@@ -18,6 +18,8 @@ angular.module('UserApp')
             $scope.$watch('loadingElements', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
                     $timeout(function() {
+                        $window.ORS.FitToWidth($('#elements'));
+                        $window.scrollTo(0, 0);
                         var elementsTable = $('#elementsTable');
                         var trackerRow = $('#trackerRow');
                         elementsTable.stickyTableHeaders({
@@ -26,9 +28,6 @@ angular.module('UserApp')
                         $('#nextBtn').on('click', function(e){
                             elementsTable.stickyTableHeaders('destroy');
                         });
-                        $window.ORS.FitToWidth($('#elements'));
-                        $window.ORS.AdjustDatasetContents(0);
-                        $window.scrollTo(0, 0);
                     }, 50);
                 }
             });
@@ -51,6 +50,7 @@ angular.module('UserApp')
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
                     $scope.loadingElements = 1;
+                    $window.ORS.AdjustDatasetContents(0);
                 }, function(response) {
                     $scope.loadingElements = 2;
                     $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
@@ -64,6 +64,12 @@ angular.module('UserApp')
                 $scope.allElementsSelected[datasetId] = !$scope.allElementsSelected[datasetId];
                 angular.forEach($scope.elementsSelection[datasetId], function(value, elementId, obj) {
                     $scope.elementsSelection[datasetId][elementId] = $scope.allElementsSelected[datasetId];
+                });
+            };
+            
+            $scope.previous = function() {
+                UserDatasetService.save({}, dataset, function(response) {
+                    $state.go('step1');
                 });
             };
             
