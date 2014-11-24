@@ -118,24 +118,27 @@ table.tableSection th, table.tableSection td {
   padding-right: 0;
 }
 
-
-#trackerRow {
-  z-index: 999;
-  background-color: #FFF;
-  position: fixed;
-  float: right;
-
-}
-
 @media (max-width: 767px) {
   #sidebar-nav {
     max-height: 250px;
     float: left;
     width: 100%;
   }
+
+  #trackerRow {
+    z-index: 999;
+    background-color: #FFF;
+  }
 }
 
 @media (min-width: 768px) {
+  #trackerRow {
+    z-index: 999;
+    background-color: #FFF;
+    position: fixed;
+    float: right;
+  }
+  
   .table-wrapper {
     display: table-cell;
     zoom: 1;

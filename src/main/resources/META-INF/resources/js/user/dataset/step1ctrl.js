@@ -11,12 +11,12 @@ angular.module('UserApp')
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
             $scope.loadingDatasets = 0;
+            $window.ORS.AdjustDatasetContents(0);
             
             var datasetsScopeWatcherCallback = function(newValue, oldValue) {
                 if (newValue && newValue.length > 0) {
                     $timeout(function() {
                         $('#side-menu').metisMenu();
-                        $window.ORS.AdjustDatasetContents(0);
                     }, 50);
                 }
             };

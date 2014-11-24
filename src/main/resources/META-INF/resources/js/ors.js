@@ -1,4 +1,4 @@
-(function(window) {
+(function(window, $) {
 
     var ORS = ORS || {};
 
@@ -29,9 +29,16 @@
     };
     
     ORS.AdjustDatasetContents = function(offset) {
-        var trackerHeight = $('#trackerRow').outerHeight();
-        var additionalOffset = offset || 0;
-        $('#datasetContents').css('padding-top', (trackerHeight + additionalOffset) + 'px');
+        var width = $(window).width();
+        if (width >= 768) {
+            var trackerHeight = $('#trackerRow').outerHeight();
+            var additionalOffset = offset || 0;
+            $('#datasetContents').css('padding-top', (trackerHeight + additionalOffset) + 'px');
+            $('#sidebar-nav').css('height', '');
+        }
+        else {
+            $('#datasetContents').css('padding-top', '');
+        }
     };
     
     ORS.FitToWidth = function(element) {
@@ -41,7 +48,7 @@
 
     window.ORS = ORS;
 
-})(window);
+})(window, jQuery);
 
 (function($) {
     $(document).ready(function() {
@@ -70,6 +77,7 @@ $(".modal").on("show.bs.modal", function() {
 
 $(window).resize(function() {
     ORS.ResizeElements();
+    ORS.AdjustDatasetContents(0);
 });
 
 $(document).ready(function ($) {
