@@ -63,34 +63,38 @@
             Loading Filters...
           </div>
           <div data-ng-show="loadingFilters === 1" class="well form-horizontal">
-            <div data-ng-repeat="availableCriterion in availableCriteria" class="form-group">
+            <div class="form-group" data-ng-repeat="availableCriterion in availableCriteria" data-ng-switch="availableCriterion.inputType">
               <label for="filter{{ ::availableCriterion.filterId }}" class="col-sm-2 control-label" style="padding-right: 10px;">
                 {{ ::availableCriterion.label }}
               </label>
-              <div data-ng-if="availableCriterion.filterId === 16" class="col-sm-4">
-                <input type="hidden" name="selectedSchoolId" id="selectedSchoolId"
-                       data-ng-model="selectedValues[availableCriterion.filterId]"/>
-                <input type="text" id="filter{{ ::availableCriterion.filterId }}" autocomplete="off"
-                       name="{{ ::availableCriterion.filterName }}" class="form-control"
-                       data-ng-model="selectedSchoolName" typeahead-wait-ms="500"
-                       typeahead-editable="false"
-                       typeahead="school.value for school in searchSchools($viewValue)"
-                       typeahead-loading="loadingSchools" typeahead-min-length="3"
-                       typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)"/>
-                <small>
-                  <i>
-                    The list of schools are based on the filters defined above.
-                  </i>
-                </small><br/>
-                <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
-                <small data-ng-show="loadingSchools">Loading list of Schools...</small>
-              </div>
-              <div data-ng-if="availableCriterion.filterId !== 16" class="col-sm-4">
-                <select id="{{ availableCriterion.filterName }}" class="form-control"
-                        data-ng-model="selectedValues[availableCriterion.filterId]"
+              <div data-ng-switch-when="1" class="col-sm-4">
+                <select name="{{ availableCriterion.filterName }}"
+                        class="form-control" id="{{ ::availableCriterion.id }}"
                         data-ng-change="setFilter(availableCriterion)"
+                        data-ng-model="selectedValues[availableCriterion.filterId]"
                         data-ng-options="option.value for option in availableCriterion.selection">
                 </select>
+              </div>
+              <div data-ng-switch-default="" class="col-sm-4" data-ng-switch="availableCriterion.filterName">
+                <div data-ng-switch-when="sp_schoolName">
+                  <input type="hidden" name="selectedSchoolId" id="selectedSchoolId"
+                         data-ng-model="selectedValues[availableCriterion.filterId]"/>
+                  <input type="text" id="filter{{ ::availableCriterion.filterId }}" autocomplete="off"
+                         name="{{ ::availableCriterion.filterName }}" class="form-control"
+                         data-ng-model="selectedSchoolName" typeahead-wait-ms="500" typeahead-editable="false"
+                         typeahead="school.value for school in searchSchools($viewValue)"
+                         typeahead-loading="loadingSchools" typeahead-min-length="3"
+                         typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)"/>
+                  <small>
+                    <i>
+                      The list of schools are based on the filters defined above.
+                    </i>
+                  </small><br/>
+                  <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
+                  <small data-ng-show="loadingSchools">Loading list of Schools...</small>
+                </div>
+                <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control"
+                       data-ng-switch-default="" data-ng-model="selectedValues[availableCriterion.filterId]"/>
               </div>
             </div>
           </div>

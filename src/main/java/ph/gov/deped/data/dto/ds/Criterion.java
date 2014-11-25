@@ -30,7 +30,7 @@ public class Criterion implements Serializable {
 
     private final Operator operator;
     
-    private final InputType inputType;
+    private final int inputType;
 
     private final List<KeyValue> selection;
     
@@ -42,7 +42,7 @@ public class Criterion implements Serializable {
                      @JsonProperty("filterType") FilterType filterType, 
                      @JsonProperty("elementId") long elementId,
                      @JsonProperty("operator") Operator operator,
-                     @JsonProperty("inputType") InputType inputType,
+                     @JsonProperty("inputType") int inputType,
                      @JsonProperty("label") String label,
                      @JsonProperty("selection") List<KeyValue> selection) {
         this.filterId = filterId;
@@ -75,7 +75,7 @@ public class Criterion implements Serializable {
         return operator;
     }
 
-    public InputType getInputType() {
+    public int getInputType() {
         return inputType;
     }
 

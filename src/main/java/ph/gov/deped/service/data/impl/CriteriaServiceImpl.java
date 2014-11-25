@@ -67,8 +67,8 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
             return Collections.emptyList();
         }
         return criterias.stream()
-                .map(c -> new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(), c.getInputType(),
-                        c.getLabel(), filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))
+                .map(c -> new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
+                        c.getInputType().ordinal(), c.getLabel(), filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))
                 .collect(toList());
     }
     

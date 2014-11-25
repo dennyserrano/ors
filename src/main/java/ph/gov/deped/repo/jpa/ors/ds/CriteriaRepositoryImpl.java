@@ -139,6 +139,10 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
         return template.query(sql.toString(),
                 params.toArray(new Object[params.size()]),
                 ArrayUtils.toPrimitive(paramTypes.toArray(new Integer[paramTypes.size()])), 
-                (rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("school_id")), rs.getString("school_name")));
+                (rs, rowNum) -> {
+                    String id = String.valueOf(rs.getInt("school_id"));
+                    String name = rs.getString("school_name");
+                    return new KeyValue(id, String.format("(%s) %s", id, name));
+                });
     }
 }

@@ -12,6 +12,11 @@ angular.module('UserApp')
             $scope.loadingData = 0;
             $scope.headers = [];
             $scope.datas = [];
+
+            $window.ORS.AdjustDatasetContents(0);
+            var trackerRow = $('#trackerRow');
+            var datasetContents = $('#datasetContents p');
+            $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight() + 15) + 'px');
             
             var adjustTable = function() {
                 var width = $(window).width();
@@ -33,9 +38,6 @@ angular.module('UserApp')
             $scope.$watch('loadingData', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
                     $timeout(function() {
-                        var trackerRow = $('#trackerRow');
-                        var datasetContents = $('#datasetContents p');
-                        $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight() + 15) + 'px');
                         $window.ORS.FitToWidth($('#previewContainer'));
                         $window.scrollTo(0, 0);
                     }, 50);
@@ -50,7 +52,6 @@ angular.module('UserApp')
                 $scope.headers = data[0];
                 data.splice(0, 1); // removes the header
                 $scope.datas = angular.copy(data);
-                $window.ORS.AdjustDatasetContents(0);
                 $scope.loadingData = 1;
             };
             

@@ -738,3 +738,92 @@ databaseChangeLog:
               - column:
                   name: label
                   type: varchar(50)
+  - changeSet:
+      id: ds-201411241305
+      author: ej
+      changes:
+        - createTable:
+            tableName: criteria_head
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: key
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: label
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(500)
+              - column:
+                  name: source_dataset_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_key_element_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_desc_element_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: visible
+                  type: tinyint(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201411241402
+      author: ej
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: source_dataset_fk
+            baseTableName: criteria_head
+            baseColumnNames: source_dataset_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: source_key_element_fk
+            baseTableName: criteria_head
+            baseColumnNames: source_key_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: source_desc_element_fk
+            baseTableName: criteria_head
+            baseColumnNames: source_desc_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: criteria_head
+            columnNames: key
+            constraintName: criteria_head_key
