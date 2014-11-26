@@ -56,9 +56,13 @@ public abstract class Formats {
         return heading4().setHeight((short) 12);
     }
     
+    public static FontStyle heading6() {
+        return bold();
+    }
+    
     public static CellFormat defaultHeader() {
         CellFormat cf = new CellFormat();
-        cf.setFontStyle(heading5());
+        cf.setFontStyle(heading6());
         cf.setCellType(Cell.CELL_TYPE_STRING);
         return cf;
     }
