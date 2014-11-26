@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import ph.gov.deped.data.dto.DatasetStore;
 import ph.gov.deped.data.dto.ElementsTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.meta.api.MetadataService;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +25,15 @@ import java.util.Map;
 public class ElementRestController {
 
     private MetadataService metadataService;
+    
+    private DatasetStore datasetStore;
 
     public @Autowired void setMetadataService(MetadataService metadataService) {
         this.metadataService = metadataService;
+    }
+
+    public @Autowired void setDatasetStore(DatasetStore datasetStore) {
+        this.datasetStore = datasetStore;
     }
 
     @RequestMapping(value = "/{headId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -36,8 +42,8 @@ public class ElementRestController {
     }
     
     @RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ElementsTable elements(HttpSession httpSession) {
-        Dataset dataset = (Dataset) httpSession.getAttribute(Dataset.ATTR_NAME);
+    public ElementsTable elements() {
+        Dataset dataset = datasetStore.getDataset();
         ElementsTable table = new ElementsTable();
         dataset.getSubDatasets().stream().forEach(table::addDataset);
         int largestNumber = dataset.getSubDatasets().parallelStream()

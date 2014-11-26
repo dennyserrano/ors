@@ -70,10 +70,10 @@
               </label>
               <div data-ng-switch-when="1" class="col-sm-4">
                 <select name="{{ availableCriterion.filterName }}"
-                        class="form-control" id="{{ ::availableCriterion.id }}"
+                        class="form-control" id="{{ ::availableCriterion.filterId }}"
                         data-ng-change="setFilter(availableCriterion)"
                         data-ng-model="selectedValues[availableCriterion.filterId]"
-                        data-ng-options="option.value for option in availableCriterion.selection">
+                        data-ng-options="option.value for option in availableCriterion.selection track by option.key">
                 </select>
               </div>
               <div data-ng-switch-default="" class="col-sm-4" data-ng-switch="availableCriterion.filterName">

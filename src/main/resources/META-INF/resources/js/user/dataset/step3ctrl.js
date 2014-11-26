@@ -28,15 +28,22 @@ angular.module('UserApp')
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
-            var schoolIdFilter;
 
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
-                if (c.filterId === divisionFilterId) {
-                    divisionCriterion = c;
-                }
                 if (c && c.selection) {
-                    $scope.selectedValues[c.filterId] = c.selection[0];
+                    var selectedOption = c.selection[0];
+                    
+                    // find user selected option
+                    if ($scope.filters && $scope.filters.length > 0) {
+                        angular.forEach($scope.filters, function(filter) {
+                            if (filter.criterion === c.filterId) {
+                                selectedOption = filter.selectedOption;
+                            }
+                        });
+                    }
+                    
+                    $scope.selectedValues[c.filterId] = selectedOption;
                 }
                 else {
                     $scope.selectedValues[c.filterId] = {
@@ -44,11 +51,6 @@ angular.module('UserApp')
                         value: ''
                     };
                 }
-                angular.forEach($scope.filters, function(filter) {
-                    if (filter.criterion === c.filterId) {
-                        $scope.selectedValues[c.filterId] = filter.selectedOption;
-                    }
-                });
                 $scope.setFilter(c);
             };
             
@@ -82,7 +84,7 @@ angular.module('UserApp')
                 if (!hasSchoolProfileSelected) {
                     CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
                 }
-                angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
+                angular.forEach(dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
                 $scope.loadingFilters = 1;
             }, function(response) {
