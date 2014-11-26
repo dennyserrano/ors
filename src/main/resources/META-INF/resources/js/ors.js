@@ -46,7 +46,25 @@
         $(element).css('width', windowWidth + 'px');
     };
     
-    ORS.AdjustTable = function() { // do not erase, being used in step4ctrl.js
+    ORS.AdjustElementTableHeaders = function() { // do not erase, being used in step2ctrl.js
+        window.ORS.FitToWidth($('#elements'));
+        var elementsTable = $('#elementsTable');
+        var trackerRow = $('#trackerRow');
+        var width = $(window).width();
+        var offset = trackerRow.outerHeight() + 54;
+        if (width < 768) {
+            offset = 50;
+        }
+        elementsTable.stickyTableHeaders({
+            fixedOffset: offset
+        });
+
+        $('#nextBtn').on('click', function(e) {
+            elementsTable.stickyTableHeaders('destroy');
+        });
+    };
+    
+    ORS.AdjustPreviewTable = function() { // do not erase, being used in step4ctrl.js
         var width = $(window).width();
         var offset = 40;
         if (width < 768) {
@@ -93,7 +111,8 @@ $(".modal").on("show.bs.modal", function() {
 $(window).resize(function() {
     ORS.ResizeElements();
     ORS.AdjustDatasetContents(0);
-    ORS.AdjustTable();
+    ORS.AdjustElementTableHeaders();
+    ORS.AdjustPreviewTable();
 });
 
 $(document).ready(function ($) {

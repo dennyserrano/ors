@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step4Ctrl', ['$scope', '$window', '$timeout', 'UserDatasetService', 'PreviewDataService',
-        function($scope, $window, $timeout, UserDatasetService, PreviewDataService) {
+    .controller('Step4Ctrl', ['$scope', '$window', '$state', '$timeout', 'UserDatasetService', 'PreviewDataService',
+        function($scope, $window, $state, $timeout, UserDatasetService, PreviewDataService) {
 
             $scope.step1 = 'complete';
             $scope.step2 = 'complete';
@@ -25,7 +25,7 @@ angular.module('UserApp')
             });
             
             $scope.$on('render-done', function(event) {
-                $timeout($window.ORS.AdjustTable, 50);
+                $timeout($window.ORS.AdjustPreviewTable, 50);
             });
             
             var previewDataCallback = function(data) {
@@ -46,6 +46,13 @@ angular.module('UserApp')
 
             $scope.keys = function(obj) {
                 return obj ? Object.keys(obj) : [];
+            };
+            
+            $scope.previous = function() {
+                var dataset = $scope.dataset;
+                UserDatasetService.save({}, dataset, function(response) {
+                    $state.go('step3');
+                });
             };
         }
     ]

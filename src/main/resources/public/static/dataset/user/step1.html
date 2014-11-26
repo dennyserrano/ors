@@ -18,9 +18,9 @@
   </script>
  
   <div class="col-sm-3 col-xs-12">
-    <div id="sidebar-nav" class="gray-default sidebar navbar navbar-inverse navbar-collapse collapse" role="navigation">
+    <div  id="sidebar-nav" class="my-scroll nav-side-menu gray-default sidebar navbar-fixed-top fix-top navbar navbar-inverse navbar-collapse collapse" role="navigation">
       <div>
-        <h3 style="color: white;">
+        <h3 style="color: white; padding-left: 15px;">
           <i class="fa fa-database"></i>
           Datasets
         </h3>
@@ -52,8 +52,8 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-9 col-xs-12">
-    <div id="trackerRow" class="row">
+  <div  class="col-sm-9 col-xs-12 pull-right">
+    <div  class="row cover">
       <div class="col-sm-12">
         <div style="margin-left:7px;" id="tracker">
           <div class="row smpl-step">
@@ -98,9 +98,9 @@
         </div>
       </div>
     </div>
-    <div id="datasetContents" class="row ">
+    <div id="datasetContents" class="row sdown">
       <div class="col-sm-12 " >
-        <h4 data-ng-show="selectedDatasets && selectedDatasets.length > 0" id="push-down">
+        <h4 data-ng-show="selectedDatasets && selectedDatasets.length > 0">
           Selected Datasets
         </h4>
         <div class="list-group">

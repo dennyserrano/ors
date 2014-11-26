@@ -14,34 +14,13 @@ angular.module('UserApp')
             $scope.allElementsSelected = {};
             // Index of Elements selection (elementsSelection[subdataset.id][element.id])
             $scope.elementsSelection = {};
-            
-            var adjustTableHeaders = function() {
-                $window.ORS.FitToWidth($('#elements'));
-                $window.scrollTo(0, 0);
-                var elementsTable = $('#elementsTable');
-                var trackerRow = $('#trackerRow');
-                var width = $(window).width();
-                if (width < 768) {
-                    elementsTable.stickyTableHeaders({
-                        fixedOffset: 50
-                    });
-                }
-                else {
-                    elementsTable.stickyTableHeaders({
-                        fixedOffset: trackerRow.outerHeight() + 54
-                    });
-                }
 
-                $('#nextBtn').on('click', function(e) {
-                    elementsTable.stickyTableHeaders('destroy');
-                });
-            };
-            
-            $(window).resize(adjustTableHeaders);
+            $window.ORS.AdjustDatasetContents(0);
             
             $scope.$watch('loadingElements', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
-                    $timeout(adjustTableHeaders, 50);
+                    $timeout($window.ORS.AdjustElementTableHeaders, 50);
+                    $window.scrollTo(0, 0);
                 }
             });
             
@@ -63,7 +42,6 @@ angular.module('UserApp')
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
                     $scope.loadingElements = 1;
-                    $window.ORS.AdjustDatasetContents(0);
                 }, function(response) {
                     $scope.loadingElements = 2;
                     $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';

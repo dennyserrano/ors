@@ -484,21 +484,29 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
         max-height: 430px;
         overflow-y: auto;
 
-    }
+    } .cover{
+ width: 100%;
+
+ }
        #go-right{
       margin-left: 340px;
       }
-      .sidebar-height{
-      min-height: 570px;
-      }
        .my-scroll {
-       
-        height: 570px;
-        width: 250px;
-        overflow:hidden;
-        position: absolute;
+        position: fixed;
       }
-    
+
+
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+	 .sdown{
+	margin-top: 55px;
+	
+}
+@media only screen and (max-width: 599px) and (min-width: 800px) {
+	 .sdown{
+	margin-top: 20px;
+	
 }
 
 @media only screen and (max-width: 768px) {
@@ -512,14 +520,9 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
         overflow-y: auto;
       
     }
-    #push-down{
-     padding-top: 10px;
- }
-    
-     
-    
-}
 
+
+}
 
 
 @media only screen and (min-width: 1024px) and (max-width: 768px) {
@@ -531,6 +534,15 @@ a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
         width: auto
     }
     
+ .cover {
+ width: 100%;
  
+ }
 
+}
+
+
+.nav-side-menu ul .active,
+.nav-side-menu li .active {
+  background-color: #4f5b69;
 }

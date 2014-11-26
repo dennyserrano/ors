@@ -116,7 +116,27 @@ table.tableSection th, table.tableSection td {
 #sidebar-nav {
   border: none;
   padding-right: 0;
+  padding-left: 0;
+  font-weight: 200;
+  background-color: #2e353d;
+  width: 24%;
+  overflow:auto;
+  height: 92%;
+  padding-bottom: 20px;
+  color: #e1ffff;
 }
+
+ #trackerRow {
+  z-index: 999;
+  background-color: #FFF;
+  width: 100%;
+}
+
+  
+.fix-top{
+  margin-top:50px;
+}
+
 
 .dataset-header {
   width: 100%;
@@ -130,26 +150,14 @@ table.tableSection th, table.tableSection td {
     float: left;
     width: 100%;
   }
-
-  #trackerRow {
-    z-index: 999;
-    background-color: #FFF;
-  }
 }
 
 @media (min-width: 768px) {
-  #trackerRow {
-    z-index: 999;
-    background-color: #FFF;
-    position: fixed;
-    float: right;
-  }
-  
   .table-wrapper {
     display: table-cell;
     zoom: 1;
   }
-  
+
   table.table > thead > tr > th {
     white-space: nowrap;
   }
@@ -161,10 +169,10 @@ table.tableSection th, table.tableSection td {
   #sidebar-nav {
     max-height: none;
   }
-  
-  .dataset-header {
+
+  #trackerRow {
     position: fixed;
-    float: left;
+    float: right;
   }
 }
 

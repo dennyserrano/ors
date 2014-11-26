@@ -135,6 +135,12 @@ angular.module('UserApp')
                 $scope.selectedSchoolName = item.value;
                 $scope.setFilter(availableCriterion);
             };
+
+            var saveDataset = function(dataset, saveCallback) {
+                UserDatasetService.save({}, dataset, function(response) {
+                    saveCallback();
+                });
+            };
             
             $scope.save = function() {
                 $scope.saving = true;
@@ -147,10 +153,15 @@ angular.module('UserApp')
                         }
                     }
                 });
-                UserDatasetService.save({}, dataset, function(response) {
-                    if (response.code === 'SUCCESS') {
-                        $state.go('step4');
-                    }
+                saveDataset(dataset, function() {
+                    $state.go('step4');
+                });
+            };
+            
+            $scope.previous = function() {
+                var dataset = $scope.dataset;
+                saveDataset(dataset, function() {
+                    $state.go('step2');
                 });
             };
         }
