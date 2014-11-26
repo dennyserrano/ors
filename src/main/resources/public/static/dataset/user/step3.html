@@ -64,7 +64,7 @@
           </div>
           <div data-ng-show="loadingFilters === 1" class="well form-horizontal">
             <div class="form-group" data-ng-repeat="availableCriterion in availableCriteria"
-                 data-ng-switch="availableCriterion.inputType" callback-on-render>
+                 data-ng-switch="availableCriterion.inputType">
               <label for="filter{{ ::availableCriterion.filterId }}" class="col-sm-2 control-label" style="padding-right: 10px;">
                 {{ ::availableCriterion.label }}
               </label>
@@ -94,7 +94,7 @@
                   <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
                   <small data-ng-show="loadingSchools">Loading list of Schools...</small>
                 </div>
-                <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control"
+                <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control" callback-on-render
                        data-ng-switch-default="" data-ng-model="selectedValues[availableCriterion.filterId]"/>
               </div>
             </div>
