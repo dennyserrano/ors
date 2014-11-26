@@ -12,6 +12,8 @@ angular.module('UserApp')
             $scope.selectedValues = {};
             $scope.filters = [];
             $scope.loadingFilters = 0;
+
+            $window.ORS.AdjustDatasetContents(0);
             
             $scope.$watch('loadingFilters', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
@@ -79,7 +81,6 @@ angular.module('UserApp')
                 angular.forEach($scope.dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
                 $scope.loadingFilters = 1;
-                $window.ORS.AdjustDatasetContents(0);
             }, function(response) {
                 $scope.loadingFilters = 2;
                 $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';

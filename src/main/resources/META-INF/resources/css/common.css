@@ -118,6 +118,12 @@ table.tableSection th, table.tableSection td {
   padding-right: 0;
 }
 
+.dataset-header {
+  width: 100%;
+  background-color: #FFF;
+  z-index: 999;
+}
+
 @media (max-width: 767px) {
   #sidebar-nav {
     max-height: 250px;
@@ -154,6 +160,11 @@ table.tableSection th, table.tableSection td {
   
   #sidebar-nav {
     max-height: none;
+  }
+  
+  .dataset-header {
+    position: fixed;
+    float: left;
   }
 }
 

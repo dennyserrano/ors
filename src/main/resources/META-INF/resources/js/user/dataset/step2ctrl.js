@@ -15,20 +15,33 @@ angular.module('UserApp')
             // Index of Elements selection (elementsSelection[subdataset.id][element.id])
             $scope.elementsSelection = {};
             
+            var adjustTableHeaders = function() {
+                $window.ORS.FitToWidth($('#elements'));
+                $window.scrollTo(0, 0);
+                var elementsTable = $('#elementsTable');
+                var trackerRow = $('#trackerRow');
+                var width = $(window).width();
+                if (width < 768) {
+                    elementsTable.stickyTableHeaders({
+                        fixedOffset: 50
+                    });
+                }
+                else {
+                    elementsTable.stickyTableHeaders({
+                        fixedOffset: trackerRow.outerHeight() + 54
+                    });
+                }
+
+                $('#nextBtn').on('click', function(e) {
+                    elementsTable.stickyTableHeaders('destroy');
+                });
+            };
+            
+            $(window).resize(adjustTableHeaders);
+            
             $scope.$watch('loadingElements', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
-                    $timeout(function() {
-                        $window.ORS.FitToWidth($('#elements'));
-                        $window.scrollTo(0, 0);
-                        var elementsTable = $('#elementsTable');
-                        var trackerRow = $('#trackerRow');
-                        elementsTable.stickyTableHeaders({
-                            fixedOffset: trackerRow.outerHeight() + 54
-                        });
-                        $('#nextBtn').on('click', function(e){
-                            elementsTable.stickyTableHeaders('destroy');
-                        });
-                    }, 50);
+                    $timeout(adjustTableHeaders, 50);
                 }
             });
             
@@ -67,10 +80,21 @@ angular.module('UserApp')
                 });
             };
             
-            $scope.previous = function() {
+            var saveDataset = function(dataset, saveCallback) {
                 UserDatasetService.save({}, dataset, function(response) {
-                    $state.go('step1');
+                    saveCallback();
                 });
+            };
+            
+            $scope.previous = function() {
+                if ($scope.dataset) {
+                    saveDataset($scope.dataset, function() {
+                        $state.go('step1');
+                    });
+                }
+                else {
+                    $state.go('step1');
+                }
             };
             
             $scope.save = function() {
@@ -86,10 +110,8 @@ angular.module('UserApp')
                         }
                     });
                 });
-                UserDatasetService.save({}, dataset, function(response) {
-                    if (response.code === 'SUCCESS') {
-                        $state.go('step3');
-                    }
+                saveDataset(dataset, function() {
+                    $state.go('step3');
                 });
             };
         }

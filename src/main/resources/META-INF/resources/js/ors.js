@@ -45,6 +45,21 @@
         var windowWidth = $(window).width();
         $(element).css('width', windowWidth + 'px');
     };
+    
+    ORS.AdjustTable = function() { // do not erase, being used in step4ctrl.js
+        var width = $(window).width();
+        var offset = 40;
+        if (width < 768) {
+            offset = 50;
+        }
+        else {
+            offset = $('#trackerRow').outerHeight() + $('#datasetContents').height();
+        }
+        $('#previewTable').stickyTableHeaders({
+            fixedOffset: offset
+        });
+        ORS.FitToWidth($('#previewContainer'));
+    };
 
     window.ORS = ORS;
 
@@ -78,6 +93,7 @@ $(".modal").on("show.bs.modal", function() {
 $(window).resize(function() {
     ORS.ResizeElements();
     ORS.AdjustDatasetContents(0);
+    ORS.AdjustTable();
 });
 
 $(document).ready(function ($) {

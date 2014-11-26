@@ -14,26 +14,6 @@ angular.module('UserApp')
             $scope.datas = [];
 
             $window.ORS.AdjustDatasetContents(0);
-            var trackerRow = $('#trackerRow');
-            var datasetContents = $('#datasetContents p');
-            $('#previewData').css('padding-top', (trackerRow.outerHeight() + datasetContents.outerHeight() + 15) + 'px');
-            
-            var adjustTable = function() {
-                var width = $(window).width();
-                var offset = 40;
-                if (width < 768) {
-                    offset = 80;
-                }
-                $('#previewTable').stickyTableHeaders({
-                    fixedOffset: $('#trackerRow').outerHeight() + $('#datasetContents').outerHeight() - offset
-                });
-            };
-            
-            $(window).resize(function() {
-                if ($('#previewTable').visible(true)) {
-                    adjustTable();
-                }
-            });
 
             $scope.$watch('loadingData', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
@@ -45,7 +25,7 @@ angular.module('UserApp')
             });
             
             $scope.$on('render-done', function(event) {
-                $timeout(adjustTable, 50);
+                $timeout($window.ORS.AdjustTable, 50);
             });
             
             var previewDataCallback = function(data) {
