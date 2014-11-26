@@ -63,7 +63,8 @@
             Loading Filters...
           </div>
           <div data-ng-show="loadingFilters === 1" class="well form-horizontal">
-            <div class="form-group" data-ng-repeat="availableCriterion in availableCriteria" data-ng-switch="availableCriterion.inputType">
+            <div class="form-group" data-ng-repeat="availableCriterion in availableCriteria"
+                 data-ng-switch="availableCriterion.inputType" callback-on-render>
               <label for="filter{{ ::availableCriterion.filterId }}" class="col-sm-2 control-label" style="padding-right: 10px;">
                 {{ ::availableCriterion.label }}
               </label>

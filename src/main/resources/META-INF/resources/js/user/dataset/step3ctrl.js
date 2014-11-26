@@ -67,6 +67,10 @@ angular.module('UserApp')
                 CriteriaService.get({ 'headId': selectedDataset.id }, criteriaServiceCallback);
             };
 
+            $scope.$on('render-done', function(event) {
+                $scope.loadingFilters = 1;
+            });
+
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset || {};
                 $scope.filters = dataset.filters || [];

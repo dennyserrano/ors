@@ -18,16 +18,12 @@
   </script>
  
   <div class="col-sm-3 col-xs-12">
-    <div  id="sidebar-nav" class="my-scroll nav-side-menu gray-default sidebar navbar-fixed-top fix-top navbar navbar-inverse navbar-collapse collapse" role="navigation">
+    <div  id="sidebar-nav" class="my-scroll nav-side-menu gray-default sidebar navbar-fixed-top fix-top navbar navbar-inverse navbar-collapse" role="navigation">
       <div>
         <h3 style="color: white; padding-left: 15px;">
           <i class="fa fa-database"></i>
           Datasets
         </h3>
-      </div>
-      <div data-ng-if="loadingDatasets === 0" class="datasets" style="color: #FFF;">
-        <i class="fa fa-spin fa-spinner"></i>
-        Loading Datasets...
       </div>
       
       <div data-ng-show="loadingDatasets === 1" id="sidemenu-container">
@@ -99,10 +95,14 @@
       </div>
     </div>
     <div id="datasetContents" class="row sdown">
-      <div class="col-sm-12 " >
+      <div class="col-sm-12 ">
         <h4 data-ng-show="selectedDatasets && selectedDatasets.length > 0">
           Selected Datasets
         </h4>
+        <div data-ng-if="loadingDatasets === 0" class="datasets text-center" style="color: #FFF;">
+          <i class="fa fa-spin fa-spinner"></i>
+          Loading Datasets...
+        </div>
         <div class="list-group">
           <div data-ng-repeat="subdataset in selectedDatasets" data-ng-init="loadElements(subdataset)" class="list-group-item">
             <h4 class="list-group-item-heading">
