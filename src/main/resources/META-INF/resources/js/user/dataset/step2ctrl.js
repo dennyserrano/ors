@@ -32,13 +32,30 @@ angular.module('UserApp')
                 $scope.elementsSelection[subdataset.id] = elementsSelection;
             };
             
+            var checkSelectedElements = function(dataset) {
+                angular.forEach(dataset.elements, function(selectedElement) {
+                    if ($scope.allElementsSelected[selectedElement.datasetId]) {
+                        $scope.allElementsSelected[selectedElement.datasetId] = true;
+                        $scope.toggleAllElementsSelection(selectedElement.datasetId);
+                    }
+                    $scope.elementsSelection[selectedElement.datasetId][selectedElement.id] = true;
+                });
+            };
+            
             UserDatasetService.get({}, function(dataset) {
                 $scope.dataset = dataset;
                 angular.forEach(dataset.subDatasets, function(subdataset) {
                     $scope.allElementsSelected[subdataset.id] = false;
                     initializeElementIndex(subdataset);
-                    $scope.toggleAllElementsSelection(subdataset.id);
                 });
+                if (!dataset.elements || dataset.elements.length === 0) {
+                    angular.forEach(dataset.subDatasets, function(subdataset) {
+                        $scope.toggleAllElementsSelection(subdataset.id);
+                    });
+                }
+                else {
+                    checkSelectedElements(dataset);
+                }
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
                     $scope.loadingElements = 1;

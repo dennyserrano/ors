@@ -34,7 +34,7 @@ angular.module('UserApp')
                 if (c && c.selection) {
                     var selectedOption = c.selection[0];
                     
-                    // find user selected option
+                    // find user selected option object
                     if ($scope.filters && $scope.filters.length > 0) {
                         angular.forEach($scope.filters, function(filter) {
                             if (filter.criterion === c.filterId) {

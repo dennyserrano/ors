@@ -32,13 +32,28 @@ angular.module('UserApp')
             var subDatasetsIteratorCallback = function(sd) {
                 subDataset = sd;
                 angular.forEach($scope.selectedDatasets, selectedDatasetsIteratorCallback);
-            }
+            };
             var datasetsIteratorCallback = function(dataset) {
                 angular.forEach(dataset.subDatasets, subDatasetsIteratorCallback);
+            };
+            var subdatasetsCallback = function(selectedDataset) {
+                $scope.selectedDatasets.push(selectedDataset);
             };
             
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
+                UserDatasetService.get({}, function(dataset) {
+                    if (!dataset) {
+                        $scope.dataset = {};
+                        $scope.dataset.elements = [];
+                    }
+                    else {
+                        $scope.dataset = dataset;
+                        if (dataset.subDatasets && dataset.subDatasets.length > 0) {
+                            angular.forEach(dataset.subDatasets, subdatasetsCallback);
+                        }
+                    }
+                });
                 angular.forEach($scope.datasets, datasetsIteratorCallback);
                 $scope.loadingDatasets = 1;
             }, function(response) {
@@ -46,19 +61,6 @@ angular.module('UserApp')
                 $scope.loadingDatasetsError = 'Failed to load Datasets. [HTTP Status: ' + response.status + ']';
             });
 
-            var subdatasetsCallback = function(selectedDataset) {
-                $scope.selectedDatasets.push(selectedDataset);
-            };
-
-            UserDatasetService.get({}, function(dataset) {
-                if (dataset) {
-                    $scope.dataset = dataset;
-                    if (dataset.subDatasets && dataset.subDatasets.length > 0) {
-                        angular.forEach(dataset.subDatasets, subdatasetsCallback);
-                    }
-                }
-            });
-            
             $scope.loadElements = function(subdataset) {
                 if (!subdataset.elements || subdataset.elements.length === 0) {
                     ElementService.get({ 'headId': subdataset.id }, function(elements) {
@@ -80,9 +82,9 @@ angular.module('UserApp')
             
             $scope.save = function() {
                 $scope.saving = true;
-                var dataset = {};
+                var dataset = $scope.dataset;
+                dataset.elements = dataset.elements || [];
                 dataset.subDatasets = $scope.selectedDatasets;
-                dataset.elements = [];
                 UserDatasetService.save({}, dataset, function(response) {
                     if (response.code === 'SUCCESS') {
                         $state.go('step2');
