@@ -35,7 +35,7 @@
     <quasar.version>0.6.0</quasar.version>
     <thymeleaf-layout-dialect.version>1.2.5</thymeleaf-layout-dialect.version>
     <javax.inject.version>1</javax.inject.version>
-    <bits.querier.version>1.0</bits.querier.version>
+    <bits.querier.version>1.1</bits.querier.version>
     <apache.poi.version>3.11-beta2</apache.poi.version>
     <webjars.bootstrap.version>3.2.0</webjars.bootstrap.version>
     <webjars.normalize.version>3.0.1</webjars.normalize.version>

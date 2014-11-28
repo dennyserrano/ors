@@ -14,9 +14,10 @@ public enum InputType {
     
     /**
      * Appropriate enum constant of filters that has a fixed set of selection.
-     * Will render a HTML select element.
+     * The filter can only select a single value or option from the list.
+     * Will render a HTML select element with single selected value.
      */
-    SELECT,
+    SELECT_VALUE,
 
     /**
      * Enum constant for multiple selected values
@@ -28,5 +29,12 @@ public enum InputType {
      * Enum constant for single selected value from a set of values.
      * Will render a HTML input type of radio for each selection
      */
-    RADIO
+    RADIO,
+
+    /**
+     * Enum constant for filters that has a fixed set of selection.
+     * The filter can select multiple values.
+     * Will render HTML select element with multiple selection of option.
+     */
+    SELECT_VALUES
 }

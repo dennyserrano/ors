@@ -28,10 +28,15 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
+import static com.bits.sql.Expressions.number;
+import static com.bits.sql.Expressions.string;
+import static com.bits.sql.JdbcTypes.getValueMapper;
 import static com.bits.sql.JdbcTypes.isBoolean;
 import static com.bits.sql.JdbcTypes.isNumeric;
 import static com.bits.sql.QueryBuilders.read;
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -231,11 +236,11 @@ public @Service class DatasetServiceImpl implements DatasetService {
         // set school year filter first before the other filters
         CriteriaFilterBuilder criteriaFilterBuilder = join.where(schoolProfilePrefixTable.getTablePrefix(), schoolYearElement.getColumnName());
         CriteriaChainBuilder criteriaChainBuilder;
-        if (filter.getSelectedOption() == null) {
+        if (filter.getSelectedOptions() == null || filter.getSelectedOptions().isEmpty()) {
             criteriaChainBuilder = criteriaFilterBuilder.eq(getCurrentYear());
         }
         else {
-            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOption().getKey())));
+            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOptions().get(0).getKey())));
         }
         filters.forEach(f -> {
             DatasetCriteria criterion = criteriaRepository.findOne(f.getCriterion());
@@ -243,28 +248,13 @@ public @Service class DatasetServiceImpl implements DatasetService {
             ColumnMetadata columnMetadata = columnMetadataRepository.findOne(datasetElement.getColumnId());
             String tablePrefix = tablePrefixMap.get(columnMetadata.getTableId());
             String dataType = columnMetadata.getDataType();
-            String value = f.getSelectedOption().getKey();
-            criteriaChainBuilder.and(tablePrefix, columnMetadata.getColumnName());
-            if (value == null) { // null case
-                criteriaFilterBuilder.isNull();
-            }
-            else {
-                String str = String.valueOf(value);
-                if (!isBlank(str)) { // not null and empty value case
-                    if (isBoolean(dataType, columnMetadata.getMax())) {
-                        SqlValueMapper<Short> mapper = JdbcTypes.getValueMapper(dataType);
-                        Short converted = mapper.apply(value);
-                        criteriaFilterBuilder.is((converted != null && converted.shortValue() > 0) ? Boolean.TRUE : Boolean.FALSE);
-                    }
-                    else if (isNumeric(dataType)) {
-                        SqlValueMapper<Number> mapper = JdbcTypes.getValueMapper(dataType);
-                        criteriaFilterBuilder.eq(mapper.apply(value));
-                    }
-                    else { // default is string base
-                        SqlValueMapper<String> mapper = JdbcTypes.getValueMapper(dataType);
-                        criteriaFilterBuilder.eq(mapper.apply(value));
-                    }
-                }
+            FilterType filterType = criterion.getFilterType();
+            switch (filterType) {
+                case VALUES:
+                    multipleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
+                    break;
+                default:
+                    singleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
             }
         });
 
@@ -314,11 +304,89 @@ public @Service class DatasetServiceImpl implements DatasetService {
         return data;
     }
 
+    private void multipleValueFilter(DatasetCriteria criterion, Filter filter, CriteriaFilterBuilder criteriaFilterBuilder,
+                                     CriteriaChainBuilder criteriaChainBuilder, ColumnMetadata columnMetadata,
+                                     String tablePrefix, String dataType) {
+        criteriaChainBuilder.and(tablePrefix, columnMetadata.getColumnName());
+        if (!(criterion.getOperator() instanceof Operators.Multiple)) {
+            throw new RuntimeException(String.format("Operator [%s] is not applicable for filter [%s].", criterion.getOperator(), criterion.getFilterName()));
+        }
+        Operators.Multiple operator = (Operators.Multiple) criterion.getOperator();
+        
+        switch (operator) {
+            case RANGE:
+                rangeValueCriteriaBuilder(criterion, filter, criteriaFilterBuilder, dataType);
+                break;
+            case IN:
+                criteriaInValuesBuilder(criterion, filter, criteriaFilterBuilder, dataType);
+        }
+    }
+    
+    private void rangeValueCriteriaBuilder(DatasetCriteria criterion, Filter filter,
+                                           CriteriaFilterBuilder criteriaFilterBuilder, String dataType) {
+        KeyValue kv1 = filter.getSelectedOptions().get(0);
+        KeyValue kv2 = filter.getSelectedOptions().get(1);
+        if (!isNumeric(dataType)) {
+            throw new UnsupportedOperationException(String.format("Only number data types are applicable for operator [%s].",
+                    criterion.getOperator().getName()));
+        }
+        SqlValueMapper<Number> mapper = getValueMapper(dataType);
+        Number min = mapper.apply(kv1.getKey());
+        Number max = mapper.apply(kv2.getKey());
+        criteriaFilterBuilder.between(min).and(max);
+    }
+    
+    private void criteriaInValuesBuilder(DatasetCriteria criterion, Filter filter,
+                                         CriteriaFilterBuilder criteriaFilterBuilder, String dataType) {
+        List<ValueExpression> values = filter.getSelectedOptions().stream()
+                .map(KeyValue::getKey)
+                .map(k -> {
+                    if (isNumeric(dataType)) {
+                        SqlValueMapper<Number> mapper = getValueMapper(dataType);
+                        return number(mapper.apply(k));
+                    }
+                    else { // String based
+                        SqlValueMapper<String> mapper = getValueMapper(dataType);
+                        return string(mapper.apply(k));
+                    }
+                })
+                .collect(toList());
+        criteriaFilterBuilder.in(values.toArray(new ValueExpression[values.size()]));
+    }
+
+    private void singleValueFilter(DatasetCriteria criterion, Filter filter, CriteriaFilterBuilder criteriaFilterBuilder,
+                                   CriteriaChainBuilder criteriaChainBuilder, ColumnMetadata columnMetadata,
+                                   String tablePrefix, String dataType) {
+        String value = filter.getSelectedOptions().get(0).getKey();
+        criteriaChainBuilder.and(tablePrefix, columnMetadata.getColumnName());
+        if (value == null) { // null case?
+            criteriaFilterBuilder.isNull();
+        }
+        else {
+            String str = String.valueOf(value);
+            if (!isBlank(str)) { // not null and empty value case
+                if (isBoolean(dataType, columnMetadata.getMax())) {
+                    SqlValueMapper<Short> mapper = getValueMapper(dataType);
+                    Short converted = mapper.apply(value);
+                    criteriaFilterBuilder.is((converted != null && converted.shortValue() > 0) ? Boolean.TRUE : Boolean.FALSE);
+                }
+                else if (isNumeric(dataType)) {
+                    SqlValueMapper<Number> mapper = getValueMapper(dataType);
+                    criteriaFilterBuilder.eq(mapper.apply(value));
+                }
+                else { // default is string base
+                    SqlValueMapper<String> mapper = getValueMapper(dataType);
+                    criteriaFilterBuilder.eq(mapper.apply(value));
+                }
+            }
+        }
+    }
+
     private Filter lookupSchoolFilter(PrefixTable schoolProfilePrefixTable, long schoolYearElementId) {
         List<DatasetCriteria> criterias = criteriaRepository.findByDatasetHeadIdAndLeftElementId(schoolProfilePrefixTable.getDatasetId(), schoolYearElementId);
         DatasetCriteria schoolYearDatasetCriteria = criterias.get(0);
-        int currentYear = getCurrentYear();
-        return new Filter(schoolYearDatasetCriteria.getId(), schoolYearElementId, new KeyValue(String.valueOf(getCurrentYear()), ""));
+        List<KeyValue> list = new ArrayList<>(asList(new KeyValue(String.valueOf(getCurrentYear()), "")));
+        return new Filter(schoolYearDatasetCriteria.getId(), schoolYearElementId, list);
     }
 
     private int getCurrentYear() {

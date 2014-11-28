@@ -137,8 +137,11 @@ angular.module('UserApp')
             };
             
             $scope.selectSchool = function(item, model, label, availableCriterion) {
-                $scope.selectedValues[availableCriterion.filterId] = item;
-                $scope.selectedSchoolName = item.value;
+                var filterId = availableCriterion.filterId;
+                if (!$scope.selectedValues[filterId]) {
+                    $scope.selectedValues[filterId] = [];
+                }
+                $scope.selectedValues[filterId].push(item);
                 $scope.setFilter(availableCriterion);
             };
 

@@ -76,13 +76,16 @@
                         data-ng-options="option.value for option in availableCriterion.selection track by option.key">
                 </select>
               </div>
-              <div data-ng-switch-default="" class="col-sm-4" data-ng-switch="availableCriterion.filterName">
+              <div data-ng-switch-when="4" class="col-sm-4" data-ng-switch="availableCriterion.filterName">
                 <div data-ng-switch-when="sp_schoolName">
-                  <input type="hidden" name="selectedSchoolId" id="selectedSchoolId"
-                         data-ng-model="selectedValues[availableCriterion.filterId]"/>
+                  <select name="{{ ::availableCriterion.filterName }}" multiple="multiple" size="5">
+                    <option data-ng-repeat="option in selectedValues[availableCriterion.filterId]" value="option.key">
+                      {{ option.value }}
+                    </option>
+                  </select>
                   <input type="text" id="filter{{ ::availableCriterion.filterId }}" autocomplete="off"
                          name="{{ ::availableCriterion.filterName }}" class="form-control"
-                         data-ng-model="selectedSchoolName" typeahead-wait-ms="500" typeahead-editable="false"
+                         typeahead-wait-ms="500" typeahead-editable="false"
                          typeahead="school.value for school in searchSchools($viewValue)"
                          typeahead-loading="loadingSchools" typeahead-min-length="3"
                          typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)"/>
@@ -94,6 +97,15 @@
                   <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
                   <small data-ng-show="loadingSchools">Loading list of Schools...</small>
                 </div>
+                <div data-ng-switch-default="">
+                  <select name="{{ ::availableCriterion.filterName }}" multiple="multiple" size="5">
+                    <option data-ng-repeat="option in selectedValues[availableCriterion.filterId]" value="option.key">
+                      {{ option.value }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div data-ng-switch-default="" class="col-sm-4">
                 <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control" callback-on-render
                        data-ng-switch-default="" data-ng-model="selectedValues[availableCriterion.filterId]"/>
               </div>

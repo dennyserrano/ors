@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import ph.gov.deped.data.dto.KeyValue;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by PSY on 2014/10/03.
@@ -21,15 +22,15 @@ public class Filter implements Serializable {
 
     private final long element;
 
-    private final KeyValue selectedOption;
+    private final List<KeyValue> selectedOptions;
 
     @JsonCreator
     public Filter(@JsonProperty("criterion") long criterion,
                   @JsonProperty("element") long element,
-                  @JsonProperty("selectedOption") KeyValue selectedOption) {
+                  @JsonProperty("selectedOptions") List<KeyValue> selectedOptions) {
         this.criterion = criterion;
         this.element = element;
-        this.selectedOption = selectedOption;
+        this.selectedOptions = selectedOptions;
     }
 
     public long getCriterion() {
@@ -40,8 +41,8 @@ public class Filter implements Serializable {
         return element;
     }
 
-    public KeyValue getSelectedOption() {
-        return selectedOption;
+    public List<KeyValue> getSelectedOptions() {
+        return selectedOptions;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class Filter implements Serializable {
         return new EqualsBuilder()
                 .append(this.criterion, rhs.criterion)
                 .append(this.element, rhs.element)
-                .append(this.selectedOption, rhs.selectedOption)
+                .append(this.selectedOptions, rhs.selectedOptions)
                 .isEquals();
     }
 
@@ -62,7 +63,7 @@ public class Filter implements Serializable {
         return new HashCodeBuilder()
                 .append(criterion)
                 .append(element)
-                .append(selectedOption)
+                .append(selectedOptions)
                 .toHashCode();
     }
 
@@ -71,7 +72,7 @@ public class Filter implements Serializable {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("criterion", criterion)
                 .append("element", element)
-                .append("selectedOption", selectedOption)
+                .append("selectedOptions", selectedOptions)
                 .toString();
     }
 }
