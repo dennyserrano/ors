@@ -63,28 +63,23 @@
             Loading Filters...
           </div>
           <div data-ng-show="loadingFilters === 1" class="well form-horizontal">
-            <div class="form-group" data-ng-repeat="availableCriterion in availableCriteria"
-                 data-ng-switch="availableCriterion.inputType">
+            <div class="form-group" data-ng-repeat="availableCriterion in availableCriteria" data-ng-switch="availableCriterion.inputType">
               <label for="filter{{ ::availableCriterion.filterId }}" class="col-sm-2 control-label" style="padding-right: 10px;">
                 {{ ::availableCriterion.label }}
               </label>
               <div data-ng-switch-when="1" class="col-sm-4">
-                <select name="{{ availableCriterion.filterName }}"
+                <select name="{{ ::availableCriterion.filterName }}"
                         class="form-control" id="{{ ::availableCriterion.filterId }}"
                         data-ng-change="setFilter(availableCriterion)"
-                        data-ng-model="selectedValues[availableCriterion.filterId]"
+                        data-ng-model="selectedValues[availableCriterion.filterId][0]"
                         data-ng-options="option.value for option in availableCriterion.selection track by option.key">
                 </select>
               </div>
-              <div data-ng-switch-when="4" class="col-sm-4" data-ng-switch="availableCriterion.filterName">
-                <div data-ng-switch-when="sp_schoolName">
-                  <select name="{{ ::availableCriterion.filterName }}" multiple="multiple" size="5">
-                    <option data-ng-repeat="option in selectedValues[availableCriterion.filterId]" value="option.key">
-                      {{ option.value }}
-                    </option>
-                  </select>
-                  <input type="text" id="filter{{ ::availableCriterion.filterId }}" autocomplete="off"
-                         name="{{ ::availableCriterion.filterName }}" class="form-control"
+              <div data-ng-switch-when="4" class="col-sm-4">
+                <div data-ng-if="availableCriterion.filterName === 'sp_schoolName'">
+                  <input type="text" id="filter{{ ::availableCriterion.filterId }}_search" autocomplete="off"
+                         name="{{ ::availableCriterion.filterName }}_search" class="form-control"
+                         data-ng-model="selectedSchoolName"
                          typeahead-wait-ms="500" typeahead-editable="false"
                          typeahead="school.value for school in searchSchools($viewValue)"
                          typeahead-loading="loadingSchools" typeahead-min-length="3"
@@ -97,13 +92,11 @@
                   <i data-ng-show="loadingSchools" class="fa fa-spin fa-spinner"></i>
                   <small data-ng-show="loadingSchools">Loading list of Schools...</small>
                 </div>
-                <div data-ng-switch-default="">
-                  <select name="{{ ::availableCriterion.filterName }}" multiple="multiple" size="5">
-                    <option data-ng-repeat="option in selectedValues[availableCriterion.filterId]" value="option.key">
-                      {{ option.value }}
-                    </option>
-                  </select>
-                </div>
+                <select id="filter{{ ::availableCriterion.filterId }}" name="{{ ::availableCriterion.filterName }}" multiple="multiple" size="5">
+                  <option data-ng-repeat="option in selectedValues[availableCriterion.filterId]" value="option.key">
+                    {{ option.value }}
+                  </option>
+                </select>
               </div>
               <div data-ng-switch-default="" class="col-sm-4">
                 <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control" callback-on-render

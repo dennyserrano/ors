@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step3Ctrl', ['$scope', '$state', '$window', 'UserDatasetService', 'CriteriaService', 'SchoolNameCriteriaService',
-        function($scope, $state, $window, UserDatasetService, CriteriaService, SchoolNameCriteriaService) {
+    .controller('Step3Ctrl', ['$scope', '$state', '$window', '$timeout', 'UserDatasetService', 'CriteriaService', 'SchoolNameCriteriaService',
+        function($scope, $state, $window, $timeout, UserDatasetService, CriteriaService, SchoolNameCriteriaService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'complete';
@@ -32,24 +32,18 @@ angular.module('UserApp')
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
                 if (c && c.selection) {
-                    var selectedOption = c.selection[0];
+                    var selectedOptions = c.selection[0];
                     
                     // find user selected option object
                     if ($scope.filters && $scope.filters.length > 0) {
                         angular.forEach($scope.filters, function(filter) {
                             if (filter.criterion === c.filterId) {
-                                selectedOption = filter.selectedOption;
+                                selectedOptions = filter.selectedOptions;
                             }
                         });
                     }
                     
-                    $scope.selectedValues[c.filterId] = selectedOption;
-                }
-                else {
-                    $scope.selectedValues[c.filterId] = {
-                        key: '',
-                        value: ''
-                    };
+                    $scope.selectedValues[c.filterId] = $.isArray(selectedOptions) ? selectedOptions : [selectedOptions];
                 }
                 $scope.setFilter(c);
             };
@@ -93,7 +87,7 @@ angular.module('UserApp')
             });
             
             $scope.setFilter = function(criterion) {
-                var selectedOption = $scope.selectedValues[criterion.filterId];
+                var selectedOptions = $scope.selectedValues[criterion.filterId];
                 var filterFound = false;
                 var findFilterCallback = function(filter) {
                     if (filter.criterion === criterion.filterId) {
@@ -105,31 +99,36 @@ angular.module('UserApp')
                     $scope.filters.push({
                         criterion: criterion.filterId,
                         element: criterion.elementId,
-                        selectedOption: selectedOption
+                        selectedOptions: selectedOptions
                     });
                 }
                 else {
                     angular.forEach($scope.filters, function(filter) {
                         if (filter.criterion === criterion.filterId && filter.element === criterion.elementId) {
-                            filter.selectedOption = selectedOption;
+                            filter.selectedOptions = selectedOptions;
                         }
                     });
                 }
                 // TODO dynamic filters with callback or specialized actions.
                 if (criterion.filterId === regionFilterId) {
-                    divisionCriterion.selection = selectedOption.childKeyValues;
+                    divisionCriterion.selection = selectedOptions[0].childKeyValues;
                 }
             };
             
             $scope.searchSchools = function(schoolName) {
-                angular.forEach($scope.filters, function(filter) {
+                var schoolFilters = [];
+                angular.copy($scope.filters, schoolFilters);
+                angular.forEach(schoolFilters, function(filter) {
                     if (filter.criterion === schoolNameFilterId) {
-                        filter.selectedOption = {
-                            key: schoolName
-                        };
+                        filter.selectedOptions = [
+                            {
+                                key: schoolName,
+                                value: schoolName
+                            }
+                        ];
                     }
                 });
-                var promise = SchoolNameCriteriaService.searchSchool({}, $scope.filters).$promise;
+                var promise = SchoolNameCriteriaService.searchSchool({}, schoolFilters).$promise;
                 promise.then(function(response) {
                     return response;
                 });
@@ -143,6 +142,8 @@ angular.module('UserApp')
                 }
                 $scope.selectedValues[filterId].push(item);
                 $scope.setFilter(availableCriterion);
+                $scope.selectedSchoolName = '';
+                $scope.$apply();
             };
 
             var saveDataset = function(dataset, saveCallback) {
@@ -155,13 +156,6 @@ angular.module('UserApp')
                 $scope.saving = true;
                 var dataset = $scope.dataset;
                 dataset.filters = $scope.filters;
-                angular.forEach(dataset.filters, function(filter) {
-                    if (filter.criterion === schoolNameFilterId) {
-                        if (!$scope.selectedSchoolName) {
-                            filter.selectedOption = $scope.selectedValues[schoolNameFilterId];
-                        }
-                    }
-                });
                 saveDataset(dataset, function() {
                     $state.go('step4');
                 });
