@@ -72,54 +72,16 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
                 .collect(toList());
     }
     
-    public List<KeyValue> searchSchoolNames(List<Filter> filters) {
-        Optional<Filter> schoolYearOptional = findFilter(filterSettings.getSchoolYearId(), filters);
-        String schoolYearStr = criteriaRepository.getSchoolYears().get(0).getKey();
-        if (schoolYearOptional.isPresent()) {
-            schoolYearStr = String.valueOf(schoolYearOptional.get().getSelectedOptions().get(0).getKey());
-        }
-        int schoolYear = Integer.parseInt(schoolYearStr);
-        
-        Optional<Filter> levelOfEduOptional = findFilter(filterSettings.getLevelOfEducationId(), filters);
-        String levelOfEduStr = criteriaRepository.getGeneralCurricularOfferings().get(0).getKey();
-        if (levelOfEduOptional.isPresent()) {
-            levelOfEduStr = String.valueOf(levelOfEduOptional.get().getSelectedOptions().get(0).getKey());
-        }
-        int levelOfEducation = Integer.parseInt(levelOfEduStr);
-        
-        Optional<Filter> sectorOptional = findFilter(filterSettings.getSectorId(), filters);
-        Integer sectorId = null;
-        if (sectorOptional.isPresent()) {
-            String sectorStr = String.valueOf(sectorOptional.get().getSelectedOptions().get(0).getKey());
-            if (!isBlank(sectorStr)) {
-                sectorId = new Integer(sectorStr);
-            }
-        }
-        
-        Optional<Filter> schoolNameOptional = findFilter(filterSettings.getSchoolNameId(), filters);
-        String schoolName = "";
-        if (schoolNameOptional.isPresent()) {
-            schoolName = String.valueOf(schoolNameOptional.get().getSelectedOptions().get(0).getKey());
-        }
-        
-        Optional<Filter> regionFilter = findFilter(filterSettings.getRegionId(), filters);
-        Integer regionId = null;
-        if (regionFilter.isPresent() && regionFilter.get().getSelectedOptions() != null) {
-            String regionStr = String.valueOf(regionFilter.get().getSelectedOptions().get(0).getKey());
-            if (!isBlank(regionStr)) {
-                regionId = new Integer(regionStr);
-            }
-        }
-
-        Optional<Filter> divisionFilter = findFilter(filterSettings.getDivisionId(), filters);
-        Integer divisionId = null;
-        if (divisionFilter.isPresent() && divisionFilter.get().getSelectedOptions() != null) {
-            String divisionStr = String.valueOf(divisionFilter.get().getSelectedOptions().get(0).getKey());
-            if (!isBlank(divisionStr)) {
-                divisionId = new Integer(divisionStr);
-            }
-        }
-        
+    public List<KeyValue> searchSchools(Map<Long, String> filters) {
+        int schoolYear = Integer.parseInt(filters.get(new Long(filterSettings.getSchoolYearId())));
+        int levelOfEducation = Integer.parseInt(filters.get(new Long(filterSettings.getLevelOfEducationId())));
+        String sectorStr = filters.get(new Long(filterSettings.getSectorId()));
+        Integer sectorId = isBlank(sectorStr) ? null : Integer.parseInt(sectorStr);
+        String regionStr = filters.get(new Long(filterSettings.getRegionId()));
+        Integer regionId = isBlank(regionStr) ? null : Integer.parseInt(regionStr);
+        String divisionStr = filters.get(new Long(filterSettings.getDivisionId()));
+        Integer divisionId = isBlank(divisionStr) ? null : Integer.parseInt(divisionStr);
+        String schoolName = filters.get(new Long(filterSettings.getSchoolNameId()));
         return criteriaRepository.searchSchool(schoolYear, levelOfEducation, sectorId, regionId, divisionId, schoolName);
     }
     

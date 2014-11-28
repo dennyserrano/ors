@@ -69,7 +69,7 @@
               </label>
               <div data-ng-switch-when="1" class="col-sm-4">
                 <select name="{{ ::availableCriterion.filterName }}"
-                        class="form-control" id="{{ ::availableCriterion.filterId }}"
+                        class="form-control" id="filter{{ ::availableCriterion.filterId }}"
                         data-ng-change="setFilter(availableCriterion)"
                         data-ng-model="selectedValues[availableCriterion.filterId][0]"
                         data-ng-options="option.value for option in availableCriterion.selection track by option.key">
@@ -99,8 +99,8 @@
                 </select>
               </div>
               <div data-ng-switch-default="" class="col-sm-4">
-                <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control" callback-on-render
-                       data-ng-switch-default="" data-ng-model="selectedValues[availableCriterion.filterId]"/>
+                <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control"
+                       data-ng-model="selectedValues[availableCriterion.filterId]" callback-on-render/>
               </div>
             </div>
           </div>

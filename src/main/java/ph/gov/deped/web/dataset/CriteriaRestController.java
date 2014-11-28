@@ -8,7 +8,9 @@ import ph.gov.deped.data.dto.ds.Criterion;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.service.data.api.CriteriaService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by PSY on 2014/10/03.
@@ -30,6 +32,11 @@ public class CriteriaRestController {
     
     @RequestMapping(value = "/school", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<KeyValue> searchSchoolName(@RequestBody List<Filter> filters) {
-        return criteriaService.searchSchoolNames(filters);
+        Map<Long, String> map = new HashMap<>();
+        filters.forEach(f -> {
+                    String value = f.getSelectedOptions() == null || f.getSelectedOptions().isEmpty() ? "" : f.getSelectedOptions().get(0).getKey();
+                    map.put(f.getCriterion(), value);
+                });
+        return criteriaService.searchSchools(map);
     }
 }

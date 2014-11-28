@@ -140,6 +140,11 @@ angular.module('UserApp')
                 if (!$scope.selectedValues[filterId]) {
                     $scope.selectedValues[filterId] = [];
                 }
+                angular.forEach($scope.selectedValues[filterId], function(option, idx) {
+                    if (option.key === '') {
+                        $scope.selectedValues[filterId].splice(idx, idx + 1);
+                    }
+                });
                 $scope.selectedValues[filterId].push(item);
                 $scope.setFilter(availableCriterion);
                 $scope.selectedSchoolName = '';
