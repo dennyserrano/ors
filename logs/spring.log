@@ -1,0 +1,7 @@
+[20161019115106642] [Thread-4] [W] [o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext] - Exception thrown from LifecycleProcessor on context close java.lang.IllegalStateException: LifecycleProcessor not initialized - call 'refresh' before invoking lifecycle methods via the context: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@784b990c: startup date [Wed Oct 19 11:50:57 PHT 2016]; root of context hierarchy
+	at org.springframework.context.support.AbstractApplicationContext.getLifecycleProcessor(AbstractApplicationContext.java:359) ~[spring-context-4.0.7.RELEASE.jar:4.0.7.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:890) ~[spring-context-4.0.7.RELEASE.jar:4.0.7.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.doClose(EmbeddedWebApplicationContext.java:141) ~[spring-boot-1.1.8.RELEASE.jar:1.1.8.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext$1.run(AbstractApplicationContext.java:811) ~[spring-context-4.0.7.RELEASE.jar:4.0.7.RELEASE]
+
+[20161019115107350] [localhost-startStop-1] [E] [o.s.b.c.e.t.ServletContextInitializerLifecycleListener] - Error starting Tomcat context: org.springframework.beans.factory.BeanCreationException

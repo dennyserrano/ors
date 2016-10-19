@@ -8,5 +8,6 @@ angular.module('UserApp', [
     'checklist-model',
     'ui.bootstrap.typeahead',
     'doubleScrollBars',
-    'pasvaz.bindonce'
+    'pasvaz.bindonce',
+    'LocalStorageModule'
 ]);

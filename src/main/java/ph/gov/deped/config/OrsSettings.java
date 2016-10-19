@@ -98,6 +98,7 @@ public class OrsSettings implements DbSettings, Serializable {
     }
 
     public void setDbHost(String dbHost) {
+    	System.out.println(dbHost);
         this.dbHost = dbHost;
     }
 

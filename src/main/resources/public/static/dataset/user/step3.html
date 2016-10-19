@@ -55,6 +55,8 @@
       </div>
     </div>
     
+    
+    
     <form name="datasetFilterForm" role="form" data-ng-submit="save()">
       <div class="row">
         <div class="col-sm-12">
@@ -98,9 +100,11 @@
                   </option>
                 </select>
               </div>
-              <div data-ng-switch-default="" class="col-sm-4">
-                <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control"
-                       data-ng-model="selectedValues[availableCriterion.filterId]" callback-on-render/>
+              <div data-ng-switch-default="0" class="col-sm-4">
+<!--                 <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control" -->
+<!--                        data-ng-model="selectedValues[availableCriterion.filterId]" callback-on-render/> -->
+				<input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control"
+                       />
               </div>
             </div>
           </div>
