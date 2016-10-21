@@ -38,12 +38,55 @@ casper.on('remote.message', function(message) {
 });
 
 
-
-//var f=new Function('test',"console.log('dynamic function')");
-//f();
+var checkboxName='#chk8';
 
 
-casperStart(casper);
+var step1="casper.start(URL_BASE+'user/datasets',function(){" +
+		"this.evaluate(function(){" +
+		"$('"+checkboxName+"').click();"+
+		"});"+
+		"});";
+
+var step1WaitForSelector="casper.waitForSelector('h4.list-group-item-heading',function(){" +
+						"this.echo('list group shown');" +
+							"this.evaluate(function(){" +
+								"$('.btn-primary').click();" +
+							"});" +
+						"},10000);";
+
+var step2="casper.waitForUrl(URL_BASE+'user/datasets#/2',function(){" +
+		  "});";
+
+
+var step2WaitSelector="casper.waitForSelector('thead',function(){" +
+							  "this.evaluate(function(){" +
+							  		"$('#nextBtn').click();" +
+							  "});" +
+					  "});";
+
+var step3="casper.waitForUrl(URL_BASE+'user/datasets#/3',function(){" +
+		  "});";
+
+var step3WaitSelector="casper.waitForSelector('.form-group',function(){" +
+							"this.echo('list form group shown');" +
+							"this.evaluate(function(){" +
+								"$('.btn-primary').click();" +
+							"});" +
+					  "},20000);";
+
+var step4="casper.waitForUrl(URL_BASE+'user/datasets#/4',function(){" +
+		"});";
+
+
+var run="casper.run();";
+
+var casperString=step1+step1WaitForSelector+step2+step2WaitSelector+step3+step3WaitSelector+step4+run;
+
+var f=new Function('test',casperString);
+f();
+
+
+//casperStart(casper);
 
 function casperStart(casper,next)
 {
