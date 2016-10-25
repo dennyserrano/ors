@@ -11,9 +11,9 @@
       <li data-ng-repeat="subdataset in subdataset.subDatasets" data-ng-include="'subdatasetTree'">
       </li>
     </ul>
-    <label data-ng-if="!subdataset.subDatasets || subdataset.subDatasets.length === 0" style="font-weight: normal;">
+    <label class='target_label' data-ng-if="!subdataset.subDatasets || subdataset.subDatasets.length === 0" style="font-weight: normal;">
       <input id="chk{{subdataset.id}}" type="checkbox" checklist-model="selectedDatasets" checklist-value="subdataset" data-ng-checked="datasetSelected(subdataset)"/>
-      <small>{{ subdataset.name }}</small>
+      <small id="lbl{{subdataset.id}}">{{ subdataset.name }}</small>
     </label>
   </script>
  
