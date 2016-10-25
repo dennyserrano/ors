@@ -12,7 +12,7 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
             $scope.loadingDatasets = 0;
             $window.ORS.AdjustDatasetContents(0);
-            
+
             var datasetsScopeWatcherCallback = function(newValue, oldValue) {
                 if (newValue && newValue.length > 0) {
                     $timeout(function() {
@@ -49,9 +49,9 @@ angular.module('UserApp')
                     }
                     else {
                         $scope.dataset = dataset;
-                        if (dataset.subDatasets && dataset.subDatasets.length > 0) {
-                            angular.forEach(dataset.subDatasets, subdatasetsCallback);
-                        }
+//                        if (dataset.subDatasets && dataset.subDatasets.length > 0) {
+//                            angular.forEach(dataset.subDatasets, subdatasetsCallback);
+//                        }
                     }
                 });
                 angular.forEach($scope.datasets, datasetsIteratorCallback);
@@ -70,6 +70,7 @@ angular.module('UserApp')
             };
             
             $scope.datasetSelected = function(subdataset) {
+
                 var selected = false;
                 var selectedDatasetIteratorCallback = function(selectedSubdataset) {
                     if (subdataset.id === selectedSubdataset.id) {
