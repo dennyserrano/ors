@@ -1,6 +1,6 @@
 var casper=require('casper').create({
-//	verbose:true,
-//	logLevel:"debug"
+	verbose:true,
+	logLevel:"debug"
 });
 
 //var casper2=require('casper').create();
@@ -94,7 +94,7 @@ var arr=[
 //         {"id":"chk120","name":"Madrasah Education"},
 //         {"id":"chk121","name":"Children Living Far from School"},
 //         {"id":"chk122","name":"Street Children"},
-//         {"id":"chk125","name":"Total Enrolment in Kinder Summer Program"},
+         {"id":"chk125","name":"Total Enrolment in Kinder Summer Program"}
 //         {"id":"chk126","name":"Enrolment By Age in Kinder Summer Program"},
 //         {"id":"chk127","name":"Total Enrolment in ALS"},
 //         {"id":"chk128","name":"Enrolment By Age in ALS"},
@@ -305,7 +305,8 @@ var arr=[
 casper.start().eachThen(arr,function(e){
 	
 	
-	
+	var data=e.data;
+	var id=data.id;
 	casper.thenOpenAndEvaluate(URL_BASE+"user/datasets",function(){
 		
 
@@ -323,8 +324,11 @@ casper.start().eachThen(arr,function(e){
 		console.log(name);
 		console.log(id);
 		console.log($("#"+id).parent().html());
-		$("#"+id).click();
 	},e.data);
+	
+	casper.thenClick("#"+id,function(){
+		
+	});
 	
 	casper.waitForSelector("h4.list-group-item-heading",function(){
 		this.evaluate(function(){
