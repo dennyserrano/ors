@@ -68,9 +68,9 @@ angular.module('checklist-model', [])
     });
 
     // watch original model change
-    scope.$parent.$watch(attrs.checklistModel, function(newArr, oldArr) {
-      scope.checked = contains(newArr, value);
-    }, true);
+//    scope.$parent.$watch(attrs.checklistModel, function(newArr, oldArr) {
+//      scope.checked = contains(newArr, value);
+//    }, true);
   }
 
   return {
