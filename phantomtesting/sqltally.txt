@@ -1,0 +1,9 @@
+SELECT 
+    A.id, A.name, COUNT(B.dataset_head_id) AS count
+FROM
+    orsdb.dataset_head AS A
+        INNER JOIN
+    orsdb.dataset_element AS B ON A.id = B.dataset_head_id
+WHERE A.parent_dataset_head is not NULL
+GROUP BY A.name
+ORDER BY count DESC
