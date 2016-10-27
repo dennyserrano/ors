@@ -272,37 +272,57 @@ public @Service class DatasetServiceImpl implements DatasetService {
         });
 
         StringBuilder sql = criteriaChainBuilder.build();
-        if (previewOnly) { // hack solution to limit returned rows if preview data requested.
-            sql.append(" LIMIT 20");
-        }
+//        if (previewOnly) { // hack solution to limit returned rows if preview data requested.
+//            sql.append(" LIMIT 20");
+//        }
         log.debug("Generated SQL [{}]", sql);
         JdbcTemplate template = new JdbcTemplate(dataSource);
-        List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
-            List<ColumnElement> row = new LinkedList<>();
-            sortedColumns.forEach(ce -> {
-                try {
-                    ColumnElement columnElementWithValue = ce.clone(); 
-                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
-                    columnElementWithValue.setValue(value);
-                    row.add(columnElementWithValue);
-                }
-                catch (SQLException ex) {
-                    log.catching(ex);
-                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
-                }
-            });
-            return row;
-        });
+        long startTime=System.currentTimeMillis();
+        System.out.println("START: "+startTime);
+        String[] ite =generateRanges(sql.toString(),template.query(sql.toString(), (rs, rowNum)->{return null;}).size() , 10000);
         
-        LinkedList<ColumnElement> headers = sortedColumns.stream()
-                .map(ColumnElement::clone) // copy the original user selected column elements
-                .map(ce -> {
-                    ce.setValue(ce.getElementName()); // set the value as the element description
-                    return ce;
-                })
-                .collect(toCollection(LinkedList::new));
-        data.add(0, headers);
-        return data;
+        for(String hql:ite)
+        {
+        	System.out.println("GENERATE NEW");
+        	System.out.println("");
+        	System.out.println("");
+        	System.out.println("");
+        	List<List<ColumnElement>> data = template.query(hql, (rs, rowNum) -> {
+                List<ColumnElement> row = new LinkedList<>();
+                
+                sortedColumns.forEach(ce -> {
+                    try {
+                    	
+                    	
+                        ColumnElement columnElementWithValue = ce.clone(); 
+                        Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                        columnElementWithValue.setValue(value);
+                        
+                        row.add(columnElementWithValue);
+                    }
+                    catch (SQLException ex) {
+                        log.catching(ex);
+                        throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
+                    }
+                });
+                return row;
+            });
+            
+            LinkedList<ColumnElement> headers = sortedColumns.stream()
+                    .map(ColumnElement::clone) // copy the original user selected column elements
+                    .map(ce -> {
+                        ce.setValue(ce.getElementName()); // set the value as the element description
+                        return ce;
+                    })
+                    .collect(toCollection(LinkedList::new));
+            
+            System.out.println("SIZE:"+data.size());
+            data=null;
+            System.gc();
+        }
+        System.out.println("END:"+(System.currentTimeMillis()-startTime));
+//        data.add(0, headers);
+        return new ArrayList<List<ColumnElement>>();
     }
 
     private void multipleValueFilter(DatasetCriteria criterion, Filter filter, CriteriaFilterBuilder criteriaFilterBuilder,
@@ -321,6 +341,20 @@ public @Service class DatasetServiceImpl implements DatasetService {
             case IN:
                 criteriaInValuesBuilder(criterion, filter, criteriaFilterBuilder, dataType);
         }
+    }
+    
+    private static String[] generateRanges(String sql,long dataSize,double perRecordProcess)
+    {
+    	 long numberOfGenerations=(long) Math.ceil(dataSize/perRecordProcess);
+    	 String[] fArr=new String[(int)numberOfGenerations];
+    	 for(long x=0,min=0,max=(long) perRecordProcess;x<numberOfGenerations;x++,min+=max)
+    	 {
+    		 StringBuffer sb=new StringBuffer(sql);
+    		 sb.append(" LIMIT "+min+","+max);
+    		 fArr[(int) x]=sb.toString();
+    	 }
+    	
+    	 return fArr;
     }
     
     private void rangeValueCriteriaBuilder(DatasetCriteria criterion, Filter filter,
