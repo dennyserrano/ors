@@ -51,6 +51,8 @@ public @Service class ExportServiceImpl implements ExportService {
             throw new RuntimeException(String.format("Unable to move XLSX File from [%s] to [%s].", tempPath, downloadPath), ex);
         }
         
+        System.out.println(downloadPath);
+        
         return downloadPath;
     }
 }
