@@ -42,6 +42,7 @@ public class ExportDataController {
 
     private DatasetService datasetService;
 
+    @Autowired
     private ExportService exportService;
     
     @Autowired
@@ -58,31 +59,38 @@ public class ExportDataController {
     @RequestMapping(method = RequestMethod.POST)
     public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
-        List<List<ColumnElement>> data = new ArrayList<>();
+        String filename=null;
+        long thisTime=System.currentTimeMillis();
         try {
-            data = new ArrayList<List<ColumnElement>>();//datasetService.getData(ds, false);
-            exportBulkService.export(ds, ExportType.XLSX);
+              //datasetService.getData(ds, false);
+//            exportService.export("", data, ExportType.XLSX);
+            filename=exportBulkService.export(ds, ExportType.XLSX);
         }
         catch (Exception ex) {
             log.error("Unable to generate exported data.");
             log.throwing(ex);
+            throw new RuntimeException(ex);
         }
 
-//        ExportType exportType = DEFAULT_EXPORT_TYPE; // TODO Should be user defined from request; constant for now.
-//        String filename = exportService.export(httpSession.getId(), data, exportType);
-//
-//        response.setContentType(exportType.getContentType());
-//        response.setHeader("Content-Disposition", "attachment; filename=export." + exportType.getExtension());
-//
-//        try (FileInputStream fis = new FileInputStream(new File(filename));
-//            OutputStream os = response.getOutputStream()) {
-//            byte[] buffer = new byte[1024];
-//            int bytesRead;
-//
-//            while ((bytesRead = fis.read(buffer)) != -1) {
-//                os.write(buffer, 0, bytesRead);
-//            }
-//            os.flush();
-//        }
+        ExportType exportType = DEFAULT_EXPORT_TYPE; // TODO Should be user defined from request; constant for now.
+
+        response.setContentType(exportType.getContentType());
+        response.setHeader("Content-Disposition", "attachment; filename=export." + exportType.getExtension());
+
+        System.out.println("Total time:"+(System.currentTimeMillis()-thisTime));
+        
+        try (FileInputStream fis = new FileInputStream(new File(filename));
+            OutputStream os = response.getOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.flush();
+        }
+        
+        
+        
     }
 }

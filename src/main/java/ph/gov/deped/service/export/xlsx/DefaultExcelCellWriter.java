@@ -15,7 +15,7 @@ public class DefaultExcelCellWriter implements ExcelCellWriter {
 
     public void write(Workbook wb, Row row, Cell cell, Serializable value) {
         if (row.getRowNum() == 0) {
-//            cell.setCellValue((String) value);
+            cell.setCellValue((String) value);
         }
         else {
             if (value == null) {

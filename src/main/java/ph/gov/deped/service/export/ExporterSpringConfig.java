@@ -27,8 +27,8 @@ public class ExporterSpringConfig {
         return new CsvExporter();
     }
     
-    public @Bean @Primary XlsxExporter xlsxExporter() {
-        return new XlsxExporter();
+    public @Bean @Primary Exporter xlsxExporter() {
+        return new XlsxExporter2();
     }
     
     public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {

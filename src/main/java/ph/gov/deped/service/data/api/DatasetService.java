@@ -18,6 +18,8 @@ public interface DatasetService {
     long getDataSize(String sql);
     String getGeneratedSQL(Dataset dataset,LinkedList<PrefixTable> prefixTables);
     List<List<ColumnElement>> getData(String sql,LinkedList<PrefixTable> prefixTables,LinkedList<ColumnElement> sortedColumns);
+    List<List<ColumnElement>> getData(String sql,LinkedList<PrefixTable> prefixTables,LinkedList<ColumnElement> sortedColumns,LinkedList<ColumnElement> headers);
 	LinkedList<PrefixTable> getPrefixTables(Dataset dataset);
 	LinkedList<ColumnElement> getSortedColumns(LinkedList<PrefixTable> prefixTables);
+	LinkedList<ColumnElement> getHeaders(LinkedList<ColumnElement> sortedColumns);
 }
