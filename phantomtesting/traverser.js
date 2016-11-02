@@ -5,7 +5,7 @@ var casper=require('casper').create({
 
 //var casper2=require('casper').create();
 
-var URL_BASE="http://localhost:8080/";
+var URL_BASE="http://10.20.2.54:8080/";
 
 var li=function(resource,C){
 	
@@ -94,10 +94,10 @@ var arr=[
 //         {"id":"chk120","name":"Madrasah Education"},
 //         {"id":"chk121","name":"Children Living Far from School"},
 //         {"id":"chk122","name":"Street Children"},
-         {"id":"chk125","name":"Total Enrolment in Kinder Summer Program"}
+//         {"id":"chk125","name":"Total Enrolment in Kinder Summer Program"},
 //         {"id":"chk126","name":"Enrolment By Age in Kinder Summer Program"},
 //         {"id":"chk127","name":"Total Enrolment in ALS"},
-//         {"id":"chk128","name":"Enrolment By Age in ALS"},
+         {"id":"chk128","name":"Enrolment By Age in ALS"},
 //         {"id":"chk1002","name":"Total Enrolment By Age in Elementary Schools"},
 //         {"id":"chk1003","name":"Enrolment By Age in Elementary"}, //LONG PROCESS
 //         {"id":"chk1004","name":"Enrolment By Age in Kindergarten"},
@@ -122,43 +122,43 @@ var arr=[
 //         {"id":"chk2015","name":"Learners with Special Health Problem"},
 //         {"id":"chk2016","name":"Gifted/Fast Learners"},
 //         {"id":"chk2018","name":"Total Gifted and Talented Learners Data"},
-//         {"id":"chk2020","name":"Visual Impairment"}, //error SPED table
+//         {"id":"chk2020","name":"Visual Impairment"}, 
 //         {"id":"chk2021","name":"Hearing Impairment"}, 
 //         {"id":"chk2022","name":"Learning Disability"},
 //         {"id":"chk2023","name":"Intellectual Disability"},
 //         {"id":"chk2024","name":"Autism Spectrum Disorder\r\n"},
-//         {"id":"chk2025","name":"Emotional-Behavioral Disorder\r\n"}, //error SPED table
-//         {"id":"chk2026","name":"Orthopedic/Physical Handicap\r\n"}, //error SPED table
+//         {"id":"chk2025","name":"Emotional-Behavioral Disorder\r\n"}, 
+//         {"id":"chk2026","name":"Orthopedic/Physical Handicap\r\n"}, 
 //         {"id":"chk2027","name":"Speech/Language Disorder\r\n"},
 //         {"id":"chk2028","name":"Cerebral Palsy\r\n"},
 //         {"id":"chk2029","name":"Special Health Problem/Chronic Illness\r\n"},
-//         {"id":"chk2030","name":"Multiple Disabilities\r\n"}, //error SPED table
+//         {"id":"chk2030","name":"Multiple Disabilities\r\n"}, 
 //         {"id":"chk2032","name":"Difficulty Seeing\r\n"},
 //         {"id":"chk2033","name":"Difficulty Hearing\r\n"},
 //         {"id":"chk2034","name":"Difficulty Walking, Climbing and Grasping"},
 //         {"id":"chk2035","name":"Difficulty Remembering, Concentrating, Paying Attention and Understanding"},
 //         {"id":"chk2036","name":"Difficulty Communicating"},
-//         {"id":"chk2040","name":"Visual Impairment (Non-graded)"}, //error SPED table
-//         {"id":"chk2041","name":"Hearing Impairment (Non-graded)"}, //error SPED table
+//         {"id":"chk2040","name":"Visual Impairment (Non-graded)"}, 
+//         {"id":"chk2041","name":"Hearing Impairment (Non-graded)"}, 
 //         {"id":"chk2042","name":"Learning Disability (Non-graded)"},
 //         {"id":"chk2043","name":"Intellectual Disability (Non-graded)"},
 //         {"id":"chk2044","name":"Autism Spectrum Disorder (Non-graded)"},
 //         {"id":"chk2045","name":"Emotional-Behavioral Disorder (Non-graded)"},
 //         {"id":"chk2046","name":"Orthopedic/Physical Handicap (Non-graded)"},
 //         {"id":"chk2047","name":"Speech/Language Disorder (Non-graded)"},
-//         {"id":"chk2048","name":"Cerebral Palsy (Non-graded)"}, //error SPED table
-//         {"id":"chk2049","name":"Special Health Problem/Chronic Illness  (Non-graded)"}, //error SPED table
+//         {"id":"chk2048","name":"Cerebral Palsy (Non-graded)"}, 
+//         {"id":"chk2049","name":"Special Health Problem/Chronic Illness  (Non-graded)"}, 
 //         {"id":"chk2050","name":"Multiple Disabilities (Non-graded)"},
 //         {"id":"chk2051","name":"Multiple Disability with Visual Impairment (Non-graded)\r\n"},
 //         {"id":"chk2038","name":"Total Non-graded Learners with Exceptionalities"},
 //         {"id":"chk2053","name":"Difficulty Seeing (Non-graded)"},
-//         {"id":"chk2054","name":"Difficulty Hearing (Non-graded)"}, //error SPED table
+//         {"id":"chk2054","name":"Difficulty Hearing (Non-graded)"}, 
 //         {"id":"chk2055","name":"Difficulty Walking, Climbing and Grasping (Non-graded)"},
 //         {"id":"chk2056","name":"Difficulty Remembering, Concentrating, Paying Attention and Understanding (Non-graded)"},
 //         {"id":"chk2057","name":"Difficulty Communicating (Non-graded)"},
 //         {"id":"chk2059","name":"Total Leaners from SPED Classes or SPED Centers Mainstreamed in Regular Class"},
 //         {"id":"chk2061","name":"Visual Impairment (Mainstreamed)"},
-//         {"id":"chk2062","name":"Hearing Impairment (Mainstreamed)"}, //error SPED table
+//         {"id":"chk2062","name":"Hearing Impairment (Mainstreamed)"}, 
 //         {"id":"chk2063","name":"Learning Disability (Mainstreamed)"},
 //         {"id":"chk2064","name":"Intellectual Disability (Mainstreamed)"},
 //         {"id":"chk2065","name":"Autism Spectrum Disorder (Mainstreamed)"},
@@ -172,20 +172,20 @@ var arr=[
 //         {"id":"chk2074","name":"Difficulty Seeing (Mainstreamed)"},
 //         {"id":"chk2075","name":"Difficulty Hearing (Mainstreamed)"},
 //         {"id":"chk2076","name":"Difficulty Walking, Climbing and Grasping (Mainstreamed)"},
-//         {"id":"chk2077","name":"Difficulty Remembering, Concentrating, Paying Attention and Understanding (Mainstreamed)"}, //error SPED table
+//         {"id":"chk2077","name":"Difficulty Remembering, Concentrating, Paying Attention and Understanding (Mainstreamed)"},
 //         {"id":"chk2078","name":"Difficulty Communicating (Mainstreamed)"},
 //         {"id":"chk2080","name":"Total Learners with Exceptionalities Who Did Not Attend Any SPED Class"},
 //         {"id":"chk2081","name":"Visual Impairment (Did Not Attend Any SPED Class)"},
 //         {"id":"chk2082","name":"Hearing Impairment (Did Not Attend Any SPED Class)"},
 //         {"id":"chk2083","name":"Learning Disability (Did Not Attend Any SPED Class)"},
 //         {"id":"chk2084","name":"Intellectual Disability (Did Not Attend Any SPED Class)"},
-//         {"id":"chk2085","name":"Autism Spectrum Disorder (Did Not Attend Any SPED Class)"}, //error SPED table
-//         {"id":"chk2086","name":"Emotional-Behavioral Disorder (Did Not Attend Any SPED Class)"}, //error SPED table
+//         {"id":"chk2085","name":"Autism Spectrum Disorder (Did Not Attend Any SPED Class)"}, 
+//         {"id":"chk2086","name":"Emotional-Behavioral Disorder (Did Not Attend Any SPED Class)"}, 
 //         {"id":"chk2087","name":"Orthopedic/Physical Handicap (Did Not Attend Any SPED Class)"},
-//         {"id":"chk2088","name":"Speech/Language Disorder (Did Not Attend Any SPED Class)"}, //error SPED table
-//         {"id":"chk2089","name":"Cerebral Palsy (Did Not Attend Any SPED Class)"}, //error SPED table
+//         {"id":"chk2088","name":"Speech/Language Disorder (Did Not Attend Any SPED Class)"}, 
+//         {"id":"chk2089","name":"Cerebral Palsy (Did Not Attend Any SPED Class)"}, 
 //         {"id":"chk2090","name":"Special Health Problem/Chronic Illness  (Did Not Attend Any SPED Class)"},
-//         {"id":"chk2091","name":"Multiple Disabilities (Did Not Attend Any SPED Class)"}, //error SPED table
+//         {"id":"chk2091","name":"Multiple Disabilities (Did Not Attend Any SPED Class)"},
 //         {"id":"chk2092","name":"Multiple Disability with Visual Impairment (Did Not Attend Any SPED Class)"},
 //         {"id":"chk3003","name":"Total Enrolment By Program in Elementary"},
 //         {"id":"chk3004","name":"Enrolment in ALIVE"},
@@ -219,7 +219,7 @@ var arr=[
 //         {"id":"chk3505","name":"TLE Enrolment in Industrial Arts"},
 //         {"id":"chk3506","name":"TLE Enrolment in Information and Communication Technology (ICT)"},
 //         {"id":"chk4002","name":"Total Number of Dropout By Grade Level"},
-//         {"id":"chk4003","name":"Total Number of Dropouts By Cause"},
+         {"id":"chk4003","name":"Total Number of Dropouts By Cause"}, //ERROR
 //         {"id":"chk4004","name":"Number of Dropouts Caused By Domestic/Family-Related Factors"},
 //         {"id":"chk4005","name":"Number of Dropouts Caused By Individual-Related Factors"},
 //         {"id":"chk4006","name":"Number of Dropouts Caused By School-Related Factors"},
@@ -284,7 +284,7 @@ var arr=[
 //         {"id":"chk8003","name":"Disaster/Calamities"},
 //         {"id":"chk8004","name":"Feeding Program"},
 //         {"id":"chk8005","name":"Monitoring Visits"},
-//         {"id":"chk8006","name":"Mother Tongue (MTB-MLE)"}, //error ColumnElement
+//         {"id":"chk8006","name":"Mother Tongue (MTB-MLE)"},
 //         {"id":"chk9003","name":"GASTPE BOSY Enrolment"},
 //         {"id":"chk9004","name":"Number of Slots"},
 //         {"id":"chk9006","name":"GASTPE EOSY Enrolment"},
@@ -292,8 +292,8 @@ var arr=[
 //         {"id":"chk9008","name":"GASTPE Number of Dropouts"},
 //         {"id":"chk9009","name":"GASTPE Number of Transferred In"},
 //         {"id":"chk9010","name":"GASTPE Number of Transferred Out"},
-//         {"id":"chk9011","name":"Private School Personnel Data"}, //Unknown column 'priv_personnel.gemale_teachers' in 'field list'
-//         {"id":"chk9012","name":"Classroom and Seats"},
+         {"id":"chk9011","name":"Private School Personnel Data"}, //Unknown column 'priv_personnel.gemale_teachers' in 'field list'
+         {"id":"chk9012","name":"Classroom and Seats"}, //Unknown column 'priv_classroomseats.ge_classroom' in 'field list'
 //         {"id":"chk9013","name":"Private School Interested in Opening Senior High School"},
 //         {"id":"chk9021","name":"School Building Summary"}
          ];
@@ -366,9 +366,9 @@ casper.start().eachThen(arr,function(e){
 
 	});
 	
-	casper.waitForSelector(".table>tbody>tr",function(){
+	casper.waitForSelector("#previewTable>tbody>tr",function(){
 		
-	},function(){console.log("table not found!")},100000);
+	},function(){console.log("table not found!")},50000);
 	
 	casper.open(URL_BASE+"user/datasets",function(){
 //		this.echo("open again page 1");
