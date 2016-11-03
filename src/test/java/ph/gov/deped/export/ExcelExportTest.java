@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import ph.gov.deped.config.ApplicationSpringConfig;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
+import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.export.ExporterSpringConfig;
 import ph.gov.deped.service.export.xlsx.XlsxExporterNew;
 import ph.gov.deped.service.export.xlsx.XlsxExporter;
@@ -39,12 +41,16 @@ public class ExcelExportTest
 	@Autowired
 	XlsxExporter exporter;
 	
+	@Autowired
+	ExportService exportService;
+	
 	@Test
+	@Ignore
 	public void test() throws FileNotFoundException, IOException
 	{
 		
 		XStream s=new XStream();
-//		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("schoolinfodataset.xml"));
+		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("schoolinfodataset.xml"));
 		
 		List<List<ColumnElement>> l=(List<List<ColumnElement>>) s.fromXML(new FileInputStream("schoolinfolistdata.xml"));
 //		List<List<ColumnElement>> l=datasetService.getData(dataset, true);
@@ -52,13 +58,12 @@ public class ExcelExportTest
 		exporter.export(randomAlphabetic(8)+".xlsx", l);
 	}
 	
-//	@Test
-	public void iTest() throws FileNotFoundException, IOException
+	@Test
+	public void bulkTest() throws FileNotFoundException, IOException
 	{
-		while(true)
-		{
-			test();
-		}
+		XStream s=new XStream();
+		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("testdata/schoolinfodataset.xml"));
+		exportService.export(dataset);
 	}
 	
 }

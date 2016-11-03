@@ -18,26 +18,18 @@ import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.xlsx.ExcelWorkbookConsolidator;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
 
 @Service
-public class ExportBulkServiceImpl implements ExportBulkService 
+public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 {
-
-	@Autowired
-	private OrsSettings orsSettings;
-	
-	@Autowired
-	private DatasetService datasetService;
-	
-	@Autowired
-	private ExportServiceOld exportService;
 	
 	@Override
-	public String export(Dataset dataset, ExportType exportType) 
+	public String export(Dataset dataset) 
 	{
 		
 		String filename = randomAlphabetic(8) + "." + exportType.getExtension();
+		String baseTempPath = orsSettings.getTmpDir() + File.separator;
 		String downloadPath = orsSettings.getWorkingDir() + File.separator + filename;
 		
 		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
@@ -58,7 +50,10 @@ public class ExportBulkServiceImpl implements ExportBulkService
 		for(int x=0;x<sqlRanges.length;x++)
 		{
 			System.out.println("generating:"+sqlRanges[x]);
-			files[x]=exportService.export(null, datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers), exportType);
+//			files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
+			String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
+			exporter.export(tmpFile,datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
+			files[x]=tmpFile;
 		}
 		
 		prefixTables.clear();
@@ -66,7 +61,7 @@ public class ExportBulkServiceImpl implements ExportBulkService
 		headers.clear();
 		
 		try {
-			new ExcelWorkbookConsolidator(downloadPath,files).consolidate();;
+			new ExcelDocumentConsolidator(downloadPath,files).consolidate();;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e);

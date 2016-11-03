@@ -24,7 +24,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelWorkbookConsolidator 
+public class ExcelDocumentConsolidator 
 {
 	//TODO on server start what is directory is not yet present for both single exporter and bulk?
 	
@@ -32,7 +32,7 @@ public class ExcelWorkbookConsolidator
 	private Workbook destinationWorkbook;
 	private String[] files;
 	private ExcelCellWriter cellWriter=new ConsolidatorExcelCellWriter();
-	public ExcelWorkbookConsolidator(String outputFileName,String[] fileNames) throws FileNotFoundException
+	public ExcelDocumentConsolidator(String outputFileName,String[] fileNames) throws FileNotFoundException
 	{
 		fileOutput=new FileOutputStream(outputFileName);
 		files=fileNames;
@@ -75,7 +75,7 @@ public class ExcelWorkbookConsolidator
 		int sourceLastRowCount=destSheet.getLastRowNum();
 		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
 		
-		if(fileIndex!=0)
+		if(fileIndex!=0) 
 			sourceRowIterator.next();
 		
 		while(sourceRowIterator.hasNext())
