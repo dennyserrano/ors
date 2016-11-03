@@ -14,8 +14,8 @@ public class DefaultExcelCellStyler implements ExcelCellStyler {
     public void applyStyle(Workbook wb, Row row, Cell cell, FormattedElement fe) {
         CellStyle cellStyle = fe.getCellFormat().build(wb);
         cell.setCellStyle(cellStyle);
-        if (fe.getCellType() != null) {
-            cell.setCellType(fe.getCellType().intValue());
-        }
+//        if (fe.getCellType() != null) {
+//            cell.setCellType(fe.getCellType().intValue());
+//        }
     }
 }

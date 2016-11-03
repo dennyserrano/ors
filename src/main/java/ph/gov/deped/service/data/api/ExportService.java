@@ -1,6 +1,7 @@
 package ph.gov.deped.service.data.api;
 
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.ds.Dataset;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface ExportService {
 
-    String export(String sessionId, List<List<ColumnElement>> data, ExportType exportType);
+    String export(Dataset dataset);
 }

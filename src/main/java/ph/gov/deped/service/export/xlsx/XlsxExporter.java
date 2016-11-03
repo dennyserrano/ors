@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.Exporter;
+import ph.gov.deped.service.export.ColumnElementFileExporter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +25,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by PSY on 2014/10/15.
  */
-public class XlsxExporter implements Exporter {
+
+
+public class XlsxExporter implements ColumnElementFileExporter {
     
     private static final Logger log = LogManager.getLogger(XlsxExporter.class);
 

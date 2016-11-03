@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by PSY on 2014/10/15.
  */
-public interface Exporter {
+public interface ColumnElementFileExporter {
 
     void export(String filename, List<List<ColumnElement>> data);
 }

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ph.gov.deped.config.OrsSettings;
 import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.service.export.Exporter;
-import ph.gov.deped.service.data.api.ExportService;
+import ph.gov.deped.service.export.ColumnElementFileExporter;
+import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
 
 import java.io.File;
@@ -19,17 +19,19 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 /**
  * Created by PSY on 2014/10/15.
  */
-public @Service class ExportServiceImpl implements ExportService {
+
+@Deprecated
+public @Service class ExportServiceImpl implements ExportServiceOld {
 
     private OrsSettings orsSettings;
     
-    private Exporter xlsxExporter;
+    private ColumnElementFileExporter xlsxExporter;
 
     public @Autowired void setOrsSettings(OrsSettings orsSettings) {
         this.orsSettings = orsSettings;
     }
 
-    public @Autowired void setXlsxExporter(Exporter xlsxExporter) {
+    public @Autowired void setXlsxExporter(ColumnElementFileExporter xlsxExporter) {
         this.xlsxExporter = xlsxExporter;
     }
 

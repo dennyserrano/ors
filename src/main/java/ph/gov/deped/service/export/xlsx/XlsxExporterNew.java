@@ -28,12 +28,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.Exporter;
+import ph.gov.deped.service.export.ColumnElementFileExporter;
 
-public class XlsxExporter2 implements Exporter 
+@Deprecated //use XlsxExporter
+public class XlsxExporterNew implements ColumnElementFileExporter 
 {
 	
-	private static final Logger log = LogManager.getLogger(XlsxExporter.class);
+	private static final Logger log = LogManager.getLogger(XlsxExporterNew.class);
 
     public static final String EXTENSION = "." + ExportType.XLSX.getExtension();
     
@@ -51,7 +52,7 @@ public class XlsxExporter2 implements Exporter
 	@Override
 	public void export(String filename, List<List<ColumnElement>> data) 
 	{
-		System.out.println("Exporter2");
+		
 		FileOutputStream fileOutput = null;
 		try {
 			fileOutput=new FileOutputStream(filename);
@@ -61,8 +62,8 @@ public class XlsxExporter2 implements Exporter
 		}
 		
 		SXSSFWorkbook workbook=workbookInstance();
-//		applyFormattings(workbook, data);
-		streamingWrite(workbook, data);
+		doWrite(workbook, data);
+		System.out.println("done write");
 		try {
 			workbook.write(fileOutput);
 		} catch (IOException e) {
@@ -89,7 +90,7 @@ public class XlsxExporter2 implements Exporter
         return wb;
     }
 	
-	private void streamingWrite(SXSSFWorkbook formattedWorkbook, List<List<ColumnElement>> data) {
+	private void  streamingWrite(SXSSFWorkbook formattedWorkbook, List<List<ColumnElement>> data) {
         
         SXSSFWorkbook wb = formattedWorkbook;
         SXSSFSheet sheet = (SXSSFSheet) wb.getSheet(DEFAULT_SHEET_NAME);
@@ -100,10 +101,10 @@ public class XlsxExporter2 implements Exporter
 
         long startTimestamp = System.currentTimeMillis();
         for (int r = 0; r < data.size(); r++) {
-            SXSSFRow row = (SXSSFRow) sheet.createRow(r);
+            SXSSFRow row = (SXSSFRow) sheet.getRow(r);
             rowData = data.get(r);
             for (int c = 0; c < rowData.size(); c++) {
-            	SXSSFCell cell = (SXSSFCell) row.createCell(c);
+            	SXSSFCell cell = (SXSSFCell) row.getCell(c);
                 ce = rowData.get(c);
 //                cell.setCellValue(ce.getValue());
                 excelCellWriter.write(wb, row, cell, ce.getValue());
@@ -140,17 +141,17 @@ public class XlsxExporter2 implements Exporter
     private void applyFormattings(SXSSFWorkbook workbook, List<List<ColumnElement>> data) {
         
         SXSSFWorkbook wb =workbook;
-//        Map<Integer, CellFormat> columnFormat = formatColumns(data);
+        Map<Integer, CellFormat> columnFormat = formatColumns(data);
         SXSSFSheet sheet = (SXSSFSheet) wb.getSheetAt(0);
 //        
 //
 //        // apply column formatting.
-//        columnFormat.entrySet().parallelStream()
-//                .forEach(entry -> {
-//                    int col = entry.getKey();
-//                    CellStyle cellStyle = entry.getValue().build(wb);
-//                    sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
-//                });
+        columnFormat.entrySet().parallelStream()
+                .forEach(entry -> {
+                    int col = entry.getKey();
+                    CellStyle cellStyle = entry.getValue().build(wb);
+                    sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
+                });
 
         List<ColumnElement> headers = data.get(0);
         int rows = data.size();
@@ -159,8 +160,10 @@ public class XlsxExporter2 implements Exporter
         for (int r = 0; r < rows; r++) {
             Row row = (SXSSFRow) sheet.createRow(r);
             for (int c = 0; c < cols; c++) {
+               ColumnElement ce=headers.get(c);
                Cell cell= row.createCell(c);
-//               excelCellStyler.applyStyle(wb, row, cell, fe);
+               FormattedElement fe = Formats.headerValue().format(ce);
+               excelCellStyler.applyStyle(wb, row, cell, fe);
             }
         }
 
@@ -174,6 +177,36 @@ public class XlsxExporter2 implements Exporter
         }*/
 
        
+    }
+    
+    private void doWrite(SXSSFWorkbook formattedWorkbook, List<List<ColumnElement>> data)
+    {
+    	System.out.println("writing");
+    	 SXSSFWorkbook wb = formattedWorkbook;
+         SXSSFSheet sheet = (SXSSFSheet) wb.getSheet(DEFAULT_SHEET_NAME);
+         List<ColumnElement> rowData;
+         Map<Integer, CellFormat> columnFormat = formatColumns(data);
+         columnFormat.entrySet().parallelStream()
+						         .forEach(entry -> {
+						             int col = entry.getKey();
+						             CellStyle cellStyle = entry.getValue().build(wb);
+						             sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
+						         });
+         List<ColumnElement> headers = data.get(0);
+         
+    	 for (int r = 0; r < data.size(); r++) {
+             SXSSFRow row = (SXSSFRow) sheet.createRow(r);
+             rowData = data.get(r);
+             for (int c = 0; c < rowData.size(); c++) {
+            	ColumnElement ce=headers.get(c);
+             	SXSSFCell cell = (SXSSFCell) row.createCell(c);
+                 ce = rowData.get(c);
+                 FormattedElement fe = Formats.headerValue().format(ce);
+//                 excelCellStyler.applyStyle(wb, row, cell, fe);
+                 excelCellWriter.write(wb, row, cell, ce.getValue());
+                 
+             }
+         }
     }
 
 }

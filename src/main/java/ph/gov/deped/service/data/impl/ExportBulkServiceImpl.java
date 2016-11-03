@@ -16,7 +16,7 @@ import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
-import ph.gov.deped.service.data.api.ExportService;
+import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.xlsx.ExcelWorkbookConsolidator;
 
@@ -31,7 +31,7 @@ public class ExportBulkServiceImpl implements ExportBulkService
 	private DatasetService datasetService;
 	
 	@Autowired
-	private ExportService exportService;
+	private ExportServiceOld exportService;
 	
 	@Override
 	public String export(Dataset dataset, ExportType exportType) 

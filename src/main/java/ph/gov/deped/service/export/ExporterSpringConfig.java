@@ -16,8 +16,8 @@ import java.util.Map;
 @Configuration
 public class ExporterSpringConfig {
     
-    public @Bean Map<ExportType, Exporter> exporterMap() {
-        Map<ExportType, Exporter> exporters = new HashMap<>(ExportType.values().length);
+    public @Bean Map<ExportType, ColumnElementFileExporter> exporterMap() {
+        Map<ExportType, ColumnElementFileExporter> exporters = new HashMap<>(ExportType.values().length);
         exporters.put(ExportType.CSV, csvExporter());
         exporters.put(ExportType.XLSX, xlsxExporter());
         return exporters;
@@ -27,8 +27,8 @@ public class ExporterSpringConfig {
         return new CsvExporter();
     }
     
-    public @Bean @Primary Exporter xlsxExporter() {
-        return new XlsxExporter2();
+    public @Bean @Primary ColumnElementFileExporter xlsxExporter() {
+        return new XlsxExporter();
     }
     
     public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {

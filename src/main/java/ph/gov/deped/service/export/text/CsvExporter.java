@@ -3,7 +3,7 @@ package ph.gov.deped.service.export.text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.service.export.Exporter;
+import ph.gov.deped.service.export.ColumnElementFileExporter;
 import ph.gov.deped.service.data.api.ExportType;
 
 import java.io.BufferedWriter;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by PSY on 2014/10/15.
  */
-public class CsvExporter implements Exporter {
+public class CsvExporter implements ColumnElementFileExporter {
 
     public static final String EXTENSION = "." + ExportType.CSV.getExtension();
 
