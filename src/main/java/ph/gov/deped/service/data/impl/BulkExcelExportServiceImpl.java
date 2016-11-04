@@ -5,8 +5,11 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,39 +45,56 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		System.out.println("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
-		String[] sqlRanges=generateRanges(sql,dataSize,500);
+		String[] sqlRanges=generateRanges(sql,dataSize,5000);
 		System.out.println("ranges:"+sqlRanges.length);
 		
 		String[] files=new String[sqlRanges.length];
-		
-		for(int x=0;x<sqlRanges.length;x++)
+		try
 		{
-			System.out.println("generating:"+sqlRanges[x]);
-//			files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
-			String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
-			exporter.export(tmpFile,datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
-			files[x]=tmpFile;
-		}
-		
-		prefixTables.clear();
-		sortedColumns.clear();
-		headers.clear();
-		
-		try {
-			new ExcelDocumentConsolidator(downloadPath,files).consolidate();;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			for(int x=0;x<sqlRanges.length;x++)
+			{
+				System.out.println("generating:"+sqlRanges[x]);
+//				files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
+				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
+				exporter.export(tmpFile,datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
+				files[x]=tmpFile;
+				System.gc();
+			}
+			
+			prefixTables.clear();
+			sortedColumns.clear();
+			headers.clear();
+			
+			try {
+				new ExcelDocumentConsolidator(downloadPath,files).consolidate();;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				throw new RuntimeException(e);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return downloadPath;
+			
+		}catch(RuntimeException e)
+		{
 			throw new RuntimeException(e);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		System.gc();
+		finally
+		{
+			try {
+				cleanup();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
-		return downloadPath;
 	}
 	
-	private static String[] generateRanges(String sql,long dataSize,double perRecordProcess)
+	private String[] generateRanges(String sql,long dataSize,double perRecordProcess)
     {
     	 long numberOfGenerations=(long) Math.ceil(dataSize/perRecordProcess);
     	 String[] fArr=new String[(int)numberOfGenerations];
@@ -87,5 +107,18 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
     	
     	 return fArr;
     }
+	
+	private void cleanup() throws IOException
+	{
+		String baseTempPath = orsSettings.getTmpDir() + File.separator;
+		File f=new File(baseTempPath);
+		for(File file:f.listFiles())
+		{
+			if(file.isFile())
+				if(FilenameUtils.getExtension(file.getAbsolutePath()).equals(ExportType.XLSX.getExtension()))
+					Files.delete(Paths.get(file.getAbsolutePath()));
+		}
+	}
+	
 
 }
