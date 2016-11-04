@@ -18,11 +18,16 @@ import java.util.stream.Stream;
 import javax.management.RuntimeErrorException;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.ors.ds.DatasetElement;
+import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 public class ExcelDocumentConsolidator 
 {
@@ -75,8 +80,8 @@ public class ExcelDocumentConsolidator
 		int sourceLastRowCount=destSheet.getLastRowNum();
 		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
 		
-		if(fileIndex!=0) 
-			sourceRowIterator.next();
+//		if(fileIndex!=0) 
+//			sourceRowIterator.next();
 		
 		while(sourceRowIterator.hasNext())
 		{
@@ -90,8 +95,7 @@ public class ExcelDocumentConsolidator
 			{
 				Cell sourceCell=sourceCellIterator.next();
 				Cell destinationCell=destinationRow.createCell(sourceCell.getColumnIndex());
-				destinationCell.setCellType(sourceCell.getCellType());
-				destinationCell.setCellStyle(sourceCell.getCellStyle());
+				
 				cellWriter.write(targetWb, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
 			}
 			

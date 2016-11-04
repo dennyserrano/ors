@@ -29,12 +29,12 @@ import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
 
-@Service("BulkExcelExportServiceImpl")
+@Service("BulkExcelNoStyleExportServiceImpl")
 //@Qualifier("BulkExcelExportServiceImpl")
-public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
+public class BulkExcelNoStyleExportServiceImpl extends ExcelExportServiceImpl
 {
 	
-	public static final String[] deletionExtension={ExportType.XLSX.getExtension(),"xml"};
+	public static final String[] deletionExtension={ExportType.XLSX.getExtension()};
 	
 	@Override
 	public String export(Dataset dataset) 
@@ -68,9 +68,6 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
 				exporter.export(tmpFile,data);
 				
-				if(x==0)
-					writeFormatMetadata(baseTempPath+"metadata"+"."+"xml",data);
-				
 				files[x]=tmpFile;
 			}
 			
@@ -94,25 +91,17 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		}catch(RuntimeException e)
 		{
 			throw new RuntimeException(e);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
 		}
 		finally
 		{
-//			try {
-//				cleanup();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				cleanup();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
-	}
-	
-	protected void writeFormatMetadata(String fileName,List<List<ColumnElement>> data) throws FileNotFoundException
-	{
-		XStream xstream=new XStream();
-		xstream.toXML(data, new FileOutputStream(fileName));
 	}
 	
 	private String[] generateRanges(String sql,long dataSize,double perRecordProcess)

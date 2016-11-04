@@ -31,6 +31,11 @@ public class ExporterSpringConfig {
         return new XlsxExporter();
     }
     
+    public @Bean XlsxExporterNew xlsxExporterNew()
+    {
+    	return new XlsxExporterNew();
+    }
+    
     public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {
         return new DefaultExcelCellWriter();
     }

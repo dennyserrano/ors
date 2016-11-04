@@ -185,24 +185,26 @@ public class XlsxExporterNew implements ColumnElementFileExporter
     	 SXSSFWorkbook wb = formattedWorkbook;
          SXSSFSheet sheet = (SXSSFSheet) wb.getSheet(DEFAULT_SHEET_NAME);
          List<ColumnElement> rowData;
-         Map<Integer, CellFormat> columnFormat = formatColumns(data);
-         columnFormat.entrySet().parallelStream()
-						         .forEach(entry -> {
-						             int col = entry.getKey();
-						             CellStyle cellStyle = entry.getValue().build(wb);
-						             sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
-						         });
+         CellFormat cf=Formats.headerValue().format(data.get(0).get(0)).getCellFormat();
+         CellStyle style=cf.build(formattedWorkbook);
+//         Map<Integer, CellFormat> columnFormat = formatColumns(data);
+//         columnFormat.entrySet().parallelStream()
+//						         .forEach(entry -> {
+//						             int col = entry.getKey();
+//						             CellStyle cellStyle = entry.getValue().build(wb);
+//						             sheet.setDefaultColumnStyle(col, style); // column style will only be applied on newly created cells after this
+//						         });
          List<ColumnElement> headers = data.get(0);
          
     	 for (int r = 0; r < data.size(); r++) {
              SXSSFRow row = (SXSSFRow) sheet.createRow(r);
              rowData = data.get(r);
              for (int c = 0; c < rowData.size(); c++) {
-            	ColumnElement ce=headers.get(c);
+            	ColumnElement cef=headers.get(c);
              	SXSSFCell cell = (SXSSFCell) row.createCell(c);
-                 ce = rowData.get(c);
-                 FormattedElement fe = Formats.headerValue().format(ce);
-//                 excelCellStyler.applyStyle(wb, row, cell, fe);
+             	ColumnElement ce = rowData.get(c);
+                 FormattedElement fe = Formats.headerValue().format(cef);
+                 cell.setCellStyle(fe.getCellFormat().build(formattedWorkbook));
                  excelCellWriter.write(wb, row, cell, ce.getValue());
                  
              }

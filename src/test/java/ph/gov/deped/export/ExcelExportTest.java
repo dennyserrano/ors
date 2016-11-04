@@ -12,6 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,6 +24,8 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportService;
+import ph.gov.deped.service.data.impl.BulkExcelNoStyleExportServiceImpl;
+import ph.gov.deped.service.export.ColumnElementFileExporter;
 import ph.gov.deped.service.export.ExporterSpringConfig;
 import ph.gov.deped.service.export.xlsx.XlsxExporterNew;
 import ph.gov.deped.service.export.xlsx.XlsxExporter;
@@ -39,9 +42,10 @@ public class ExcelExportTest
 	DatasetService datasetService;
 	
 	@Autowired
-	XlsxExporter exporter;
+	ColumnElementFileExporter exporter;
 	
 	@Autowired
+	@Qualifier("BulkExcelNoStyleExportServiceImpl")
 	ExportService exportService;
 	
 	@Test

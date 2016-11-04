@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
@@ -25,8 +26,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by PSY on 2014/10/15.
  */
-
-
 public class XlsxExporter implements ColumnElementFileExporter {
     
     private static final Logger log = LogManager.getLogger(XlsxExporter.class);
@@ -113,7 +112,7 @@ public class XlsxExporter implements ColumnElementFileExporter {
     private XSSFWorkbook applyFormattings(File xlsxFile, String filename, List<List<ColumnElement>> data) {
         log.entry(xlsxFile, filename);
         XSSFWorkbook wb = new XSSFWorkbook();
-        Map<Integer, CellFormat> columnFormat = formatColumns(data);
+//        Map<Integer, CellFormat> columnFormat = formatColumns(data);
         XSSFSheet sheet = wb.createSheet(DEFAULT_SHEET_NAME);
         XSSFRow row;
         XSSFCell cell;
@@ -121,12 +120,12 @@ public class XlsxExporter implements ColumnElementFileExporter {
         FormattedElement fe;
 
         // apply column formatting.
-        columnFormat.entrySet().parallelStream()
-                .forEach(entry -> {
-                    int col = entry.getKey();
-                    CellStyle cellStyle = entry.getValue().build(wb);
-                    sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
-                });
+//        columnFormat.entrySet().parallelStream()
+//                .forEach(entry -> {
+//                    int col = entry.getKey();
+//                    CellStyle cellStyle = entry.getValue().build(wb);
+//                    sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
+//                });
 
         List<ColumnElement> headers = data.get(0);
         int rows = data.size();

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,17 +43,16 @@ public class ExportDataController {
 
     private DatasetService datasetService;
 
-    @Autowired
     private ExportService exportService;
     
-    @Autowired
+//    @Autowired
     private ExportBulkService exportBulkService;
 
     public @Autowired void setDatasetService(DatasetService datasetService) {
         this.datasetService = datasetService;
     }
 
-    public @Autowired void setExportService(ExportService exportService) {
+    public @Autowired void setExportService(@Qualifier("BulkExcelNoStyleExportServiceImpl") ExportService exportService) {
         this.exportService = exportService;
     }
 
