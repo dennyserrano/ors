@@ -50,11 +50,11 @@ public class BulkExcelNoStyleExportServiceImpl extends ExcelExportServiceImpl
 		System.out.println("sorted columns:"+sortedColumns.size());
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
 		System.out.println("sql:"+sql);
-		long dataSize= 20;//datasetService.getDataSize(sql);
+		long dataSize= 49407;//datasetService.getDataSize(sql);
 		System.out.println("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
-		String[] sqlRanges=generateRanges(sql,dataSize,20);
+		String[] sqlRanges=generateRanges(sql,dataSize,500);
 		System.out.println("ranges:"+sqlRanges.length);
 		
 		String[] files=new String[sqlRanges.length];

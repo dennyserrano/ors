@@ -27,11 +27,11 @@ public class ExporterSpringConfig {
         return new CsvExporter();
     }
     
-    public @Bean @Primary ColumnElementFileExporter xlsxExporter() {
+    public @Bean ColumnElementFileExporter xlsxExporter() {
         return new XlsxExporter();
     }
     
-    public @Bean XlsxExporterNew xlsxExporterNew()
+    public @Bean @Primary XlsxExporterNew xlsxExporterNew()
     {
     	return new XlsxExporterNew();
     }

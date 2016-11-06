@@ -204,7 +204,8 @@ public class XlsxExporterNew implements ColumnElementFileExporter
              	SXSSFCell cell = (SXSSFCell) row.createCell(c);
              	ColumnElement ce = rowData.get(c);
                  FormattedElement fe = Formats.headerValue().format(cef);
-                 cell.setCellStyle(fe.getCellFormat().build(formattedWorkbook));
+                 if(r==0)
+                	 cell.setCellStyle(fe.getCellFormat().build(formattedWorkbook));
                  excelCellWriter.write(wb, row, cell, ce.getValue());
                  
              }

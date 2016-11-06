@@ -42,7 +42,9 @@ public class ExportDataController {
     private static final ExportType DEFAULT_EXPORT_TYPE = ExportType.XLSX;
 
     private DatasetService datasetService;
-
+    
+    @Autowired
+    @Qualifier("BulkExcelNoStyleExportServiceImpl")
     private ExportService exportService;
     
 //    @Autowired
@@ -64,7 +66,7 @@ public class ExportDataController {
         try {
               //datasetService.getData(ds, false);
 //            exportService.export("", data, ExportType.XLSX);
-            filename=exportBulkService.export(ds, ExportType.XLSX);
+            filename=exportService.export(ds);
         }
         catch (Exception ex) {
             log.error("Unable to generate exported data.");
