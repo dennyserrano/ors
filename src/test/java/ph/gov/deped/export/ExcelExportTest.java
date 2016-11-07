@@ -45,7 +45,7 @@ public class ExcelExportTest
 	ColumnElementFileExporter exporter;
 	
 	@Autowired
-	@Qualifier("BulkExcelNoStyleExportServiceImpl")
+	@Qualifier("BulkExcelExportServiceImpl")
 	ExportService exportService;
 	
 	@Test

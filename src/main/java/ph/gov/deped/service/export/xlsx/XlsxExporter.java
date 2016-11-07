@@ -36,7 +36,7 @@ public class XlsxExporter implements ColumnElementFileExporter {
     
     private ExcelCellWriter excelCellWriter;
     
-    private ExcelCellStyler excelCellStyler;
+    private ColumnElementExcelCellStyler excelCellStyler;
     
     private FormattingRepository formattingRepository;
 
@@ -44,7 +44,7 @@ public class XlsxExporter implements ColumnElementFileExporter {
         this.excelCellWriter = excelCellWriter;
     }
 
-    public @Autowired void setExcelCellStyler(ExcelCellStyler excelCellStyler) {
+    public @Autowired void setExcelCellStyler(ColumnElementExcelCellStyler excelCellStyler) {
         this.excelCellStyler = excelCellStyler;
     }
 
@@ -143,7 +143,7 @@ public class XlsxExporter implements ColumnElementFileExporter {
             ce = headers.get(c);
             fe = Formats.headerValue().format(ce);
             cell = row.getCell(c);
-            excelCellStyler.applyStyle(wb, row, cell, fe);
+//            excelCellStyler.applyStyle(wb, row, cell, fe);
         }
         
         // Freeze first row or the headers row

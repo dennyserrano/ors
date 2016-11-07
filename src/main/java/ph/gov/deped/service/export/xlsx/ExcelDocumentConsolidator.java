@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.management.RuntimeErrorException;
@@ -28,8 +30,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;
+import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
 
-public class ExcelDocumentConsolidator 
+public class ExcelDocumentConsolidator extends AbstractColumnElementExcelExporter
 {
 	//TODO on server start what is directory is not yet present for both single exporter and bulk?
 	
@@ -42,6 +46,48 @@ public class ExcelDocumentConsolidator
 		fileOutput=new FileOutputStream(outputFileName);
 		files=fileNames;
 		destinationWorkbook=new SXSSFWorkbook(100);
+	}	
+	
+	@Override
+	public void export(String filename, List<List<ColumnElement>> data) 
+	{
+		try {
+			consolidate(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void consolidate(List<List<ColumnElement>> data) throws IOException
+	{
+		Sheet destinationSheet= destinationWorkbook.createSheet();
+		for(int x=0;x<files.length;x++)
+		{
+			String fileName=files[x];
+			System.out.println("PROCESSING:"+fileName);
+			FileInputStream fileInputStream = null;
+			
+			fileInputStream = new FileInputStream(fileName);
+			
+			Workbook sourceWorkbook = null;
+			
+			sourceWorkbook = new XSSFWorkbook(fileInputStream);
+			
+			Sheet sourceSheet=sourceWorkbook.getSheetAt(0);
+			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,data);
+			sourceWorkbook.close();
+			fileInputStream.close();
+			
+		}
+		
+		destinationWorkbook.write(fileOutput);
+
+		destinationWorkbook.close();
+	
+		fileOutput.close();
+		
+		
 	}
 	
 	public void consolidate() throws IOException
@@ -60,7 +106,7 @@ public class ExcelDocumentConsolidator
 			sourceWorkbook = new XSSFWorkbook(fileInputStream);
 			
 			Sheet sourceSheet=sourceWorkbook.getSheetAt(0);
-			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x);
+			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,new ArrayList<List<ColumnElement>>());
 			sourceWorkbook.close();
 			fileInputStream.close();
 			
@@ -75,10 +121,13 @@ public class ExcelDocumentConsolidator
 		
 	}
 	
-	private void process(Workbook targetWb,Sheet sourceSheet,Sheet destSheet,ExcelCellWriter cellWriter,int fileIndex)
+	private void process(Workbook targetWb,Sheet sourceSheet,Sheet destSheet,ExcelCellWriter cellWriter,int fileIndex,List<List<ColumnElement>> data)
 	{
 		int sourceLastRowCount=destSheet.getLastRowNum();
 		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
+		ColumnElementExcelCellStyler headerStyler=getHeaderStyler();
+		Map<Integer, CellFormat> formatColumns=formatColumns(data);
+		List<ColumnElement> headers = data.get(0);
 		
 //		if(fileIndex!=0) 
 //			sourceRowIterator.next();
@@ -96,11 +145,22 @@ public class ExcelDocumentConsolidator
 				Cell sourceCell=sourceCellIterator.next();
 				Cell destinationCell=destinationRow.createCell(sourceCell.getColumnIndex());
 				
+				
+				if(sourceRow.getRowNum()==0)
+				{
+					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
+					headerStyler.applyStyle(targetWb, destSheet, destinationRow, destinationCell,cef);
+					CellStyle cs=formatColumns.get(destinationCell.getColumnIndex()).build(targetWb);
+            		destSheet.setDefaultColumnStyle(destinationCell.getColumnIndex(), cs);
+				}
+				
 				cellWriter.write(targetWb, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
 			}
 			
 			sourceLastRowCount++;
 		}
+		
+		destSheet.createFreezePane(0, 1);
 	}
 	
 	public static Object getCellValue(Cell cell)
@@ -121,6 +181,17 @@ public class ExcelDocumentConsolidator
 		}
 		
 		throw new RuntimeErrorException(null, "Cell type:"+cell.getCellType()+" Not Present");
+	}
+	
+	@Override
+	public ColumnElementExcelCellStyler getHeaderStyler() {
+		// TODO Auto-generated method stub
+		return new DefaultExcelHeaderStyler();
+	}
+	@Override
+	public ExcelCellWriter getWriter() {
+		// TODO Auto-generated method stub
+		return new DefaultExcelCellWriter();
 	}
 	
 //	public static void main(String[] args) throws IOException 
