@@ -24,22 +24,22 @@ import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.export.ColumnElementFileExporter;
 import ph.gov.deped.service.export.xlsx.CellFormat;
 import ph.gov.deped.service.export.xlsx.ElementFormatter;
-import ph.gov.deped.service.export.xlsx.ColumnElementExcelCellStyler;
 import ph.gov.deped.service.export.xlsx.ExcelCellWriter;
 import ph.gov.deped.service.export.xlsx.Formats;
 import ph.gov.deped.service.export.xlsx.FormattedElement;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelValueCellStyler;
 
 public abstract class AbstractColumnElementExcelExporter implements ColumnElementFileExporter
 {
 	
 	public static final String DEFAULT_SHEET_NAME = "datasets";
 	
-	public abstract ColumnElementExcelCellStyler getHeaderStyler();
-//	public abstract ColumnElementExcelCellStyler getValueStyler();
+	public abstract ColumnElementExcelHeaderCellStyler getHeaderStyler();
+	public abstract ColumnElementExcelValueCellStyler getValueStyler();
 	public abstract ExcelCellWriter getWriter();
 	
-	@Autowired
-    private FormattingRepository formattingRepository;
+	
 	
 	@Override
 	public void export(String filename, List<List<ColumnElement>> data) 
@@ -95,8 +95,9 @@ public abstract class AbstractColumnElementExcelExporter implements ColumnElemen
 		Sheet sheet = workbook.getSheet(DEFAULT_SHEET_NAME);
 		List<ColumnElement> headers = data.get(0);
 		ExcelCellWriter excelCellWriter=getWriter();
-		Map<Integer, CellFormat> columnFormat=formatColumns(data);
-		ColumnElementExcelCellStyler headerStyler=getHeaderStyler();
+		
+		ColumnElementExcelHeaderCellStyler headerStyler=initializeHeaderStyler();
+		ColumnElementExcelValueCellStyler valueStyler=initializeValueStyler();
 		
 		for (int r = 0; r < data.size(); r++) {
             Row row = sheet.createRow(r);
@@ -112,8 +113,7 @@ public abstract class AbstractColumnElementExcelExporter implements ColumnElemen
             	if(r==0) //is row currently header?
             	{
             		headerStyler.applyStyle(workbook, sheet, row, cell, cef);
-            		CellStyle cs=columnFormat.get(c).build(workbook);
-            		sheet.setDefaultColumnStyle(c, cs);
+            		valueStyler.applyStyle(workbook, sheet, c, headers);
             	}
             	
                 excelCellWriter.write(workbook, row, cell, ce.getValue());
@@ -122,30 +122,45 @@ public abstract class AbstractColumnElementExcelExporter implements ColumnElemen
         }
 	}
 	
-	protected Map<Integer, CellFormat> formatColumns(List<List<ColumnElement>> data) {
-        List<ColumnElement> headers = data.get(0);
-        Map<Integer, CellFormat> columnFormat = new HashMap<>(headers.size());
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        headers.stream()
-                .map(ce -> {
-                    String dataType = ce.getDataType();
-                    ElementFormatter ef = formattingRepository.findByDatasetElement(ce.getDatasetId(), ce.getElementName());
-                    if (ef == null) {
-                        ef = formattingRepository.findByKey(dataType);
-                    }
-                    if (ef == null) {
-                        throw new RuntimeException(String.format("Unable to find formatting for [%s].", ce.getDataType()));
-                    }
-                    return ef.format(ce);
-                })
-                .forEach(fe -> columnFormat.put(atomicInteger.getAndIncrement(), fe.getCellFormat()));
-        return  columnFormat;
-    }
 	
-	public void setFormattingRepository(FormattingRepository formattingRepository) {
-		this.formattingRepository = formattingRepository;
+	private ColumnElementExcelHeaderCellStyler initializeHeaderStyler()
+	{
+		ColumnElementExcelHeaderCellStyler hs= getHeaderStyler();
+		if(hs==null)
+			return new ColumnElementExcelHeaderCellStyler() {
+				
+				@Override
+				public void applyStyle(Workbook wb, Sheet sheet, Row row, Cell cell,
+						ColumnElement ce) {
+					
+					
+				}
+			};
+		else
+		{
+			return hs;
+		}
 	}
 	
+	private ColumnElementExcelValueCellStyler initializeValueStyler()
+	{
+		ColumnElementExcelValueCellStyler vs=getValueStyler();
+		
+		if(vs==null)
+			return new ColumnElementExcelValueCellStyler() {
+				
+				@Override
+				public void applyStyle(Workbook workbook, Sheet sheet, int columnIndex,
+						List<ColumnElement> columns) {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+		else
+		{
+			return vs;
+		}
+	}
 	
 	
 }

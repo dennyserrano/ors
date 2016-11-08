@@ -6,7 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,8 +32,10 @@ import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.impl.BulkExcelNoStyleExportServiceImpl;
 import ph.gov.deped.service.export.ColumnElementFileExporter;
 import ph.gov.deped.service.export.ExporterSpringConfig;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
 import ph.gov.deped.service.export.xlsx.XlsxExporterNew;
 import ph.gov.deped.service.export.xlsx.XlsxExporter;
+import ph.gov.deped.service.export.xlsx.XlsxExporterNew2;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {
@@ -42,7 +49,7 @@ public class ExcelExportTest
 	DatasetService datasetService;
 	
 	@Autowired
-	ColumnElementFileExporter exporter;
+	XlsxExporterNew2 exporter;
 	
 	@Autowired
 	@Qualifier("BulkExcelExportServiceImpl")
@@ -50,19 +57,42 @@ public class ExcelExportTest
 	
 	@Test
 	@Ignore
-	public void test() throws FileNotFoundException, IOException
+	public void xlsxExportTest() throws FileNotFoundException, IOException
 	{
 		
 		XStream s=new XStream();
-		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("schoolinfodataset.xml"));
+		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("testdata/schoolinfodataset.xml"));
 		
-		List<List<ColumnElement>> l=(List<List<ColumnElement>>) s.fromXML(new FileInputStream("schoolinfolistdata.xml"));
-//		List<List<ColumnElement>> l=datasetService.getData(dataset, true);
+//		List<List<ColumnElement>> l=(List<List<ColumnElement>>) s.fromXML(new FileInputStream("schoolinfolistdata.xml"));
+		List<List<ColumnElement>> l=datasetService.getData(dataset, true);
 		
 		exporter.export(randomAlphabetic(8)+".xlsx", l);
 	}
 	
+	public void consolidationTest() throws IOException
+	{
+		ArrayList<String> aFiles=new ArrayList<>();
+		int cnt=0;
+		try(Stream<Path> paths = Files.walk(Paths.get("/home/denny/projects/ors/"))) {
+		    paths.forEach(filePath -> {
+		        if (Files.isRegularFile(filePath)) {
+		        	if(filePath.toString().contains(".xlsx"))
+		        		aFiles.add(filePath.toString());
+		        }
+		    });
+		} 
+		String[] files=new String[aFiles.size()];
+		
+		files= (String[]) aFiles.toArray(files);
+		
+//		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+//		br.readLine();
+		ExcelDocumentConsolidator e=new ExcelDocumentConsolidator(files);
+//		e.consolidate();
+	}
+	
 	@Test
+	@Ignore
 	public void bulkTest() throws FileNotFoundException, IOException
 	{
 		XStream s=new XStream();

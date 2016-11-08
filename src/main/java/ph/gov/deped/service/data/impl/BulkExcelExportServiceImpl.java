@@ -86,17 +86,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			sortedColumns.clear();
 //			headers.clear();
 			
-			try {
-				ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(downloadPath,files);
-				ed.setFormattingRepository(formattingRepository);
-				ed.consolidate(consolidatorHeaders);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(files);
+//			ed.consolidate();
 			
 			System.gc(); //TODO this should not be here..
 			

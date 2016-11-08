@@ -1,4 +1,4 @@
-package ph.gov.deped.service.export.xlsx;
+package ph.gov.deped.service.export.xlsx.stylers.interfaces;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,7 +11,7 @@ import ph.gov.deped.data.dto.ColumnElement;
  * @author ej
  * @since Nov 05, 2014 20:24
  */
-public interface ColumnElementExcelCellStyler {
+public interface ColumnElementExcelHeaderCellStyler {
 
     void applyStyle(Workbook wb,Sheet sheet, Row row, Cell cell,ColumnElement ce);
 }

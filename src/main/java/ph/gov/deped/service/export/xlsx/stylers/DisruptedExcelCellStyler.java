@@ -12,9 +12,9 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.service.export.xlsx.ColumnElementExcelCellStyler;
 import ph.gov.deped.service.export.xlsx.FormattedElement;
 import ph.gov.deped.service.export.xlsx.XlsxCellStyleEvent;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
  * @author ej
  * @since Nov 05, 2014 17:58
  */
-public class DisruptedExcelCellStyler implements ColumnElementExcelCellStyler, InitializingBean, DisposableBean {
+public class DisruptedExcelCellStyler implements ColumnElementExcelHeaderCellStyler, InitializingBean, DisposableBean {
 
     private static final int DEFAULT_BUFFER_SIZE = 4096;
 

@@ -13,6 +13,7 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.ColumnElementFileExporter;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,7 +37,7 @@ public class XlsxExporter implements ColumnElementFileExporter {
     
     private ExcelCellWriter excelCellWriter;
     
-    private ColumnElementExcelCellStyler excelCellStyler;
+    private ColumnElementExcelHeaderCellStyler excelCellStyler;
     
     private FormattingRepository formattingRepository;
 
@@ -44,7 +45,7 @@ public class XlsxExporter implements ColumnElementFileExporter {
         this.excelCellWriter = excelCellWriter;
     }
 
-    public @Autowired void setExcelCellStyler(ColumnElementExcelCellStyler excelCellStyler) {
+    public @Autowired void setExcelCellStyler(ColumnElementExcelHeaderCellStyler excelCellStyler) {
         this.excelCellStyler = excelCellStyler;
     }
 

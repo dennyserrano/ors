@@ -75,15 +75,15 @@ public class BulkExcelNoStyleExportServiceImpl extends ExcelExportServiceImpl
 			sortedColumns.clear();
 			headers.clear();
 			
-			try {
-				new ExcelDocumentConsolidator(downloadPath,files).consolidate();;
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				new ExcelDocumentConsolidator(downloadPath,files).consolidate();;
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				throw new RuntimeException(e);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
 			System.gc(); //TODO this should not be here..
 			

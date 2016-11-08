@@ -3,9 +3,12 @@ package ph.gov.deped.service.export;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.text.CsvExporter;
 import ph.gov.deped.service.export.xlsx.*;
+import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelValueStyler;
+import ph.gov.deped.service.export.xlsx.stylers.DisruptedExcelCellStyler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +31,12 @@ public class ExporterSpringConfig {
     }
     
     public @Bean ColumnElementFileExporter xlsxExporter() {
-        return new XlsxExporter();
+        return new XlsxExporterNew();
     }
     
-    public @Bean @Primary XlsxExporterNew xlsxExporterNew()
+    public @Bean @Primary XlsxExporterNew2 xlsxExporterNew()
     {
-    	return new XlsxExporterNew();
+    	return new XlsxExporterNew2();
     }
     
     public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {
@@ -44,8 +47,8 @@ public class ExporterSpringConfig {
         return new DisruptedExcelCellWriter(defaultExcelCellWriter());
     }
     
-    public @Bean DefaultExcelCellStyler defaultExcelCellStyler() {
-        return new DefaultExcelCellStyler();
+    public @Bean DefaultExcelValueStyler defaultExcelCellStyler() {
+        return new DefaultExcelValueStyler();
     }
     
     public @Bean @Primary DisruptedExcelCellStyler disruptedExcelCellStyler() {

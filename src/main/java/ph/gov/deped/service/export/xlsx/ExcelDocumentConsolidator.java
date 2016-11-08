@@ -32,8 +32,9 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;
 import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
-public class ExcelDocumentConsolidator extends AbstractColumnElementExcelExporter
+public class ExcelDocumentConsolidator
 {
 	//TODO on server start what is directory is not yet present for both single exporter and bulk?
 	
@@ -41,23 +42,11 @@ public class ExcelDocumentConsolidator extends AbstractColumnElementExcelExporte
 	private Workbook destinationWorkbook;
 	private String[] files;
 	private ExcelCellWriter cellWriter=new ConsolidatorExcelCellWriter();
-	public ExcelDocumentConsolidator(String outputFileName,String[] fileNames) throws FileNotFoundException
+	public ExcelDocumentConsolidator(String[] fileNames)
 	{
-		fileOutput=new FileOutputStream(outputFileName);
 		files=fileNames;
 		destinationWorkbook=new SXSSFWorkbook(100);
 	}	
-	
-	@Override
-	public void export(String filename, List<List<ColumnElement>> data) 
-	{
-		try {
-			consolidate(data);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	public void consolidate(List<List<ColumnElement>> data) throws IOException
 	{
@@ -125,8 +114,8 @@ public class ExcelDocumentConsolidator extends AbstractColumnElementExcelExporte
 	{
 		int sourceLastRowCount=destSheet.getLastRowNum();
 		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
-		ColumnElementExcelCellStyler headerStyler=getHeaderStyler();
-		Map<Integer, CellFormat> formatColumns=formatColumns(data);
+//		ColumnElementExcelCellStyler headerStyler=getHeaderStyler();
+//		Map<Integer, CellFormat> formatColumns=formatColumns(data);
 		List<ColumnElement> headers = data.get(0);
 		
 //		if(fileIndex!=0) 
@@ -149,9 +138,9 @@ public class ExcelDocumentConsolidator extends AbstractColumnElementExcelExporte
 				if(sourceRow.getRowNum()==0)
 				{
 					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
-					headerStyler.applyStyle(targetWb, destSheet, destinationRow, destinationCell,cef);
-					CellStyle cs=formatColumns.get(destinationCell.getColumnIndex()).build(targetWb);
-            		destSheet.setDefaultColumnStyle(destinationCell.getColumnIndex(), cs);
+//					headerStyler.applyStyle(targetWb, destSheet, destinationRow, destinationCell,cef);
+//					CellStyle cs=formatColumns.get(destinationCell.getColumnIndex()).build(targetWb);
+//            		destSheet.setDefaultColumnStyle(destinationCell.getColumnIndex(), cs);
 				}
 				
 				cellWriter.write(targetWb, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
@@ -182,17 +171,7 @@ public class ExcelDocumentConsolidator extends AbstractColumnElementExcelExporte
 		
 		throw new RuntimeErrorException(null, "Cell type:"+cell.getCellType()+" Not Present");
 	}
-	
-	@Override
-	public ColumnElementExcelCellStyler getHeaderStyler() {
-		// TODO Auto-generated method stub
-		return new DefaultExcelHeaderStyler();
-	}
-	@Override
-	public ExcelCellWriter getWriter() {
-		// TODO Auto-generated method stub
-		return new DefaultExcelCellWriter();
-	}
+
 	
 //	public static void main(String[] args) throws IOException 
 //	{

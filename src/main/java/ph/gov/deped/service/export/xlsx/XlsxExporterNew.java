@@ -31,6 +31,7 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.ColumnElementFileExporter;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 @Deprecated //use XlsxExporter
 public class XlsxExporterNew implements ColumnElementFileExporter 
@@ -46,7 +47,7 @@ public class XlsxExporterNew implements ColumnElementFileExporter
     private ExcelCellWriter excelCellWriter;
     
     @Autowired
-    private ColumnElementExcelCellStyler excelCellStyler;
+    private ColumnElementExcelHeaderCellStyler excelCellStyler;
     
     @Autowired
     private FormattingRepository formattingRepository;
