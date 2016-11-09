@@ -19,6 +19,7 @@ public class DefaultExcelHeaderStyler implements ColumnElementExcelHeaderCellSty
 		FormattedElement fe = Formats.headerValue().format(ce);
         CellStyle cellStyle = fe.getCellFormat().build(wb);
         cell.setCellStyle(cellStyle);
+        sheet.createFreezePane(0, 1);
 	}
 
 }

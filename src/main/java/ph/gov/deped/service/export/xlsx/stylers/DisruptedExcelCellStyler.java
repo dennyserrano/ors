@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
  * @author ej
  * @since Nov 05, 2014 17:58
  */
-public class DisruptedExcelCellStyler implements ColumnElementExcelHeaderCellStyler, InitializingBean, DisposableBean {
+public class DisruptedExcelCellStyler implements InitializingBean, DisposableBean {
 
     private static final int DEFAULT_BUFFER_SIZE = 4096;
 
@@ -68,10 +68,10 @@ public class DisruptedExcelCellStyler implements ColumnElementExcelHeaderCellSty
 ////        });
 //    }
 
-	@Override
-	public void applyStyle(Workbook wb, Sheet sheet, Row row, Cell cell,
-			ColumnElement ce) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void applyStyle(Workbook wb, Sheet sheet, Row row, Cell cell,
+//			ColumnElement ce) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

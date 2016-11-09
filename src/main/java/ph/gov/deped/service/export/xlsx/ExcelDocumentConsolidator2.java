@@ -44,13 +44,17 @@ public class ExcelDocumentConsolidator2
 	
 	private ColumnElementWorkbookAppender workbookExporter;
 	
-	public ExcelDocumentConsolidator2()
+	public ExcelDocumentConsolidator2(ColumnElementWorkbookAppender appender)
 	{
 		destinationWorkbook=new SXSSFWorkbook(100);
+		workbookExporter=appender;
+		
 	}	
 	
 	public void consolidate(String fileOutputName,String[] fileNames,List<ColumnElement> columns) throws IOException
 	{
+		if(workbookExporter==null)
+			throw new RuntimeException("No appender set");
 		
 		Workbook wb=new SXSSFWorkbook(100);
 		

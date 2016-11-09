@@ -43,6 +43,15 @@ public class XlsxExporterNew2 implements ColumnElementFileExporter,ColumnElement
 		
 	}
 	
+	public XlsxExporterNew2(ExcelCellWriter writer)
+	{
+		if(writer==null)
+			throw new RuntimeException("No Writer provided");
+		cellWriter=writer;
+		
+	}
+	
+	
 	private ExcelCellWriter getWriter()
 	{
 		return cellWriter;

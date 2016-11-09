@@ -30,7 +30,11 @@ import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
+import ph.gov.deped.service.export.xlsx.DefaultExcelCellWriter;
 import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
+import ph.gov.deped.service.export.xlsx.XlsxExporterNew2;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelValueCellStyler;
 
 @Service("BulkExcelExportServiceImpl")
 //@Qualifier("BulkExcelExportServiceImpl")
@@ -38,6 +42,15 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 {
 	
 	public static final String[] deletionExtension={ExportType.XLSX.getExtension(),"xml"};
+	
+	@Autowired
+	private ColumnElementExcelHeaderCellStyler headerStyler;
+	
+	@Autowired
+	private ColumnElementExcelValueCellStyler valueCellStyler;
+	
+	@Autowired
+	private DefaultExcelCellWriter cellWriter;
 	
 	@Override
 	public String export(Dataset dataset) 
@@ -51,7 +64,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
 		System.out.println("sql:"+sql);
-		long dataSize= datasetService.getDataSize(sql);
+		long dataSize= 20;//datasetService.getDataSize(sql);
 		System.out.println("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
@@ -59,6 +72,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		System.out.println("ranges:"+sqlRanges.length);
 		
 		List<List<ColumnElement>> consolidatorHeaders = null;
+		
+		XlsxExporterNew2 localExporter=new XlsxExporterNew2(cellWriter);
 		
 		String[] files=new String[sqlRanges.length];
 		try
@@ -69,7 +84,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 //				files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
 				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
-//				exporter.export(tmpFile,data);
+				localExporter.export(tmpFile,data);
 				
 				if(x==0)
 				{
@@ -84,8 +99,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			sortedColumns.clear();
 //			headers.clear();
 			
-			ExcelDocumentConsolidator2 ed=new ExcelDocumentConsolidator2();
-			ed.setWorkbookExporter((ColumnElementWorkbookAppender) exporter);
+			ExcelDocumentConsolidator2 ed=new ExcelDocumentConsolidator2(new XlsxExporterNew2(cellWriter,headerStyler,valueCellStyler));
 			ed.consolidate(downloadPath,files,consolidatorHeaders.get(0));
 			
 			System.gc(); //TODO this should not be here..
@@ -97,7 +111,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			throw new RuntimeException(e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} 
 		finally
 		{
@@ -108,6 +122,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 				e.printStackTrace();
 			}
 		}
+	
 		
 	}
 	

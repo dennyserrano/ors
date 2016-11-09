@@ -1,5 +1,6 @@
 package ph.gov.deped.service.export;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -11,6 +12,7 @@ import ph.gov.deped.service.export.xlsx.*;
 import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
 import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelValueStyler;
 import ph.gov.deped.service.export.xlsx.stylers.DisruptedExcelCellStyler;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,21 +35,16 @@ public class ExporterSpringConfig {
     }
     
     public @Bean ColumnElementFileExporter xlsxExporter() {
-        return xlsxExporterNew();
+    	return new XlsxExporterNew2(defaultExcelCellWriter(),new DefaultExcelHeaderStyler(),defaultExcelCellStyler());
     }
     
-    public @Bean @Primary XlsxExporterNew2 xlsxExporterNew()
+    public @Bean @Primary XlsxExporterNew2 xlsxExporterStylish()
     {
-    	return new XlsxExporterNew2(defaultExcelCellWriter(),new DefaultExcelHeaderStyler(),defaultCellValueStyler());
+    	return new XlsxExporterNew2(defaultExcelCellWriter(),new DefaultExcelHeaderStyler(),defaultExcelCellStyler());
     }
     
     public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {
         return new DefaultExcelCellWriter();
-    }
-    
-    public @Bean DefaultExcelValueStyler defaultCellValueStyler()
-    {
-    	return new DefaultExcelValueStyler();
     }
     
     
@@ -59,7 +56,7 @@ public class ExporterSpringConfig {
         return new DefaultExcelValueStyler();
     }
     
-    public @Bean @Primary DisruptedExcelCellStyler disruptedExcelCellStyler() {
-        return new DisruptedExcelCellStyler();
+    public @Bean @Primary ColumnElementExcelHeaderCellStyler disruptedExcelCellStyler() {
+        return new DefaultExcelHeaderStyler();
     }
 }

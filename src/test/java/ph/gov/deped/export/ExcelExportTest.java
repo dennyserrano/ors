@@ -109,6 +109,7 @@ public class ExcelExportTest
 	}
 	
 	@Test
+	@Ignore
 	public void conso2() throws IOException
 	{
 		ArrayList<String> aFiles=new ArrayList<>();
@@ -129,7 +130,7 @@ public class ExcelExportTest
 		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("testdata/schoolinfodataset.xml"));
 		List<List<ColumnElement>> l=datasetService.getData(dataset, true);
 		
-		ExcelDocumentConsolidator2 consolidator=new ExcelDocumentConsolidator2();
+		ExcelDocumentConsolidator2 consolidator=new ExcelDocumentConsolidator2(null);
 		consolidator.setWorkbookExporter(exporter);
 		List<ColumnElement> heads=new ArrayList<ColumnElement>(l.get(0));
 		l.clear();
@@ -141,7 +142,7 @@ public class ExcelExportTest
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void bulkTest() throws FileNotFoundException, IOException
 	{
 		XStream s=new XStream();
