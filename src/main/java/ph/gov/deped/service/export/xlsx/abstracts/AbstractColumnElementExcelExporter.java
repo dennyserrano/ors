@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
-import ph.gov.deped.service.export.ColumnElementFileExporter;
+import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;
 import ph.gov.deped.service.export.xlsx.CellFormat;
 import ph.gov.deped.service.export.xlsx.ElementFormatter;
 import ph.gov.deped.service.export.xlsx.ExcelCellWriter;

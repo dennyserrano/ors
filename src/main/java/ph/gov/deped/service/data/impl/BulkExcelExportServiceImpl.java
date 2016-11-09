@@ -29,7 +29,8 @@ import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
+import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
 
 @Service("BulkExcelExportServiceImpl")
 //@Qualifier("BulkExcelExportServiceImpl")
@@ -37,9 +38,6 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 {
 	
 	public static final String[] deletionExtension={ExportType.XLSX.getExtension(),"xml"};
-	
-	@Autowired
-    private FormattingRepository formattingRepository;
 	
 	@Override
 	public String export(Dataset dataset) 
@@ -71,7 +69,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 //				files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
 				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
-				exporter.export(tmpFile,data);
+//				exporter.export(tmpFile,data);
 				
 				if(x==0)
 				{
@@ -86,8 +84,9 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			sortedColumns.clear();
 //			headers.clear();
 			
-			ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(files);
-//			ed.consolidate();
+			ExcelDocumentConsolidator2 ed=new ExcelDocumentConsolidator2();
+			ed.setWorkbookExporter((ColumnElementWorkbookAppender) exporter);
+			ed.consolidate(downloadPath,files,consolidatorHeaders.get(0));
 			
 			System.gc(); //TODO this should not be here..
 			
@@ -96,6 +95,9 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		}catch(RuntimeException e)
 		{
 			throw new RuntimeException(e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		finally
 		{

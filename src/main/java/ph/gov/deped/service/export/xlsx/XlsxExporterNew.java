@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.ColumnElementFileExporter;
+import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 @Deprecated //use XlsxExporter

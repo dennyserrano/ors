@@ -27,7 +27,7 @@ import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
 
 @Service("BulkExcelNoStyleExportServiceImpl")
 //@Qualifier("BulkExcelExportServiceImpl")
@@ -66,7 +66,7 @@ public class BulkExcelNoStyleExportServiceImpl extends ExcelExportServiceImpl
 //				files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
 				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
-				exporter.export(tmpFile,data);
+//				exporter.export(tmpFile,data);
 				
 				files[x]=tmpFile;
 			}

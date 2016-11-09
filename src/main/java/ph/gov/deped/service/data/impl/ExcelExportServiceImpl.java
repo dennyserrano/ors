@@ -16,7 +16,7 @@ import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.ColumnElementFileExporter;
+import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;
 
 public class ExcelExportServiceImpl implements ExportService 
 {

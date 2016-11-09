@@ -32,7 +32,6 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;
 import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
-import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 public class ExcelDocumentConsolidator
 {
@@ -42,11 +41,13 @@ public class ExcelDocumentConsolidator
 	private Workbook destinationWorkbook;
 	private String[] files;
 	private ExcelCellWriter cellWriter=new ConsolidatorExcelCellWriter();
-	public ExcelDocumentConsolidator(String[] fileNames)
+	public ExcelDocumentConsolidator(String outputFileName,String[] fileNames) throws FileNotFoundException
 	{
+		fileOutput=new FileOutputStream(outputFileName);
 		files=fileNames;
 		destinationWorkbook=new SXSSFWorkbook(100);
 	}	
+	
 	
 	public void consolidate(List<List<ColumnElement>> data) throws IOException
 	{
@@ -67,7 +68,7 @@ public class ExcelDocumentConsolidator
 			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,data);
 			sourceWorkbook.close();
 			fileInputStream.close();
-			
+			System.gc();
 		}
 		
 		destinationWorkbook.write(fileOutput);
@@ -79,36 +80,36 @@ public class ExcelDocumentConsolidator
 		
 	}
 	
-	public void consolidate() throws IOException
-	{
-		Sheet destinationSheet= destinationWorkbook.createSheet();
-		for(int x=0;x<files.length;x++)
-		{
-			String fileName=files[x];
-			System.out.println("PROCESSING:"+fileName);
-			FileInputStream fileInputStream = null;
-			
-			fileInputStream = new FileInputStream(fileName);
-			
-			Workbook sourceWorkbook = null;
-			
-			sourceWorkbook = new XSSFWorkbook(fileInputStream);
-			
-			Sheet sourceSheet=sourceWorkbook.getSheetAt(0);
-			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,new ArrayList<List<ColumnElement>>());
-			sourceWorkbook.close();
-			fileInputStream.close();
-			
-		}
-		
-		destinationWorkbook.write(fileOutput);
-
-		destinationWorkbook.close();
-	
-		fileOutput.close();
-		
-		
-	}
+//	public void consolidate() throws IOException
+//	{
+//		Sheet destinationSheet= destinationWorkbook.createSheet();
+//		for(int x=0;x<files.length;x++)
+//		{
+//			String fileName=files[x];
+//			System.out.println("PROCESSING:"+fileName);
+//			FileInputStream fileInputStream = null;
+//			
+//			fileInputStream = new FileInputStream(fileName);
+//			
+//			Workbook sourceWorkbook = null;
+//			
+//			sourceWorkbook = new XSSFWorkbook(fileInputStream);
+//			
+//			Sheet sourceSheet=sourceWorkbook.getSheetAt(0);
+//			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,new ArrayList<List<ColumnElement>>());
+//			sourceWorkbook.close();
+//			fileInputStream.close();
+//			
+//		}
+//		
+//		destinationWorkbook.write(fileOutput);
+//
+//		destinationWorkbook.close();
+//	
+//		fileOutput.close();
+//		
+//		
+//	}
 	
 	private void process(Workbook targetWb,Sheet sourceSheet,Sheet destSheet,ExcelCellWriter cellWriter,int fileIndex,List<List<ColumnElement>> data)
 	{
@@ -135,13 +136,13 @@ public class ExcelDocumentConsolidator
 				Cell destinationCell=destinationRow.createCell(sourceCell.getColumnIndex());
 				
 				
-				if(sourceRow.getRowNum()==0)
-				{
-					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
-//					headerStyler.applyStyle(targetWb, destSheet, destinationRow, destinationCell,cef);
-//					CellStyle cs=formatColumns.get(destinationCell.getColumnIndex()).build(targetWb);
+//				if(sourceRow.getRowNum()==0)
+//				{
+//					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
+////					headerStyler.applyStyle(targetWb, destSheet, destinationRow, destinationCell,cef);
+////					CellStyle cs=formatColumns.get(destinationCell.getColumnIndex()).build(targetWb);
 //            		destSheet.setDefaultColumnStyle(destinationCell.getColumnIndex(), cs);
-				}
+//				}
 				
 				cellWriter.write(targetWb, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
 			}
@@ -171,7 +172,7 @@ public class ExcelDocumentConsolidator
 		
 		throw new RuntimeErrorException(null, "Cell type:"+cell.getCellType()+" Not Present");
 	}
-
+	
 	
 //	public static void main(String[] args) throws IOException 
 //	{
