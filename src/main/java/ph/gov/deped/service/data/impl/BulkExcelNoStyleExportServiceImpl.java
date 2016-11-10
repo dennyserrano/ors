@@ -30,7 +30,7 @@ import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
 
 @Service("BulkExcelNoStyleExportServiceImpl")
-//@Qualifier("BulkExcelExportServiceImpl")
+@Qualifier("BulkExcelNoStyleExportServiceImpl")
 public class BulkExcelNoStyleExportServiceImpl extends ExcelExportServiceImpl
 {
 	

@@ -39,14 +39,10 @@ public class ExcelDocumentConsolidator2
 {
 	//TODO on server start what is directory is not yet present for both single exporter and bulk?
 	
-	private Workbook destinationWorkbook;
-	private ExcelCellWriter cellWriter=new ConsolidatorExcelCellWriter();
-	
 	private ColumnElementWorkbookAppender workbookExporter;
 	
 	public ExcelDocumentConsolidator2(ColumnElementWorkbookAppender appender)
 	{
-		destinationWorkbook=new SXSSFWorkbook(100);
 		workbookExporter=appender;
 		
 	}	

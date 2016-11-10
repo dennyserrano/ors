@@ -37,7 +37,7 @@ import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHea
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelValueCellStyler;
 
 @Service("BulkExcelExportServiceImpl")
-//@Qualifier("BulkExcelExportServiceImpl")
+@Qualifier("BulkExcelExportServiceImpl")
 public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 {
 	
@@ -64,7 +64,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
 		System.out.println("sql:"+sql);
-		long dataSize= 20;//datasetService.getDataSize(sql);
+		long dataSize= datasetService.getDataSize(sql); //TODO should not queru the entire select..should be count
 		System.out.println("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		

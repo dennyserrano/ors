@@ -44,7 +44,7 @@ public class ExportDataController {
     private DatasetService datasetService;
     
     @Autowired
-    @Qualifier("BulkExcelNoStyleExportServiceImpl")
+    @Qualifier("BulkExcelExportServiceImpl")
     private ExportService exportService;
     
 //    @Autowired
@@ -52,10 +52,6 @@ public class ExportDataController {
 
     public @Autowired void setDatasetService(DatasetService datasetService) {
         this.datasetService = datasetService;
-    }
-
-    public @Autowired void setExportService(@Qualifier("BulkExcelNoStyleExportServiceImpl") ExportService exportService) {
-        this.exportService = exportService;
     }
 
     @RequestMapping(method = RequestMethod.POST)

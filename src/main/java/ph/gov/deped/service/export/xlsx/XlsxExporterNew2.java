@@ -156,7 +156,7 @@ public class XlsxExporterNew2 implements ColumnElementFileExporter,ColumnElement
 				{
 					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
 					headerStyler.applyStyle(destination, destSheet, destinationRow, destinationCell,cef);
-					cellValueStyler.applyStyle(destination, destSheet, sourceCell.getRowIndex(), columns);
+					cellValueStyler.applyStyle(destination, destSheet, sourceCell.getColumnIndex(), columns);
 				}
 				
 				cellWriter.write(destination, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
