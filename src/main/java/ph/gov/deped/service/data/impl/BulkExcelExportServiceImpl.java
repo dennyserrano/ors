@@ -31,8 +31,8 @@ import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
 import ph.gov.deped.service.export.xlsx.DefaultExcelCellWriter;
-import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
-import ph.gov.deped.service.export.xlsx.XlsxExporterNew2;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
+import ph.gov.deped.service.export.xlsx.XlsxExporter;
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelValueCellStyler;
 
@@ -59,7 +59,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		String filename = randomAlphabetic(8) + "." + exportType.getExtension();
 		String baseTempPath = orsSettings.getTmpDir() + File.separator;
 		String downloadPath = orsSettings.getWorkingDir() + File.separator + filename;
-		
+		int chunksize=orsSettings.getChunkSize();
+		System.out.println("chunksize:"+chunksize);
 		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
 		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
@@ -68,12 +69,12 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		System.out.println("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
-		String[] sqlRanges=generateRanges(sql,dataSize,500);
+		String[] sqlRanges=generateRanges(sql,dataSize,chunksize);
 		System.out.println("ranges:"+sqlRanges.length);
 		
 		List<List<ColumnElement>> consolidatorHeaders = null;
 		
-		XlsxExporterNew2 localExporter=new XlsxExporterNew2(cellWriter);
+		XlsxExporter localExporter=new XlsxExporter(cellWriter);
 		
 		String[] files=new String[sqlRanges.length];
 		try
@@ -99,8 +100,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			sortedColumns.clear();
 //			headers.clear();
 			
-			ExcelDocumentConsolidator2 ed=new ExcelDocumentConsolidator2(new XlsxExporterNew2(cellWriter,headerStyler,valueCellStyler));
-			ed.consolidate(downloadPath,files,consolidatorHeaders.get(0));
+			ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(new XlsxExporter(cellWriter,headerStyler,valueCellStyler),consolidatorHeaders.get(0));
+			ed.consolidate(downloadPath,files);
 			
 			System.gc(); //TODO this should not be here..
 			

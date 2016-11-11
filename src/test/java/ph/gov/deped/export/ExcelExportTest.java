@@ -34,11 +34,11 @@ import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.impl.BulkExcelNoStyleExportServiceImpl;
 import ph.gov.deped.service.export.ExporterSpringConfig;
 import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;
-import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
 import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
-import ph.gov.deped.service.export.xlsx.XlsxExporterNew;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
+import ph.gov.deped.service.export.xlsx.XlsxExporter2;
+import ph.gov.deped.service.export.xlsx.XlsxExporter2;
 import ph.gov.deped.service.export.xlsx.XlsxExporter;
-import ph.gov.deped.service.export.xlsx.XlsxExporterNew2;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {
@@ -52,7 +52,7 @@ public class ExcelExportTest
 	DatasetService datasetService;
 	
 	@Autowired
-	XlsxExporterNew2 exporter;
+	XlsxExporter exporter;
 	
 	@Autowired
 	@Qualifier("BulkExcelExportServiceImpl")
@@ -94,7 +94,7 @@ public class ExcelExportTest
 		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("testdata/schoolinfodataset.xml"));
 		List<List<ColumnElement>> l=datasetService.getData(dataset, true);
 		
-		ExcelDocumentConsolidator consolidator=new ExcelDocumentConsolidator("/home/denny/Desktop/output.xlsx",files);
+		ExcelDocumentConsolidator2 consolidator=new ExcelDocumentConsolidator2("/home/denny/Desktop/output.xlsx",files);
 		consolidator.consolidate(l);
 		
 //		ExcelDocumentConsolidator2 consolidator=new ExcelDocumentConsolidator2();
@@ -130,11 +130,11 @@ public class ExcelExportTest
 		Dataset dataset=(Dataset) s.fromXML(new FileInputStream("testdata/schoolinfodataset.xml"));
 		List<List<ColumnElement>> l=datasetService.getData(dataset, true);
 		
-		ExcelDocumentConsolidator2 consolidator=new ExcelDocumentConsolidator2(null);
-		consolidator.setWorkbookExporter(exporter);
+//		ExcelDocumentConsolidator2 consolidator=new ExcelDocumentConsolidator2(null);
+//		consolidator.setWorkbookExporter(exporter);
 		List<ColumnElement> heads=new ArrayList<ColumnElement>(l.get(0));
 		l.clear();
-		consolidator.consolidate("/home/denny/Desktop/val/fileOUTPUT.xlsx", files, heads);
+//		consolidator.consolidate("/home/denny/Desktop/val/fileOUTPUT.xlsx", files, heads);
 		
 		System.out.println("Done");
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));

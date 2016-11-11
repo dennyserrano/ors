@@ -1,5 +1,6 @@
 package ph.gov.deped.service.export;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,40 +24,19 @@ import java.util.Map;
 @Configuration
 public class ExporterSpringConfig {
     
+	@Autowired
+	private ColumnElementFileExporter excelExporter;
+	
     public @Bean Map<ExportType, ColumnElementFileExporter> exporterMap() {
         Map<ExportType, ColumnElementFileExporter> exporters = new HashMap<>(ExportType.values().length);
-        exporters.put(ExportType.CSV, csvExporter());
-        exporters.put(ExportType.XLSX, xlsxExporter());
+        exporters.put(ExportType.CSV, null);
+        exporters.put(ExportType.XLSX, excelExporter);
         return exporters;
     }
     
-    public @Bean CsvExporter csvExporter() {
-        return new CsvExporter();
-    }
-    
-    public @Bean ColumnElementFileExporter xlsxExporter() {
-    	return new XlsxExporterNew2(defaultExcelCellWriter(),new DefaultExcelHeaderStyler(),defaultExcelCellStyler());
-    }
-    
-    public @Bean @Primary XlsxExporterNew2 xlsxExporterStylish()
-    {
-    	return new XlsxExporterNew2(defaultExcelCellWriter(),new DefaultExcelHeaderStyler(),defaultExcelCellStyler());
-    }
-    
-    public @Bean @Primary DefaultExcelCellWriter defaultExcelCellWriter() {
-        return new DefaultExcelCellWriter();
-    }
+//    public @Bean CsvExporter csvExporter() {
+//        return new CsvExporter();
+//    }
     
     
-    public @Bean DisruptedExcelCellWriter disruptedExcelCellWriter() {
-        return new DisruptedExcelCellWriter(defaultExcelCellWriter());
-    }
-    
-    public @Bean DefaultExcelValueStyler defaultExcelCellStyler() {
-        return new DefaultExcelValueStyler();
-    }
-    
-    public @Bean @Primary ColumnElementExcelHeaderCellStyler disruptedExcelCellStyler() {
-        return new DefaultExcelHeaderStyler();
-    }
 }

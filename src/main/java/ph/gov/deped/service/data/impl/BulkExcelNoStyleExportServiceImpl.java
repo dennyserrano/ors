@@ -27,7 +27,7 @@ import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator2;
+import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
 
 @Service("BulkExcelNoStyleExportServiceImpl")
 @Qualifier("BulkExcelNoStyleExportServiceImpl")

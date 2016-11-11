@@ -1,227 +1,215 @@
 package ph.gov.deped.service.export.xlsx;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.repo.jpa.ors.FormattingRepository;
-import ph.gov.deped.service.data.api.ExportType;
-import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;
-import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Created by PSY on 2014/10/15.
- */
-public class XlsxExporter implements ColumnElementFileExporter {
-    
-    private static final Logger log = LogManager.getLogger(XlsxExporter.class);
+import javax.management.RuntimeErrorException;
 
-    public static final String EXTENSION = "." + ExportType.XLSX.getExtension();
-    
-    public static final String DEFAULT_SHEET_NAME = "datasets";
-    
-    private ExcelCellWriter excelCellWriter;
-    
-    private ColumnElementExcelHeaderCellStyler excelCellStyler;
-    
-    private FormattingRepository formattingRepository;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 
-    public @Autowired void setExcelCellWriter(ExcelCellWriter excelCellWriter) {
-        this.excelCellWriter = excelCellWriter;
-    }
+import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;
+import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
+import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;
+import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
+import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelValueStyler;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelValueCellStyler;
 
-    public @Autowired void setExcelCellStyler(ColumnElementExcelHeaderCellStyler excelCellStyler) {
-        this.excelCellStyler = excelCellStyler;
-    }
-
-    public @Autowired void setFormattingRepository(FormattingRepository formattingRepository) {
-        this.formattingRepository = formattingRepository;
-    }
-
-    public void export(String filename, List<List<ColumnElement>> data) {
-        if (!filename.endsWith(EXTENSION)) {
-            filename = filename + EXTENSION;
-        }
-        
-        log.info("Initializing XLSX File [{}]...", filename);
-        File xlsxFile = initializeXlsx(filename, data);
-        
-        log.info("Applying XSLX Formatting to file [{}]...", filename);
-        XSSFWorkbook formattedWorkbook = applyFormattings(xlsxFile, filename, data);
-        
-        log.info("Writing data to XLSX File [{}]...", filename);
-        streamingWrite(xlsxFile, filename, formattedWorkbook, data);
-        
-        try {
-            formattedWorkbook.close();
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-    
-    private File initializeXlsx(String filename, List<List<ColumnElement>> data) {
-        log.entry(filename);
-        File xlsxFile = new File(filename);
-        if (!xlsxFile.exists()) {
-            try {
-                xlsxFile.createNewFile();
-            }
-            catch (IOException ex) {
-                throw new RuntimeException(String.format("Unable to write XLSX file [%s].", filename), ex);
-            }
-        }
-        
-        XSSFWorkbook wb = new XSSFWorkbook();
-        wb.createSheet(DEFAULT_SHEET_NAME);
-
-        try (FileOutputStream out = new FileOutputStream(xlsxFile)) {
-            wb.write(out);
-        }
-        catch (FileNotFoundException ex) {
-            throw new RuntimeException(String.format("XLSX File [%s] was not created.", filename), ex);
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(String.format("Problem writing to XSLX file [%s].", filename), ex);
-        }
-        finally {
-            try {
-                wb.close();
-            }
-            catch (IOException ex) {
-                log.error(ex);
-            }
-        }
-        return log.exit(xlsxFile);
-    }
-
-    private XSSFWorkbook applyFormattings(File xlsxFile, String filename, List<List<ColumnElement>> data) {
-        log.entry(xlsxFile, filename);
-        XSSFWorkbook wb = new XSSFWorkbook();
-//        Map<Integer, CellFormat> columnFormat = formatColumns(data);
-        XSSFSheet sheet = wb.createSheet(DEFAULT_SHEET_NAME);
-        XSSFRow row;
-        XSSFCell cell;
-        ColumnElement ce;
-        FormattedElement fe;
-
-        // apply column formatting.
-//        columnFormat.entrySet().parallelStream()
-//                .forEach(entry -> {
-//                    int col = entry.getKey();
-//                    CellStyle cellStyle = entry.getValue().build(wb);
-//                    sheet.setDefaultColumnStyle(col, cellStyle); // column style will only be applied on newly created cells after this
-//                });
-
-        List<ColumnElement> headers = data.get(0);
-        int rows = data.size();
-        int cols = headers.size();
-        for (int r = 0; r < rows; r++) {
-            row = sheet.createRow(r);
-            for (int c = 0; c < cols; c++) {
-                row.createCell(c);
+public class XlsxExporter implements ColumnElementFileExporter,ColumnElementWorkbookAppender
+{
+	
+	public static final String DEFAULT_SHEET_NAME = "datasets";
+	private ExcelCellWriter cellWriter;
+	private ColumnElementExcelHeaderCellStyler headerStyler;
+	private ColumnElementExcelValueCellStyler cellValueStyler;
+	
+	public XlsxExporter(ExcelCellWriter writer, ColumnElementExcelHeaderCellStyler headerStyler, ColumnElementExcelValueCellStyler valueStyler)
+	{
+		if(writer==null)
+			throw new RuntimeException("No Writer provided");
+		cellWriter=writer;
+		this.headerStyler=headerStyler;
+		this.cellValueStyler=valueStyler;
+		
+	}
+	
+	public XlsxExporter(ExcelCellWriter writer)
+	{
+		if(writer==null)
+			throw new RuntimeException("No Writer provided");
+		cellWriter=writer;
+		
+	}
+	
+	private ColumnElementExcelHeaderCellStyler initializeHeaderStyler()
+	{
+		if(headerStyler==null)
+			return new ColumnElementExcelHeaderCellStyler() {
+				
+				@Override
+				public void applyStyle(Workbook wb, Sheet sheet, Row row, Cell cell,
+						ColumnElement ce) {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+			else
+				return headerStyler;
+	}
+	
+	private ColumnElementExcelValueCellStyler initializeValueStyler()
+	{
+		if(cellValueStyler==null)
+			return new ColumnElementExcelValueCellStyler() {
+				
+				@Override
+				public void applyStyle(Workbook workbook, Sheet sheet, int columnIndex,
+						List<ColumnElement> columns) {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+			else
+			return cellValueStyler;
+	}
+	
+	protected Workbook doProcess(Workbook workbook,List<List<ColumnElement>> data)
+	{
+		
+		Sheet sheet = workbook.getSheet(DEFAULT_SHEET_NAME);
+		List<ColumnElement> headers = data.get(0);
+		ExcelCellWriter excelCellWriter=getWriter();
+		
+		ColumnElementExcelHeaderCellStyler headerStyler=initializeHeaderStyler();
+		ColumnElementExcelValueCellStyler valueStyler=initializeValueStyler();
+		
+		for (int r = 0; r < data.size(); r++) {
+            Row row = sheet.createRow(r);
+            List<ColumnElement> rowData = data.get(r);
+           		 
+            for (int c = 0; c < headers.size(); c++)
+            {
+            	ColumnElement cef=headers.get(c);
+            	Cell cell = row.createCell(c);
+            	ColumnElement ce = rowData.get(c);
+            	
+                
+            	if(r==0) //is row currently header?
+            	{
+            		headerStyler.applyStyle(workbook, sheet, row, cell, cef);
+            		valueStyler.applyStyle(workbook, sheet, c, headers);
+            	}
+            	
+                excelCellWriter.write(workbook, row, cell, ce.getValue());
+                
             }
         }
+		
+		return workbook;
+	}
+	
+	protected Workbook doProcess(Workbook source,Workbook destination,List<ColumnElement> columns)
+	{
+		Sheet destSheet=destination.getSheet(DEFAULT_SHEET_NAME);
+		Sheet sourceSheet=source.getSheet(DEFAULT_SHEET_NAME);
+		int sourceLastRowCount=destSheet.getLastRowNum();
+		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
+		ColumnElementExcelHeaderCellStyler headerStyler=initializeHeaderStyler();
+		ColumnElementExcelValueCellStyler cellValueStyler=initializeValueStyler();
 
-        // apply headers formatting
-        row = sheet.getRow(0);
-        for (int c = 0; c < headers.size(); c++) {
-            ce = headers.get(c);
-            fe = Formats.headerValue().format(ce);
-            cell = row.getCell(c);
-//            excelCellStyler.applyStyle(wb, row, cell, fe);
-        }
-        
-        // Freeze first row or the headers row
-        sheet.createFreezePane(0, 1);
+		List<ColumnElement> headers = columns;
+		
+//		if(fileIndex!=0) 
+//			sourceRowIterator.next();
+		
+		while(sourceRowIterator.hasNext())
+		{
+			
+			Row sourceRow=sourceRowIterator.next();
+			Row destinationRow=destSheet.createRow(sourceLastRowCount);
+			
+			Iterator<Cell> sourceCellIterator=sourceRow.cellIterator();
+			
+			while(sourceCellIterator.hasNext())
+			{
+				Cell sourceCell=sourceCellIterator.next();
+				Cell destinationCell=destinationRow.createCell(sourceCell.getColumnIndex());
+				
+				
+				if(sourceRow.getRowNum()==0)
+				{
+					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
+					headerStyler.applyStyle(destination, destSheet, destinationRow, destinationCell,cef);
+					cellValueStyler.applyStyle(destination, destSheet, sourceCell.getColumnIndex(), columns);
+				}
+				
+				cellWriter.write(destination, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
+			}
+			
+			sourceLastRowCount++;
+		}
+		
+		return destination;
+	}
 
-        // late apply auto sizing for each columns
-        /*row = sheet.getRow(0);
-        for (int c = 0; c < row.getLastCellNum(); c++) {
-            sheet.autoSizeColumn(c);
-        }*/
+	private void initializeWorkbook(Workbook wb)
+	{
+		if(wb.getSheet(DEFAULT_SHEET_NAME)==null)
+			wb.createSheet(DEFAULT_SHEET_NAME);
+	}
+	
+	
+	@Override
+	public Workbook append(Workbook source, Workbook destination,List<ColumnElement> columns) 
+	{
+		initializeWorkbook(destination);
+		return doProcess(source, destination, columns);
+	}
 
-        try (FileOutputStream out = new FileOutputStream(xlsxFile)) {
-            wb.write(out);
-        }
-        catch (FileNotFoundException ex) {
-            throw new RuntimeException(String.format("XLSX File [%s] was not created.", filename), ex);
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(String.format("Problem writing to XSLX file [%s].", filename), ex);
-        }
+	@Override
+	public void export(String filename, List<List<ColumnElement>> data) throws IOException 
+	{
+		
+		FileOutputStream fos=new FileOutputStream(filename);
+		Workbook wb=new SXSSFWorkbook();
+		initializeWorkbook(wb);
+		doProcess(wb, data);
+		wb.write(fos);
+	}
 
-        return log.exit(wb);
-    }
-
-    private void streamingWrite(File xlsxFile, String filename, XSSFWorkbook formattedWorkbook, List<List<ColumnElement>> data) {
-        log.entry(xlsxFile, filename, formattedWorkbook);
-        XSSFWorkbook wb = formattedWorkbook;
-        
-        XSSFSheet sheet = wb.getSheet(DEFAULT_SHEET_NAME);
-        XSSFRow row;
-        XSSFCell cell;
-        List<ColumnElement> rowData;
-        ColumnElement ce;
-
-        long startTimestamp = System.currentTimeMillis();
-        for (int r = 0; r < data.size(); r++) {
-            row = sheet.getRow(r);
-            rowData = data.get(r);
-            for (int c = 0; c < rowData.size(); c++) {
-                cell = row.getCell(c);
-                ce = rowData.get(c);
-                excelCellWriter.write(wb, row, cell, ce.getValue());
-            }
-        }
-
-        try (FileOutputStream out = new FileOutputStream(xlsxFile)) {
-            wb.write(out);
-        }
-        catch (FileNotFoundException ex) {
-            throw new RuntimeException(String.format("XLSX File [%s] was not created.", filename), ex);
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(String.format("Problem writing to XSLX file [%s].", filename), ex);
-        }
-
-        long totalWriteTime = System.currentTimeMillis() - startTimestamp;
-        log.debug("Total Write Time [{}]", totalWriteTime);
-        log.exit();
-    }
-    
-    private Map<Integer, CellFormat> formatColumns(List<List<ColumnElement>> data) {
-        List<ColumnElement> headers = data.get(0);
-        Map<Integer, CellFormat> columnFormat = new HashMap<>(headers.size());
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        headers.stream()
-                .map(ce -> {
-                    String dataType = ce.getDataType();
-                    ElementFormatter ef = formattingRepository.findByDatasetElement(ce.getDatasetId(), ce.getElementName());
-                    if (ef == null) {
-                        ef = formattingRepository.findByKey(dataType);
-                    }
-                    if (ef == null) {
-                        throw new RuntimeException(String.format("Unable to find formatting for [%s].", ce.getDataType()));
-                    }
-                    return ef.format(ce);
-                })
-                .forEach(fe -> columnFormat.put(atomicInteger.getAndIncrement(), fe.getCellFormat()));
-        return  columnFormat;
-    }
+	
+	public static Object getCellValue(Cell cell)
+	{
+		switch(cell.getCellType())
+		{
+			case Cell.CELL_TYPE_BLANK:
+				return cell.getStringCellValue();
+			case Cell.CELL_TYPE_BOOLEAN:
+				return cell.getBooleanCellValue();
+			case Cell.CELL_TYPE_ERROR:
+				return cell.getErrorCellValue();
+			case Cell.CELL_TYPE_NUMERIC:
+				return cell.getNumericCellValue();
+			case Cell.CELL_TYPE_STRING:
+				return cell.getStringCellValue();
+			
+		}
+		
+		throw new RuntimeErrorException(null, "Cell type:"+cell.getCellType()+" Not Present");
+	}
+	
+	private ExcelCellWriter getWriter()
+	{
+		return cellWriter;
+	}
 }

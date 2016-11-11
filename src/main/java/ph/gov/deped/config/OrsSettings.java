@@ -41,7 +41,20 @@ public class OrsSettings implements DbSettings, Serializable {
     
     private String tmpDir;
 
-    public String getWorkingDir() {
+    private int chunkSize;
+    
+    
+    
+    
+    public int getChunkSize() {
+		return chunkSize;
+	}
+
+	public void setChunkSize(int chunkSize) {
+		this.chunkSize = chunkSize;
+	}
+
+	public String getWorkingDir() {
         return workingDir;
     }
 

@@ -30,47 +30,129 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
 import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;
 import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
-import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
+@Deprecated //Use ExcelDocumentConsolidator
 public class ExcelDocumentConsolidator2
 {
 	//TODO on server start what is directory is not yet present for both single exporter and bulk?
 	
-	private ColumnElementWorkbookAppender workbookExporter;
-	
-	public ExcelDocumentConsolidator2(ColumnElementWorkbookAppender appender)
+	private FileOutputStream fileOutput;
+	private Workbook destinationWorkbook;
+	private String[] files;
+	private ExcelCellWriter cellWriter=new ConsolidatorExcelCellWriter();
+	public ExcelDocumentConsolidator2(String outputFileName,String[] fileNames) throws FileNotFoundException
 	{
-		workbookExporter=appender;
-		
+		fileOutput=new FileOutputStream(outputFileName);
+		files=fileNames;
+		destinationWorkbook=new SXSSFWorkbook(100);
 	}	
 	
-	public void consolidate(String fileOutputName,String[] fileNames,List<ColumnElement> columns) throws IOException
+	
+	public void consolidate(List<List<ColumnElement>> data) throws IOException
 	{
-		if(workbookExporter==null)
-			throw new RuntimeException("No appender set");
-		
-		Workbook wb=new SXSSFWorkbook(100);
-		
-		for(int x=0;x<fileNames.length;x++)
+		Sheet destinationSheet= destinationWorkbook.createSheet();
+		for(int x=0;x<files.length;x++)
 		{
-			String fileName=fileNames[x];
-			System.out.println("opening:"+fileName);
-			FileInputStream fs=new FileInputStream(fileName);
-			Workbook nWb=new XSSFWorkbook(fs);
-			workbookExporter.append(nWb, wb, columns);
-			nWb.close();
-			fs.close();
+			String fileName=files[x];
+			System.out.println("PROCESSING:"+fileName);
+			FileInputStream fileInputStream = null;
+			
+			fileInputStream = new FileInputStream(fileName);
+			
+			Workbook sourceWorkbook = null;
+			
+			sourceWorkbook = new XSSFWorkbook(fileInputStream);
+			
+			Sheet sourceSheet=sourceWorkbook.getSheetAt(0);
+			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,data);
+			sourceWorkbook.close();
+			fileInputStream.close();
+			System.gc();
 		}
-		FileOutputStream fos=new FileOutputStream(fileOutputName);
-		wb.write(fos);
-		fos.close();
-		System.gc();
+		
+		destinationWorkbook.write(fileOutput);
+
+		destinationWorkbook.close();
+	
+		fileOutput.close();
+		
 		
 	}
 	
+//	public void consolidate() throws IOException
+//	{
+//		Sheet destinationSheet= destinationWorkbook.createSheet();
+//		for(int x=0;x<files.length;x++)
+//		{
+//			String fileName=files[x];
+//			System.out.println("PROCESSING:"+fileName);
+//			FileInputStream fileInputStream = null;
+//			
+//			fileInputStream = new FileInputStream(fileName);
+//			
+//			Workbook sourceWorkbook = null;
+//			
+//			sourceWorkbook = new XSSFWorkbook(fileInputStream);
+//			
+//			Sheet sourceSheet=sourceWorkbook.getSheetAt(0);
+//			process(destinationWorkbook,sourceSheet,destinationSheet,cellWriter,x,new ArrayList<List<ColumnElement>>());
+//			sourceWorkbook.close();
+//			fileInputStream.close();
+//			
+//		}
+//		
+//		destinationWorkbook.write(fileOutput);
+//
+//		destinationWorkbook.close();
+//	
+//		fileOutput.close();
+//		
+//		
+//	}
+	
+	private void process(Workbook targetWb,Sheet sourceSheet,Sheet destSheet,ExcelCellWriter cellWriter,int fileIndex,List<List<ColumnElement>> data)
+	{
+		int sourceLastRowCount=destSheet.getLastRowNum();
+		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
+//		ColumnElementExcelCellStyler headerStyler=getHeaderStyler();
+//		Map<Integer, CellFormat> formatColumns=formatColumns(data);
+		List<ColumnElement> headers = data.get(0);
+		
+//		if(fileIndex!=0) 
+//			sourceRowIterator.next();
+		
+		while(sourceRowIterator.hasNext())
+		{
+			
+			Row sourceRow=sourceRowIterator.next();
+			Row destinationRow=destSheet.createRow(sourceLastRowCount);
+			
+			Iterator<Cell> sourceCellIterator=sourceRow.cellIterator();
+			
+			while(sourceCellIterator.hasNext())
+			{
+				Cell sourceCell=sourceCellIterator.next();
+				Cell destinationCell=destinationRow.createCell(sourceCell.getColumnIndex());
+				
+				
+//				if(sourceRow.getRowNum()==0)
+//				{
+//					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
+////					headerStyler.applyStyle(targetWb, destSheet, destinationRow, destinationCell,cef);
+////					CellStyle cs=formatColumns.get(destinationCell.getColumnIndex()).build(targetWb);
+//            		destSheet.setDefaultColumnStyle(destinationCell.getColumnIndex(), cs);
+//				}
+				
+				cellWriter.write(targetWb, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
+			}
+			
+			sourceLastRowCount++;
+		}
+		
+		destSheet.createFreezePane(0, 1);
+	}
 	
 	public static Object getCellValue(Cell cell)
 	{
@@ -91,11 +173,29 @@ public class ExcelDocumentConsolidator2
 		
 		throw new RuntimeErrorException(null, "Cell type:"+cell.getCellType()+" Not Present");
 	}
-
-	public void setWorkbookExporter(ColumnElementWorkbookAppender workbookExporter) {
-		this.workbookExporter = workbookExporter;
-	}
-
 	
+	
+//	public static void main(String[] args) throws IOException 
+//	{
+//		ArrayList<String> aFiles=new ArrayList<>();
+//		int cnt=0;
+//		try(Stream<Path> paths = Files.walk(Paths.get("/home/denny/projects/ors/"))) {
+//		    paths.forEach(filePath -> {
+//		        if (Files.isRegularFile(filePath)) {
+//		        	if(filePath.toString().contains(".xlsx"))
+//		        		aFiles.add(filePath.toString());
+//		        }
+//		    });
+//		} 
+//		
+//		String[] files=new String[aFiles.size()];
+//		
+//		files= (String[]) aFiles.toArray(files);
+//		
+//		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+//		br.readLine();
+//		ExcelWorkbookConsolidator e=new ExcelWorkbookConsolidator("/home/denny/projects/ors/output.xlsx", files);
+//		e.consolidate();
+//	}
 	
 }
