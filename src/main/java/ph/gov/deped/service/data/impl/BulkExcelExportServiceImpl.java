@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
 import ph.gov.deped.service.export.xlsx.XlsxExporter;
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelValueCellStyler;
+import ph.gov.deped.web.admin.ExportDataController;
 
 @Service("BulkExcelExportServiceImpl")
 @Qualifier("BulkExcelExportServiceImpl")
@@ -42,6 +45,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 {
 	
 	public static final String[] deletionExtension={ExportType.XLSX.getExtension(),"xml"};
+	
+	private static final Logger log = LogManager.getLogger(BulkExcelExportServiceImpl.class);
 	
 	@Autowired
 	private ColumnElementExcelHeaderCellStyler headerStyler;
@@ -60,17 +65,16 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		String baseTempPath = orsSettings.getTmpDir() + File.separator;
 		String downloadPath = orsSettings.getWorkingDir() + File.separator + filename;
 		int chunksize=orsSettings.getChunkSize();
-		System.out.println("chunksize:"+chunksize);
 		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
 		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
-		System.out.println("sql:"+sql);
+		log.debug("sql:"+sql);
 		long dataSize= datasetService.getDataSize(sql); //TODO should not queru the entire select..should be count
-		System.out.println("datasize:"+dataSize);
+		log.debug("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
 		String[] sqlRanges=generateRanges(sql,dataSize,chunksize);
-		System.out.println("ranges:"+sqlRanges.length);
+		log.debug("ranges:"+sqlRanges.length);
 		
 		List<List<ColumnElement>> consolidatorHeaders = null;
 		
@@ -82,7 +86,6 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			for(int x=0;x<sqlRanges.length;x++)
 			{
 				System.out.println("generating:"+sqlRanges[x]);
-//				files[x]=exporter.export(baseTempPath+randomAlphabetic(8),datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers));
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
 				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
 				localExporter.export(tmpFile,data);

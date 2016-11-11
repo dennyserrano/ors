@@ -40,28 +40,20 @@ public class ExportDataController {
     private static final Logger log = LogManager.getLogger(ExportDataController.class);
     
     private static final ExportType DEFAULT_EXPORT_TYPE = ExportType.XLSX;
-
-    private DatasetService datasetService;
     
     @Autowired
     @Qualifier("BulkExcelExportServiceImpl")
     private ExportService exportService;
-    
-//    @Autowired
-    private ExportBulkService exportBulkService;
-
-    public @Autowired void setDatasetService(DatasetService datasetService) {
-        this.datasetService = datasetService;
-    }
 
     @RequestMapping(method = RequestMethod.POST)
     public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
         String filename=null;
-        long thisTime=System.currentTimeMillis();
+
         try {
               //datasetService.getData(ds, false);
 //            exportService.export("", data, ExportType.XLSX);
+        	log.info("Exporting::::::");
             filename=exportService.export(ds);
         }
         catch (Exception ex) {
@@ -74,8 +66,6 @@ public class ExportDataController {
 
         response.setContentType(exportType.getContentType());
         response.setHeader("Content-Disposition", "attachment; filename=export." + exportType.getExtension());
-
-        System.out.println("Total time:"+(System.currentTimeMillis()-thisTime));
         
         try (FileInputStream fis = new FileInputStream(new File(filename));
             OutputStream os = response.getOutputStream()) {

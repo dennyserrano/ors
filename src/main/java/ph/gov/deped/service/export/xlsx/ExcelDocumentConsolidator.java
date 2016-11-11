@@ -19,6 +19,8 @@ import java.util.stream.Stream;
 
 import javax.management.RuntimeErrorException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -30,6 +32,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import ph.gov.deped.service.data.impl.BulkExcelExportServiceImpl;
 import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
 import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;
 import ph.gov.deped.service.export.xlsx.stylers.DefaultExcelHeaderStyler;
@@ -41,6 +44,9 @@ public class ExcelDocumentConsolidator
 	
 	private ColumnElementWorkbookAppender workbookExporter;
 	private List<ColumnElement> columns;
+	
+	private static final Logger log = LogManager.getLogger(ExcelDocumentConsolidator.class);
+	
 	public ExcelDocumentConsolidator(ColumnElementWorkbookAppender appender,List<ColumnElement> columns)
 	{
 		workbookExporter=appender;
@@ -58,7 +64,7 @@ public class ExcelDocumentConsolidator
 		for(int x=0;x<fileNames.length;x++)
 		{
 			String fileName=fileNames[x];
-			System.out.println("opening:"+fileName);
+			log.info("consolidating:"+fileName);
 			FileInputStream fs=new FileInputStream(fileName);
 			Workbook nWb=new XSSFWorkbook(fs);
 			workbookExporter.append(nWb, wb, columns);
