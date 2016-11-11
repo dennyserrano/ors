@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step1Ctrl', ['$scope', '$timeout', '$state', '$window', 'DatasetService', 'ElementService', 'UserDatasetService',
-        function($scope, $timeout, $state, $window, DatasetService, ElementService, UserDatasetService) {
+    .controller('Step1Ctrl', ['$scope', '$timeout', '$state', '$window', 'DatasetService', 'ElementService', 'UserDatasetService','localStorageService',
+        function($scope, $timeout, $state, $window, DatasetService, ElementService, UserDatasetService,localStorageService) {
 
             $scope.selectedDatasets = []; // selected datasets
             $scope.datasets = []; // the dataset menu
@@ -88,6 +88,7 @@ angular.module('UserApp')
                 dataset.subDatasets = $scope.selectedDatasets;
                 UserDatasetService.save({}, dataset, function(response) {
                     if (response.code === 'SUCCESS') {
+                    	localStorageService.set('dataset',dataset);
                         $state.go('step2');
                     }
                 });

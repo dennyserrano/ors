@@ -1,13 +1,20 @@
-package ph.gov.deped.service.export.xlsx;
+package ph.gov.deped.service.export.xlsx.stylers;
 
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+
+import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.service.export.xlsx.FormattedElement;
+import ph.gov.deped.service.export.xlsx.XlsxCellStyleEvent;
+import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,7 +23,7 @@ import java.util.concurrent.Executors;
  * @author ej
  * @since Nov 05, 2014 17:58
  */
-public class DisruptedExcelCellStyler implements ExcelCellStyler, InitializingBean, DisposableBean {
+public class DisruptedExcelCellStyler implements InitializingBean, DisposableBean {
 
     private static final int DEFAULT_BUFFER_SIZE = 4096;
 
@@ -52,12 +59,19 @@ public class DisruptedExcelCellStyler implements ExcelCellStyler, InitializingBe
         this.disruptor.shutdown();
     }
     
-    public void applyStyle(Workbook wb, Row row, Cell cell, FormattedElement fe) {
-        ringBuffer.publishEvent((event, sequence) -> {
-            event.setWorkbook(wb);
-            event.setFormattedElement(fe);
-            event.setCell(cell);
-            event.setRow(row);
-        });
-    }
+//    public void applyStyle(Workbook wb, Row row, Cell cell,ColumnElement ce) {
+////        ringBuffer.publishEvent((event, sequence) -> {
+////            event.setWorkbook(wb);
+////            event.setFormattedElement(fe);
+////            event.setCell(cell);
+////            event.setRow(row);
+////        });
+//    }
+
+//	@Override
+//	public void applyStyle(Workbook wb, Sheet sheet, Row row, Cell cell,
+//			ColumnElement ce) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

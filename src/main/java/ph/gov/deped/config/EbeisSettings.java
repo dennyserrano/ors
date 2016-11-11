@@ -71,6 +71,7 @@ public class EbeisSettings implements DbSettings, Serializable {
     }
 
     public void setDbHost(String dbHost) {
+    	System.out.println("EBEIS:"+dbHost);
         this.dbHost = dbHost;
     }
 

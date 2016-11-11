@@ -71,6 +71,7 @@ public class LisSettings implements DbSettings, Serializable {
     }
 
     public void setDbHost(String dbHost) {
+    	System.out.println("LIS:"+dbHost);
         this.dbHost = dbHost;
     }
 
