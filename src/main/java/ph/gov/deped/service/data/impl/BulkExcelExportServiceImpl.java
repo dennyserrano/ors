@@ -89,7 +89,6 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
 				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
 				localExporter.export(tmpFile,data);
-				
 				if(x==0)
 				{
 					consolidatorHeaders=new ArrayList<List<ColumnElement>>();

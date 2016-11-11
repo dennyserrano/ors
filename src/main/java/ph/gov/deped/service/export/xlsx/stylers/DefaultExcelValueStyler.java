@@ -35,6 +35,7 @@ public class DefaultExcelValueStyler implements ColumnElementExcelValueCellStyle
 		Map<Integer, CellFormat> columnFormat=formatColumns(columns);
 		CellStyle cs=columnFormat.get(columnIndex).build(workbook);
 		sheet.setDefaultColumnStyle(columnIndex, cs);
+		columnFormat.clear();
 	}
     
 	protected Map<Integer, CellFormat> formatColumns(List<ColumnElement> headers) 
