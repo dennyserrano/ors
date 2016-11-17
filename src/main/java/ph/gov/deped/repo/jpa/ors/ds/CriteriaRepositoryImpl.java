@@ -47,15 +47,15 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
     	
     	KeyValue p=new KeyValue("7", "Public");
     	p.setChildKeyValues(new ArrayList<KeyValue>());
-    	p.getChildKeyValues().add(new KeyValue("713", "BRAC LC"));
+    	p.getChildKeyValues().add(new KeyValue("BRAC LC", "BRAC LC"));
     	p.getChildKeyValues().add(new KeyValue("829", "SCHOOL ABROAD"));
     	p.getChildKeyValues().add(new KeyValue("828", "ALS"));
     	
     	KeyValue pr=new KeyValue("8", "Private");
-    	p.setChildKeyValues(new ArrayList<KeyValue>());
-    	p.getChildKeyValues().add(new KeyValue("713", "BRAC LC"));
-    	p.getChildKeyValues().add(new KeyValue("829", "SCHOOL ABROAD"));
-    	p.getChildKeyValues().add(new KeyValue("828", "ALS"));
+    	pr.setChildKeyValues(new ArrayList<KeyValue>());
+    	pr.getChildKeyValues().add(new KeyValue("713", "sdf"));
+    	pr.getChildKeyValues().add(new KeyValue("829", "sdfsdf"));
+    	pr.getChildKeyValues().add(new KeyValue("828", "xcvcxv"));
     	GENERAL_CLASSIFICATIONS=new ArrayList<>(Arrays.asList(p,pr));
     }
     
@@ -88,8 +88,25 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
         return SCHOOL_YEARS;
     }
 
-    public List<KeyValue> getGeneralClassifications() {
-        return GENERAL_CLASSIFICATIONS;
+    public List<KeyValue> getGeneralClassifications() 
+    {
+    	JdbcTemplate template = new JdbcTemplate(dataSource);
+    	
+    	
+    	
+    	KeyValue p=new KeyValue("7", "Public");
+    	p.setChildKeyValues(
+    						template.query(filterSettings.getSectorPublicSql(),
+    									   new Object[]{10},
+    									   new int[]{Types.INTEGER},
+    									   (rs,rowNum)-> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("group_code"))
+    									   )
+    					);
+    	
+//    	KeyValue pr=new KeyValue("8", "Private");
+    	
+    	return new ArrayList<>(Arrays.asList(p));
+    	
     }
 
     public List<KeyValue> getGeneralCurricularOfferings() {
@@ -162,4 +179,5 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
                     return new KeyValue(id, String.format("(%s) %s", id, name));
                 });
     }
+    
 }

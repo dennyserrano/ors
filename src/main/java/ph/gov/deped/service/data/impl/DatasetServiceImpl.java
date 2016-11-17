@@ -57,7 +57,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
 
     private static final String REGION_ID = "region_id";
 
-    private static final String SCHOOL_YEAR = "school_year";
+    private static final String SCHOOL_YEAR = "sy_from";
 
     private static final String SCHOOL_NAME = "school_name";
 

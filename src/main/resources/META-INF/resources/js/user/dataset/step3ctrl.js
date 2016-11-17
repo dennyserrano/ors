@@ -25,10 +25,14 @@ angular.module('UserApp')
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_region'
             var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_division'
             var schoolNameFilterId = 16; // number 16 from sisdbtest.dataset_criteria.id where filter_name = 'sp_schoolName'
+            var sectorSubChecklistFilterId=17;
+            var sectorFilterId=11;
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
-
+            var sectorCriterion;
+            var sectorSubChecklistCriterion;
+            
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
                 if (c && c.selection) {
@@ -54,8 +58,22 @@ angular.module('UserApp')
                 }
             };
 
+            var sectorSubChecklistFilter = function(criterion) {
+                if (criterion.filterId === sectorSubChecklistFilterId) {
+                	sectorSubChecklistCriterion = criterion;
+                }
+            };
+            
+            var sectorFilter = function(criterion) {
+                if (criterion.filterId === sectorFilterId) {
+                	sectorCriterion = criterion;
+                }
+            };
+            
             var criteriaServiceCallback = function(criteria) {
                 angular.forEach(criteria, divisionCriteriaFilter);
+                angular.forEach(criteria, sectorFilter);
+                angular.forEach(criteria, sectorSubChecklistFilter);
                 angular.forEach(criteria, criteriaIteratorCallback);
             };
 
@@ -122,6 +140,14 @@ angular.module('UserApp')
                 if (criterion.filterId === regionFilterId) {
                     divisionCriterion.selection = selectedOptions[0].childKeyValues;
                 }
+                
+                
+                if (criterion.filterId === sectorFilterId) {
+                	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
+                }
+//                else if (criterion.filterId === sectorSubChecklistFilterId) {
+//                	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
+//                }
             };
             
             $scope.searchSchools = function(schoolName) {
