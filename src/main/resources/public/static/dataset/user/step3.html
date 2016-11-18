@@ -103,7 +103,7 @@
               </div>
               <div data-ng-switch-when="2" class="col-sm-4">
               	<div ng-repeat="select in availableCriterion.selection">
-              		<input type="checkbox"> {{select.value}}
+              		<input ng-click='testing()' type="checkbox" checklist-model="filters[7].selectedOptions" checklist-value='select'> {{select.value}}
               	</div>
               </div>
               <div data-ng-switch-default="0" class="col-sm-4">

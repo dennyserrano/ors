@@ -57,7 +57,7 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         filterValueMap.put("8:region_id", criteriaRepository::getRegionsAndDivisions);
         filterValueMap.put("8:division_id", Collections::emptyList);
         filterValueMap.put("8:school_id", () -> new ArrayList<>(asList(new KeyValue("", ""))));
-        filterValueMap.put("8:school_classification", () -> new ArrayList<>(asList(new KeyValue("", ""))));
+        filterValueMap.put("8:school_classification_id", ()->new ArrayList<>());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {

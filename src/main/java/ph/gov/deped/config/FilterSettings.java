@@ -36,6 +36,10 @@ public class FilterSettings implements Serializable {
     private int regionOfficeType;
     
     private int divisionOfficeType;
+    
+    private String sectorPublicSql;
+    
+    private String sectorPrivateSql;
 
     private String sectorPublicSql;
     

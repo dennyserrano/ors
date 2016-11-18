@@ -11,6 +11,7 @@ angular.module('UserApp')
 
             $scope.selectedValues = {};
             $scope.filters = [];
+            $scope.filters.se=[];
             $scope.loadingFilters = 0;
 
             $window.ORS.AdjustDatasetContents(0);
@@ -38,6 +39,10 @@ angular.module('UserApp')
                 if (c && c.selection) {
                     var selectedOptions = c.selection[0];
                     
+                    if(angular.isUndefined(selectedOptions)) //my changes
+                    {
+                    	selectedOptions=[];
+                    }
                     // find user selected option object
                     if ($scope.filters && $scope.filters.length > 0) {
                         angular.forEach($scope.filters, function(filter) {
@@ -149,6 +154,11 @@ angular.module('UserApp')
 //                	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
 //                }
             };
+            
+            $scope.testing=function()
+            {
+            	console.log($scope.filters);
+            }
             
             $scope.searchSchools = function(schoolName) {
                 var schoolFilters = [];
