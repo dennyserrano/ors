@@ -11,6 +11,7 @@ angular.module('UserApp')
 
             $scope.selectedValues = {};
             $scope.filters = [];
+            $scope.filters.se=[];
             $scope.loadingFilters = 0;
 
             $window.ORS.AdjustDatasetContents(0);
@@ -25,15 +26,23 @@ angular.module('UserApp')
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_region'
             var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_division'
             var schoolNameFilterId = 16; // number 16 from sisdbtest.dataset_criteria.id where filter_name = 'sp_schoolName'
+            var sectorSubChecklistFilterId=17;
+            var sectorFilterId=11;
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
-
+            var sectorCriterion;
+            var sectorSubChecklistCriterion;
+            
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
                 if (c && c.selection) {
                     var selectedOptions = c.selection[0];
                     
+                    if(angular.isUndefined(selectedOptions)) //my changes
+                    {
+                    	selectedOptions=[];
+                    }
                     // find user selected option object
                     if ($scope.filters && $scope.filters.length > 0) {
                         angular.forEach($scope.filters, function(filter) {
@@ -54,8 +63,22 @@ angular.module('UserApp')
                 }
             };
 
+            var sectorSubChecklistFilter = function(criterion) {
+                if (criterion.filterId === sectorSubChecklistFilterId) {
+                	sectorSubChecklistCriterion = criterion;
+                }
+            };
+            
+            var sectorFilter = function(criterion) {
+                if (criterion.filterId === sectorFilterId) {
+                	sectorCriterion = criterion;
+                }
+            };
+            
             var criteriaServiceCallback = function(criteria) {
                 angular.forEach(criteria, divisionCriteriaFilter);
+                angular.forEach(criteria, sectorFilter);
+                angular.forEach(criteria, sectorSubChecklistFilter);
                 angular.forEach(criteria, criteriaIteratorCallback);
             };
 
@@ -122,7 +145,20 @@ angular.module('UserApp')
                 if (criterion.filterId === regionFilterId) {
                     divisionCriterion.selection = selectedOptions[0].childKeyValues;
                 }
+                
+                
+                if (criterion.filterId === sectorFilterId) {
+                	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
+                }
+//                else if (criterion.filterId === sectorSubChecklistFilterId) {
+//                	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
+//                }
             };
+            
+            $scope.testing=function()
+            {
+            	console.log($scope.filters);
+            }
             
             $scope.searchSchools = function(schoolName) {
                 var schoolFilters = [];

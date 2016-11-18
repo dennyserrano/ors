@@ -36,6 +36,10 @@ public class FilterSettings implements Serializable {
     private int regionOfficeType;
     
     private int divisionOfficeType;
+    
+    private String sectorPublicSql;
+    
+    private String sectorPrivateSql;
 
     public int getRegionId() {
         return regionId;
@@ -124,4 +128,22 @@ public class FilterSettings implements Serializable {
     public void setLevelOfEducationId(int levelOfEducationId) {
         this.levelOfEducationId = levelOfEducationId;
     }
+
+	public String getSectorPublicSql() {
+		return sectorPublicSql;
+	}
+
+	public void setSectorPublicSql(String sectorPublicSql) {
+		this.sectorPublicSql = sectorPublicSql;
+	}
+
+	public String getSectorPrivateSql() {
+		return sectorPrivateSql;
+	}
+
+	public void setSectorPrivateSql(String sectorPrivateSql) {
+		this.sectorPrivateSql = sectorPrivateSql;
+	}
+    
+    
 }

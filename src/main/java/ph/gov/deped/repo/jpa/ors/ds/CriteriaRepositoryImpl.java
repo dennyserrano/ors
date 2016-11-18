@@ -89,7 +89,23 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
     }
 
     public List<KeyValue> getGeneralClassifications() {
-        return GENERAL_CLASSIFICATIONS;
+    	JdbcTemplate template = new JdbcTemplate(dataSource);
+    	
+    	KeyValue all=new KeyValue("", "All");
+    	
+    	KeyValue p1=new KeyValue("7", "Public");
+    	
+    	p1.setChildKeyValues(template.query(filterSettings.getSectorPublicSql(),
+				(rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("description"))));
+    	
+    	KeyValue pr=new KeyValue("8", "Private");
+    	pr.setChildKeyValues(
+    			template.query(filterSettings.getSectorPrivateSql(),
+    					(rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("description")))
+    			);
+    	
+    	
+    	return new ArrayList<>(Arrays.asList(all,p1,pr));
     }
 
     public List<KeyValue> getGeneralCurricularOfferings() {
