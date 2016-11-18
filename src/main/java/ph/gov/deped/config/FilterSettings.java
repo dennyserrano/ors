@@ -40,10 +40,6 @@ public class FilterSettings implements Serializable {
     private String sectorPublicSql;
     
     private String sectorPrivateSql;
-
-    private String sectorPublicSql;
-    
-    private String sectorPrivateSql;
     
     public int getRegionId() {
         return regionId;
