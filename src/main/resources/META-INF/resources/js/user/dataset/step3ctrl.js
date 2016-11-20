@@ -11,7 +11,6 @@ angular.module('UserApp')
 
             $scope.selectedValues = {};
             $scope.filters = [];
-            $scope.filters.se=[];
             $scope.loadingFilters = 0;
 
             $window.ORS.AdjustDatasetContents(0);
@@ -26,13 +25,18 @@ angular.module('UserApp')
             var regionFilterId = 8; // number 8 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_region'
             var divisionFilterId = 9; // number 9 is from sisdbtest.dataset_criteria.id where filter_name = 'sp_division'
             var schoolNameFilterId = 16; // number 16 from sisdbtest.dataset_criteria.id where filter_name = 'sp_schoolName'
+            var generalCurOfferingFilterId=12;
             var sectorSubChecklistFilterId=17;
+            var gcoSubChecklistFilterId=18;
             var sectorFilterId=11;
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
+            
             var sectorCriterion;
             var sectorSubChecklistCriterion;
+            var gcoSubChecklistCriterion;
+            var curricularOfferCriterion;
             
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
@@ -52,9 +56,26 @@ angular.module('UserApp')
                         });
                     }
                     
+                    if(c.filterId===sectorSubChecklistFilterId) //bad code
+                    {
+                    	selectedOptions=[];
+                    }
+                    
+                    if(c.filterId===gcoSubChecklistFilterId) //bad code
+                    {
+                    	selectedOptions=[];
+                    }
+                    
                     $scope.selectedValues[c.filterId] = $.isArray(selectedOptions) ? selectedOptions : [selectedOptions];
                 }
                 $scope.setFilter(c);
+            };
+            
+            
+            var curricularOfferingFilter = function(criterion) {
+                if (criterion.filterId === generalCurOfferingFilterId) {
+                	curricularOfferCriterion = criterion;
+                }
             };
             
             var divisionCriteriaFilter = function(criterion) {
@@ -69,6 +90,12 @@ angular.module('UserApp')
                 }
             };
             
+            var gcoSubChecklistFilter = function(criterion) {
+                if (criterion.filterId === gcoSubChecklistFilterId) {
+                	gcoSubChecklistCriterion = criterion;
+                }
+            };
+            
             var sectorFilter = function(criterion) {
                 if (criterion.filterId === sectorFilterId) {
                 	sectorCriterion = criterion;
@@ -78,8 +105,42 @@ angular.module('UserApp')
             var criteriaServiceCallback = function(criteria) {
                 angular.forEach(criteria, divisionCriteriaFilter);
                 angular.forEach(criteria, sectorFilter);
+                angular.forEach(criteria, curricularOfferingFilter);
                 angular.forEach(criteria, sectorSubChecklistFilter);
+                angular.forEach(criteria, gcoSubChecklistFilter);
                 angular.forEach(criteria, criteriaIteratorCallback);
+                
+//                var temp= availableCriteria[7];
+//                availableCriteria[7]=availableCriteria[3];
+//                availableCriteria[3]=temp;
+                
+                //bad code
+                availableCriteria.splice(4,0,availableCriteria[7]);
+                
+                
+                
+                delete availableCriteria[8];
+                
+                availableCriteria.splice(6,0,availableCriteria[9]);
+                delete availableCriteria[10];
+                
+                var newArr=[];
+                
+                for(var x=0;x<availableCriteria.length;x++)
+                	{
+                		if(angular.isDefined(availableCriteria[x]))
+                			{
+                				newArr.push(availableCriteria[x]);
+                			}
+                	}
+                
+                availableCritera=[];
+                availableCriteria=newArr;
+                
+                for(var x=0;x<availableCriteria.length;x++)
+            	{
+            		console.log(availableCriteria[x]);
+            	}
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -146,13 +207,14 @@ angular.module('UserApp')
                     divisionCriterion.selection = selectedOptions[0].childKeyValues;
                 }
                 
-                
                 if (criterion.filterId === sectorFilterId) {
                 	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
                 }
-//                else if (criterion.filterId === sectorSubChecklistFilterId) {
-//                	sectorSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
-//                }
+  
+                if (criterion.filterId === generalCurOfferingFilterId) {
+                	gcoSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
+                }
+                
             };
             
             $scope.testing=function()
@@ -206,6 +268,18 @@ angular.module('UserApp')
                 $scope.saving = true;
                 var dataset = $scope.dataset;
                 dataset.filters = $scope.filters;
+                
+                //bad code
+//                if(dataset.filters[7].selectedOptions.length==0)
+//                {
+//                	delete dataset.filters[7];
+//                }
+//                
+//                if(dataset.filters[8].selectedOptions.length==0)
+//                {
+//                	delete dataset.filters[8];
+//                }
+                
                 saveDataset(dataset, function() {
                 	localStorageService.set('dataset',dataset);
                     $state.go('step4');

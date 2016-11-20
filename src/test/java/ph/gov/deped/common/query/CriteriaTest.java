@@ -23,15 +23,24 @@ public class CriteriaTest
 	@Autowired
 	CriteriaRepository cr;
 	
+//	@Test
+//	public void test()
+//	{
+//		for (KeyValue kv:cr.getGeneralClassifications())
+//		{
+//			System.out.println(kv.getValue());
+//			
+//			for(KeyValue kv2:kv.getChildKeyValues())
+//				System.out.println(kv2.getValue());
+//		}
+//	}
+	
 	@Test
-	public void test()
+	public void regionTest()
 	{
-		for (KeyValue kv:cr.getGeneralClassifications())
+		for(KeyValue kv:cr.getRegionsAndDivisions())
 		{
 			System.out.println(kv.getValue());
-			
-			for(KeyValue kv2:kv.getChildKeyValues())
-				System.out.println(kv2.getValue());
 		}
 	}
 }

@@ -35,29 +35,6 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
             new KeyValue("2003", "2003 - 2004"),
             new KeyValue("2002", "2002 - 2003")
     ));
-
-//    private static final List<KeyValue> GENERAL_CLASSIFICATIONS = new ArrayList<>(Arrays.asList(
-//            new KeyValue("", "All"),
-//            new KeyValue("7", "Public"),
-//            new KeyValue("8", "Private")
-//    ));
-
-    private static final List<KeyValue> GENERAL_CLASSIFICATIONS;
-    static{
-    	
-    	KeyValue p=new KeyValue("7", "Public");
-    	p.setChildKeyValues(new ArrayList<KeyValue>());
-    	p.getChildKeyValues().add(new KeyValue("BRAC LC", "BRAC LC"));
-    	p.getChildKeyValues().add(new KeyValue("829", "SCHOOL ABROAD"));
-    	p.getChildKeyValues().add(new KeyValue("828", "ALS"));
-    	
-    	KeyValue pr=new KeyValue("8", "Private");
-    	pr.setChildKeyValues(new ArrayList<KeyValue>());
-    	pr.getChildKeyValues().add(new KeyValue("713", "sdf"));
-    	pr.getChildKeyValues().add(new KeyValue("829", "sdfsdf"));
-    	pr.getChildKeyValues().add(new KeyValue("828", "xcvcxv"));
-    	GENERAL_CLASSIFICATIONS=new ArrayList<>(Arrays.asList(p,pr));
-    }
     
     private static final List<KeyValue> GENERAL_CURRICULAR_OFFERINGS = new ArrayList<>(Arrays.asList(
             new KeyValue("433", "Elementary"),
@@ -109,8 +86,26 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
     	return new ArrayList<>(Arrays.asList(all,p1,pr));
     }
 
-    public List<KeyValue> getGeneralCurricularOfferings() {
-        return GENERAL_CURRICULAR_OFFERINGS;
+    public List<KeyValue> getGeneralCurricularOfferings() 
+    {
+    	JdbcTemplate template = new JdbcTemplate(dataSource);
+    	KeyValue kv1=new KeyValue("433", "Elementary");
+    	
+    	kv1.setChildKeyValues
+    	(
+    			template.query(filterSettings.getGeneralCurricularOfferingElem(),
+    					(rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("description")))
+    	);
+    	
+        KeyValue kv2=new KeyValue("434", "Secondary");
+        
+        kv2.setChildKeyValues
+    	(
+    			template.query(filterSettings.getGeneralCurricularOfferingSeco(),
+    					(rs, rowNum) -> new KeyValue(String.valueOf(rs.getInt("id")), rs.getString("description")))
+    	);
+        
+        return new ArrayList<>(Arrays.asList(kv1,kv2));
     }
 
     public List<KeyValue> getSchoolTypes() {

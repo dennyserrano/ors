@@ -58,6 +58,7 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         filterValueMap.put("8:division_id", Collections::emptyList);
         filterValueMap.put("8:school_id", () -> new ArrayList<>(asList(new KeyValue("", ""))));
         filterValueMap.put("8:school_classification_id", ()->new ArrayList<>());
+        filterValueMap.put("8:coc_id", ()->new ArrayList<>());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {
@@ -67,8 +68,12 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         if (criterias == null) {
             return Collections.emptyList();
         }
+        
+        
+        
         return criterias.stream()
-                .map(c -> new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
+                .map(c ->
+                		new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
                         c.getInputType().ordinal(), c.getLabel(), filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))
                 .collect(toList());
     }

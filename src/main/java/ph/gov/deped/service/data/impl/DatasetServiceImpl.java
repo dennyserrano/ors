@@ -363,6 +363,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
                     }
                 })
                 .collect(toList());
+        if(values.size()!=0)
         criteriaFilterBuilder.in(values.toArray(new ValueExpression[values.size()]));
     }
 

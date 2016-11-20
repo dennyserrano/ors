@@ -41,7 +41,29 @@ public class FilterSettings implements Serializable {
     
     private String sectorPrivateSql;
     
-    public int getRegionId() {
+    private String generalCurricularOfferingElem;
+    
+    private String generalCurricularOfferingSeco;
+    
+    public String getGeneralCurricularOfferingElem() {
+		return generalCurricularOfferingElem;
+	}
+
+	public void setGeneralCurricularOfferingElem(
+			String generalCurricularOfferingElem) {
+		this.generalCurricularOfferingElem = generalCurricularOfferingElem;
+	}
+
+	public String getGeneralCurricularOfferingSeco() {
+		return generalCurricularOfferingSeco;
+	}
+
+	public void setGeneralCurricularOfferingSeco(
+			String generalCurricularOfferingSeco) {
+		this.generalCurricularOfferingSeco = generalCurricularOfferingSeco;
+	}
+
+	public int getRegionId() {
         return regionId;
     }
 
