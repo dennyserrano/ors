@@ -70,10 +70,10 @@ SUM((SELECT SUM(IFNULL(pps.male,0)+IFNULL(pps.female,0))   AS qty FROM teaching_
 
 FROM school_profile_history sph
 LEFT JOIN ref_reports reports on (reports.co_genclass_id=sph.co_gen_class and reports.general_classification_id=sph.general_classification_id AND reports.ref_report_generics_id in (2))
-LEFT JOIN ref_report_history rrh on (reports.id=rrh.report_id and rrh.sy_from = CAST(2011 AS CHAR))
+LEFT JOIN ref_report_history rrh on (reports.id=rrh.report_id and rrh.sy_from = CAST(2016 AS CHAR))
 LEFT JOIN report_history rh on (rh.ref_report_history_id = rrh.id and rh.school_id=sph.school_id and rh.report_status IN (301,302))
 
-WHERE sph.SY_FROM = 2011 AND sph.general_classification_id = 7 AND sph.co_gen_class in (433) 
+WHERE sph.SY_FROM = 2016 AND sph.general_classification_id = 7 AND sph.co_gen_class in (433) 
 AND sph.take_part_id in (2,3) 
 AND sph.date_closed is null
 GROUP BY sph.SCHOOL_ID
