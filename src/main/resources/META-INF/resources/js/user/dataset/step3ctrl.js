@@ -110,10 +110,6 @@ angular.module('UserApp')
                 angular.forEach(criteria, gcoSubChecklistFilter);
                 angular.forEach(criteria, criteriaIteratorCallback);
                 
-//                var temp= availableCriteria[7];
-//                availableCriteria[7]=availableCriteria[3];
-//                availableCriteria[3]=temp;
-                
                 //bad code
                 availableCriteria.splice(4,0,availableCriteria[7]);
                 
@@ -216,11 +212,6 @@ angular.module('UserApp')
                 }
                 
             };
-            
-            $scope.testing=function()
-            {
-            	console.log($scope.filters);
-            }
             
             $scope.searchSchools = function(schoolName) {
                 var schoolFilters = [];
