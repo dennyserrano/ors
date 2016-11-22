@@ -32,11 +32,11 @@ SELECT sph.sy_from, sph.school_id
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 108 AND en.pupil_data_indicator=25)),0) as g10mono_class
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 497 AND en.pupil_data_indicator=25)),0) as g11mono_class
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.pupil_data_indicator=25)),0) as g12mono_class
-	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433,if(sph.sy_from=2013,598,197),389) AND en.pupil_data_indicator=25)),0) as ngmono_class
-	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433,if(sph.sy_from=2013,598,197),389) AND en.pupil_data_indicator=25)),0) as totmono_class
+	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433,if(sph.sy_from=2016,598,197),389) AND en.pupil_data_indicator=25)),0) as ngmono_class
+	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433,if(sph.sy_from=2016,598,197),389) AND en.pupil_data_indicator=25)),0) as totmono_class
 
 -- Multigrade Classes
-	, IFNULL(IF(sph.sy_from<2014,SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 98 AND en.pupil_data_indicator=26)),
+	, IFNULL(IF(sph.sy_from=2016,SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 98 AND en.pupil_data_indicator=26)),
 			(select if(locate('3',CONCAT(mg.kinder,mg.g1,mg.g2,mg.g3,mg.g4,mg.g5,mg.g6))>0,3,if(locate('2',CONCAT(mg.kinder,mg.g1,mg.g2,mg.g3,mg.g4,mg.g5,mg.g6))>0,2,if(locate('1',CONCAT(mg.kinder,mg.g1,mg.g2,mg.g3,mg.g4,mg.g5,mg.g6))>0,1,0)))
 			from ebeisdb.multigrade_class mg WHERE mg.report_history_id=rh.id)),0) as totmulti_class
 
@@ -54,8 +54,8 @@ SELECT sph.sy_from, sph.school_id
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 108 AND en.pupil_data_indicator=500)),0) as g10alivemono_class
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 497 AND en.pupil_data_indicator=500)),0) as g11alivemono_class
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.pupil_data_indicator=500)),0) as g12alivemono_class
-	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433,if(sph.sy_from=2013,598,197),389) AND en.pupil_data_indicator=500)),0) as ngalivemono_class
-	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433,if(sph.sy_from=2013,598,197),389) AND en.pupil_data_indicator=500)),0) as totalivemono_class
+	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433,if(sph.sy_from=2016,598,197),389) AND en.pupil_data_indicator=500)),0) as ngalivemono_class
+	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433,if(sph.sy_from=2016,598,197),389) AND en.pupil_data_indicator=500)),0) as totalivemono_class
 
 -- ALIVE Multigrade Classes
 	, IFNULL(SUM((SELECT SUM(IFNULL(en.level_total,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = 98 AND en.pupil_data_indicator=500)),0) as totalivemulti_class
