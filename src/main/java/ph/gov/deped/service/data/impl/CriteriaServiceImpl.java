@@ -50,13 +50,15 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
     public void afterPropertiesSet() throws Exception {
         // set filter values as constant from now. see CriteriaRepositoryImpl.
         // head id and element name separated by colon (:) to be used as key
-        filterValueMap.put("8:school_year", criteriaRepository::getSchoolYears);
+        filterValueMap.put("8:sy_from", criteriaRepository::getSchoolYears);
         filterValueMap.put("8:school_type_id", criteriaRepository::getSchoolTypes);
         filterValueMap.put("8:sector_id", criteriaRepository::getGeneralClassifications);
         filterValueMap.put("8:level_of_education_id", criteriaRepository::getGeneralCurricularOfferings);
         filterValueMap.put("8:region_id", criteriaRepository::getRegionsAndDivisions);
         filterValueMap.put("8:division_id", Collections::emptyList);
         filterValueMap.put("8:school_id", () -> new ArrayList<>(asList(new KeyValue("", ""))));
+        filterValueMap.put("8:school_classification_id", ()->new ArrayList<>());
+        filterValueMap.put("8:coc_id", ()->new ArrayList<>());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {
@@ -66,8 +68,12 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         if (criterias == null) {
             return Collections.emptyList();
         }
+        
+        
+        
         return criterias.stream()
-                .map(c -> new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
+                .map(c ->
+                		new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
                         c.getInputType().ordinal(), c.getLabel(), filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))
                 .collect(toList());
     }
