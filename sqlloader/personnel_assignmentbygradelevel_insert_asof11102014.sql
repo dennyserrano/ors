@@ -1,5 +1,5 @@
 -- 2011 to 2014
-INSERT INTO `sisdbtest`.`personnel_assignmentbygrade`
+INSERT INTO `personnel_assignmentbygrade`
 (
 `sy_from`,
 `school_id`,
