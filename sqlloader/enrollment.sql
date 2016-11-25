@@ -98,14 +98,6 @@ g7maleTRPRIVATE, g7femaleTRPRIVATE, g7totTRPRIVATE, g8maleTRPRIVATE, g8femaleTRP
 g9maleTRPRIVATE, g9femaleTRPRIVATE, g9totTRPRIVATE, g10maleTRPRIVATE, g10femaleTRPRIVATE, g10totTRPRIVATE, 
 g11maleTRPRIVATE, g11femaleTRPRIVATE, g11totTRPRIVATE, g12maleTRPRIVATE, g12femaleTRPRIVATE, g12totTRPRIVATE, 
 gtotmaleTRPRIVATE, gtotfemaleTRPRIVATE, gtotTRPRIVATE, ngmaleTRPRIVATE, ngfemaleTRPRIVATE, ngtotTRPRIVATE, 
-gkmaleEOSY_EN, gkfemaleEOSY_EN, gktotEOSY_EN, g1maleEOSY_EN, g1femaleEOSY_EN, g1totEOSY_EN, 
-g2maleEOSY_EN, g2femaleEOSY_EN, g2totEOSY_EN, g3maleEOSY_EN, g3femaleEOSY_EN, g3totEOSY_EN, 
-g4maleEOSY_EN, g4femaleEOSY_EN, g4totEOSY_EN, g5maleEOSY_EN, g5femaleEOSY_EN, g5totEOSY_EN,
-g6maleEOSY_EN, g6femaleEOSY_EN, g6totEOSY_EN, gp7maleEOSY_EN, gp7femaleEOSY_EN, gp7totEOSY_EN, 
-g7maleEOSY_EN, g7femaleEOSY_EN, g7totEOSY_EN, g8maleEOSY_EN, g8femaleEOSY_EN, g8totEOSY_EN, 
-g9maleEOSY_EN, g9femaleEOSY_EN, g9totEOSY_EN, g10maleEOSY_EN, g10femaleEOSY_EN, g10totEOSY_EN, 
-g11maleEOSY_EN, g11femaleEOSY_EN, g11totEOSY_EN, g12maleEOSY_EN, g12femaleEOSY_EN, g12totEOSY_EN, 
-gtotmaleEOSY_EN, gtotfemaleEOSY_EN, gtotEOSY_EN, ngmaleEOSY_EN, ngfemaleEOSY_EN, ngtotEOSY_EN,
 gkmalePROMOTEES, gkfemalePROMOTEES, gktotPROMOTEES, g1malePROMOTEES, g1femalePROMOTEES, g1totPROMOTEES,
 g2malePROMOTEES, g2femalePROMOTEES, g2totPROMOTEES, g3malePROMOTEES, g3femalePROMOTEES, g3totPROMOTEES, 
 g4malePROMOTEES, g4femalePROMOTEES, g4totPROMOTEES, g5malePROMOTEES, g5femalePROMOTEES, g5totPROMOTEES,
@@ -122,14 +114,6 @@ g7maleDROPOUTS, g7femaleDROPOUTS, g7totDROPOUTS, g8maleDROPOUTS, g8femaleDROPOUT
 g9maleDROPOUTS, g9femaleDROPOUTS, g9totDROPOUTS, g10maleDROPOUTS, g10femaleDROPOUTS, g10totDROPOUTS, 
 g11maleDROPOUTS, g11femaleDROPOUTS, g11totDROPOUTS, g12maleDROPOUTS, g12femaleDROPOUTS, g12totDROPOUTS, 
 gtotmaleDROPOUTS, gtotfemaleDROPOUTS, gtotDROPOUTS, ngmaleDROPOUTS, ngfemaleDROPOUTS, ngtotDROPOUTS, 
-gkmaleEOSY_TRANSIN, gkfemaleEOSY_TRANSIN, gktotEOSY_TRANSIN, g1maleEOSY_TRANSIN, g1femaleEOSY_TRANSIN, g1totEOSY_TRANSIN, 
-g2maleEOSY_TRANSIN, g2femaleEOSY_TRANSIN, g2totEOSY_TRANSIN, g3maleEOSY_TRANSIN, g3femaleEOSY_TRANSIN, g3totEOSY_TRANSIN, 
-g4maleEOSY_TRANSIN, g4femaleEOSY_TRANSIN, g4totEOSY_TRANSIN, g5maleEOSY_TRANSIN, g5femaleEOSY_TRANSIN, g5totEOSY_TRANSIN, 
-g6maleEOSY_TRANSIN, g6femaleEOSY_TRANSIN, g6totEOSY_TRANSIN, gp7maleEOSY_TRANSIN, gp7femaleEOSY_TRANSIN, gp7totEOSY_TRANSIN,
-g7maleEOSY_TRANSIN, g7femaleEOSY_TRANSIN, g7totEOSY_TRANSIN, g8maleEOSY_TRANSIN, g8femaleEOSY_TRANSIN, g8totEOSY_TRANSIN, 
-g9maleEOSY_TRANSIN, g9femaleEOSY_TRANSIN, g9totEOSY_TRANSIN, g10maleEOSY_TRANSIN, g10femaleEOSY_TRANSIN, g10totEOSY_TRANSIN, 
-g11maleEOSY_TRANSIN, g11femaleEOSY_TRANSIN, g11totEOSY_TRANSIN, g12maleEOSY_TRANSIN, g12femaleEOSY_TRANSIN, g12totEOSY_TRANSIN,
-gtotmaleEOSY_TRANSIN, gtotfemaleEOSY_TRANSIN, gtotEOSY_TRANSIN, ngmaleEOSY_TRANSIN, ngfemaleEOSY_TRANSIN, ngtotEOSY_TRANSIN, 
 gkmaleTRANSOUT, gkfemaleTRANSOUT, gktotTRANSOUT, g1maleTRANSOUT, g1femaleTRANSOUT, g1totTRANSOUT,
 g2maleTRANSOUT, g2femaleTRANSOUT, g2totTRANSOUT, g3maleTRANSOUT, g3femaleTRANSOUT, g3totTRANSOUT, 
 g4maleTRANSOUT, g4femaleTRANSOUT, g4totTRANSOUT, g5maleTRANSOUT, g5femaleTRANSOUT, g5totTRANSOUT, 
@@ -985,56 +969,6 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 438))),0) as ngfemaleTRPRIVATE
 , IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 438))),0) as ngtotTRPRIVATE
 
--- EOSY Enrolment
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 260))),0) as gkmaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 260))),0) as gkfemaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 260))),0) as gktotEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 98 AND en.pupil_data_indicator in ( 260))),0) as g1maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 98 AND en.pupil_data_indicator in ( 260))),0) as g1femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 98 AND en.pupil_data_indicator in ( 260))),0) as g1totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 99 AND en.pupil_data_indicator in ( 260))),0) as g2maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 99 AND en.pupil_data_indicator in ( 260))),0) as g2femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 99 AND en.pupil_data_indicator in ( 260))),0) as g2totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 100 AND en.pupil_data_indicator in ( 260))),0) as g3maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 100 AND en.pupil_data_indicator in ( 260))),0) as g3femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 100 AND en.pupil_data_indicator in ( 260))),0) as g3totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 101 AND en.pupil_data_indicator in ( 260))),0) as g4maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 101 AND en.pupil_data_indicator in ( 260))),0) as g4femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 101 AND en.pupil_data_indicator in ( 260))),0) as g4totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 102 AND en.pupil_data_indicator in ( 260))),0) as g5maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 102 AND en.pupil_data_indicator in ( 260))),0) as g5femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 102 AND en.pupil_data_indicator in ( 260))),0) as g5totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 103 AND en.pupil_data_indicator in ( 260))),0) as g6maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 103 AND en.pupil_data_indicator in ( 260))),0) as g6femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 103 AND en.pupil_data_indicator in ( 260))),0) as g6totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 104 AND en.pupil_data_indicator in ( 260))),0) as gp7maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 104 AND en.pupil_data_indicator in ( 260))),0) as gp7femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 104 AND en.pupil_data_indicator in ( 260))),0) as gp7totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 105 AND en.pupil_data_indicator in ( 260))),0) as g7maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 105 AND en.pupil_data_indicator in ( 260))),0) as g7femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 105 AND en.pupil_data_indicator in ( 260))),0) as g7totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 106 AND en.pupil_data_indicator in ( 260))),0) as g8maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 106 AND en.pupil_data_indicator in ( 260))),0) as g8femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 106 AND en.pupil_data_indicator in ( 260))),0) as g8totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 107 AND en.pupil_data_indicator in ( 260))),0) as g9maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 107 AND en.pupil_data_indicator in ( 260))),0) as g9femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 107 AND en.pupil_data_indicator in ( 260))),0) as g9totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 108 AND en.pupil_data_indicator in ( 260))),0) as g10maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 108 AND en.pupil_data_indicator in ( 260))),0) as g10femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 108 AND en.pupil_data_indicator in ( 260))),0) as g10totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 497 AND en.pupil_data_indicator in ( 260))),0) as g11maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 497 AND en.pupil_data_indicator in ( 260))),0) as g11femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 497 AND en.pupil_data_indicator in ( 260))),0) as g11totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 595 AND en.pupil_data_indicator in ( 260))),0) as g12maleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 595 AND en.pupil_data_indicator in ( 260))),0) as g12femaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 595 AND en.pupil_data_indicator in ( 260))),0) as g12totEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  AND en.pupil_data_indicator in ( 260))),0) as gtotmaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  AND en.pupil_data_indicator in ( 260))),0) as gtotfemaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0) + IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  AND en.pupil_data_indicator in ( 260))),0) as gtotEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 260))),0) as ngmaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 260))),0) as ngfemaleEOSY_EN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 260))),0) as ngtotEOSY_EN
-
 -- Promotees
 , IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 483))),0) as gkmalePROMOTEES
 , IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 483))),0) as gkfemalePROMOTEES
@@ -1135,55 +1069,6 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 482))),0) as ngfemaleDROPOUTS
 , IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 482))),0) as ngtotDROPOUTS
 
--- EOSY Transin
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 620))),0) as gkmaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 620))),0) as gkfemaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 620))),0) as gktotEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 98 AND en.pupil_data_indicator in ( 620))),0) as g1maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 98 AND en.pupil_data_indicator in ( 620))),0) as g1femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 98 AND en.pupil_data_indicator in ( 620))),0) as g1totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 99 AND en.pupil_data_indicator in ( 620))),0) as g2maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 99 AND en.pupil_data_indicator in ( 620))),0) as g2femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 99 AND en.pupil_data_indicator in ( 620))),0) as g2totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 100 AND en.pupil_data_indicator in ( 620))),0) as g3maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 100 AND en.pupil_data_indicator in ( 620))),0) as g3femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 100 AND en.pupil_data_indicator in ( 620))),0) as g3totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 101 AND en.pupil_data_indicator in ( 620))),0) as g4maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 101 AND en.pupil_data_indicator in ( 620))),0) as g4femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 101 AND en.pupil_data_indicator in ( 620))),0) as g4totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 102 AND en.pupil_data_indicator in ( 620))),0) as g5maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 102 AND en.pupil_data_indicator in ( 620))),0) as g5femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 102 AND en.pupil_data_indicator in ( 620))),0) as g5totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 103 AND en.pupil_data_indicator in ( 620))),0) as g6maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 103 AND en.pupil_data_indicator in ( 620))),0) as g6femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 103 AND en.pupil_data_indicator in ( 620))),0) as g6totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 104 AND en.pupil_data_indicator in ( 620))),0) as gp7maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 104 AND en.pupil_data_indicator in ( 620))),0) as gp7femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 104 AND en.pupil_data_indicator in ( 620))),0) as gp7totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 105 AND en.pupil_data_indicator in ( 620))),0) as g7maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 105 AND en.pupil_data_indicator in ( 620))),0) as g7femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 105 AND en.pupil_data_indicator in ( 620))),0) as g7totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 106 AND en.pupil_data_indicator in ( 620))),0) as g8maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 106 AND en.pupil_data_indicator in ( 620))),0) as g8femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 106 AND en.pupil_data_indicator in ( 620))),0) as g8totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 107 AND en.pupil_data_indicator in ( 620))),0) as g9maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 107 AND en.pupil_data_indicator in ( 620))),0) as g9femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 107 AND en.pupil_data_indicator in ( 620))),0) as g9totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 108 AND en.pupil_data_indicator in ( 620))),0) as g10maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 108 AND en.pupil_data_indicator in ( 620))),0) as g10femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 108 AND en.pupil_data_indicator in ( 620))),0) as g10totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 497 AND en.pupil_data_indicator in ( 620))),0) as g11maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 497 AND en.pupil_data_indicator in ( 620))),0) as g11femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 497 AND en.pupil_data_indicator in ( 620))),0) as g11totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 595 AND en.pupil_data_indicator in ( 620))),0) as g12maleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 595 AND en.pupil_data_indicator in ( 620))),0) as g12femaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 595 AND en.pupil_data_indicator in ( 620))),0) as g12totEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  AND en.pupil_data_indicator in ( 620))),0) as gtotmaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  AND en.pupil_data_indicator in ( 620))),0) as gtotfemaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0) + IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  AND en.pupil_data_indicator in ( 620))),0) as gtotEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 620))),0) as ngmaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 620))),0) as ngfemaleEOSY_TRANSIN
-, IFNULL(SUM((SELECT SUM(IFNULL(en.male, 0)+ifnull(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) AND en.pupil_data_indicator in ( 620))),0) as ngtotEOSY_TRANSIN
 
 -- Transout
 , IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh2.id AND en.grade_level_id = 405 AND en.pupil_data_indicator in ( 622))),0) as gkmaleTRANSOUT
@@ -1486,7 +1371,7 @@ FROM ebeisdb.school_profile_history sph
 	      inner join ebeisdb.ref_report_history rrh2 on rh2.ref_report_history_id = rrh2.id
 	      inner join ebeisdb.ref_reports rrs2 on rrs2.id  = rrh2.report_id
 	      inner join ebeisdb.ref_report_generics rrg2 on rrg2.id = rrs2.ref_report_generics_id and rrg2.id=2
-	 ) on rh2.school_id = sph.school_id and rh2.sy_from=2016 sph.sy_from and rh.report_status > 300 -- cast( sph.sy_from as unsigned)
+	 ) on rh2.school_id = sph.school_id and rh2.sy_from=sph.sy_from and rh.report_status > 300 -- cast( sph.sy_from as unsigned)
    WHERE  sph.take_part_id IN (1,2,3)
    GROUP BY rh.sy_from, sph.SCHOOL_ID 
    ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC;

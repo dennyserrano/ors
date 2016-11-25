@@ -19,7 +19,7 @@ select sph.sy_from, sph.school_id
 	,IFNULL(osd.water_supply_manila,0) as water_supply_manila
 	,IFNULL(osd.water_supply_local,0) as water_supply_local
 	,IFNULL(osd.water_supply_coop,0) as water_supply_coop 
-	,IFNULL(osd.water_supply_other,"") as water_supply_others
+	,IFNULL(osd.water_supply_other,NULL) as water_supply_others
 
 -- Water Monthly Cost
 	,IFNULL(osd.water_monthly_cost,0) as water_monthly_cost
@@ -31,20 +31,20 @@ select sph.sy_from, sph.school_id
 	,IFNULL(osd.water_fund_canteen,0) as water_fund_canteen
 	,IFNULL(osd.water_fund_private,0) as water_fund_private
 	,IFNULL(osd.water_fund_porkbarrel,0) as water_fund_pdaf
-	,IFNULL(osd.water_fund_others,"") as water_fund_others
+	,IFNULL(osd.water_fund_others,NULL) as water_fund_others
 
 -- Electrical Supply Source
   ,IFNULL(SUM((SELECT SUM(IFNULL(y.quantity,0)) FROM ebeisdb.inventory_summary y WHERE y.report_history_id=rh.id AND y.education_level_id=if(sph.sy_from=2016,3930,sph.co_gen_class) and y.item_type_id=3930 and y.item_id=395)),0) as electric_source_grid 
   ,IFNULL(SUM((SELECT SUM(IFNULL(y.quantity,0)) FROM ebeisdb.inventory_summary y WHERE y.report_history_id=rh.id AND y.education_level_id=3930 and y.item_type_id=3930 and y.item_id=704)),0) as electric_source_offgrid 
   ,IFNULL(if(sph.sy_from=2016,osd.offgrid_supply_solar,SUM((SELECT SUM(IFNULL(y.quantity,0)) FROM ebeisdb.inventory_summary y WHERE y.report_history_id=rh.id AND y.education_level_id=sph.co_gen_class and y.item_type_id=3930 and y.item_id=397))),0) as offgrid_source_solar   
   ,IFNULL(if(sph.sy_from=2016,osd.offgrid_supply_generator,SUM((SELECT SUM(IFNULL(y.quantity,0)) FROM ebeisdb.inventory_summary y WHERE y.report_history_id=rh.id AND y.education_level_id=sph.co_gen_class and y.item_type_id=3930 and y.item_id=396))),0) as offgrid_source_generator 
-	,IFNULL(osd.offgrid_supply_others,"") as offgrid_supply_others
+	,IFNULL(osd.offgrid_supply_others,NULL) as offgrid_supply_others
   ,IFNULL(SUM((SELECT SUM(IFNULL(y.quantity,0)) FROM ebeisdb.inventory_summary y WHERE y.report_history_id=rh.id AND y.education_level_id=if(sph.sy_from=2016,3930,sph.co_gen_class) and y.item_type_id=3930 and y.item_id=398)),0) as no_source_electricity 
 
 -- Electrical Supply Provider
 	,IFNULL(osd.grid_supply_meralco,0) as grid_supply_meralco
 	,IFNULL(osd.grid_supply_local,0) as grid_supply_localcoop
-	,IFNULL(osd.grid_supply_others,"") as grid_supply_others
+	,IFNULL(osd.grid_supply_others,NULL) as grid_supply_others
 
 -- Electrical Monthly Cost
 	,IFNULL(osd.grid_monthly_cost,0) as grid_monthly_cost 

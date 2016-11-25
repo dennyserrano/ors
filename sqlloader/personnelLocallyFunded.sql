@@ -101,7 +101,7 @@ LEFT JOIN ebeisdb.ref_report_history rrh on (reports.id=rrh.report_id and rrh.sy
 LEFT JOIN ebeisdb.report_history rh on (rh.ref_report_history_id = rrh.id and rh.school_id=sph.school_id 
  and rh.report_status IN (301,302))
 
-WHERE sph.general_classification_id = 7 AND sph.take_part_id in (1,2,3) AND sph.date_closed is null
+WHERE sph.general_classification_id = 7 AND sph.take_part_id in (1,2,3) AND sph.date_closed is null and sph.sy_from = 2016
 GROUP BY sph.sy_from, sph.SCHOOL_ID
 ORDER BY sph.sy_from, sph.SCHOOL_ID ASC;
 

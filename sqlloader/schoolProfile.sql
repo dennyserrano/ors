@@ -1,5 +1,5 @@
 INSERT INTO orsdb.school_profile_history
-(school_year, school_id, school_name, short_name, previous_name, school_head, designation, date_established, date_closed, 
+(sy_from, school_id, school_name, short_name, previous_name, school_head, designation, date_established, date_closed, 
 closed_reason, status_of_operation, street_address, barangay_id, barangay, zip_code, region_id, region_shortname, region_name, 
 province_id, province_name, municipality_id, municipality_name, legislative_id, legislative_name, division_id, division_name, 
 district_id, district_name, telephone_no, fax_no, mobile_no, email_address, web_address, school_type_id, school_type, 

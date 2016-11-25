@@ -1,4 +1,4 @@
-Enrolment Age
+
 insert into orsdb.enrolment_age(sy_from,school_id,
   
   gkmaleAge4,gkfemaleAge4,gktotAge4,g1ecdmaleAge4,g1ecdfemaleAge4,g1ecdtotAge4,g1maleAge4,g1femaleAge4,g1totAge4,g2maleAge4,
@@ -2120,7 +2120,7 @@ FROM ebeisdb.school_profile_history sph
 	      inner join ebeisdb.ref_reports rrs on rrs.id  = rrh.report_id
 	      inner join ebeisdb.ref_report_generics rrg on rrg.id = rrs.ref_report_generics_id and rrg.id=1
 	 ) on rh.school_id = sph.school_id and rh.sy_from= sph.sy_from and rh.report_status > 300 -- cast( sph.sy_from as unsigned)
-   WHERE  sph.take_part_id IN (1,2,3) 
+   WHERE  sph.take_part_id IN (1,2,3) and sph.sy_from = 2016
    GROUP BY rh.sy_from, sph.SCHOOL_ID 
    ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC;
 

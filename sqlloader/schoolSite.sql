@@ -27,7 +27,7 @@ FROM ebeisdb.school_profile_history sph
    LEFT JOIN ebeisdb.ref_code_setting po on (po.id = sph.proof_of_ownership_id)
    LEFT JOIN ebeisdb.ref_code_setting oi on (oi.id = sph.ownership_issue_id)
    LEFT JOIN ebeisdb.ref_code_setting ti on (ti.id = sph.topography_id)
-   WHERE  sph.take_part_id IN (1,2,3) and sph.general_classification_id = 7
+   WHERE  sph.take_part_id IN (1,2,3) and sph.general_classification_id = 7 and sph.sy_from = 2016
    GROUP BY rh.sy_from, sph.SCHOOL_ID 
    ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC;
 

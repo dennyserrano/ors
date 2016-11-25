@@ -1442,7 +1442,7 @@ LEFT JOIN ebeisdb.ref_reports reports on (reports.co_genclass_id=sph.co_gen_clas
  AND reports.ref_report_generics_id = if(sph.sy_from between 2016 and 2016, 2, 1))
 LEFT JOIN ebeisdb.ref_report_history rrh on (reports.id=rrh.report_id and rrh.sy_from = CAST(sph.sy_from AS CHAR))
 LEFT JOIN ebeisdb. report_history rh on (rh.ref_report_history_id = rrh.id and rh.school_id=sph.school_id and rh.report_status IN (301,302))
-WHERE sph.general_classification_id = 7 AND sph.take_part_id in (1,2,3) AND sph.date_closed is null
+WHERE sph.general_classification_id = 7 AND sph.take_part_id in (1,2,3) AND sph.date_closed is null and sph.sy_from = 2016
 GROUP BY sph.sy_from, sph.SCHOOL_ID
 ORDER BY sph.sy_from, sph.SCHOOL_ID ASC;
 
