@@ -132,11 +132,7 @@ angular.module('UserApp')
                 
                 availableCriteria=[];
                 availableCriteria=newArr;
-                
-                for(var x=0;x<availableCriteria.length;x++)
-            	{
-            		console.log(availableCriteria[x]);
-            	}
+                console.log("av:",$scope.availableCriteria);
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -169,6 +165,7 @@ angular.module('UserApp')
                 }
                 angular.forEach(dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
+                
                 $scope.loadingFilters = 1;
             }, function(response) {
                 $scope.loadingFilters = 2;
@@ -211,6 +208,8 @@ angular.module('UserApp')
                 	gcoSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
                 }
                 
+                
+                console.log($scope.filters);
             };
             
             $scope.searchSchools = function(schoolName) {

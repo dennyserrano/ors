@@ -5,6 +5,16 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	function link(scope, element, attrs) 
 	{
 		
+		scope.onSelect=function()
+		{
+			
+		};
+		
+		
+		
+		
+		
+		
 	};
 
 
@@ -15,7 +25,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		link:link,
 		scope:
 		{
-			criteria:'='
+			criteria:'=',
+			filters:'='
 		}
 	
 	};
