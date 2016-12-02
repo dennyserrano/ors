@@ -4,7 +4,27 @@ angular.module('UserApp').directive('filterDirective',[function(){
 
 	function link(scope, element, attrs) 
 	{
-		scope.selected=[];
+		var connections=[
+		                 	{
+		                 		filterName:'sp_region',
+		                 		connectedTo:'sp_division',
+		                 		dataset:[],
+		                 		onClick:function(criterion,innerName)
+		                 		{
+		                 			
+		                 		}
+		                 	},
+		                 	{
+		                 		filterName:'sp_schoolType',
+		                 		connectedTo:'',
+		                 		dataset:[],
+		                 		onClick:function(criterion,innerName)
+		                 		{
+		                 			
+		                 		}
+		                 	}
+		                 ];
+		
 		scope.onSelect=function()
 		{
 			
@@ -13,18 +33,33 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		scope.getCriteria=function(criteriaParameter)
 		{
 			
+			
+			
+			
 			return criteriaParameter;
 		};
-		
-		scope.clickMe=function()
-		{
-			console.log(scope.selected);
-		}
 		
 		
 	};
 
-
+	
+	function prepare(criteria)
+	{
+		
+	}
+	
+	function findCriteria(source, criteriaName)
+	{
+		
+	}
+	
+	function control($scope)	
+	{
+		$scope.chosen=[];
+		$scope.data=[{key:'1',value:'hehe'}];
+		
+	}
+	
 	return {
 	
 		restrict:'E',
@@ -34,7 +69,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		{
 			criteria:'=',
 			filters:'='
-		}
+		},
+		controller:control
 	
 	};
 

@@ -7,17 +7,15 @@
 			class="col-sm-2 control-label" style="padding-right: 10px;">
 			{{ ::availableCriterion.label }}
 		 </label>
-		 
-		 {{availableCriterion.selection}}
+
 		 <div data-ng-switch-when="1" class="col-sm-4">
 			<select name="{{ ::availableCriterion.filterName }}" class="form-control" id="filter{{ ::availableCriterion.filterId }}" 
-					data-ng-options="option as option.value for option in availableCriterion.selection track by option.key"
-					data-ng-model='selected'>
-				
+					data-ng-options="option.value for option in availableCriterion.selection track by option.key"
+					data-ng-model="chosen[$index]">
 			</select>
 		</div>
 		 
-		 
+		
 	</div>
-<div ng-click="clickMe()">ME!! </div>
+
 </div>

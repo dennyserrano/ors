@@ -132,7 +132,7 @@ angular.module('UserApp')
                 
                 availableCriteria=[];
                 availableCriteria=newArr;
-                console.log("av:",$scope.availableCriteria);
+//                console.log("av:",$scope.availableCriteria);
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -143,6 +143,8 @@ angular.module('UserApp')
                 $scope.loadingFilters = 1;
             });
 
+            $scope.data=[{key:'1',value:'hehe'}];
+            
             UserDatasetService.get({}, function(dataset) {
             	
             	
@@ -171,6 +173,7 @@ angular.module('UserApp')
                 $scope.loadingFilters = 2;
                 $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';
             });
+            
             
             $scope.setFilter = function(criterion) {
                 var selectedOptions = $scope.selectedValues[criterion.filterId];
@@ -209,7 +212,7 @@ angular.module('UserApp')
                 }
                 
                 
-                console.log($scope.filters);
+//                console.log($scope.filters);
             };
             
             $scope.searchSchools = function(schoolName) {
