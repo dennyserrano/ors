@@ -132,7 +132,7 @@ angular.module('UserApp')
                 
                 availableCriteria=[];
                 availableCriteria=newArr;
-//                console.log("av:",$scope.availableCriteria);
+                console.log("av:",$scope.availableCriteria);
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -142,8 +142,6 @@ angular.module('UserApp')
             $scope.$on('render-done', function(event) {
                 $scope.loadingFilters = 1;
             });
-
-            $scope.data=[{key:'1',value:'hehe'}];
             
             UserDatasetService.get({}, function(dataset) {
             	
