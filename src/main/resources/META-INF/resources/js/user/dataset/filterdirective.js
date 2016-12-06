@@ -4,17 +4,17 @@ angular.module('UserApp').directive('filterDirective',[function(){
 
 	function link(scope, element, attrs) 
 	{
-		var connections={
+		var filterContainer={
 		                 'sp_region':
 				                 	{
 				                 		filterName:'sp_region',
 				                 		dataset:[],
-				                 		onClick:function(criterion,chosenItem)
-				                 		{
+				                 		onClick:function(criterion,chosenItem,option)
+				                 		{				                 			
 				                 			
-				                 			var criteria=findCriteria(criterion,chosenItem.filterName);
-				                 			connections['sp_schoolType'].dataset.clear();
-				                 			connections['sp_schoolType'].dataset.concat(criteria.selection);
+//				                 			filterContainer['sp_schoolType'].dataset=[];
+//				                 			filterContainer['sp_schoolType'].dataset=option.childKeyValues.slice();
+//				                 			console.log(filterContainer['sp_schoolType'].dataset);
 				                 		}
 				                 	},
 		                'sp_schoolType':
@@ -34,24 +34,36 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			
 		};
 		
-		scope.getCriteria=function(criteriaParameter)
+		scope.getCriteria=function()
 		{
 			
-			
-			
-			
-			return criteriaParameter;
+			return filterContainer;
 		};
 		
+		prepare(scope.criteria,filterContainer);
 		
 	};
 
 	
-	function prepare(criteria,connections)
+	function prepare(criteria,container)
 	{
 		var x;
+		
 		for(x=0;x<criteria.length;x++)
-			
+		{
+			var criterion=criteria[x];
+			console.log(criterion);
+			var filter=findInFilterContainer(container,criterion.filterName);
+			if(angular.isUndefined(filter))
+				continue;
+			filter.dataset=[];
+			filter.dataset=criterion.selection.slice();
+		}
+	}
+	
+	function findInFilterContainer(container,name)
+	{
+		return container[name];
 	}
 	
 	function findCriteria(criterion, filterName)

@@ -80,7 +80,8 @@
 					<div data-ng-show="loadingFilters === 1"
 						class="well form-horizontal">
 						
-						<filter-directive criteria='availableCriteria' filters='filters'></filter-directive>
+						
+						<filter-directive criteria='availableCriteria' filters='filters' data-ng-if='availableCriteria.length!==0'></filter-directive>
 <!-- 						<div class="form-group" -->
 <!-- 							data-ng-repeat="availableCriterion in availableCriteria track by $index" -->
 <!-- 							data-ng-switch="availableCriterion.inputType"> -->

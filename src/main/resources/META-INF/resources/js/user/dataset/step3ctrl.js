@@ -56,15 +56,15 @@ angular.module('UserApp')
                         });
                     }
                     
-                    if(c.filterId===sectorSubChecklistFilterId) //bad code
-                    {
-                    	selectedOptions=[];
-                    }
-                    
-                    if(c.filterId===gcoSubChecklistFilterId) //bad code
-                    {
-                    	selectedOptions=[];
-                    }
+//                    if(c.filterId===sectorSubChecklistFilterId) //bad code
+//                    {
+//                    	selectedOptions=[];
+//                    }
+//                    
+//                    if(c.filterId===gcoSubChecklistFilterId) //bad code
+//                    {
+//                    	selectedOptions=[];
+//                    }
                     
                     $scope.selectedValues[c.filterId] = $.isArray(selectedOptions) ? selectedOptions : [selectedOptions];
                 }
@@ -110,29 +110,29 @@ angular.module('UserApp')
                 angular.forEach(criteria, gcoSubChecklistFilter);
                 angular.forEach(criteria, criteriaIteratorCallback);
                 
-                //bad code
-                availableCriteria.splice(4,0,availableCriteria[7]);
-                
-                
-                
-                delete availableCriteria[8];
-                
-                availableCriteria.splice(6,0,availableCriteria[9]);
-                delete availableCriteria[10];
-                
-                var newArr=[];
-                
-                for(var x=0;x<availableCriteria.length;x++)
-                	{
-                		if(angular.isDefined(availableCriteria[x]))
-                			{
-                				newArr.push(availableCriteria[x]);
-                			}
-                	}
-                
-                availableCriteria=[];
-                availableCriteria=newArr;
-                console.log("av:",$scope.availableCriteria);
+//                //bad code
+//                availableCriteria.splice(4,0,availableCriteria[7]);
+//                
+//                
+//                
+//                delete availableCriteria[8];
+//                
+//                availableCriteria.splice(6,0,availableCriteria[9]);
+//                delete availableCriteria[10];
+//                
+//                var newArr=[];
+//                
+//                for(var x=0;x<availableCriteria.length;x++)
+//                	{
+//                		if(angular.isDefined(availableCriteria[x]))
+//                			{
+//                				newArr.push(availableCriteria[x]);
+//                			}
+//                	}
+//                
+//                availableCriteria=[];
+//                availableCriteria=newArr;
+//                console.log("av:",$scope.availableCriteria);
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
