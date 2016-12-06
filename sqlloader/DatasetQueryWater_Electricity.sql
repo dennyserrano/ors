@@ -56,7 +56,7 @@ select sph.sy_from, sph.school_id
 	,IFNULL(osd.grid_fund_canteen,0) as grid_fund_canteen
 	,IFNULL(osd.grid_fund_private,0) as grid_fund_private
 	,IFNULL(osd.grid_fund_porkbarrel,0) as grid_fund_pdaf 
-	,IFNULL(osd.grid_fund_others,””) as grid_fund_others
+	,IFNULL(osd.grid_fund_others,'') as grid_fund_others
 
 FROM ebeisdb.school_profile_history sph
 LEFT JOIN ref_region rr on (rr.id = sph.region_id)
