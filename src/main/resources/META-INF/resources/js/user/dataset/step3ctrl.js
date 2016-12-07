@@ -130,13 +130,9 @@ angular.module('UserApp')
                 			}
                 	}
                 
-                availableCritera=[];
+                availableCriteria=[];
                 availableCriteria=newArr;
-                
-                for(var x=0;x<availableCriteria.length;x++)
-            	{
-            		console.log(availableCriteria[x]);
-            	}
+                console.log("av:",$scope.availableCriteria);
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -146,7 +142,7 @@ angular.module('UserApp')
             $scope.$on('render-done', function(event) {
                 $scope.loadingFilters = 1;
             });
-
+            
             UserDatasetService.get({}, function(dataset) {
             	
             	
@@ -169,11 +165,13 @@ angular.module('UserApp')
                 }
                 angular.forEach(dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
+                
                 $scope.loadingFilters = 1;
             }, function(response) {
                 $scope.loadingFilters = 2;
                 $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';
             });
+            
             
             $scope.setFilter = function(criterion) {
                 var selectedOptions = $scope.selectedValues[criterion.filterId];
@@ -211,6 +209,8 @@ angular.module('UserApp')
                 	gcoSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
                 }
                 
+                
+//                console.log($scope.filters);
             };
             
             $scope.searchSchools = function(schoolName) {

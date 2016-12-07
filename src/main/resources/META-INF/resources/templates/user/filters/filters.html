@@ -1,0 +1,21 @@
+<div>
+	<div class="form-group"
+		data-ng-repeat="availableCriterion in getCriteria(criteria) track by $index"
+		data-ng-switch="availableCriterion.inputType">
+		<label 
+			for="filter{{ ::availableCriterion.filterId }}"
+			class="col-sm-2 control-label" style="padding-right: 10px;">
+			{{ ::availableCriterion.label }}
+		 </label>
+ 
+		 <div data-ng-switch-when="1" class="col-sm-4">
+			<select name="{{ ::availableCriterion.filterName }}" class="form-control" id="filter{{ ::availableCriterion.filterId }}" 
+					data-ng-options="option.value for option in availableCriterion.selection track by option.key"
+					data-ng-model="chosen[$index]">
+			</select>
+		</div>
+		 
+		
+	</div>
+
+</div>
