@@ -21,7 +21,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				                	{
 				                 		filterName:'sp_schoolType',
 				                 		dataset:[],
-				                 		onClick:function(criterion,chosenItem)
+				                 		onClick:function(criterion,chosenItem,option)
 				                 		{
 				                 			
 				                 		}
@@ -40,8 +40,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			return filterContainer;
 		};
 		
-		prepare(scope.criteria,filterContainer);
-		
+//		prepare(scope.criteria,filterContainer);
+		initContainer(filterContainer,scope.criteria);
 	};
 
 	
@@ -52,12 +52,28 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		for(x=0;x<criteria.length;x++)
 		{
 			var criterion=criteria[x];
-			console.log(criterion);
 			var filter=findInFilterContainer(container,criterion.filterName);
 			if(angular.isUndefined(filter))
 				continue;
 			filter.dataset=[];
 			filter.dataset=criterion.selection.slice();
+		}
+	}
+	
+	function initContainer(filterContainer,criteria)
+	{
+		for(var x=0;x<criteria.length;x++)
+		{
+			var criterion = criteria[x];
+			var filter=findInFilterContainer(filterContainer,criterion.filterName);
+			var altered;
+			if(angular.isUndefined(filter))
+				altered=mapDefaultToFilter(criterion);
+			else
+				altered=mapToFilter(criterion,filter);
+			
+			
+			console.log(altered);
 		}
 	}
 	
@@ -81,6 +97,44 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		}
 		
 		throw "Unable to find filterName:"+filterName;
+	}
+	
+	function getCommonFields()
+	{
+		return ['label','filterName','inputType','filterId'];
+	}
+	
+	function mapToFilter(criterion, filter)
+	{
+		var commonFields=getCommonFields();
+		for(var x=0;x<commonFields.length;x++)
+		{
+			var commonField=commonFields[x];
+			filter[commonField]= criterion[commonField]
+			
+		}
+		return filter;
+	}
+	
+	function mapDefaultToFilter(criterion)
+	{
+		var defField=filterContainerDefaultFields();
+		defField=mapToFilter(criterion,defField);
+		return defField;
+	}
+	
+	
+	
+	function filterContainerDefaultFields()
+	{
+		return{
+			filterName:'',
+			dataset:[],
+     		onClick:function(criterion,chosenItem,option)
+     		{
+     			
+     		}
+		};
 	}
 	
 	function control($scope)	
