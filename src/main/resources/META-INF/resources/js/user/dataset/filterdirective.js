@@ -5,43 +5,93 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	function link(scope, element, attrs) 
 	{
 		var filterContainer={
-		                 'sp_region':
-				                 	{
-				                 		filterName:'sp_region',
-				                 		dataset:[],
-				                 		onClick:function(criterion,chosenItem,option)
-				                 		{				                 			
-				                 			
-//				                 			filterContainer['sp_schoolType'].dataset=[];
-//				                 			filterContainer['sp_schoolType'].dataset=option.childKeyValues.slice();
-//				                 			console.log(filterContainer['sp_schoolType'].dataset);
-				                 		}
-				                 	},
-		                'sp_schoolType':
-				                	{
-				                 		filterName:'sp_schoolType',
-				                 		dataset:[],
-				                 		onClick:function(criterion,chosenItem,option)
-				                 		{
-				                 			
-				                 		}
-				                 	}
+		                 		data:
+		                 			[
+		                 			 		{
+												filterName:'sp_region',
+												dataset:[],
+												onClick:function(criterion,chosenItem,option)
+												{				                 			
+													
+										//			filterContainer['sp_schoolType'].dataset=[];
+										//			filterContainer['sp_schoolType'].dataset=option.childKeyValues.slice();
+										//			console.log(filterContainer['sp_schoolType'].dataset);
+												}
+											},
+										
+											{
+												filterName:'sp_schoolType',
+												dataset:[],
+												onClick:function(criterion,chosenItem,option)
+												{
+													
+												}
+											}
+		                 			 ],
+						          arrange:function(data)
+						          {
+						        	  var ordinal=['sp_schoolName','sp_sy_from','sp_level','sp_sector','sp_schoolType','sp_division','sp_region'];
+						        	  var ldata={};
+						        	  
+						        	  ordinal.forEach(function(item,index){
+						        		 ldata[item]=data[item];
+						        	  });
+						        	  
+						        	  return ldata;
+						        	  
+						          },
+								
+								add:function(element)
+								{
+									data.push(element);
+								},
+								update:function(filterName,element)
+								{
+									
+								},
+								find:function(filterName)
+								{
+									
+									$.each(this.data,function(i,item){
+										console.log(item);
+										if(item.filterName===filterName)
+											return item;
+									});
+										
+								},
+								remove:function(filterName)
+								{
+									for(var i=0;i<this.data.length;x++)
+									{
+										var item=this.data[i];
+										if(item.filterName===filterName)
+										{
+											this.data.splice(i,1);
+											break;
+										}
+									}
+								}
 						};
 
 		
 		scope.onSelect=function()
 		{
-			
+		
 		};
 		
 		scope.getCriteria=function()
 		{
 			
-			return filterContainer;
+			var m= filterContainer.arrange(filterContainer);
+			return m;
 		};
 		
-//		prepare(scope.criteria,filterContainer);
-		initContainer(filterContainer,scope.criteria);
+//		prepare(scope.criteria,filterContainer.data);
+//		initContainer(filterContainer.data,scope.criteria);
+		filterContainer.remove('sp_region');
+		filterContainer.remove('sp_schoolType');
+		console.log('haha',filterContainer.data);
+		
 	};
 
 	
@@ -72,6 +122,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			else
 				altered=mapToFilter(criterion,filter);
 			
+			filterContainer[altered.filterName]=altered;
 			
 			console.log(altered);
 		}
@@ -79,7 +130,10 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	
 	function findInFilterContainer(container,name)
 	{
-		return container[name];
+		container.data.forEach(function(item,index){
+			if(item.filterName===name)
+				return item;
+		});
 	}
 	
 	function findCriteria(criterion, filterName)

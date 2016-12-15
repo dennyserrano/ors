@@ -22,7 +22,7 @@
 		
 		<div class="form-group" data-ng-repeat="availableCriterion in getCriteria() track by $index" class="form-group">
 			<label class="col-sm-2 control-label" style="padding-right: 10px;">
-				hello
+				{{availableCriterion.label}}
 			 </label>
 			<select  class="form-control"
 					data-ng-model='chosen[$index]' 
