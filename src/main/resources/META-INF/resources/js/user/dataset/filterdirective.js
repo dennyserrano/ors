@@ -31,12 +31,12 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						          arrange:function(data)
 						          {
 						        	  var ordinal=['sp_schoolName','sp_sy_from','sp_level','sp_sector','sp_schoolType','sp_division','sp_region'];
-						        	  var ldata={};
-						        	  
+						        	  var ldata=[];
+						        	  var instance=this;
 						        	  ordinal.forEach(function(item,index){
-						        		 ldata[item]=data[item];
+						        		 ldata.push(instance.find(item));
 						        	  });
-						        	  
+						        	  console.log('sdfsd',ldata);
 						        	  return ldata;
 						        	  
 						          },
@@ -47,7 +47,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 								},
 								update:function(filterName,element)
 								{
-									
+									this.remove(filterName);
+									this.add(element);
 								},
 								find:function(filterName)
 								{
