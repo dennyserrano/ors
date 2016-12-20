@@ -6,7 +6,7 @@ var casper=require('casper').create({
 
 //var casper2=require('casper').create();
 
-var URL_BASE="http://10.20.2.54:8080/";
+var URL_BASE="http://10.20.2.168/";
 
 var li=function(resource,C){
 	
