@@ -130,7 +130,7 @@ angular.module('UserApp')
                 			}
                 	}
                 
-                availableCritera=[];
+                availableCriteria=[];
                 availableCriteria=newArr;
                 
                 for(var x=0;x<availableCriteria.length;x++)
