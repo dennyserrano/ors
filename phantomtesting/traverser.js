@@ -10,32 +10,32 @@ var li=function(resource,C){
 	
 	
 //	console.log(resource.url.indexOf('preview')!=-1);
-	if(resource.url.indexOf('preview')!=-1)
-	{
-		this.echo("REQUESTS:"+resource.url);
-	};
+//	if(resource.url.indexOf('preview')!=-1)
+//	{
+//		this.echo("REQUESTS:"+resource.url);
+//	};
 	
 };
 
-casper.on("resource.requested", li);
-casper.on("resource.received",function(resource){
-//	if(JSON.stringify(obj).contains('Internal Server Error'))
+//casper.on("resource.requested", li);
+//casper.on("resource.received",function(resource){
+////	if(JSON.stringify(obj).contains('Internal Server Error'))
+////		{
+////		this.echo("goccha!");
+////		}
+//	if(resource.url.indexOf('preview')!=-1)	
 //		{
-//		this.echo("goccha!");
+//			console.log(JSON.stringify(resource));
 //		}
-	if(resource.url.indexOf('preview')!=-1)	
-		{
-			console.log(JSON.stringify(resource));
-		}
-	
-});
+//	
+//});
 //casper.options.onResourceReceived=function(obj){
 //	this.echo("dataset:"+JSON.stringify(obj));
 //};
 
-casper.on('remote.message', function(message) {
-    this.echo("REMOTE: "+message);
-});
+//casper.on('remote.message', function(message) {
+//    this.echo("REMOTE: "+message);
+//});
 
 //var html=[];
 //
@@ -62,73 +62,57 @@ casper.on('remote.message', function(message) {
 //casper.run();
 
 var arr=[
-//{"name":"School Basic Info","id":"chk8"},
-//
-//{"name":"Total Enrolment","id":"chk3"},
-//
-//{"name":"Monograde Enrolment \r\n","id":"chk4"},
-//
-//{"name":"Multigrade Enrolment\r\n","id":"chk5"},
-//
-//{"name":"Number of Balik-Aral\r\n","id":"chk6"},
-//
-//{"name":"CCT/4Ps Recipients\r\n","id":"chk7"},
-//
-//{"name":"Indigenous Peoples' Learners ","id":"chk50"},
-//
-//{"name":"Learners in Alternative Delivery Mode (ADM) ","id":"chk51"},
-//
-//{"name":"Learners in Arabic Language and Islamic Values Education (ALIVE) Classes","id":"chk52"},
-//
-//{"name":"Muslim Learners","id":"chk53"},
-//
-//{"name":"Number of Repeaters ","id":"chk54"},
-//
-//{"name":"Number of Learners Previously Enrolled in Other School","id":"chk55"},
-//
-//{"name":"Number of Learners Previously Enrolled in Other Public School","id":"chk56"},
-//
-//{"name":"Number of Learners Previously Enrolled in Private","id":"chk57"},
-//
-//{"name":"End-of-School Year Enrollment ","id":"chk58"},
-//
-//{"name":"Number of Graduates","id":"chk59"},
-//
-//{"name":"Number of Completers/Promotees","id":"chk60"},
-//
-//{"name":"Number of Dropouts","id":"chk61"},
-//
-//{"name":"Number of Transferees-In","id":"chk62"},
-//
-//{"name":"Number of Transferees Out","id":"chk63"},
-//
-//{"name":"Number of Late Enrollees","id":"chk64"},
-//
-//{"name":"Number of Continuing Learners","id":"chk65"},
-//
-//{"name":"SPED Graded","id":"chk119"},
-//
-//{"name":"Madrasah Education","id":"chk120"},
-//
-//{"name":"Children Living Far from School","id":"chk121"},
-//
-//{"name":"Street Children","id":"chk122"},
+{"name":"School Basic Info","id":"chk8"},
 
-//{"name":"Total Enrolment in Kinder Summer Program","id":"chk125"}, //remove
-//
-//{"name":"Enrolment By Age in Kinder Summer Program","id":"chk126"}, //remove
-//
-//{"name":"Total Enrolment in ALS","id":"chk127"}, //remove
-//
-//{"name":"Enrolment By Age in ALS","id":"chk128"}, //remove
-//
-//{"name":"Total Enrolment in Kinder Summer Program","id":"chk125"}, //Unknown column 'en_kindersummer.g1ecdtotAge9' in 'on clause'
-//
-//{"name":"Enrolment By Age in Kinder Summer Program","id":"chk126"}, //remove
-//
-//{"name":"Total Enrolment in ALS","id":"chk127"}, //remove
-//
-//{"name":"Enrolment By Age in ALS","id":"chk128"}, //remove
+{"name":"Total Enrolment","id":"chk3"},
+
+{"name":"Monograde Enrolment \r\n","id":"chk4"},
+
+{"name":"Multigrade Enrolment\r\n","id":"chk5"},
+
+{"name":"Number of Balik-Aral\r\n","id":"chk6"},
+
+{"name":"CCT/4Ps Recipients\r\n","id":"chk7"},
+
+{"name":"Indigenous Peoples' Learners ","id":"chk50"},
+
+{"name":"Learners in Alternative Delivery Mode (ADM) ","id":"chk51"},
+
+{"name":"Learners in Arabic Language and Islamic Values Education (ALIVE) Classes","id":"chk52"},
+
+{"name":"Muslim Learners","id":"chk53"},
+
+{"name":"Number of Repeaters ","id":"chk54"},
+
+{"name":"Number of Learners Previously Enrolled in Other School","id":"chk55"},
+
+{"name":"Number of Learners Previously Enrolled in Other Public School","id":"chk56"},
+
+{"name":"Number of Learners Previously Enrolled in Private","id":"chk57"},
+
+{"name":"End-of-School Year Enrollment ","id":"chk58"},
+
+{"name":"Number of Graduates","id":"chk59"},
+
+{"name":"Number of Completers/Promotees","id":"chk60"},
+
+{"name":"Number of Dropouts","id":"chk61"},
+
+{"name":"Number of Transferees-In","id":"chk62"},
+
+{"name":"Number of Transferees Out","id":"chk63"},
+
+{"name":"Number of Late Enrollees","id":"chk64"},
+
+{"name":"Number of Continuing Learners","id":"chk65"},
+
+{"name":"SPED Graded","id":"chk119"},
+
+{"name":"Madrasah Education","id":"chk120"},
+
+{"name":"Children Living Far from School","id":"chk121"},
+
+{"name":"Street Children","id":"chk122"},
 
 {"name":"Total Enrolment By Age in Elementary Schools","id":"chk1002"},
 
@@ -138,38 +122,37 @@ var arr=[
 
 {"name":"Enrolment By Age in Grade 1","id":"chk1005"},
 
-//{"name":"Enrolment By Age in Non-graded","id":"chk1006"}, --graded ON sp.sy_from = age_esnon-graded.sy_from AND sp.school_id = age_esnon-gr
+{"name":"Enrolment By Age in Non-graded","id":"chk1006"},
 
 {"name":"Total Enrolment By Age in Secondary Schools","id":"chk1007"},
 
 {"name":"Enrolment By Age in Secondary","id":"chk1008"},
 
-//{"name":"Enrolment By Age in Secondary Non-graded","id":"chk1009"}, --graded ON sp.sy_from = age_esnon-graded.sy_from AND sp.school_id = age_esnon-gr
+{"name":"Enrolment By Age in Secondary Non-graded","id":"chk1009"},
 
-//{"name":"Total Enrolment By Area of Exceptionality","id":"chk2003"}, orsdb.SPED
+{"name":"Total Enrolment By Area of Exceptionality","id":"chk2003"},
 
-//orsdb.SPED not exist
-//{"name":"Learners with Learning Disability","id":"chk2004"},
-//
-//{"name":"Learners with Hearing Impairment","id":"chk2005"},
-//
-//{"name":"Learners with Visual Impairment - Blindness","id":"chk2006"},
-//
-//{"name":"Learners with Visual Impairment - Low Vision","id":"chk2007"},
-//
-//{"name":"Learners with Intellectual Disability/Mental Retardation","id":"chk2008"},
-//
-//{"name":"Learners with Multiple Handicap","id":"chk2009"},
-//
-//{"name":"Learners with Behavioral Problem","id":"chk2010"},
-//
-//{"name":"Learners with Orthopedic Handicap","id":"chk2011"},
-//
-//{"name":"Learners with Autism","id":"chk2012"},
-//
-//{"name":"Learners with Communication Disorder","id":"chk2013"},
-//
-//{"name":"Learners with Cerebral Palsy","id":"chk2014"},
+{"name":"Learners with Learning Disability","id":"chk2004"},
+
+{"name":"Learners with Hearing Impairment","id":"chk2005"},
+
+{"name":"Learners with Visual Impairment - Blindness","id":"chk2006"},
+
+{"name":"Learners with Visual Impairment - Low Vision","id":"chk2007"},
+
+{"name":"Learners with Intellectual Disability/Mental Retardation","id":"chk2008"},
+
+{"name":"Learners with Multiple Handicap","id":"chk2009"},
+
+{"name":"Learners with Behavioral Problem","id":"chk2010"},
+
+{"name":"Learners with Orthopedic Handicap","id":"chk2011"},
+
+{"name":"Learners with Autism","id":"chk2012"},
+
+{"name":"Learners with Communication Disorder","id":"chk2013"},
+
+{"name":"Learners with Cerebral Palsy","id":"chk2014"},
 
 {"name":"Learners with Special Health Problem","id":"chk2015"},
 
@@ -307,7 +290,7 @@ var arr=[
 
 {"name":"Multiple Disability with Visual Impairment (Did Not Attend Any SPED Class)","id":"chk2092"},
 
-//{"name":"Total Enrolment By Area of Exceptionality","id":"chk2003"}, //SPED table problem
+{"name":"Total Enrolment By Area of Exceptionality","id":"chk2003"},
 
 {"name":"Learners with Learning Disability","id":"chk2004"},
 
@@ -331,7 +314,7 @@ var arr=[
 
 {"name":"Learners with Cerebral Palsy","id":"chk2014"},
 
-//{"name":"Learners with Special Health Problem","id":"chk2015"}, orsdb.SPED
+{"name":"Learners with Special Health Problem","id":"chk2015"},
 
 {"name":"Gifted/Fast Learners","id":"chk2016"},
 
@@ -944,6 +927,7 @@ var arr=[
 {"name":"GASTPE Number of Transferred In","id":"chk9009"},
 
 {"name":"GASTPE Number of Transferred Out","id":"chk9010"}
+
          ];
 
 
