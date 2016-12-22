@@ -2,6 +2,13 @@ var casper=require('casper').create({
 	logLevel:"debug"
 });
 
+
+var fs=require('fs');
+
+var fileErrorUrl='/opt/casperjs/fileerror.txt';
+
+
+
 //var casper2=require('casper').create();
 
 var URL_BASE="http://localhost:8080/";
@@ -33,9 +40,9 @@ var li=function(resource,C){
 //	this.echo("dataset:"+JSON.stringify(obj));
 //};
 
-//casper.on('remote.message', function(message) {
-//    this.echo("REMOTE: "+message);
-//});
+casper.on('remote.message', function(message) {
+    this.echo("REMOTE: "+message);
+});
 
 //var html=[];
 //
@@ -969,7 +976,7 @@ casper.start().eachThen(arr,function(e){
 	
 	casper.waitForSelector("#elements"+id,function(){
 		
-	},function(){console.log("WAIT TIMEOUT: wait for selector: #elements");},50000);
+	},function(){console.log("WAIT TIMEOUT: wait for selector: #elements");});
 	
 	
 	casper.thenEvaluate(function(){
@@ -1011,8 +1018,8 @@ casper.start().eachThen(arr,function(e){
 	
 	casper.waitForSelector("#previewTable>tbody>tr",function(){
 		
-	},function(){console.log("table not found!")},100000);
-	
+	},function(){console.log("table not found!");fs.write(fileErrorUrl,data.name+'\n','a');},100000);
+//	fs.write(fileErrorUrl,data.name+'\n','a');
 	casper.open(URL_BASE+"user/datasets",function(){
 //		this.echo("open again page 1");
 	});
