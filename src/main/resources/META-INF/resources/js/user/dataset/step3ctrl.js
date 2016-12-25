@@ -133,6 +133,34 @@ angular.module('UserApp')
 //                availableCriteria=[];
 //                availableCriteria=newArr;
 //                console.log("av:",$scope.availableCriteria);
+                //bad code
+                availableCriteria.splice(4,0,availableCriteria[7]);
+                
+                
+                
+                delete availableCriteria[8];
+                
+                availableCriteria.splice(6,0,availableCriteria[9]);
+                delete availableCriteria[10];
+                
+                var newArr=[];
+                
+                for(var x=0;x<availableCriteria.length;x++)
+                	{
+                		if(angular.isDefined(availableCriteria[x]))
+                			{
+                				newArr.push(availableCriteria[x]);
+                			}
+                	}
+                
+                availableCriteria=[];
+                availableCriteria=newArr;
+                
+                for(var x=0;x<availableCriteria.length;x++)
+            	{
+            		console.log(availableCriteria[x]);
+            	}
+
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
