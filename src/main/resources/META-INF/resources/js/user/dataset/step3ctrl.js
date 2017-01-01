@@ -103,12 +103,21 @@ angular.module('UserApp')
             };
             
             var criteriaServiceCallback = function(criteria) {
-                angular.forEach(criteria, divisionCriteriaFilter);
-                angular.forEach(criteria, sectorFilter);
-                angular.forEach(criteria, curricularOfferingFilter);
-                angular.forEach(criteria, sectorSubChecklistFilter);
-                angular.forEach(criteria, gcoSubChecklistFilter);
-                angular.forEach(criteria, criteriaIteratorCallback);
+            	angular.forEach(criteria,function(e,i){
+//            		if(e.filterName==='sp_region')
+//        			{
+//            			e.selection.push({value:'Region 1',key:'R1',childKeyValues:[{key:'k1',value:'v1'}]})
+//        			}
+            		
+            		availableCriteria.push(e);
+            	});
+            	console.log('');
+//                angular.forEach(criteria, divisionCriteriaFilter);
+//                angular.forEach(criteria, sectorFilter);
+//                angular.forEach(criteria, curricularOfferingFilter);
+//                angular.forEach(criteria, sectorSubChecklistFilter);
+//                angular.forEach(criteria, gcoSubChecklistFilter);
+//                angular.forEach(criteria, criteriaIteratorCallback);
                 
 //                //bad code
 //                availableCriteria.splice(4,0,availableCriteria[7]);
@@ -134,32 +143,32 @@ angular.module('UserApp')
 //                availableCriteria=newArr;
 //                console.log("av:",$scope.availableCriteria);
                 //bad code
-                availableCriteria.splice(4,0,availableCriteria[7]);
+//                availableCriteria.splice(4,0,availableCriteria[7]);
+//                
+//                
+//                
+//                delete availableCriteria[8];
+//                
+//                availableCriteria.splice(6,0,availableCriteria[9]);
+//                delete availableCriteria[10];
+//                
+//                var newArr=[];
+//                
+//                for(var x=0;x<availableCriteria.length;x++)
+//                	{
+//                		if(angular.isDefined(availableCriteria[x]))
+//                			{
+//                				newArr.push(availableCriteria[x]);
+//                			}
+//                	}
+//                
+//                availableCriteria=[];
+//                availableCriteria=newArr;
                 
-                
-                
-                delete availableCriteria[8];
-                
-                availableCriteria.splice(6,0,availableCriteria[9]);
-                delete availableCriteria[10];
-                
-                var newArr=[];
-                
-                for(var x=0;x<availableCriteria.length;x++)
-                	{
-                		if(angular.isDefined(availableCriteria[x]))
-                			{
-                				newArr.push(availableCriteria[x]);
-                			}
-                	}
-                
-                availableCriteria=[];
-                availableCriteria=newArr;
-                
-                for(var x=0;x<availableCriteria.length;x++)
-            	{
-            		console.log(availableCriteria[x]);
-            	}
+//                for(var x=0;x<availableCriteria.length;x++)
+//            	{
+//            		console.log(availableCriteria[x]);
+//            	}
 
             };
 
@@ -188,12 +197,11 @@ angular.module('UserApp')
                         hasSchoolProfileSelected = true;
                     }
                 });
-                if (!hasSchoolProfileSelected) {
-                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
-                }
+//                if (!hasSchoolProfileSelected) {
+//                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
+//                }
                 angular.forEach(dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
-                
                 $scope.loadingFilters = 1;
             }, function(response) {
                 $scope.loadingFilters = 2;
@@ -298,11 +306,11 @@ angular.module('UserApp')
 //                {
 //                	delete dataset.filters[8];
 //                }
-                
-                saveDataset(dataset, function() {
-                	localStorageService.set('dataset',dataset);
-                    $state.go('step4');
-                });
+                console.log($scope.filters);
+//                saveDataset(dataset, function() {
+//                	localStorageService.set('dataset',dataset);
+//                    $state.go('step4');
+//                });
             };
             
             $scope.previous = function() {
