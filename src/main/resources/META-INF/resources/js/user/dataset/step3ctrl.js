@@ -306,12 +306,26 @@ angular.module('UserApp')
 //                {
 //                	delete dataset.filters[8];
 //                }
-                console.log($scope.filters);
-//                saveDataset(dataset, function() {
-//                	localStorageService.set('dataset',dataset);
-//                    $state.go('step4');
-//                });
+                
+                dataset.filters=clean($scope.filters);
+                console.log(dataset.filters);
+                saveDataset(dataset, function() {
+                	localStorageService.set('dataset',dataset);
+                    $state.go('step4');
+                });
             };
+            
+            function clean(filters)
+            {
+            	var c=[];
+            	for(var x=0;x<filters.length;x++)
+        		{
+            		var f=filters[x];
+            		if(angular.isDefined(f.selectedOptions))
+            			c.push(f);
+        		}
+            	return c;
+            }
             
             $scope.previous = function() {
                 var dataset = $scope.dataset;

@@ -20,7 +20,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													var container=filterContainer.find('sp_division');
 								
 													container.dataset=[];
-													container.dataset=option.childKeyValues.slice();
+													container.dataset=option.selectedOptions.childKeyValues.slice();
+//													container.dataset=options.selectedOptions[0].childKeyValues.slice();
 												}
 											},
 											{
@@ -34,7 +35,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													var container=filterContainer.find('sp_subsector');
 								
 													container.dataset=[];
-													container.dataset=option.childKeyValues.slice();
+													container.dataset=option.selectedOptions.childKeyValues.slice();
+//													container.dataset=option.childKeyValues.slice();
 												}
 											},
 											{
@@ -48,7 +50,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													var container=filterContainer.find('sp_sublevel');
 								
 													container.dataset=[];
-													container.dataset=option.childKeyValues.slice();
+													container.dataset=option.selectedOptions.childKeyValues.slice();
+//													container.dataset=option.childKeyValues.slice();
 												}
 											}
 		                 			 ],
@@ -189,6 +192,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		initializeChosenItems(scope.chosenItems,filterContainer);
 		
+		console.log('');
 		
 		function bind(criteriaUtility,filterContainer,criteria,chosenItems)
 		{
@@ -215,7 +219,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			for(var x=0;x<filterContainer.data.length;x++)
 			{
 				var data=filterContainer.data[x];
-				chosenItems.push(data.dataset[0]);
+				chosenItems.push(toChosenItem(data.dataset[0],data));
 			}
 			
 			
@@ -223,6 +227,17 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		
 		
 	};
+	
+	
+	function toChosenItem(option,parentData)
+	{
+		var cItem={};
+		cItem.selectedOptions=option;
+//		cItem.selectedOptions.push(option);
+		cItem.element=parentData.elementId;
+		cItem.criterion=parentData.filterId;
+		return cItem;
+	}
 	
 	function initContainer(filterContainer,criteria)
 	{
@@ -252,7 +267,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	
 	function getCommonFields()
 	{
-		return ['label','filterName','inputType','filterId'];
+		return ['label','filterName','inputType','filterId','elementId'];
 	}
 	
 	

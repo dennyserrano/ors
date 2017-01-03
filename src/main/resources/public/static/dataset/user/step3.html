@@ -79,8 +79,7 @@
 					</div>
 					<div data-ng-show="loadingFilters === 1"
 						class="well form-horizontal">
-						
-						
+						{{filters}}
 						<filter-directive criteria='availableCriteria' chosen-items='filters' data-ng-if='availableCriteria.length!==0'></filter-directive>
 <!-- 						<div class="form-group" -->
 <!-- 							data-ng-repeat="availableCriterion in availableCriteria track by $index" -->
@@ -174,7 +173,7 @@
 				<div class="col-sm-12">
 					<button type="button" class="btn btn-default"
 						data-ng-click="previous()">Previous</button>
-					<button data-ng-disabled="saving" type="button"
+					<button type="button"
 						class="btn btn-primary" data-ng-click="save()">Next</button>
 					<i data-ng-show="saving" class="fa fa-spin fa-spinner"></i>
 				</div>

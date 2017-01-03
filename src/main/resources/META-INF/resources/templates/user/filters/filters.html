@@ -24,28 +24,29 @@
 			<label class="col-sm-2 control-label" style="padding-right: 10px;">
 				{{availableCriterion.label}}
 			 </label>
+			 {{$index}}
 			<div ng-switch-when='1' class="col-sm-4">
 				<select  class="form-control"
-					data-ng-model='chosenItems[$index]' 
+					data-ng-model='chosenItems[$index].selectedOptions' 
 					data-ng-options="option.value for option in availableCriterion.dataset track by option.key" 
 					data-ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index])'>
 				</select>
 			</div>
 			
 			<div ng-switch-when='2' class="col-sm-4">
-				<div ng-repeat="select in availableCriterion.dataset">
+				<div ng-repeat="select in availableCriterion.dataset track by $index">
 					<input type="checkbox"
-						checklist-model="chosenItems[x]"
+						checklist-model="chosenItems[$parent.$index].selectedOptions"
 						checklist-value='select'
-						ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index])'> {{select.value}}
+						> {{select.value}}
 				</div>
 			</div>
 			
 			<div ng-switch-when='3' class="col-sm-4">
-				<div ng-repeat="select in availableCriterion.dataset">
+				<div ng-repeat="select in availableCriterion.dataset track by $index">
 					<input type="checkbox"
-					    ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index])'
-						checklist-model="chosenItems[x]"
+					    ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index].selectedOptions)'
+					    checklist-model="chosenItems[$parent.$index].selectedOptions"
 						checklist-value='select'> {{select.value}}
 				</div>
 
