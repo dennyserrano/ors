@@ -233,14 +233,14 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	{
 		var cItem={};
 		
-		if(angular.isDefined(option))
-		{
-			cItem.selectedOptions=[];
-			cItem.selectedOptions.push(option);
-			cItem.element=parentData.elementId;
-			cItem.criterion=parentData.filterId;
-		}
+		cItem.selectedOptions=[];
 		
+		if(angular.isDefined(option))
+			cItem.selectedOptions.push(option);
+		
+		
+		cItem.element=parentData.elementId;
+		cItem.criterion=parentData.filterId;
 		
 		
 		return cItem;
