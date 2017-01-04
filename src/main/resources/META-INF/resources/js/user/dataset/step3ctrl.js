@@ -308,11 +308,11 @@ angular.module('UserApp')
 //                }
                 
                 dataset.filters=clean($scope.filters);
-                console.log(dataset.filters);
-                saveDataset(dataset, function() {
-                	localStorageService.set('dataset',dataset);
-                    $state.go('step4');
-                });
+                console.log(JSON.stringify(dataset.filters));
+//                saveDataset(dataset, function() {
+//                	localStorageService.set('dataset',dataset);
+//                    $state.go('step4');
+//                });
             };
             
             function clean(filters)
@@ -321,9 +321,20 @@ angular.module('UserApp')
             	for(var x=0;x<filters.length;x++)
         		{
             		var f=filters[x];
-            		if(angular.isDefined(f.selectedOptions))
-            			c.push(f);
+            		if(angular.isUndefined(f.selectedOptions))
+            			{
+            				f.selectedOptions=[{key:'',value:''}];
+            				continue;
+            			}
+            		if(f.selectedOptions.length===0)
+        			{
+            			f.selectedOptions=[{key:'',value:''}];
+        				continue;
+        			}
+            		c.push(f);
         		}
+           
+            	
             	return c;
             }
             

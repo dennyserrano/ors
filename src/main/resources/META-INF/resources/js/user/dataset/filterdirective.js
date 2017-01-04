@@ -19,8 +19,10 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													
 													var container=filterContainer.find('sp_division');
 								
+													var selectedOption=option.selectedOptions[0];
+													
 													container.dataset=[];
-													container.dataset=option.selectedOptions.childKeyValues.slice();
+													container.dataset=selectedOption.childKeyValues.slice();
 //													container.dataset=options.selectedOptions[0].childKeyValues.slice();
 												}
 											},
@@ -192,7 +194,6 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		initializeChosenItems(scope.chosenItems,filterContainer);
 		
-		console.log('');
 		
 		function bind(criteriaUtility,filterContainer,criteria,chosenItems)
 		{
@@ -222,7 +223,6 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				chosenItems.push(toChosenItem(data.dataset[0],data));
 			}
 			
-			
 		}
 		
 		
@@ -232,10 +232,17 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	function toChosenItem(option,parentData)
 	{
 		var cItem={};
-		cItem.selectedOptions=option;
-//		cItem.selectedOptions.push(option);
-		cItem.element=parentData.elementId;
-		cItem.criterion=parentData.filterId;
+		
+		if(angular.isDefined(option))
+		{
+			cItem.selectedOptions=[];
+			cItem.selectedOptions.push(option);
+			cItem.element=parentData.elementId;
+			cItem.criterion=parentData.filterId;
+		}
+		
+		
+		
 		return cItem;
 	}
 	
