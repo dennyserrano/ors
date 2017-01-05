@@ -19,10 +19,10 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													
 													var container=filterContainer.find('sp_division');
 								
-													var selectedOption=option.selectedOptions[0];
+													var selectedOption=option.selectedOptions[0].childKeyValues;
 													
 													container.dataset=[];
-													container.dataset=selectedOption.childKeyValues.slice();
+													container.dataset=selectedOption.slice();
 //													container.dataset=options.selectedOptions[0].childKeyValues.slice();
 												}
 											},
@@ -36,8 +36,10 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													
 													var container=filterContainer.find('sp_subsector');
 								
+													var selectedOption=option.selectedOptions[0].childKeyValues;
+													
 													container.dataset=[];
-													container.dataset=option.selectedOptions.childKeyValues.slice();
+													container.dataset=selectedOption.slice();
 //													container.dataset=option.childKeyValues.slice();
 												}
 											},
@@ -51,8 +53,10 @@ angular.module('UserApp').directive('filterDirective',[function(){
 													
 													var container=filterContainer.find('sp_sublevel');
 								
+													var selectedOption=option.selectedOptions[0].childKeyValues;
+													
 													container.dataset=[];
-													container.dataset=option.selectedOptions.childKeyValues.slice();
+													container.dataset=selectedOption.slice();
 //													container.dataset=option.childKeyValues.slice();
 												}
 											}
@@ -194,6 +198,11 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		initializeChosenItems(scope.chosenItems,filterContainer);
 		
+		
+		function applyInititialClicks()
+		{
+			
+		}
 		
 		function bind(criteriaUtility,filterContainer,criteria,chosenItems)
 		{
