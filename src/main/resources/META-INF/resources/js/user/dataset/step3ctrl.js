@@ -308,11 +308,11 @@ angular.module('UserApp')
 //                }
                 
                 dataset.filters=clean($scope.filters);
-                console.log(JSON.stringify(dataset.filters));
-//                saveDataset(dataset, function() {
-//                	localStorageService.set('dataset',dataset);
-//                    $state.go('step4');
-//                });
+//                console.log(JSON.stringify(dataset.filters));
+                saveDataset(dataset, function() {
+                	localStorageService.set('dataset',dataset);
+                    $state.go('step4');
+                });
             };
             
             function clean(filters)

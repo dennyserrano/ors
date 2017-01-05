@@ -11,48 +11,50 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		                 			 		{
 												filterName:'sp_region',
 												dataset:[],
-												onClick:function(criterion,chosenItem,option)
+												onClick:function(criterion,chosenItems,currentIndex)
 												{				                 			
 													
-													if(angular.isUndefined(option))
-														return;
+//													if(angular.isUndefined(option))
+//														return;
 													
 													var container=filterContainer.find('sp_division');
-								
+													var option=chosenItems[currentIndex];
 													var selectedOption=option.selectedOptions[0].childKeyValues;
 													
 													container.dataset=[];
 													container.dataset=selectedOption.slice();
+													chosenItems[1].selectedOptions=[]; // index 1 is sp_sector: should this be somehow be dynamic and not static?
 //													container.dataset=options.selectedOptions[0].childKeyValues.slice();
 												}
 											},
 											{
 												filterName:'sp_sector',
 												dataset:[],
-												onClick:function(criterion,chosenItem,option)
+												onClick:function(criterion,chosenItems,currentIndex)
 												{
-													if(angular.isUndefined(option))
-														return;
+//													if(angular.isUndefined(option))
+//														return;
 													
 													var container=filterContainer.find('sp_subsector');
-								
+													var option=chosenItems[currentIndex];
 													var selectedOption=option.selectedOptions[0].childKeyValues;
 													
 													container.dataset=[];
 													container.dataset=selectedOption.slice();
+													chosenItems[4].selectedOptions=[];
 //													container.dataset=option.childKeyValues.slice();
 												}
 											},
 											{
 												filterName:'sp_level',
 												dataset:[],
-												onClick:function(criterion,chosenItem,option)
+												onClick:function(criterion,chosenItems,currentIndex)
 												{
-													if(angular.isUndefined(option))
-														return;
+//													if(angular.isUndefined(option))
+//														return;
 													
 													var container=filterContainer.find('sp_sublevel');
-								
+													var option=chosenItems[currentIndex];
 													var selectedOption=option.selectedOptions[0].childKeyValues;
 													
 													container.dataset=[];
@@ -295,7 +297,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		return{
 			filterName:'',
 			dataset:[],
-     		onClick:function(criterion,chosenItem,option)
+     		onClick:function(criterion,chosenItems,currentIndex)
      		{
      			
      		}

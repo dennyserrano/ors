@@ -23,12 +23,13 @@
 			<label class="col-sm-2 control-label" style="padding-right: 10px;">
 				{{availableCriterion.label}}
 			 </label>
-			 
+			 {{chosenItems[$index]}}
+			 {{$index}}
 			<div ng-switch-when='1' class="col-sm-4">
 				<select  class="form-control"
 					data-ng-model='chosenItems[$index].selectedOptions[0]' 
 					data-ng-options="option.value for option in availableCriterion.dataset track by option.key" 
-					data-ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index])'>
+					data-ng-click='availableCriterion.onClick(criteria,chosenItems,$index)'>
 				</select>
 			</div>
 			
