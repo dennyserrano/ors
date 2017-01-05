@@ -118,11 +118,11 @@ public class XlsxExporter implements ColumnElementFileExporter,ColumnElementWork
 		return workbook;
 	}
 	
-	protected Workbook doProcess(Workbook source,Workbook destination,List<ColumnElement> columns)
+	protected Workbook doProcess(Workbook source,Workbook destination,List<ColumnElement> columns,boolean isHeaderIncluded)
 	{
 		Sheet destSheet=destination.getSheet(DEFAULT_SHEET_NAME);
 		Sheet sourceSheet=source.getSheet(DEFAULT_SHEET_NAME);
-		int sourceLastRowCount=destSheet.getLastRowNum();
+		int destLastRowCount=destSheet.getLastRowNum();
 		Iterator<Row> sourceRowIterator= sourceSheet.rowIterator();
 		ColumnElementExcelHeaderCellStyler headerStyler=initializeHeaderStyler();
 		ColumnElementExcelValueCellStyler cellValueStyler=initializeValueStyler();
@@ -131,12 +131,18 @@ public class XlsxExporter implements ColumnElementFileExporter,ColumnElementWork
 		
 //		if(fileIndex!=0) 
 //			sourceRowIterator.next();
+		if(!isHeaderIncluded)
+		{
+			destLastRowCount++;
+			sourceRowIterator.next();
+		}
+		
+		
 		
 		while(sourceRowIterator.hasNext())
-		{
-			
+		{	
 			Row sourceRow=sourceRowIterator.next();
-			Row destinationRow=destSheet.createRow(sourceLastRowCount);
+			Row destinationRow=destSheet.createRow(destLastRowCount);
 			
 			Iterator<Cell> sourceCellIterator=sourceRow.cellIterator();
 			
@@ -151,12 +157,16 @@ public class XlsxExporter implements ColumnElementFileExporter,ColumnElementWork
 					ColumnElement cef=headers.get(sourceCell.getColumnIndex());
 					headerStyler.applyStyle(destination, destSheet, destinationRow, destinationCell,cef);
 					cellValueStyler.applyStyle(destination, destSheet, sourceCell.getColumnIndex(), columns);
+					cellWriter.write(destination, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
+					
 				}
 				
 				cellWriter.write(destination, destinationRow, destinationCell,(Serializable) getCellValue(sourceCell));
+				
 			}
+
 			
-			sourceLastRowCount++;
+			destLastRowCount++;
 		}
 		
 		return destination;
@@ -170,10 +180,10 @@ public class XlsxExporter implements ColumnElementFileExporter,ColumnElementWork
 	
 	
 	@Override
-	public Workbook append(Workbook source, Workbook destination,List<ColumnElement> columns) 
+	public Workbook append(Workbook source, Workbook destination,List<ColumnElement> columns, boolean isHeaderIncluded) 
 	{
 		initializeWorkbook(destination);
-		return doProcess(source, destination, columns);
+		return doProcess(source, destination, columns,isHeaderIncluded);
 	}
 
 	@Override
