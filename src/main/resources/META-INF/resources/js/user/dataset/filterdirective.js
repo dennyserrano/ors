@@ -4,6 +4,9 @@ angular.module('UserApp').directive('filterDirective',[function(){
 
 	function link(scope, element, attrs) 
 	{
+		
+		console.log(scope.criteria);
+		
 		var ordinal=['sp_region','sp_division','sp_schoolType','sp_sector','sp_subsector','sp_level','sp_sublevel','sp_sy_from','sp_schoolName'];
 		var filterContainer={
 		                 		data:
@@ -192,13 +195,20 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		
 		scope.getCriteria=function()
 		{	
+			if(angular.isUndefined(scope.criteria))
+				return [];
+			
+			if(scope.criteria.length===0)
+				return [];
+			
+			filterContainer.data= CriteriaUtility.getPopulatedData(filterContainer.data,scope.criteria);
+			filterContainer.data=filterContainer.arrange(filterContainer.data);
+			bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
+			initializeChosenItems(scope.chosenItems,filterContainer);
 			return filterContainer.data;
 		};
 		
-		filterContainer.data= CriteriaUtility.getPopulatedData(filterContainer.data,scope.criteria);
-		filterContainer.data=filterContainer.arrange(filterContainer.data);
-		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
-		initializeChosenItems(scope.chosenItems,filterContainer);
+		
 		
 		
 		function applyInititialClicks()
