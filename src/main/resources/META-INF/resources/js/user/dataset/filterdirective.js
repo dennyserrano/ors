@@ -4,67 +4,73 @@ angular.module('UserApp').directive('filterDirective',[function(){
 
 	function link(scope, element, attrs) 
 	{
-		
-		var _data=[
-			 		{
-						filterName:'sp_region',
-						dataset:[],
-						onClick:function(criterion,chosenItems,currentIndex)
-						{				                 			
-							
-//							if(angular.isUndefined(option))
-//								return;
-							
-							var container=filterContainer.find('sp_division');
-							var option=chosenItems[currentIndex];
-							var selectedOption=option.selectedOptions[0].childKeyValues;
-							
-							container.dataset=[];
-							container.dataset=selectedOption.slice();
-							chosenItems[1].selectedOptions=[]; // index 1 is sp_sector: should this be somehow be dynamic and not static?
-//							container.dataset=options.selectedOptions[0].childKeyValues.slice();
-						}
-					},
-					{
-						filterName:'sp_sector',
-						dataset:[],
-						onClick:function(criterion,chosenItems,currentIndex)
-						{
-//							if(angular.isUndefined(option))
-//								return;
-							
-							var container=filterContainer.find('sp_subsector');
-							var option=chosenItems[currentIndex];
-							var selectedOption=option.selectedOptions[0].childKeyValues;
-							
-							container.dataset=[];
-							container.dataset=selectedOption.slice();
-							chosenItems[4].selectedOptions=[];
-//							container.dataset=option.childKeyValues.slice();
-						}
-					},
-					{
-						filterName:'sp_level',
-						dataset:[],
-						onClick:function(criterion,chosenItems,currentIndex)
-						{
-//							if(angular.isUndefined(option))
-//								return;
-							
-							var container=filterContainer.find('sp_sublevel');
-							var option=chosenItems[currentIndex];
-							var selectedOption=option.selectedOptions[0].childKeyValues;
-							
-							container.dataset=[];
-							container.dataset=selectedOption.slice();
-//							container.dataset=option.childKeyValues.slice();
-						}
-					}
- 			 ];
+	
 		var ordinal=['sp_region','sp_division','sp_schoolType','sp_sector','sp_subsector','sp_level','sp_sublevel','sp_sy_from','sp_schoolName'];
+		var _data=
+			[
+				{
+					filterName:'sp_region',
+					dataset:[],
+					onClick:function(criterion,chosenItems,currentIndex)
+					{				                 			
+						
+				//		if(angular.isUndefined(option))
+				//			return;
+						
+						var container=filterContainer.find('sp_division');
+						var option=chosenItems[currentIndex];
+						var selectedOption=option.selectedOptions.childKeyValues;
+						
+						container.dataset=[];
+						container.dataset=selectedOption.slice();
+				//		chosenItems[1].selectedOptions=[]; // index 1 is sp_sector: should this be somehow be dynamic and not static?
+				//		container.dataset=options.selectedOptions[0].childKeyValues.slice();
+					}
+				},
+				{
+					filterName:'sp_sector',
+					dataset:[],
+					onClick:function(criterion,chosenItems,currentIndex)
+					{
+				//		if(angular.isUndefined(option))
+				//			return;
+						
+						var container=filterContainer.find('sp_subsector');
+						var option=chosenItems[currentIndex];
+						var selectedOption=option.selectedOptions.childKeyValues;
+						
+						container.dataset=[];
+						container.dataset=selectedOption.slice();
+						chosenItems[4].selectedOptions=[];
+				//		container.dataset=option.childKeyValues.slice();
+					}
+				},
+				{
+					filterName:'sp_level',
+					dataset:[],
+					onClick:function(criterion,chosenItems,currentIndex)
+					{
+				//		if(angular.isUndefined(option))
+				//			return;
+						
+						var container=filterContainer.find('sp_sublevel');
+						var option=chosenItems[currentIndex];
+						var selectedOption=option.selectedOptions.childKeyValues;
+						
+						container.dataset=[];
+						container.dataset=selectedOption.slice();
+				//		container.dataset=option.childKeyValues.slice();
+					}
+				}
+			 ];
 		var filterContainer={
-		                 		data:[],
-						          arrange:function(data)
+		                 		data:
+		                 			[
+		                 			 
+										
+		                 			 
+		                 			 ],
+						          arrange:function(ordinal)
 						          {
 						        	  
 						        	  
@@ -74,8 +80,11 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						        		 var i= instance.find(item)
 						        		 ldata.push(i);
 						        	  });
+						        	  filterContainer.data=[];
+						        	  ldata.forEach(function(item,index){
+						        		 filterContainer.data.push(item); 
+						        	  });
 						        	  
-						        	  return ldata;
 						        	  
 						          },
 								
@@ -138,14 +147,13 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				}
 				
 			},
-			getPopulatedData:function(filterContainerData,criteria)
+			populateData:function(filterContainer,criteria)
 			{
+				var filterContainerData=filterContainer.data;
 				if(angular.isUndefined(criteria))
 					return ;
 				if(angular.isUndefined(filterContainerData))
 					return ;
-				
-				var container=[];
 				
 				for(var x=0;x<criteria.length;x++)
 				{
@@ -153,17 +161,23 @@ angular.module('UserApp').directive('filterDirective',[function(){
 					var filter=this.find(filterContainerData,criterion.filterName);
 					var altered;
 					if(angular.isUndefined(filter))
-						altered=this.mapDefaultToFilter(criterion);
+						{
+							altered=this.mapDefaultToFilter(criterion);
+							filterContainer.add(altered);
+						}
 					else
-						altered=this.mapToFilter(criterion,filter);
+						{
+							altered=this.mapToFilter(criterion,filter);
+							filterContainer.update(criterion.filterName,altered);
+						}
 						
-					container.push(altered);
+						
+					
 					
 				}
 				
-				return container;
+				
 			},
-			
 			mapToFilter: function(criterion, filter)
 			{
 				var commonFields=getCommonFields();
@@ -185,6 +199,20 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		
 		};
 		
+		scope.onInit=function(chosenItem,filterContainerData,currentIndex)
+		{
+			chosenItem[currentIndex];
+			chosenItem[currentIndex]={};
+			
+			if(angular.isDefined(filterContainerData.dataset[0]))
+				chosenItem[currentIndex].selectedOptions=filterContainerData.dataset[0];
+			else
+				chosenItem[currentIndex].selectedOptions=[];
+			
+			chosenItem[currentIndex].element=filterContainerData.elementId;
+			chosenItem[currentIndex].criterion=filterContainerData.filterId;
+			
+		}
 		
 		scope.onSelect=function()
 		{
@@ -194,23 +222,41 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		scope.getCriteria=function()
 		{	
 			if(angular.isUndefined(scope.criteria))
-				return [];
-			
+				{
+					filterContainer.data=[];
+					return filterContainer.data
+				}
+			else
+				
 			if(scope.criteria.length===0)
-				return [];
+				{
+				filterContainer.data=[];
+				return filterContainer.data
+				}
+					
+				
+//			CriteriaUtility.populateData(filterContainer.data,scope.criteria);
+//			filterContainer.data= CriteriaUtility.getPopulatedData(filterContainer.data,scope.criteria);
+//			filterContainer.data=filterContainer.arrange(filterContainer.data);
+//			bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 			
-//			filterContainer.data=angular.copy(_data);
-			filterContainer.data= CriteriaUtility.getPopulatedData(filterContainer.data,scope.criteria);
-			filterContainer.data=filterContainer.arrange(filterContainer.data);
-			bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
-			
-			initializeChosenItems(scope.chosenItems,filterContainer);
-			console.log(scope.chosenItems);
 			return filterContainer.data;
 		};
 		
+		if(angular.isUndefined(scope.criteria))
+		{
+			filterContainer.data=[];
+			return;
+		}
 		
-//		initializeChosenItems(scope.chosenItems,filterContainer);
+		
+		
+		filterContainer.data=[];
+		filterContainer.data=angular.copy(_data);
+		
+		CriteriaUtility.populateData(filterContainer,scope.criteria);
+		filterContainer.arrange(ordinal);
+		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		
 		function applyInititialClicks()
 		{
@@ -251,7 +297,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	};
 	
 	
-	function toChosenItem(option,parentData)
+	function toChosenItem(option,filterContainerData)
 	{
 		var cItem={};
 		
@@ -261,8 +307,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			cItem.selectedOptions.push(option);
 		
 		
-		cItem.element=parentData.elementId;
-		cItem.criterion=parentData.filterId;
+		cItem.element=filterContainerData.elementId;
+		cItem.criterion=filterContainerData.filterId;
 		
 		
 		return cItem;

@@ -18,14 +18,17 @@
 		
 <!-- 	</div> -->
 	
-	
+		
 		<div class="form-group" data-ng-repeat="availableCriterion in getCriteria() track by $index" ng-switch="availableCriterion.inputType" class="form-group">
 			<label class="col-sm-2 control-label" style="padding-right: 10px;">
 				{{availableCriterion.label}}
 			 </label>
+			 <!-- 					data-ng-init="chosenItems[$index].selectedOptions=availableCriterion.dataset[0]" -->
+			 {{chosenItems[$index]}}
 			<div ng-switch-when='1' class="col-sm-4">
 				<select  class="form-control"
-					data-ng-model='chosenItems[$index].selectedOptions[0]' 
+					data-ng-init="onInit(chosenItems,availableCriterion,$index)"
+					data-ng-model='chosenItems[$index].selectedOptions' 
 					data-ng-options="option.value for option in availableCriterion.dataset track by option.key" 
 					data-ng-click='availableCriterion.onClick(criteria,chosenItems,$index)'>
 				</select>

@@ -226,6 +226,7 @@ angular.module('UserApp')
                 
                 
                 dataset.filters=clean($scope.filters);
+                console.log(JSON.stringify(dataset.filters));
                 saveDataset(dataset, function() {
                 	localStorageService.set('dataset',dataset);
                     $state.go('step4');
@@ -235,22 +236,25 @@ angular.module('UserApp')
             function clean(filters)
             {
             	var c=[];
-            	for(var x=0;x<filters.length;x++)
-        		{
-            		var f=filters[x];
-            		if(angular.isUndefined(f.selectedOptions))
-            			{
-            				f.selectedOptions=[{key:'',value:''}];
-            				continue;
-            			}
-            		if(f.selectedOptions.length===0)
-        			{
-            			f.selectedOptions=[{key:'',value:''}];
-        				continue;
-        			}
-            		c.push(f);
-        		}
-           
+//            	for(var x=0;x<filters.length;x++)
+//        		{
+//            		var f=filters[x];
+//            		if(angular.isUndefined(f.selectedOptions))
+//            			{
+//            				f.selectedOptions=[{key:'',value:''}];
+//            				continue;
+//            			}
+//            		if(f.selectedOptions.length===0)
+//        			{
+//            			f.selectedOptions=[{key:'',value:''}];
+//        				continue;
+//        			}
+//            		c.push(f);
+//        		}
+            	
+            	filters.forEach(function(item,index){
+            		c.push(item);
+            	})
             	
             	return c;
             }
