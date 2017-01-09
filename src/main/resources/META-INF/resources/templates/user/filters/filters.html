@@ -24,13 +24,12 @@
 				{{availableCriterion.label}}
 			 </label>
 			 <!-- 					data-ng-init="chosenItems[$index].selectedOptions=availableCriterion.dataset[0]" -->
-			 {{chosenItems[$index]}}
 			<div ng-switch-when='1' class="col-sm-4">
 				<select  class="form-control"
 					data-ng-init="onInit(chosenItems,availableCriterion,$index)"
 					data-ng-model='chosenItems[$index].selectedOptions[0]' 
 					data-ng-options="option.value for option in availableCriterion.dataset track by option.key" 
-					data-ng-click='availableCriterion.onClick(criteria,chosenItems,$index)'>
+					data-ng-click='availableCriterion.onClick(chosenItems,$index)'>
 				</select>
 			</div>
 			
@@ -44,9 +43,9 @@
 			</div>
 			
 			<div ng-switch-when='3' class="col-sm-4">
+<!-- 			ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index].selectedOptions)' -->
 				<div ng-repeat="select in availableCriterion.dataset track by $index">
 					<input type="checkbox"
-					    ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index].selectedOptions)'
 					    checklist-model="chosenItems[$parent.$index].selectedOptions"
 						checklist-value='select'> {{select.value}}
 				</div>

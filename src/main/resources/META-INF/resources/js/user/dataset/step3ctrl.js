@@ -254,7 +254,7 @@ angular.module('UserApp')
             	filters.forEach(function(item,index){
             		c.push(item);
             	})
-            	c.splice(1,5);
+            	c.splice(1,1);
             	return c;
             }
             

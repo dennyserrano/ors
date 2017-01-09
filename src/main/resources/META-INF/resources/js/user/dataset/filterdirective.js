@@ -11,7 +11,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				{
 					filterName:'sp_region',
 					dataset:[],
-					onClick:function(criterion,chosenItems,currentIndex)
+					onClick:function(chosenItems,currentIndex)
 					{				                 			
 						
 				//		if(angular.isUndefined(option))
@@ -19,7 +19,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						
 						var container=filterContainer.find('sp_division');
 						var option=chosenItems[currentIndex];
-						var selectedOption=option.selectedOptions.childKeyValues;
+						var selectedOption=option.selectedOptions[0].childKeyValues;
 						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
@@ -30,32 +30,33 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				{
 					filterName:'sp_sector',
 					dataset:[],
-					onClick:function(criterion,chosenItems,currentIndex)
+					onClick:function(chosenItems,currentIndex)
 					{
 				//		if(angular.isUndefined(option))
 				//			return;
 						
 						var container=filterContainer.find('sp_subsector');
 						var option=chosenItems[currentIndex];
-						var selectedOption=option.selectedOptions.childKeyValues;
+						var selectedOption=option.selectedOptions[0].childKeyValues;
 						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
-						chosenItems[4].selectedOptions=[];
+//						chosenItems[4]={};
+//						chosenItems.selectedOptions=[];
 				//		container.dataset=option.childKeyValues.slice();
 					}
 				},
 				{
 					filterName:'sp_level',
 					dataset:[],
-					onClick:function(criterion,chosenItems,currentIndex)
+					onClick:function(chosenItems,currentIndex)
 					{
 				//		if(angular.isUndefined(option))
 				//			return;
 						
 						var container=filterContainer.find('sp_sublevel');
 						var option=chosenItems[currentIndex];
-						var selectedOption=option.selectedOptions.childKeyValues;
+						var selectedOption=option.selectedOptions[0].childKeyValues;
 						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
@@ -211,7 +212,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			
 			chosenItem[currentIndex].element=filterContainerData.elementId;
 			chosenItem[currentIndex].criterion=filterContainerData.filterId;
-			
+			filterContainerData.onClick(chosenItem,currentIndex);
 		}
 		
 		scope.onSelect=function()
@@ -258,11 +259,6 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		filterContainer.arrange(ordinal);
 		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		
-		function applyInititialClicks()
-		{
-			
-		}
-		
 		function bind(criteriaUtility,filterContainer,criteria,chosenItems)
 		{
 			var x;
@@ -271,24 +267,12 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			{
 				var criterion=criteria[x];
 				var filter=filterContainer.find(criterion.filterName);
-				if(angular.isUndefined(filter))
-					continue;
+//				if(angular.isUndefined(filter))
+//					continue;
 				
 				filter.dataset=criterion.selection.slice();
 				
 				
-			}
-			
-		}
-		
-		function initializeChosenItems(chosenItems,filterContainer)
-		{
-			
-			
-			for(var x=0;x<filterContainer.data.length;x++)
-			{
-				var data=filterContainer.data[x];
-				chosenItems.push(toChosenItem(data.dataset[0],data));
 			}
 			
 		}
@@ -332,29 +316,18 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		}
 	}
 	
-//	function findInFilterContainer(container,name)
-//	{
-//		container.data.forEach(function(item,index){
-//			if(item.filterName===name)
-//				return item;
-//		});
-//	}
 	
 	function getCommonFields()
 	{
 		return ['label','filterName','inputType','filterId','elementId'];
 	}
 	
-	
-	
-	
-	
 	function filterContainerDefaultFields()
 	{
 		return{
 			filterName:'',
 			dataset:[],
-     		onClick:function(criterion,chosenItems,currentIndex)
+     		onClick:function(chosenItems,currentIndex)
      		{
      			
      		}
