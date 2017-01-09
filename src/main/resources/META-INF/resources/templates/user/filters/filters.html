@@ -28,7 +28,7 @@
 			<div ng-switch-when='1' class="col-sm-4">
 				<select  class="form-control"
 					data-ng-init="onInit(chosenItems,availableCriterion,$index)"
-					data-ng-model='chosenItems[$index].selectedOptions' 
+					data-ng-model='chosenItems[$index].selectedOptions[0]' 
 					data-ng-options="option.value for option in availableCriterion.dataset track by option.key" 
 					data-ng-click='availableCriterion.onClick(criteria,chosenItems,$index)'>
 				</select>

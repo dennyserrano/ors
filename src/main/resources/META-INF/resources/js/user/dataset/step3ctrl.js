@@ -224,7 +224,6 @@ angular.module('UserApp')
                 var dataset = $scope.dataset;
                 dataset.filters = $scope.filters;
                 
-                
                 dataset.filters=clean($scope.filters);
                 console.log(JSON.stringify(dataset.filters));
                 saveDataset(dataset, function() {
@@ -255,7 +254,7 @@ angular.module('UserApp')
             	filters.forEach(function(item,index){
             		c.push(item);
             	})
-            	
+            	c.splice(1,5);
             	return c;
             }
             

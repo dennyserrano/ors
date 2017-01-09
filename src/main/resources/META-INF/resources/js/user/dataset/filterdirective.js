@@ -205,7 +205,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			chosenItem[currentIndex]={};
 			
 			if(angular.isDefined(filterContainerData.dataset[0]))
-				chosenItem[currentIndex].selectedOptions=filterContainerData.dataset[0];
+				chosenItem[currentIndex].selectedOptions=[filterContainerData.dataset[0]];
 			else
 				chosenItem[currentIndex].selectedOptions=[];
 			
