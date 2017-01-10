@@ -56,16 +56,6 @@ angular.module('UserApp')
                         });
                     }
                     
-                    if(c.filterId===sectorSubChecklistFilterId) //bad code
-                    {
-                    	selectedOptions=[];
-                    }
-                    
-                    if(c.filterId===gcoSubChecklistFilterId) //bad code
-                    {
-                    	selectedOptions=[];
-                    }
-                    
                     $scope.selectedValues[c.filterId] = $.isArray(selectedOptions) ? selectedOptions : [selectedOptions];
                 }
                 $scope.setFilter(c);
@@ -103,40 +93,11 @@ angular.module('UserApp')
             };
             
             var criteriaServiceCallback = function(criteria) {
-                angular.forEach(criteria, divisionCriteriaFilter);
-                angular.forEach(criteria, sectorFilter);
-                angular.forEach(criteria, curricularOfferingFilter);
-                angular.forEach(criteria, sectorSubChecklistFilter);
-                angular.forEach(criteria, gcoSubChecklistFilter);
-                angular.forEach(criteria, criteriaIteratorCallback);
-                
-                //bad code
-                availableCriteria.splice(4,0,availableCriteria[7]);
-                
-                
-                
-                delete availableCriteria[8];
-                
-                availableCriteria.splice(6,0,availableCriteria[9]);
-                delete availableCriteria[10];
-                
-                var newArr=[];
-                
-                for(var x=0;x<availableCriteria.length;x++)
-                	{
-                		if(angular.isDefined(availableCriteria[x]))
-                			{
-                				newArr.push(availableCriteria[x]);
-                			}
-                	}
-                
-                availableCriteria=[];
-                availableCriteria=newArr;
-                
-                for(var x=0;x<availableCriteria.length;x++)
-            	{
-            		console.log(availableCriteria[x]);
-            	}
+            	angular.forEach(criteria,function(e,i){
+            		availableCriteria.push(e);
+            	});
+            	
+
             };
 
             var selectedDatsetsCallback = function(selectedDataset) {
@@ -146,7 +107,7 @@ angular.module('UserApp')
             $scope.$on('render-done', function(event) {
                 $scope.loadingFilters = 1;
             });
-
+            
             UserDatasetService.get({}, function(dataset) {
             	
             	
@@ -164,9 +125,9 @@ angular.module('UserApp')
                         hasSchoolProfileSelected = true;
                     }
                 });
-                if (!hasSchoolProfileSelected) {
-                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
-                }
+//                if (!hasSchoolProfileSelected) {
+//                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
+//                }
                 angular.forEach(dataset.subDatasets, selectedDatsetsCallback);
                 $scope.availableCriteria = availableCriteria;
                 $scope.loadingFilters = 1;
@@ -174,6 +135,7 @@ angular.module('UserApp')
                 $scope.loadingFilters = 2;
                 $scope.loadingFiltersError = 'Failed to load Filters. [HTTP Status: ' + response.status + '].';
             });
+            
             
             $scope.setFilter = function(criterion) {
                 var selectedOptions = $scope.selectedValues[criterion.filterId];
@@ -211,6 +173,7 @@ angular.module('UserApp')
                 	gcoSubChecklistCriterion.selection = selectedOptions[0].childKeyValues;
                 }
                 
+    
             };
             
             $scope.searchSchools = function(schoolName) {
@@ -260,22 +223,24 @@ angular.module('UserApp')
                 var dataset = $scope.dataset;
                 dataset.filters = $scope.filters;
                 
-                //bad code
-//                if(dataset.filters[7].selectedOptions.length==0)
-//                {
-//                	delete dataset.filters[7];
-//                }
-//                
-//                if(dataset.filters[8].selectedOptions.length==0)
-//                {
-//                	delete dataset.filters[8];
-//                }
+                dataset.filters=clean($scope.filters);
                 
                 saveDataset(dataset, function() {
                 	localStorageService.set('dataset',dataset);
                     $state.go('step4');
                 });
             };
+            
+            function clean(filters)
+            {
+            	var c=[];
+            	
+            	filters.forEach(function(item,index){
+            		c.push(item);
+            	})
+            	
+            	return c;
+            }
             
             $scope.previous = function() {
                 var dataset = $scope.dataset;
