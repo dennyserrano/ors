@@ -13,18 +13,13 @@ angular.module('UserApp').directive('filterDirective',[function(){
 					dataset:[],
 					onClick:function(chosenItems,currentIndex)
 					{				                 			
-						
-				//		if(angular.isUndefined(option))
-				//			return;
-						
 						var container=filterContainer.find('sp_division');
 						var option=chosenItems[currentIndex];
 						var selectedOption=option.selectedOptions[0].childKeyValues;
 						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
-				//		chosenItems[1].selectedOptions=[]; // index 1 is sp_sector: should this be somehow be dynamic and not static?
-				//		container.dataset=options.selectedOptions[0].childKeyValues.slice();
+				
 					}
 				},
 				{
@@ -32,18 +27,12 @@ angular.module('UserApp').directive('filterDirective',[function(){
 					dataset:[],
 					onClick:function(chosenItems,currentIndex)
 					{
-				//		if(angular.isUndefined(option))
-				//			return;
-						
 						var container=filterContainer.find('sp_subsector');
 						var option=chosenItems[currentIndex];
 						var selectedOption=option.selectedOptions[0].childKeyValues;
 						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
-//						chosenItems[4]={};
-//						chosenItems.selectedOptions=[];
-				//		container.dataset=option.childKeyValues.slice();
 					}
 				},
 				{
@@ -51,16 +40,13 @@ angular.module('UserApp').directive('filterDirective',[function(){
 					dataset:[],
 					onClick:function(chosenItems,currentIndex)
 					{
-				//		if(angular.isUndefined(option))
-				//			return;
-						
+	
 						var container=filterContainer.find('sp_sublevel');
 						var option=chosenItems[currentIndex];
 						var selectedOption=option.selectedOptions[0].childKeyValues;
 						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
-				//		container.dataset=option.childKeyValues.slice();
 					}
 				}
 			 ];
@@ -234,12 +220,6 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				filterContainer.data=[];
 				return filterContainer.data
 				}
-					
-				
-//			CriteriaUtility.populateData(filterContainer.data,scope.criteria);
-//			filterContainer.data= CriteriaUtility.getPopulatedData(filterContainer.data,scope.criteria);
-//			filterContainer.data=filterContainer.arrange(filterContainer.data);
-//			bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 			
 			return filterContainer.data;
 		};
@@ -312,7 +292,6 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			
 			filterContainer[altered.filterName]=altered;
 			
-//			console.log(altered);
 		}
 	}
 	
