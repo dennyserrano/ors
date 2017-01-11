@@ -39,7 +39,6 @@
 			data-ng-init="onInit(chosenItems,availableCriterion,$parent.$index)">
 			<div ng-repeat="select in availableCriterion.dataset track by $index">
 				<input type="checkbox"
-					ng-checked='true'
 					checklist-model="chosenItems[$parent.$index].selectedOptions"
 					checklist-value='select'> {{select.value}}
 			</div>
@@ -51,7 +50,6 @@
 			<div ng-repeat="select in availableCriterion.dataset track by $index">
 				<input type="checkbox"
 					checklist-model="chosenItems[$parent.$index].selectedOptions"
-					ng-checked='true'
 					checklist-value='select'> {{select.value}}
 			</div>
 
