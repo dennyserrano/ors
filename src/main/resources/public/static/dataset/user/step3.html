@@ -74,13 +74,13 @@
 		<form name="datasetFilterForm" role="form" data-ng-submit="save()">
 			<div class="row">
 				<div class="col-sm-12">
-					<div data-ng-if="loadingFilters === 0" class="well form-horizontal">
+					<div data-ng-if="!isRawCriteriaDefined()" class="well form-horizontal">
 						<i class="fa fa-spin fa-spinner"></i> Loading Filters...
 					</div>
 					<div data-ng-show="loadingFilters === 1"
 						class="well form-horizontal">
 						
-						<filter-directive criteria='availableCriteria' chosen-items='filters' data-ng-if='availableCriteria.length!==0'></filter-directive>
+						<filter-directive criteria='availableCriteria' chosen-items='filters' data-ng-if='isRawCriteriaDefined()'></filter-directive>
 
 					<div data-ng-if="loadingFilters === 2" class="alert alert-danger">
 						{{ ::loadingFiltersError }}</div>
