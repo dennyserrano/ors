@@ -4,7 +4,6 @@ angular.module('UserApp').directive('filterDirective',[function(){
 
 	function link(scope, element, attrs) 
 	{
-	
 		var ordinal=['sp_region','sp_division','sp_schoolType','sp_sector','sp_subsector','sp_level','sp_sublevel','sp_sy_from','sp_schoolName'];
 		var _data=
 			[
@@ -199,6 +198,18 @@ angular.module('UserApp').directive('filterDirective',[function(){
 			chosenItem[currentIndex].element=filterContainerData.elementId;
 			chosenItem[currentIndex].criterion=filterContainerData.filterId;
 			filterContainerData.onClick(chosenItem,currentIndex);
+		}
+		
+		scope.onInit2=function(chosenItem,filterContainerData,currentIndex)
+		{
+			chosenItem[currentIndex];
+			chosenItem[currentIndex]={};
+			
+			
+			chosenItem[currentIndex].selectedOptions=[];
+			
+			chosenItem[currentIndex].element=filterContainerData.elementId;
+			chosenItem[currentIndex].criterion=filterContainerData.filterId;
 		}
 		
 		scope.onSelect=function()

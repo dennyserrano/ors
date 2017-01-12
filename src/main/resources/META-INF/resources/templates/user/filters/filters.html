@@ -36,7 +36,7 @@
 		</div>
 
 		<div ng-switch-when='2' class="col-sm-4"
-			data-ng-init="onInit(chosenItems,availableCriterion,$parent.$index)">
+			data-ng-init="onInit2(chosenItems,availableCriterion,$parent.$index)">
 			<div ng-repeat="select in availableCriterion.dataset track by $index">
 				<input type="checkbox"
 					checklist-model="chosenItems[$parent.$index].selectedOptions"
@@ -44,9 +44,8 @@
 			</div>
 		</div>
 
-		<div ng-switch-when='3' class="col-sm-4"
-			data-ng-init="onInit(chosenItems,availableCriterion,$parent.$index)">
-			<!-- 			ng-click='availableCriterion.onClick(criteria,availableCriterion,chosenItems[$index].selectedOptions)' -->
+		<div ng-switch-when='3' class="col-sm-4" data-ng-init="onInit2(chosenItems,availableCriterion,$parent.$index)">
+
 			<div ng-repeat="select in availableCriterion.dataset track by $index">
 				<input type="checkbox"
 					checklist-model="chosenItems[$parent.$index].selectedOptions"
