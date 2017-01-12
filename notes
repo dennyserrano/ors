@@ -9,7 +9,7 @@ school_subclassification=986 //luc
 
 elem
 takepartid=1
-schoolsubclassification not in (12,986)
+school_subclassification_id not in (12,986)
 
 secondary
 takepartid=1
