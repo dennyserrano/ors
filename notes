@@ -1,1 +1,18 @@
 step 3- save button should be disabled
+
+co_gen_class=433 //elem
+co_gen_class=434 //secondary
+general_classification_id=7 //public
+general_classification_id=8 //private
+school_subclassification=12 //suc
+school_subclassification=986 //luc
+
+elem
+takepartid=1
+schoolsubclassification not in (12,986)
+
+secondary
+takepartid=1
+schoolsubclassification not in (12,986)
+curricularclassid not in (921,967,968,969)
+
