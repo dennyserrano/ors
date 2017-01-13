@@ -17,7 +17,6 @@ LEFT JOIN ebeisdb.ref_region rr ON (rr.id=sph.region_id)
    sph.sy_from = 2016 
    and sph.co_gen_class = 433
    and sph.general_classification_id = 8
-   and sph.date_closed is null
 	and sph.school_subclassification_id not in (713)
 --   group by  sph.SCHOOL_ID
    ORDER BY sph.SY_FROM,  rr.RANK ASC,  sph.SCHOOL_ID ASC;
