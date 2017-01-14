@@ -24,7 +24,7 @@
 		ng-switch="availableCriterion.inputType" class="form-group">
 		<label class="col-sm-2 control-label" style="padding-right: 10px;">
 			{{availableCriterion.label}} </label>
-
+		{{chosenItems[$index].selectedOptions}} {{$index}}
 		<!-- 					data-ng-init="chosenItems[$index].selectedOptions=availableCriterion.dataset[0]" -->
 		<div ng-switch-when='1' class="col-sm-4">
 			<select class="form-control"
@@ -35,8 +35,8 @@
 			</select>
 		</div>
 
-		<div ng-switch-when='2' class="col-sm-4"
-			data-ng-init="onInit2(chosenItems,availableCriterion,$parent.$index)">
+		<div ng-switch-when='2' class="col-sm-4" data-ng-init="onInit2(chosenItems,availableCriterion,$parent.$index)">
+			
 			<div ng-repeat="select in availableCriterion.dataset track by $index">
 				<input type="checkbox"
 					checklist-model="chosenItems[$parent.$index].selectedOptions"
@@ -45,7 +45,6 @@
 		</div>
 
 		<div ng-switch-when='3' class="col-sm-4" data-ng-init="onInit2(chosenItems,availableCriterion,$parent.$index)">
-
 			<div ng-repeat="select in availableCriterion.dataset track by $index">
 				<input type="checkbox"
 					checklist-model="chosenItems[$parent.$index].selectedOptions"
