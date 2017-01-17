@@ -193,20 +193,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 225))),0) as gp7totAge4
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 225))),0) as gtotmaleAge4
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 225))),0) as gtotfemaleAge4
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 225))),0) as gtotAge4
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 225))),0) as ngmaleAge4
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 225))),0) as ngmaleAge4
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 225))),0) as ngfemaleAge4
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 225))),0) as ngfemaleAge4
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 225))),0) as ngtotAge4
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 225))),0) as ngtotAge4
 
 -- Age 4 1/2  NOTE: For 2016  Use code 970 for "Below 5"
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -264,20 +264,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 970))),0) as gp7totAge4_5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 970))),0) as gtotmaleAge4_5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 970))),0) as gtotfemaleAge4_5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 970))),0) as gtotAge4_5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 970))),0) as ngmaleAge4_5
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 970))),0) as ngmaleAge4_5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 970))),0) as ngfemaleAge4_5
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 970))),0) as ngfemaleAge4_5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 970))),0) as ngtotAge4_5
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 970))),0) as ngtotAge4_5
 
 -- Age 5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -335,20 +335,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 226))),0) as gp7totAge5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 226))),0) as gtotmaleAge5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 226))),0) as gtotfemaleAge5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 226))),0) as gtotAge5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 226))),0) as ngmaleAge5
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 226))),0) as ngmaleAge5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 226))),0) as ngfemaleAge5
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 226))),0) as ngfemaleAge5
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 226))),0) as ngtotAge5
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 226))),0) as ngtotAge5
 
 -- Age 6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -406,20 +406,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 227))),0) as gp7totAge6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 227))),0) as gtotmaleAge6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 227))),0) as gtotfemaleAge6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 227))),0) as gtotAge6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 227))),0) as ngmaleAge6
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 227))),0) as ngmaleAge6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 227))),0) as ngfemaleAge6
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 227))),0) as ngfemaleAge6
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 227))),0) as ngtotAge6
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 227))),0) as ngtotAge6
 
 -- Age 7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -477,20 +477,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 228))),0) as gp7totAge7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 228))),0) as gtotmaleAge7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 228))),0) as gtotfemaleAge7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 228))),0) as gtotAge7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 228))),0) as ngmaleAge7
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 228))),0) as ngmaleAge7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 228))),0) as ngfemaleAge7
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 228))),0) as ngfemaleAge7
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 228))),0) as ngtotAge7
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 228))),0) as ngtotAge7
 
 -- Age 8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -548,20 +548,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 229))),0) as gp7totAge8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 229))),0) as gtotmaleAge8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 229))),0) as gtotfemaleAge8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 229))),0) as gtotAge8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 229))),0) as ngmaleAge8
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 229))),0) as ngmaleAge8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 229))),0) as ngfemaleAge8
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 229))),0) as ngfemaleAge8
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 229))),0) as ngtotAge8
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 229))),0) as ngtotAge8
 
 -- Age 9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -619,20 +619,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 230))),0) as gp7totAge9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 230))),0) as gtotmaleAge9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 230))),0) as gtotfemaleAge9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 230))),0) as gtotAge9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 230))),0) as ngmaleAge9
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 230))),0) as ngmaleAge9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 230))),0) as ngfemaleAge9
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 230))),0) as ngfemaleAge9
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 230))),0) as ngtotAge9
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 230))),0) as ngtotAge9
 
 -- Age 10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -690,20 +690,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 231))),0) as gp7totAge10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 231))),0) as gtotmaleAge10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 231))),0) as gtotfemaleAge10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 231))),0) as gtotAge10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 231))),0) as ngmaleAge10
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 231))),0) as ngmaleAge10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 231))),0) as ngfemaleAge10
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 231))),0) as ngfemaleAge10
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 231))),0) as ngtotAge10
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 231))),0) as ngtotAge10
 
 -- Age 10 Below FOR 2016 : uses descript "Below 11" Same code 240
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -743,22 +743,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 240))),0) as g12totAge10Below
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 240))),0) as gtotmaleAge10Below
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 240))),0) as gtotfemaleAge10Below
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) 
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389) 
    AND en.age_category_id in ( 240))),0) as gtotAge10Below
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 240))),0) as ngmaleAge10Below
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 240))),0) as ngfemaleAge10Below
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 240))),0) as ngtotAge10Below
 
 -- Age 11
@@ -853,22 +853,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 241))),0) as g12totAge11
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 232), en.age_category_id in ( 241)))),0) as gtotmaleAge11
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 232), en.age_category_id in ( 241)))),0) as gtotfemaleAge11
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 232), en.age_category_id in ( 241)))),0) as gtotAge11
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 232), en.age_category_id in ( 241)))),0) as ngmaleAge11
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 232), en.age_category_id in ( 241)))),0) as ngfemaleAge11
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 232), en.age_category_id in ( 241)))),0) as ngtotAge11
 
 -- Age 12
@@ -963,22 +963,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 242))),0) as g12totAge12
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 233), en.age_category_id in ( 242)))),0) as gtotmaleAge12
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 233), en.age_category_id in ( 242)))),0) as gtotfemaleAge12
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 233), en.age_category_id in ( 242)))),0) as gtotAge12
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 233), en.age_category_id in ( 242)))),0) as ngmaleAge12
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 233), en.age_category_id in ( 242)))),0) as ngfemaleAge12
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 233), en.age_category_id in ( 242)))),0) as ngtotAge12
 
 -- Age 12 & Above
@@ -1037,20 +1037,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 385))),0) as gp7totAge12Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 385)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 385)  
    AND en.age_category_id in ( 385))),0) as gtotmaleAge12Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 385)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 385)  
    AND en.age_category_id in ( 385))),0) as gtotfemaleAge12Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 385)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 385)  
    AND en.age_category_id in ( 385))),0) as gtotAge12Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 385))),0) as ngmaleAge12Above
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 385))),0) as ngmaleAge12Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 385))),0) as ngfemaleAge12Above
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 385))),0) as ngfemaleAge12Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 385))),0) as ngtotAge12Above
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 385))),0) as ngtotAge12Above
 
 -- Age 13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -1144,22 +1144,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 243))),0) as g12totAge13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 189), en.age_category_id in ( 243)))),0) as gtotmaleAge13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 189), en.age_category_id in ( 243)))),0) as gtotfemaleAge13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 189), en.age_category_id in ( 243)))),0) as gtotAge13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 189), en.age_category_id in ( 243)))),0) as ngmaleAge13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 189), en.age_category_id in ( 243)))),0) as ngfemaleAge13
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 189), en.age_category_id in ( 243)))),0) as ngtotAge13
 
 -- Age 13 & Above
@@ -1218,20 +1218,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 234))),0) as gp7totAge13Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 234))),0) as gtotmaleAge13Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 234))),0) as gtotfemaleAge13Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 234))),0) as gtotAge13Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 234))),0) as ngmaleAge13Above
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 234))),0) as ngmaleAge13Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 234))),0) as ngfemaleAge13Above
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 234))),0) as ngfemaleAge13Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 234))),0) as ngtotAge13Above
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 234))),0) as ngtotAge13Above
 
 -- Age 13 to 15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -1289,20 +1289,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 345))),0) as gp7totAge13to15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 345))),0) as gtotmaleAge13to15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 345))),0) as gtotfemaleAge13to15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 345))),0) as gtotAge13to15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 345))),0) as ngmaleAge13to15
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 345))),0) as ngmaleAge13to15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 345))),0) as ngfemaleAge13to15
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 345))),0) as ngfemaleAge13to15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 345))),0) as ngtotAge13to15
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 345))),0) as ngtotAge13to15
 
 -- Age 14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -1396,22 +1396,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 244))),0) as g12totAge14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 205), en.age_category_id in ( 244)))),0) as gtotmaleAge14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 205), en.age_category_id in ( 244)))),0) as gtotfemaleAge14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 205), en.age_category_id in ( 244)))),0) as gtotAge14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 205), en.age_category_id in ( 244)))),0) as ngmaleAge14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 205), en.age_category_id in ( 244)))),0) as ngfemaleAge14
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 205), en.age_category_id in ( 244)))),0) as ngtotAge14
 
 -- Age 15
@@ -1506,22 +1506,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 245))),0) as g12totAge15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 206), en.age_category_id in ( 245)))),0) as gtotmaleAge15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 206), en.age_category_id in ( 245)))),0) as gtotfemaleAge15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 206), en.age_category_id in ( 245)))),0) as gtotAge15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 206), en.age_category_id in ( 245)))),0) as ngmaleAge15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 206), en.age_category_id in ( 245)))),0) as ngfemaleAge15
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 206), en.age_category_id in ( 245)))),0) as ngtotAge15
 
 -- Age 16
@@ -1616,22 +1616,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 246))),0) as g12totAge16
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 439), en.age_category_id in ( 246)))),0) as gtotmaleAge16
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 439), en.age_category_id in ( 246)))),0) as gtotfemaleAge16
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 439), en.age_category_id in ( 246)))),0) as gtotAge16
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 439), en.age_category_id in ( 246)))),0) as ngmaleAge16
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 439), en.age_category_id in ( 246)))),0) as ngfemaleAge16
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 439), en.age_category_id in ( 246)))),0) as ngtotAge16
 
 -- Age 16 to 18
@@ -1690,20 +1690,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 308))),0) as gp7totAge16to18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 308))),0) as gtotmaleAge16to18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 308))),0) as gtotfemaleAge16to18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 308))),0) as gtotAge16to18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 308))),0) as ngmaleAge16to18
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 308))),0) as ngmaleAge16to18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 308))),0) as ngfemaleAge16to18
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 308))),0) as ngfemaleAge16to18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 308))),0) as ngtotAge16to18
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 308))),0) as ngtotAge16to18
 
 -- Age 17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -1797,22 +1797,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 247))),0) as g12totAge17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 484), en.age_category_id in ( 247)))),0) as gtotmaleAge17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 484), en.age_category_id in ( 247)))),0) as gtotfemaleAge17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 484), en.age_category_id in ( 247)))),0) as gtotAge17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 484), en.age_category_id in ( 247)))),0) as ngmaleAge17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 484), en.age_category_id in ( 247)))),0) as ngfemaleAge17
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 484), en.age_category_id in ( 247)))),0) as ngtotAge17
 
 -- Age 18
@@ -1907,22 +1907,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 248))),0) as g12totAge18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 489), en.age_category_id in ( 248)))),0) as gtotmaleAge18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 489), en.age_category_id in ( 248)))),0) as gtotfemaleAge18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 489), en.age_category_id in ( 248)))),0) as gtotAge18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 489), en.age_category_id in ( 248)))),0) as ngmaleAge18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 489), en.age_category_id in ( 248)))),0) as ngfemaleAge18
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND if(sph.co_gen_class=433, en.age_category_id in ( 489), en.age_category_id in ( 248)))),0) as ngtotAge18
 
 -- Age 19
@@ -1963,22 +1963,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 249))),0) as g12totAge19
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 249))),0) as gtotmaleAge19
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 249))),0) as gtotfemaleAge19
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) 
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389) 
    AND en.age_category_id in ( 249))),0) as gtotAge19
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 249))),0) as ngtotmaleAge19
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 249))),0) as ngtotfemaleAge19
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 249))),0) as ngtotAge19
 
 -- Age 19 & Above
@@ -2037,20 +2037,20 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 104 AND en.age_category_id in ( 309))),0) as gp7totAge19Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 309))),0) as gtotmaleAge19Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 309))),0) as gtotfemaleAge19Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 309))),0) as gtotAge19Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 309))),0) as ngmaleAge19Above
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 309))),0) as ngmaleAge19Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 309))),0) as ngfemaleAge19Above
+   AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 309))),0) as ngfemaleAge19Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2013, 598, 197)  AND en.age_category_id in ( 309))),0) as ngtotAge19Above
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.sy_from = 2016, 598, 197)  AND en.age_category_id in ( 309))),0) as ngtotAge19Above
 
 -- Age 20 & Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
@@ -2090,22 +2090,22 @@ SELECT sph.sy_from, sph.school_id
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
    WHERE en.report_history_id = rh.id AND en.grade_level_id = 595 AND en.age_category_id in ( 250))),0) as g12totAge20Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 250))),0) as gtotmaleAge20Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 250))),0) as gtotfemaleAge20Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389) 
+   WHERE en.report_history_id = rh.id AND en.grade_level_id != if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389) 
    AND en.age_category_id in ( 250))),0) as gtotAge20Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 250))),0) as ngmaleAge20Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en WHERE en.report_history_id = rh.id 
-   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 250))),0) as ngfemaleAge20Above
 , IFNULL(SUM((SELECT SUM(IFNULL(en.enroll_male, 0)+ifnull(en.enroll_female,0)) AS sum_en FROM ebeisdb.enrollment_age_summary en 
-   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2013, 598, 197), 389)  
+   WHERE en.report_history_id = rh.id AND en.grade_level_id = if(sph.co_gen_class=433, if(sph.sy_from = 2016, 598, 197), 389)  
    AND en.age_category_id in ( 250))),0) as ngtotAge20Above
 
 FROM ebeisdb.school_profile_history sph
