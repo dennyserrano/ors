@@ -1,0 +1,24 @@
+SELECT
+--  sph.school_id, sph.school_name,
+IFNULL(SUM((SELECT SUM(IFNULL(en.male,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id in (405,98,99,100,101,102,103,104,197,389) AND en.pupil_data_indicator in ( 25, 26))),0) +
+IFNULL(SUM((SELECT SUM(IFNULL(en.female,0)) AS sum_en FROM ebeisdb.enrollment_pupil_summary en WHERE en.report_history_id = rh.id AND en.grade_level_id in (405,98,99,100,101,102,103,104,197,389) AND en.pupil_data_indicator in ( 25, 26))),0) as a
+ 
+ 
+FROM ebeisdb.school_profile_history sph
+LEFT JOIN ebeisdb.ref_region rr ON (rr.id=sph.region_id)
+   LEFT JOIN (ebeisdb.report_history rh
+                     inner join ebeisdb.ref_report_history rrh on rh.ref_report_history_id = rrh.id
+                     inner join ebeisdb.ref_reports rrs on rrs.id  = rrh.report_id
+                     inner join ebeisdb.ref_report_generics rrg on rrg.id = rrs.ref_report_generics_id and rrg.id=1
+               ) on rh.school_id = sph.school_id and rh.sy_from= sph.sy_from and rh.report_status >= 297 -- cast( sph.sy_from as unsigned)
+  
+   WHERE 
+   sph.take_part_id = 1 and
+   sph.sy_from = 2016 
+   and sph.co_gen_class = 433
+   and sph.general_classification_id = 7
+   and sph.date_closed is null
+	and sph.school_subclassification_id in (12,986)
+--   group by  sph.SCHOOL_ID
+   ORDER BY sph.SY_FROM,  rr.RANK ASC,  sph.SCHOOL_ID ASC;
+
