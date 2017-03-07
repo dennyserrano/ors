@@ -77,11 +77,12 @@ WHERE RCS.id=767 and BS.report_history_id=rh.id
 
 -- MINOR REPAIR
 
-(SELECT IFNULL(SUM(BS.number_of_rooms),0) FROM ebeisdb.building_room BR
-	inner join ebeisdb.building_structure BS on BR.building_structure_id=BS.id
-    inner join ebeisdb.ref_code_setting RCS on BR.room_condition_id=RCS.id
-WHERE RCS.id=768 and BS.report_history_id=rh.id
+(SELECT  COUNT( BR.room_condition_id) FROM ebeisdb.building_room BR
+inner join ebeisdb.building_structure BS on BR.building_structure_id=BS.id
+  --  inner join ebeisdb.ref_code_setting RCS on BR.room_condition_id=RCS.id
+WHERE BR.room_condition_id =768 and BS.report_history_id=rh.id 
 ) as rm_cond_minRep,
+
 
 -- MAJOR REPAIR
 
@@ -172,6 +173,16 @@ WHERE RCS.id=771 and BS.report_history_id=rh.id
         WHERE BS.report_history_id=rh.id
 ) as septic_tank,
 
+(SELECT IFNULL(SUM(BWS.faucet_with_water),0) FROM ebeisdb.building_structure BS
+		inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id
+        WHERE BS.report_history_id=rh.id
+) as with_faucet,
+
+(SELECT IFNULL(SUM(BWS.faucet_without_water),0) FROM ebeisdb.building_structure BS
+		inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id
+        WHERE BS.report_history_id=rh.id
+) as without_faucet,
+
 (SELECT IFNULL(SUM(BF.kinder_modular),0) FROM ebeisdb.building_structure BS
 		inner join ebeisdb.building_furnitures BF on BS.id=BF.building_structure_id
 		WHERE BS.report_history_id=rh.id
@@ -243,10 +254,11 @@ WHERE RCS.id=771 and BS.report_history_id=rh.id
          WHERE BS.report_history_id=rh.id
 ) as teachr_chr,
 
-(SELECT COUNT(SF.id) FROM ebeisdb.school_facilities SF
+(SELECT SF.quantity FROM ebeisdb.school_facilities SF
 		inner join ebeisdb.ref_code_setting RCS on SF.facilities_id=RCS.id
 		WHERE SF.report_history_id=rh.id and RCS.id=773
-) as conc_quad, 
+) as conc_quad,
+
 
 (SELECT COUNT(SF.id) FROM ebeisdb.school_facilities SF
 		inner join ebeisdb.ref_code_setting RCS on SF.facilities_id=RCS.id
