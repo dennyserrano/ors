@@ -11,15 +11,15 @@ select sph.sy_from, sph.school_id,
 (SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS 
 	inner join ebeisdb.ref_code_setting RCS on BS.building_classification_id=RCS.id
     inner join ebeisdb.building_structure_type BST on BS.building_type_id=BST.id
-	WHERE BS.id=1154 and BS.report_history_id=rh.id AND BST.category=2
-) as struc_perm,
+	WHERE BS.building_classification_id=1154 and BS.report_history_id=rh.id AND BST.category=2
+) as struct_perm,
 
 -- STRUCTURE SEMI-PERMANENT
 (
 SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS 
 	inner join ebeisdb.ref_code_setting RCS on BS.building_classification_id=RCS.id
     inner join ebeisdb.building_structure_type BST on BS.building_type_id=BST.id
-	WHERE RCS.id=1155 and BS.report_history_id=rh.id AND BST.category=2
+	WHERE RCS.building_classification_id=1155 and BS.report_history_id=rh.id AND BST.category=2
 ) as struc_semiPerm,
 
 -- STRUCTURE MAKE-SHIFT 
@@ -27,7 +27,7 @@ SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS
 SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS 
 	inner join ebeisdb.ref_code_setting RCS on BS.building_classification_id=RCS.id
     inner join ebeisdb.building_structure_type BST on BS.building_type_id=BST.id
-	WHERE RCS.id=1156 and BS.report_history_id=rh.id AND BST.category=2
+	WHERE RCS.building_classification_id=1156 and BS.report_history_id=rh.id AND BST.category=2
 ) as struc_makeShift,
 
 -- TOTAL BUILDINGS 
