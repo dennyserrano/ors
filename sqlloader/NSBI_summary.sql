@@ -134,19 +134,19 @@ WHERE RCS.id=771 and BS.report_history_id=rh.id
 
 (SELECT IFNULL(SUM(BWS.toilet_bowl_male),0) FROM ebeisdb.building_structure BS
 		 inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id
-         WHERE BS.report_history_id=rh.id) as male,
+         WHERE BS.report_history_id=rh.id) as toilet_male,
 
 (SELECT IFNULL(SUM(BWS.toilet_bowl_female),0) FROM ebeisdb.building_structure BS
 		 inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id
-         WHERE BS.report_history_id=rh.id) as female,
+         WHERE BS.report_history_id=rh.id) as toilet_female,
          
 (SELECT IFNULL(SUM(BWS.toilet_bowl_pwd),0) FROM ebeisdb.building_structure BS
 		 inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id
-		 WHERE BS.report_history_id=rh.id) as pwd,
+		 WHERE BS.report_history_id=rh.id) as toilet_pwd,
         
 (SELECT IFNULL(SUM(BWS.toilet_bowl_shared),0) FROM ebeisdb.building_structure BS
  		 inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id
-         WHERE BS.report_history_id=rh.id) as shared,
+         WHERE BS.report_history_id=rh.id) as toilet_shared,
 
 (SELECT IFNULL(SUM(BWS.non_functional_bowl),0) FROM ebeisdb.building_structure BS
 		 inner join ebeisdb.building_water_sanitation BWS on BS.id=BWS.building_structure_id

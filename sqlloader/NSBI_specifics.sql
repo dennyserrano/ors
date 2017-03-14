@@ -4,19 +4,19 @@ SELECT
 SPH.school_id as school_id,
 IF(BST.category=1,'Building','Structure') as bldg_struct,
 BS.building_no as bldg_struct_num,
-BST.type_name as bldg_struct_type ,
-RCS_building_condition.description as bldg_cond,
-RCS_classification.description as bldg_class,
+BST.id as bldg_struct_type_id ,
+BS.building_condition_id as bldg_cond_id,
+BS.building_classification_id as bldg_class_id,
 BS.number_of_storey as storeys,
-RCS_bldg_fund_source.description as fund_source,
-RSFS.description as specific_fund_src,
-BS.building_length as bldg_dimension_len,
-BS.building_width as bldg_dimension_wdth,
+BSFS.fund_source_id as fund_src_id,
+RSFS.id as specific_fund_src_id,
+BS.building_length as bldg_dimnsn_len,
+BS.building_width as bldg_dimnsn_wdth,
 BR.room_id as rm_number,
-RCS_class_cond.description as class_cond,
+BR.room_condition_id as class_cond_id,
 BR.repair_last5 as repair_5yrs,
-BR.room_length as rm_dimnsn_length,
-BR.room_width as rm_dimnsn_width,
+BR.room_length as rm_dimnsn_len,
+BR.room_width as rm_dimnsn_wdth,
 BR.num_concurrent_usage as concurrent_usage,
 SUM(IF(RAU.id=1,1,0)) as kinder_class,
 SUM(IF(RAU.id=2,1,0)) as g1_class,
@@ -60,13 +60,13 @@ INNER JOIN ebeisdb.report_history RH on (RH.school_id = SPH.school_id and RH.sy_
 INNER JOIN ebeisdb.building_structure BS ON BS.report_history_id=RH.id
 INNER JOIN ebeisdb.building_structure_type BST ON BS.building_type_id=BST.id
 INNER JOIN ebeisdb.ref_code_setting RCS_building_condition ON BS.building_condition_id=RCS_building_condition.id
-INNER JOIN ebeisdb.ref_code_setting RCS_classification ON BS.building_classification_id=RCS_classification.id
+-- INNER JOIN ebeisdb.ref_code_setting RCS_classification ON BS.building_classification_id=RCS_classification.id
 INNER JOIN ebeisdb.building_structure_fund_source BSFS ON BSFS.building_structure_id=BS.id
-INNER JOIN ebeisdb.ref_code_setting RCS_bldg_fund_source ON RCS_bldg_fund_source.id=BSFS.fund_source_id
+-- INNER JOIN ebeisdb.ref_code_setting RCS_bldg_fund_source ON RCS_bldg_fund_source.id=BSFS.fund_source_id
 INNER JOIN ebeisdb.building_structure_specific_fund_source BSSFS ON BSSFS.building_structure_id=BS.id
 INNER JOIN ebeisdb.ref_specific_fund_source RSFS ON RSFS.id=BSSFS.ref_specific_fund_source_id
 INNER JOIN ebeisdb.building_room BR ON BS.id=BR.building_structure_id
-INNER JOIN ebeisdb.ref_code_setting RCS_class_cond ON RCS_class_cond.id=BR.room_condition_id
+-- INNER JOIN ebeisdb.ref_code_setting RCS_class_cond ON RCS_class_cond.id=BR.room_condition_id
 INNER JOIN ebeisdb.building_room_usage BRU ON BR.id=BRU.building_room_id 
 INNER JOIN ebeisdb.ref_actual_usages RAU ON RAU.id=BRU.room_usage_id
 
