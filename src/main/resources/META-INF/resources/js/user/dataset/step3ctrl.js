@@ -126,9 +126,9 @@ angular.module('UserApp')
                         hasSchoolProfileSelected = true;
                     }
                 });
-//                if (!hasSchoolProfileSelected) {
-//                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
-//                }
+                if (!hasSchoolProfileSelected) {
+                    CriteriaService.get({ 'headId': schoolProfileDatasetId }, criteriaServiceCallback);
+                }
                 angular.forEach(dataset.subDatasets, selectedDatsetsCallback);
                 
                 $scope.loadingFilters = 1;
@@ -252,7 +252,7 @@ angular.module('UserApp')
             
             $scope.isRawCriteriaDefined=function()
             {
-            	return angular.isDefined($scope.availableCriteria);
+            	return angular.isDefined($scope.availableCriteria) && $scope.availableCriteria.length!=0;
             }
             
         }
