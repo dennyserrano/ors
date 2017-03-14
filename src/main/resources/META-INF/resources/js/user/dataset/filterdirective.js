@@ -43,7 +43,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						var container=filterContainer.find('sp_sublevel');
 						var option=chosenItems[currentIndex];
 						var selectedOption=option.selectedOptions[0].childKeyValues;
-						
+						chosenItems[currentIndex+1].selectedOptions=selectedOption.slice();
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
 					}
