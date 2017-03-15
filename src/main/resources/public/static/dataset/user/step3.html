@@ -69,88 +69,19 @@
 			</div>
 		</div>
 
-
+		
 
 		<form name="datasetFilterForm" role="form" data-ng-submit="save()">
 			<div class="row">
 				<div class="col-sm-12">
-					<div data-ng-if="loadingFilters === 0" class="well form-horizontal">
+					<div data-ng-if="!isRawCriteriaDefined()" class="well form-horizontal">
 						<i class="fa fa-spin fa-spinner"></i> Loading Filters...
 					</div>
 					<div data-ng-show="loadingFilters === 1"
 						class="well form-horizontal">
-						<div class="form-group"
-							data-ng-repeat="availableCriterion in availableCriteria track by $index"
-							data-ng-switch="availableCriterion.inputType">
-							<label for="filter{{ ::availableCriterion.filterId }}"
-								class="col-sm-2 control-label" style="padding-right: 10px;">
-								{{ ::availableCriterion.label }} </label>
-							<div data-ng-switch-when="1" class="col-sm-4">
-									
-								<select name="{{ ::availableCriterion.filterName }}"
-									class="form-control"
-									id="filter{{ ::availableCriterion.filterId }}"
-									data-ng-change="setFilter(availableCriterion)"
-									data-ng-model="selectedValues[availableCriterion.filterId][0]"
-									data-ng-options="option.value for option in availableCriterion.selection track by option.key">
-								</select>
-								
-							</div>
+						
+						<filter-directive criteria='availableCriteria' chosen-items='filters' data-ng-if='isRawCriteriaDefined()'></filter-directive>
 
-							<div data-ng-switch-when="2" class="col-sm-4">
-								<div ng-repeat="select in availableCriterion.selection">
-									<input ng-click='testing()' type="checkbox"
-										checklist-model="filters[7].selectedOptions"
-										checklist-value='select'> {{select.value}}
-								</div>
-							</div>
-
-							<div data-ng-switch-when="3" class="col-sm-4">
-								<div ng-repeat="select in availableCriterion.selection">
-									<input type="checkbox"
-										checklist-model="filters[8].selectedOptions"
-										checklist-value='select'> {{select.value}}
-								</div>
-							</div> 
-
-							<div data-ng-switch-when="4" class="col-sm-4">
-								<div
-									data-ng-if="availableCriterion.filterName === 'sp_schoolName'">
-									<input type="text"
-										id="filter{{ ::availableCriterion.filterId }}_search"
-										autocomplete="off"
-										name="{{ ::availableCriterion.filterName }}_search"
-										class="form-control" data-ng-model="selectedSchoolName"
-										typeahead-wait-ms="500" typeahead-editable="false"
-										typeahead="school.value for school in searchSchools($viewValue)"
-										typeahead-loading="loadingSchools" typeahead-min-length="3"
-										typeahead-on-select="selectSchool($item, $model, $label, availableCriterion)" />
-									<small> <i> The list of schools are based on the
-											filters defined above. </i>
-									</small><br /> <i data-ng-show="loadingSchools"
-										class="fa fa-spin fa-spinner"></i> <small
-										data-ng-show="loadingSchools">Loading list of
-										Schools...</small>
-								</div>
-								<select id="filter{{ ::availableCriterion.filterId }}"
-									name="{{ ::availableCriterion.filterName }}"
-									multiple="multiple" size="5">
-									<option
-										data-ng-repeat="option in selectedValues[availableCriterion.filterId]"
-										value="option.key">{{ option.value }}</option>
-								</select>
-							</div>
-
-
-							<div data-ng-switch-default="0" class="col-sm-4">
-								<!--                 <input type="text" name="{{ ::availableCriterion.filterName }}" class="form-control" -->
-								<!--                        data-ng-model="selectedValues[availableCriterion.filterId]" callback-on-render/> -->
-								
-								<input ng-if="availableCriterion.filterName==='sp_schoolName'" type="text" name="{{ ::availableCriterion.filterName }}"
-									class="form-control" />
-							</div>
-						</div>
-					</div>
 					<div data-ng-if="loadingFilters === 2" class="alert alert-danger">
 						{{ ::loadingFiltersError }}</div>
 				</div>
@@ -170,7 +101,7 @@
 				<div class="col-sm-12">
 					<button type="button" class="btn btn-default"
 						data-ng-click="previous()">Previous</button>
-					<button data-ng-disabled="saving" type="button"
+					<button type="button"
 						class="btn btn-primary" data-ng-click="save()">Next</button>
 					<i data-ng-show="saving" class="fa fa-spin fa-spinner"></i>
 				</div>
