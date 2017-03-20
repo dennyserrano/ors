@@ -3,21 +3,21 @@ sy_from,
 school_id,
 total_struct,
 struct_perm,
-struct_semiPerm,
-struct_makeShift,
+struct_semi_perm,
+struct_make_shift,
 total_bldgs,
 bldg_perm,
 bldg_semi_perm,
 bldg_make_shift,
-tot_rm,
+total_rm,
 rm_cond_good,
 rm_cond_minRep,
 rm_cond_majRep,
 rm_cond_ongoing_const,
 rm_cond_forComp,
 rm_cond_forCondemn,
-rm_cond_condemn,
-tot_roomsRepUnder5Yrs,
+rm_cond_condemned,
+total_roomsRepUnder5Yrs,
 toilet_male,
 toilet_female,
 toilet_pwd,
@@ -30,7 +30,7 @@ septic_tank,
 with_faucet,
 without_faucet,
 kinder_mod_table,
-kinder_chair,
+kinder_chr,
 arm_chr,
 school_desk,
 sci_lbtble,
@@ -38,6 +38,7 @@ sci_lbstool,
 wrkshp_tbl,
 mono_bloc_chr,
 mono_bloc_stl,
+clasrm_tbl,
 clasrm_chr,
 behvr_chr,
 teachr_tbl,
@@ -112,7 +113,7 @@ SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS
 	inner join ebeisdb.ref_code_setting RCS on BS.building_classification_id=RCS.id
     inner join ebeisdb.building_structure_type BST on BS.building_type_id=BST.id
 	WHERE BS.building_classification_id=1155 and BS.report_history_id=rh.id AND BST.category=2
-) as struct_semiPerm,
+) as struct_semi_perm,
 
 -- STRUCTURE MAKE-SHIFT 
 (
@@ -120,7 +121,7 @@ SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS
 	inner join ebeisdb.ref_code_setting RCS on BS.building_classification_id=RCS.id
     inner join ebeisdb.building_structure_type BST on BS.building_type_id=BST.id
 	WHERE BS.building_classification_id=1156 and BS.report_history_id=rh.id AND BST.category=2
-) as struc_makeShift,
+) as struct_make_shift,
 
 -- TOTAL BUILDINGS 
 (SELECT COUNT(BST.id) FROM ebeisdb.building_structure BS 
@@ -157,7 +158,7 @@ SELECT COUNT(BS.id) FROM ebeisdb.building_structure BS
 
 (SELECT IFNULL(SUM(BS.number_of_rooms),0) FROM ebeisdb.building_structure BS 
 	WHERE BS.report_history_id=rh.id 
-) as tot_rm,
+) as tot_room,
 
 -- ROOM GOOD CONDITION
 
