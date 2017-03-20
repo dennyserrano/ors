@@ -7,7 +7,7 @@ CREATE TABLE `nsbi_specifics` (
   `bldg_cond_id` int(11) NOT NULL,
   `bldg_class_id` int(11) NOT NULL,
   `storeys` tinyint(3) DEFAULT '0',
-  `fund_src_id` tinyint(3) DEFAULT '0',
+  `fund_src_id` int(11) NOT NULL,
   `specific_fund_src_id` int(11) NOT NULL,
   `bldg_dimnsn_len` float DEFAULT '0',
   `bldg_dimnsn_wdth` float DEFAULT '0',
