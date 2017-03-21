@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step2Ctrl', ['$scope', '$state', '$window', '$timeout', '$compile', 'UserDatasetService', 'ElementService','localStorageService',
-        function($scope, $state, $window, $timeout, $compile, UserDatasetService, ElementService,localStorageService) {
+    .controller('Step2Ctrl', ['$scope', '$state', '$window', '$timeout', '$compile', 'UserDatasetService', 'ElementService','localStorageService','CorrectionalDatasetService',
+        function($scope, $state, $window, $timeout, $compile, UserDatasetService, ElementService,localStorageService,CorrectionalDatasetService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'active';
@@ -114,6 +114,7 @@ angular.module('UserApp')
                         }
                     });
                 });
+                CorrectionalDatasetService.correct(dataset);
                 saveDataset(dataset, function() {
                 	localStorageService.set('dataset',dataset);
                     $state.go('step3');

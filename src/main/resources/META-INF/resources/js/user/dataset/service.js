@@ -9,6 +9,11 @@ angular.module('UserApp')
                     get: {
                         method: 'GET',
                         cache: $cacheFactory('datasets')
+                    },
+                    list:{
+                    	method: 'GET',
+                    	url:'/dataset/list/:ids',
+                    	isArray:true
                     }
                 });
         }
@@ -16,7 +21,8 @@ angular.module('UserApp')
     .factory('SubdatasetService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/dataset/:datasetId/sub', {
-                datasetId: '@id'
+                datasetId: '@id',
+                ids:'@ids'
             }, {
                 get: {
                     method: 'GET',
@@ -91,6 +97,69 @@ angular.module('UserApp')
     .factory('UserDatasetService', ['$resource',
         function($resource) {
             return $resource('/user/dataset');
+        }
+    ])
+    .factory('CorrectionalDatasetService',['DatasetService',
+        function(DatasetService)
+        {
+    		return {
+    			correct:correct
+    		}
+    		
+    		function correct(requestData)
+    		{
+//    			var subDataset=[];
+//    			var elements=[];
+//    			var reference=getReference();
+//    			angular.forEach(requestData.subDataset,function(subDatasetValue){
+//    				
+//    				angular.forEach(reference,function(referenceValue){
+//    					 if(subDatasetValue.id===referenceValue.targetElementId)
+//						 {
+//    						 var addDatasetId=referenceValue.addDatasetId;
+//    						 var addedDataset=fetchDataset(addDatasetId);
+//    						 elements.push(addedDataset);
+//						 }
+//    					 else
+//    						 elements.push(subDatasetValue);
+//    				});
+//    				
+//    			});
+    	
+//    			fetchDataset(8);
+    			
+    		}
+    		
+    		function fetchDataset(id)
+    		{
+    			
+		    	var promise=DatasetService.get({datasetId:8},function(ldataset){
+						
+				});
+		    	
+		    	console.log(promise);
+		    	
+    		}
+    		
+    		function fetchElement(id)
+    		{
+    			
+    		}
+    		
+    		function getReference()
+    		{
+    			return
+    			[
+					 
+	    			 {
+	    				 targetElementId:888,
+	    				 addDatasetId:8,
+	    				 substituteElementId:99
+	    			 }		
+					 
+    			 ]
+    		}
+    		
         }
     ])
 ;
