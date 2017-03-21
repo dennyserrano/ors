@@ -99,8 +99,8 @@ angular.module('UserApp')
             return $resource('/user/dataset');
         }
     ])
-    .factory('CorrectionalDatasetService',['DatasetService',
-        function(DatasetService)
+    .factory('CorrectionalDatasetService',['DatasetService','ElementService',
+        function(DatasetService,ElementService)
         {
     		return {
     			correct:correct
@@ -108,24 +108,31 @@ angular.module('UserApp')
     		
     		function correct(requestData)
     		{
-//    			var subDataset=[];
-//    			var elements=[];
-//    			var reference=getReference();
-//    			angular.forEach(requestData.subDataset,function(subDatasetValue){
-//    				
-//    				angular.forEach(reference,function(referenceValue){
-//    					 if(subDatasetValue.id===referenceValue.targetElementId)
-//						 {
-//    						 var addDatasetId=referenceValue.addDatasetId;
-//    						 var addedDataset=fetchDataset(addDatasetId);
-//    						 elements.push(addedDataset);
-//						 }
-//    					 else
-//    						 elements.push(subDatasetValue);
-//    				});
-//    				
-//    			});
-    	
+    			var matches=[];
+    			var reference=getReference();
+    			
+    			angular.forEach(reference,function(referenceValue){
+					 	
+					 
+					 angular.forEach(requestData.elements,function(elementValue,elementKey){
+		    				
+						 if(elementValue.id===referenceValue.targetElementId)
+							 matches.push({
+								 			indexFound:elementKey,
+								 		    substituteElementId:referenceValue.substituteElementId,
+								 		    newDatasetId:referenceValue.addDatasetId
+								 		   });	
+		    				
+		    			});
+					 
+				});
+    			// if matches not = zero
+    			
+    			angular.forEach(matches,function(referenceInfo,key){
+    				var elementList=ElementService.get({headId:referenceInfo.newDatasetId});
+    				console.log(elementList);
+    			});
+    			
 //    			fetchDataset(8);
     			
     		}
@@ -141,23 +148,24 @@ angular.module('UserApp')
 		    	
     		}
     		
-    		function fetchElement(id)
+    		function fetchElement(list,id)
     		{
-    			
+    			for(var x=0;x<list.length;x++)
+    				if(id==list[x].id)
+    					return list[x];
     		}
     		
     		function getReference()
     		{
-    			return
-    			[
-					 
+
+    			
+    			return [
 	    			 {
-	    				 targetElementId:888,
-	    				 addDatasetId:8,
-	    				 substituteElementId:99
-	    			 }		
-					 
-    			 ]
+	   				 targetElementId:9495,
+					 addDatasetId:8,
+					 substituteElementId:99
+	    			 }	
+    			 ];
     		}
     		
         }

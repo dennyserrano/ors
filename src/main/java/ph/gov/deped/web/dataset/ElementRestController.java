@@ -38,8 +38,21 @@ public class ElementRestController {
 
     @RequestMapping(value = "/{headId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Element> findElementsOfHead(@PathVariable("headId") long headId) {
-        return metadataService.findElements(headId);
+    	
+    	return metadataService.findElements(headId);
     }
+    
+//    @RequestMapping(value="/map",method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+//    public Map<Long,Element> mapElement(@PathVariable("headId") long headId)
+//    {
+//    	HashMap<Long,Element> hm=new HashMap<>();
+//    	
+//    	List<Element> elementList= metadataService.findElements(headId);
+//    	
+//    	elementList.forEach(e->{hm.put(e.getId(), e);});
+//    	
+//    	return hm;
+//    }
     
     @RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ElementsTable elements() {
