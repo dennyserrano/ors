@@ -1,3 +1,6 @@
+-- VISIBLE INVISIBLE!!!@@#()!!!!@*#)(!@*#()@!*#!@#*)(!@#!@#(@!_#@!(#)!@(#)@!#*@!&#*(@!
+
+
 -- TABLE METADATA
 SET @school_basic_inf_dataset_head_id=8;
 SET @school_basic_inf_sy_from_id=266;
@@ -9,8 +12,8 @@ INSERT INTO orsdb.table_metadata
 VALUES
 (2,
 'sisdbtest',
-'nsbi_summary',
-'nsbi summary report',
+'nsbi_specifics',
+'nsbi specifics report',
 0,
 0,
 NULL,
@@ -22,42 +25,25 @@ curdate(),
 
 SET @table_id=LAST_INSERT_ID();
 
+SET @nsbi_summary_dataset_head_id=(SELECT id FROM dataset_head where name='National School Building Inventory');
+
 -- DATASET HEAD
 
--- COLLAPSABLE BANNER 
 INSERT INTO orsdb.dataset_head
 (name,description,owner_id,date_created,created_by,date_updated,updated_by,visible,parent_dataset_head,table_id,ranking)
 VALUES
 (
-'National School Building Inventory',
-'NSBI',
-1,
-CURDATE(),
-'SYSTEM',
-CURDATE(),
-'SYSTEM',
-1,
-NULL,
-@table_id,
-914
-);
-
--- SUMMARY REPORT
-INSERT INTO orsdb.dataset_head
-(name,description,owner_id,date_created,created_by,date_updated,updated_by,visible,parent_dataset_head,table_id,ranking)
-VALUES
-(
-'Summary Reports',
-'Summary Reports',
+'Specifics Reports',
+'Specifics Reports',
 0,
 CURDATE(),
 'SYSTEM',
 CURDATE(),
 'SYSTEM',
 1,
-LAST_INSERT_ID(),
+@nsbi_summary_dataset_head_id,
 @table_id,
-915
+916
 );
 
 
@@ -85,185 +71,124 @@ SET @dataset_element_school_id=LAST_INSERT_ID();
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
 VALUES (@table_id,'school_id','int',0,0,10,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
-
-
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','school_id','school id','School ID',@dataset_head_id,0);
 
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'total_struct','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','total_struct','Total Structure','Total Structure',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'struct_perm','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_struct','varchar',0,0,9,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','struct_perm','Permanent Structure','Number of Permanent Structure',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_struct','Building Structure','Building Structure',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'struct_semi_perm','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_struct_num','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','struct_semi_perm','Semi Permanent Structure','Number of Semi Permanent Structure',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_struct_num','Building Structure Number','Building Structure Number',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'struct_make_shift','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_struct_type_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','struct_make_shift','Make Shift Structure','Number of Make Shift Structure',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_struct_type_id','bldg_struct_type_id','bldg_struct_type_id',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- ****
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_struct_type','Building Structure Type','Building Structure Type',@dataset_head_id,1); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'total_bldgs','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_cond_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','total_bldgs','Total Buildings','Total Buildings',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_cond_id','bldg_cond_id','bldg_cond_id',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- ****
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_cond_id','Building Condition','Building Condition',@dataset_head_id,0); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'bldg_perm','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_class_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_perm','Permanent Building','Permanent Building',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_class_id','bldg_class_id','bldg_class_id',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- ****
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_class','Building Classification','Building Classification',@dataset_head_id,0); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'bldg_semi_perm','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'storeys','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_semi_perm','Semi Permanent Building','Semi Permanent Building',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','storeys','Storeys','Storeys',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'bldg_make_shift','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'fund_src_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_make_shift','Building Make Shift','Building Make Shift',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','fund_src_id','fund_src_id','fund_src_id',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- ****
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','fund_src','Fund Source','Fund Source',@dataset_head_id,0); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'total_rm','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'specific_fund_src_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','total_rm','Room Total','Room Total',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','specific_fund_src_id','specific_fund_src_id','specific_fund_src_id',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- ****
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','specific_fund_src','Specific Fund Source','Specific Fund Source',@dataset_head_id,0); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'rm_cond_good','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_dimnsn_len','float',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_good','Room Good Condition','Room Good Condition',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_dimnsn_len','Building Dimension Length','Building Dimension Length',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'rm_cond_minRep','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'bldg_dimnsn_wdth','float',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_minRep','Minimum Repair Condition','Minimum Repair Condition',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','bldg_dimnsn_wdth','Building Dimension Width','Building Dimension Width',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'rm_cond_majRep','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'rm_number','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_majRep','Major Repair Condition','Major Repair Condition',@dataset_head_id,0);
-
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_number','Room Number','Room Number',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'rm_cond_ongoing_const','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'class_cond_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_ongoing_const','On-going Construction Condition','On-going Construction Condition',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','class_cond_id','class_cond_id','class_cond_id',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- ****
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','class_cond','Classroom Condition','Classroom Condition',@dataset_head_id,0); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES(@table_id,'rm_cond_forComp','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'repair_5yrs','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_forComp','For Completion Condition','For Completion Condition',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','repair_5yrs','Undergone Repair in the Last 5 Years','Undergone Repair in the Last 5 Years',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'rm_cond_forCondemn','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES(@table_id,'rm_dimnsn_len','float',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_forCondemn','For Condemnation Condition','For Condemnation Condition',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_dimnsn_len','Room Dimension Length','Room Dimension Length',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'rm_cond_condemned','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'rm_dimnsn_wdth','float',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_cond_condemned','Condemnation Condition','Condemnation Condition',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','rm_dimnsn_wdth','Room Dimension Width','Room Dimension Width',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'total_roomsRepUnder5Yrs','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+VALUES (@table_id,'concurrent_usage','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','total_roomsRepUnder5Yrs','Rooms repaired under 5 years','Rooms repaired under 5 years',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','concurrent_usage','Concurrent Usage','Concurrent Usage',@dataset_head_id,0);
 
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'above40sq','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','above40sq','Above 40sq','Above 40sq',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'toilet_male','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','toilet_male','Toilet Male','Toilet Male',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'toilet_female','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','toilet_female','Toilet Female','Toilet Female',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'toilet_pwd','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','toilet_pwd','Toilet PWD','Toilet PWD',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'toilet_shared','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','toilet_shared','Toilet Shared','Toilet Shared',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'non_function_bowls','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','non_function_bowls','Non Functioning Bowls','Non Functioning Bowls',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'sink_washbn','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','sink_washbn','Sink Washbins','Sink Washbins',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'urinals','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','urinals','Urinals','Urinals',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'urinal_trough','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','urinal_trough','Urinal Trough','Urinal Trough',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'septic_tank','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','septic_tank','Septic Tank','Septic Tank',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'with_faucet','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','with_faucet','With Faucet','With Faucet',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES (@table_id,'without_faucet','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','without_faucet','Without Faucet','Without Faucet',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
 VALUES (@table_id,'kinder_mod_table','smallint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
