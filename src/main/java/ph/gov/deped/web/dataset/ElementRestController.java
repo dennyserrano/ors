@@ -42,6 +42,21 @@ public class ElementRestController {
     	return metadataService.findElements(headId);
     }
     
+    @RequestMapping(value="/list/{headId}/{ids}",method=RequestMethod.GET,produces={MediaType.APPLICATION_JSON_VALUE})
+    public List<Element> listElement(@PathVariable("headId") long headId, @PathVariable("ids") long[] ids)
+    {
+    	List<Element> elements=findElementsOfHead(headId);
+    	ArrayList<Element> returnList=new ArrayList<Element>();
+    	
+    	for(long id:ids)
+    		for(Element e:elements)
+    			if(e.getId()==id)
+    			{
+    				returnList.add(e);
+    				break;
+    			}
+    	return returnList;
+    }
 //    @RequestMapping(value="/map",method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 //    public Map<Long,Element> mapElement(@PathVariable("headId") long headId)
 //    {

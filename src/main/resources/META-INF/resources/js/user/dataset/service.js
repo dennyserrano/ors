@@ -34,7 +34,8 @@ angular.module('UserApp')
     .factory('ElementService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/elements/:headId', {
-                headId: '@id'
+                headId: '@id',
+                ids:'@ids'
             }, {
                 get: {
                     method: 'GET',
@@ -44,6 +45,12 @@ angular.module('UserApp')
                 query: {
                     method: 'GET',
                     isArray: false
+                },
+                listElementByDatasetId:{
+                	method:'GET',
+                	isArray:true,
+                	url:'/elements/list/:headId/:ids'
+                	
                 }
             })
         }
@@ -106,15 +113,86 @@ angular.module('UserApp')
     			correct:correct
     		}
     		
-    		function correct(requestData)
+    		function correct(requestData,callback)
+    		{
+    			
+    			var reference=getReference();
+    			var matches=getMatches(requestData.elements,reference);
+    			
+    			var newDatasetIds=toArray(matches,'newDatasetId');
+    			var newElementIds=toArray(matches,'substituteElementId');
+    			
+    			if(newElementIds.length==0)
+    			{
+    				callback(requestData);
+    				return;
+    			}
+    			DatasetService.list({ids:newDatasetIds},function(datasets){
+    				var newDatasets=[];
+    				var newElements={}; //for easy access this forms a map instead of an array since we have to replace every elements 
+    				for(var x=0;x<datasets.length;x++)
+					{
+    					var dataset=datasets[x];
+    					newDatasets.push(dataset);
+    					
+    					var sourceElements=dataset.elements;
+    					
+    					for(var y=0;y<newElementIds.length;y++) //loop by substituted element ids
+						{
+    						var searchingNewElementId=newElementIds[y];
+    						for(var z=0;z<sourceElements.length;z++) //loop by fetched elements in every dataset
+							{
+    							var sourceElement=sourceElements[z];
+    							if(sourceElement.id==searchingNewElementId)
+								{
+    								newElements[sourceElement.id]=sourceElement;
+    								break;
+								}
+							}
+						}
+					}
+    				
+    				angular.forEach(newDatasets,function(e,i){
+    					requestData.subDatasets.push(e);
+    				});
+    				
+    				angular.forEach(matches,function(e,i){
+    					var elementIndex=e.indexFound;
+    					requestData.elements[elementIndex]=newElements[e.substituteElementId];
+    					
+    				});
+    				
+    				if(callback)
+    				callback(requestData);
+    			});
+    			
+    			
+    			
+    			
+    		}
+    		
+    		function toArray(list,k)
+    		{
+    			var ret=[];
+    			
+    			for(var x=0;x<list.length;x++)
+    			{
+    				var ll=k;
+    				var e=list[x];
+    				ret.push(e[k]);
+    			}
+    		
+    			
+    			return ret;
+    		}
+    		
+    		function getMatches(elements,reference)
     		{
     			var matches=[];
-    			var reference=getReference();
-    			
     			angular.forEach(reference,function(referenceValue){
-					 	
+				 	
 					 
-					 angular.forEach(requestData.elements,function(elementValue,elementKey){
+					 angular.forEach(elements,function(elementValue,elementKey){
 		    				
 						 if(elementValue.id===referenceValue.targetElementId)
 							 matches.push({
@@ -124,35 +202,9 @@ angular.module('UserApp')
 								 		   });	
 		    				
 		    			});
-					 
-				});
-    			// if matches not = zero
-    			
-    			angular.forEach(matches,function(referenceInfo,key){
-    				var elementList=ElementService.get({headId:referenceInfo.newDatasetId});
-    				console.log(elementList);
     			});
     			
-//    			fetchDataset(8);
-    			
-    		}
-    		
-    		function fetchDataset(id)
-    		{
-    			
-		    	var promise=DatasetService.get({datasetId:8},function(ldataset){
-						
-				});
-		    	
-		    	console.log(promise);
-		    	
-    		}
-    		
-    		function fetchElement(list,id)
-    		{
-    			for(var x=0;x<list.length;x++)
-    				if(id==list[x].id)
-    					return list[x];
+				return matches;
     		}
     		
     		function getReference()
@@ -161,9 +213,9 @@ angular.module('UserApp')
     			
     			return [
 	    			 {
-	   				 targetElementId:9495,
-					 addDatasetId:8,
-					 substituteElementId:99
+	   				 targetElementId:11029,
+					 addDatasetId:9015,
+					 substituteElementId:11030
 	    			 }	
     			 ];
     		}

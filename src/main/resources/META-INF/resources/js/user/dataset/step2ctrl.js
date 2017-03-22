@@ -114,11 +114,14 @@ angular.module('UserApp')
                         }
                     });
                 });
-                CorrectionalDatasetService.correct(dataset);
-                saveDataset(dataset, function() {
-                	localStorageService.set('dataset',dataset);
-                    $state.go('step3');
+                CorrectionalDatasetService.correct(dataset,function(alteredDataset){
+                	dataset=alteredDataset;
+                	saveDataset(dataset, function() {
+                    	localStorageService.set('dataset',dataset);
+                        $state.go('step3');
+                    });
                 });
+                
             };
         }
     ]
