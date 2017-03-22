@@ -3,23 +3,11 @@ SET @school_basic_inf_dataset_head_id=8;
 SET @school_basic_inf_sy_from_id=266;
 SET @school_basic_inf_school_id=267;
 
+
 INSERT INTO orsdb.table_metadata
-(
-db_id,
-schema_name,
-table_name,
-description,
-col_count,
-row_count,
-location,
-date_created,
-created_by,
-date_updated,
-updated_by
-)
+(db_id,schema_name,table_name,description,col_count,row_count,location,date_created,created_by,date_updated,updated_by)
 VALUES
-(
-2,
+(2,
 'sisdbtest',
 'nsbi_summary',
 'nsbi summary report',
@@ -36,34 +24,42 @@ SET @table_id=LAST_INSERT_ID();
 
 -- DATASET HEAD
 
+--COLLAPSABLE BANNER 
 INSERT INTO orsdb.dataset_head
-(
-name,
-description,
-owner_id,
-date_created,
-created_by,
-date_updated,
-updated_by,
-visible,
-parent_dataset_head,
-table_id,
-ranking
-)
+(name,description,owner_id,date_created,created_by,date_updated,updated_by,visible,parent_dataset_head,table_id,ranking)
 VALUES
 (
-'NSBI Summary',
-'Summary of NSBI Reports',
+'National School Building Inventory',
+'NSBI',
+1,
+CURDATE(),
+'SYSTEM',
+CURDATE(),
+'SYSTEM',
+1,
+NULL,
+@table_id,
+914
+);
+
+--SUMMARY REPORT
+INSERT INTO orsdb.dataset_head
+(name,description,owner_id,date_created,created_by,date_updated,updated_by,visible,parent_dataset_head,table_id,ranking)
+VALUES
+(
+'Summary Reports',
+'Summary Reports',
 0,
 CURDATE(),
 'SYSTEM',
 CURDATE(),
 'SYSTEM',
 1,
-0,
+LAST_INSERT_ID(),
 @table_id,
-914
+915
 );
+
 
 SET @dataset_head_id=LAST_INSERT_ID();
 
