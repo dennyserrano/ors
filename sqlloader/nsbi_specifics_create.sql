@@ -1,5 +1,6 @@
-CREATE TABLE `nsbi_specifics` (
+CREATE TABLE orsdb.`nsbi_specifics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sy_from` smallint(5) DEFAULT 0,
   `school_id` int(11) NOT NULL,
   `bldg_struct` varchar(9) NOT NULL,
   `bldg_struct_num` tinyint(3) NOT NULL,

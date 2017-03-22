@@ -1,4 +1,8 @@
 -- TABLE METADATA
+SET @school_basic_inf_dataset_head_id=8;
+SET @school_basic_inf_sy_from_id=266;
+SET @school_basic_inf_school_id=267;
+
 INSERT INTO orsdb.table_metadata
 (
 db_id,
@@ -71,14 +75,21 @@ VALUES(@table_id,'id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','id','id','id',@dataset_head_id,0);
 
+SET @dataset_element_sy_from_id=LAST_INSERT_ID();
+
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
 VALUES(@table_id,'sy_from','mediumint',0,0,5,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','sy_from','school year from','School Year',@dataset_head_id,0);
 
+SET @dataset_element_school_id=LAST_INSERT_ID();
+
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
 VALUES (@table_id,'school_id','int',0,0,10,curdate(),'SYSTEM',curdate(),'SYSTEM',0);
+
+
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','school_id','school id','School ID',@dataset_head_id,0);
@@ -594,5 +605,47 @@ VALUES (@table_id,'others','tinyint',0,0,3,curdate(),'SYSTEM',curdate(),'SYSTEM'
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','others','Others','Others',@dataset_head_id,0);
+
+
+
+INSERT INTO orsdb.dataset_correlation(
+left_table_prefix,
+left_dataset_head_id,
+join_type,
+right_table_prefix,
+right_dataset_head_id,
+date_created,
+created_by,
+date_updated,
+updated_by
+)
+VALUES
+(
+'sp',
+@school_basic_inf_dataset_head_id,
+0,
+'sbi_nsbi_summary',
+@dataset_head_id,
+curdate(),
+'SYSTEM',
+curdate(),
+'SYSTEM'
+);
+
+SET @correlation_head_id=LAST_INSERT_ID();
+
+INSERT INTO orsdb.dataset_correlation_dtl(
+dataset_correlation_id,
+left_dataset_element_id,
+operator,
+right_dataset_element_id,
+date_created,
+created_by,
+date_updated,
+updated_by
+)
+VALUES
+(@correlation_head_id,@school_basic_inf_sy_from_id,'EQ',@dataset_element_sy_from_id,curdate(),'SYSTEM',curdate(),'SYSTEM'),
+(@correlation_head_id,@school_basic_inf_school_id,'EQ',@dataset_element_school_id,curdate(),'SYSTEM',curdate(),'SYSTEM');
 
 

@@ -1,4 +1,4 @@
-CREATE TABLE `orsdb.nsbi_summary` (
+CREATE TABLE orsdb.`nsbi_summary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sy_from` smallint(5) DEFAULT 0,
   `school_id` int(10) DEFAULT 0,

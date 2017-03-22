@@ -210,7 +210,9 @@ angular.module('UserApp')
     		function getReference()
     		{
 
-    			
+    			//targetElementId: tells the UI that whenever the said element is chosen the correction would occur
+    			//substituteElementId : the element to be substituted in targetElementId
+    			//addDatasetId: whenever the targetElementId is present, this datasetId is added as if the user chose this dataset
     			return [
 	    			 {
 	   				 targetElementId:11029,
