@@ -119,7 +119,7 @@ angular.module('UserApp')
     			var reference=getReference();
     			var matches=getMatches(requestData.elements,reference);
     			
-    			var newDatasetIds=toArray(matches,'newDatasetId');
+    			var newDatasetIds=toArray(matches,'newDatasetIds');
     			var newElementIds=toArray(matches,'substituteElementId');
     			
     			if(newElementIds.length==0)
@@ -127,6 +127,7 @@ angular.module('UserApp')
     				callback(requestData);
     				return;
     			}
+    			
     			DatasetService.list({ids:newDatasetIds},function(datasets){
     				var newDatasets=[];
     				var newElements={}; //for easy access this forms a map instead of an array since we have to replace every elements 
@@ -162,6 +163,8 @@ angular.module('UserApp')
     					
     				});
     				
+    				
+    				
     				if(callback)
     				callback(requestData);
     			});
@@ -177,9 +180,12 @@ angular.module('UserApp')
     			
     			for(var x=0;x<list.length;x++)
     			{
-    				var ll=k;
     				var e=list[x];
-    				ret.push(e[k]);
+    				if(!Array.isArray(e[k]))
+    					ret.push(e[k]);
+    				else
+    					for(var y=0;y<e[k].length;y++)
+    						ret.push(e[k][y]);
     			}
     		
     			
@@ -198,7 +204,7 @@ angular.module('UserApp')
 							 matches.push({
 								 			indexFound:elementKey,
 								 		    substituteElementId:referenceValue.substituteElementId,
-								 		    newDatasetId:referenceValue.addDatasetId
+								 		    newDatasetIds:referenceValue.addDatasetIds
 								 		   });	
 		    				
 		    			});
@@ -215,10 +221,10 @@ angular.module('UserApp')
     			//addDatasetId: whenever the targetElementId is present, this datasetId is added as if the user chose this dataset
     			return [
 	    			 {
-	   				 targetElementId:11029,
-					 addDatasetId:9015,
-					 substituteElementId:11030
-	    			 }	
+		   				 targetElementId:11029,
+						 addDatasetIds:[9015],
+						 substituteElementId:11030
+	    			 }
     			 ];
     		}
     		
