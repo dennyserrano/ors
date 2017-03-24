@@ -41,7 +41,7 @@ CURDATE(),
 0,
 0,
 @table_id,
-917
+918
 );
 
 
@@ -65,3 +65,12 @@ VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','building_cond
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','building_classification','building_classification','building_classification',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
+VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','found_source','fund_source','fund_source',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
+VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','specific_fund_source','specific_fund_source','specific_fund_source',@dataset_head_id,0);
+
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
+VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','classroom_condition','classroom_condition','classroom_condition',@dataset_head_id,0);
