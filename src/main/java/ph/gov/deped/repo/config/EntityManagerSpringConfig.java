@@ -11,8 +11,8 @@ import ph.gov.deped.repo.config.ors.ApplicationEntityManagerSpringConfig;
  */
 @Configuration
 @Import({
-        EBEISEntityManagerSpringConfig.class,
-        LISEntityManagerSpringConfig.class,
+//        EBEISEntityManagerSpringConfig.class,
+//        LISEntityManagerSpringConfig.class,
         ApplicationEntityManagerSpringConfig.class
 })
 public class EntityManagerSpringConfig {

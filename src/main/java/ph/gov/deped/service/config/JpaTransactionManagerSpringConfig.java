@@ -25,25 +25,25 @@ public class JpaTransactionManagerSpringConfig {
 
     private @Autowired EntityManagerFactory entityManagerFactory;
 
-    private @Autowired @Qualifier(EbeisMetadata.EMF) EntityManagerFactory ebeisEntityManagerFactory;
+//    private @Autowired @Qualifier(EbeisMetadata.EMF) EntityManagerFactory ebeisEntityManagerFactory;
+//
+//    private @Autowired @Qualifier(LisMetadata.EMF) EntityManagerFactory lisEntityManagerFactory;
 
-    private @Autowired @Qualifier(LisMetadata.EMF) EntityManagerFactory lisEntityManagerFactory;
-
-    @Bean
-    @Qualifier(EbeisMetadata.TXM)
-    public JpaTransactionManager ebeisTransactionManager() {
-        JpaTransactionManager txm = new JpaTransactionManager(ebeisEntityManagerFactory);
-        txm.setJpaDialect(jpaDialect);
-        return txm;
-    }
-
-    @Bean
-    @Qualifier(LisMetadata.TXM)
-    public JpaTransactionManager lisTransactionManager() {
-        JpaTransactionManager txm = new JpaTransactionManager(lisEntityManagerFactory);
-        txm.setJpaDialect(jpaDialect);
-        return txm;
-    }
+//    @Bean
+//    @Qualifier(EbeisMetadata.TXM)
+//    public JpaTransactionManager ebeisTransactionManager() {
+//        JpaTransactionManager txm = new JpaTransactionManager(ebeisEntityManagerFactory);
+//        txm.setJpaDialect(jpaDialect);
+//        return txm;
+//    }
+//
+//    @Bean
+//    @Qualifier(LisMetadata.TXM)
+//    public JpaTransactionManager lisTransactionManager() {
+//        JpaTransactionManager txm = new JpaTransactionManager(lisEntityManagerFactory);
+//        txm.setJpaDialect(jpaDialect);
+//        return txm;
+//    }
 
     @Primary @Qualifier(AppMetadata.TXM) @Bean
     public JpaTransactionManager transactionManager() {

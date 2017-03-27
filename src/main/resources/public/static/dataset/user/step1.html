@@ -145,8 +145,8 @@
                 </tbody>
                 <tbody data-ng-show="subdataset.elements.length > 0">
                   <tr bindonce data-ng-repeat="element in subdataset.elements">
-                    <td bo-text="element.name"></td>
-                    <td style="white-space: normal !important;" bo-text="element.description"></td>
+                    <td bo-text="element.name" data-ng-if="element.visible"></td>
+                    <td style="white-space: normal !important;" bo-text="element.description" data-ng-if="element.visible"></td>
                   </tr>
                 </tbody>
               </table>

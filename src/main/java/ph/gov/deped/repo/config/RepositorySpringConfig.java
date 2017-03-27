@@ -14,8 +14,8 @@ import ph.gov.deped.repo.config.ors.ApplicationRepositorySpringConfig;
 @Configuration
 @Import({
         CommonRepositorySpringConfig.class,
-        LISRepositorySpringConfig.class,
-        EBEISRepositorySpringConfig.class,
+//        LISRepositorySpringConfig.class,
+//        EBEISRepositorySpringConfig.class,
         ApplicationRepositorySpringConfig.class
 })
 public class RepositorySpringConfig {
