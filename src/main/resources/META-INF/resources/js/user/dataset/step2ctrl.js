@@ -116,8 +116,22 @@ angular.module('UserApp')
                 });
                 
             	saveDataset(dataset, function() {
+//            		//temporary
+//            		if(dataset.name==='Specifics Report')
+//        			{
+//            			var temp=[]
+//                		angular.forEach(dataset.elements,function(e,i){
+//                			if(e.visible)
+//                				temp.push(e);
+//                		});
+//                		
+//                		dataset.elements=temp;
+//        			}
+//            		
+//            		//temporary
+            		
                 	localStorageService.set('dataset',dataset);
-                    $state.go('step3');
+                     $state.go('step3');
                 });
                 
                 

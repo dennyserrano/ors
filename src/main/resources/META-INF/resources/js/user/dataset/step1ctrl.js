@@ -1,3 +1,9 @@
+
+//temp code on step2
+//Correction facility in service.js
+// hardcoded on step 2
+//bug? what if only type_name is chosen?
+
 'use strict';
 
 angular.module('UserApp')
