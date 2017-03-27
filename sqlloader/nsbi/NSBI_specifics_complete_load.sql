@@ -174,7 +174,7 @@ SET @column_id=LAST_INSERT_ID();
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
 VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','class_cond_id','class_cond_id','class_cond_id',@dataset_head_id,0); 
 
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- building_structure -> building_room -> ref_code_setting****
+INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) -- building_room -> ref_code_setting****
 VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','classroom_condition','Classroom Condition','Classroom Condition',@dataset_head_id,1); -- ****
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
