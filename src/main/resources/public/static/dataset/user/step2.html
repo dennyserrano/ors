@@ -80,11 +80,11 @@
                 <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
                   <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
                       data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
-                    <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
+                    <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element && element.visible"
                            data-ng-model="elementsSelection[subdataset.id][element.id]"/>
                   </td>
-                  <td bo-text="element.name"></td>
-                  <td bo-text="element.meaning" data-ng-repeat-end=""></td>
+                  <td bo-text="element.name" data-ng-if='element.visible'></td>
+                  <td bo-text="element.meaning" data-ng-if='element.visible' data-ng-repeat-end=""></td>
                 </tr>
               </tbody>
             </table>

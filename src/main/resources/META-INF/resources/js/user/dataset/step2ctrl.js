@@ -2,7 +2,7 @@
 
 angular.module('UserApp')
     .controller('Step2Ctrl', ['$scope', '$state', '$window', '$timeout', '$compile', 'UserDatasetService', 'ElementService','localStorageService','CorrectionalDatasetService',
-        function($scope, $state, $window, $timeout, $compile, UserDatasetService, ElementService,localStorageService,CorrectionalDatasetService) {
+        function($scope, $state, $window, $timeout, $compile, UserDatasetService, ElementService,localStorageService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'active';
@@ -114,13 +114,12 @@ angular.module('UserApp')
                         }
                     });
                 });
-                CorrectionalDatasetService.correct(dataset,function(alteredDataset){
-                	dataset=alteredDataset;
-                	saveDataset(dataset, function() {
-                    	localStorageService.set('dataset',dataset);
-                        $state.go('step3');
-                    });
+                
+            	saveDataset(dataset, function() {
+                	localStorageService.set('dataset',dataset);
+                    $state.go('step3');
                 });
+                
                 
             };
         }
