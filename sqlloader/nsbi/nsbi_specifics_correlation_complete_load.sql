@@ -82,10 +82,10 @@ VALUES (@parent_id,@left_id,'EQ',@right_id,curdate(),'SYSTEM',curdate(),'SYSTEM'
 -- BLDG STRUCT FUND SOURCE
 
 INSERT INTO orsdb.dataset_correlation(left_table_prefix,left_dataset_head_id,join_type,right_table_prefix,right_dataset_head_id,date_created,created_by,date_updated,updated_by)
-VALUES ('sp',@dataset_head_specifics_id,'0','specfc_fnd_src',@dataset_head_fund_src_id,curdate(),'SYSTEM',curdate(),'SYSTEM');
+VALUES ('sp',@dataset_head_specifics_id,'0','specfc_fnd_src',@dataset_head_rc_fund_src_id,curdate(),'SYSTEM',curdate(),'SYSTEM');
 
 SET @parent_id=LAST_INSERT_ID();
-SET @right_id=(SELECT id FROM orsdb.dataset_element where dataset_head_id=@dataset_head_fund_src_id and name='id');
+SET @right_id=(SELECT id FROM orsdb.dataset_element where dataset_head_id=@dataset_head_rc_fund_src_id and name='id');
 SET @left_id=(SELECT id FROM orsdb.dataset_element where dataset_head_id=@dataset_head_specifics_id and name='fund_src_id');
 
 
@@ -96,10 +96,10 @@ VALUES (@parent_id,@left_id,'EQ',@right_id,curdate(),'SYSTEM',curdate(),'SYSTEM'
 -- BLDG STRUCT SPECIFIC FUND SOURCE
 
 INSERT INTO orsdb.dataset_correlation(left_table_prefix,left_dataset_head_id,join_type,right_table_prefix,right_dataset_head_id,date_created,created_by,date_updated,updated_by)
-VALUES ('sp',@dataset_head_specifics_id,'0','specfc_spc_fnd_src',@dataset_head_specific_fund_src_id,curdate(),'SYSTEM',curdate(),'SYSTEM');
+VALUES ('sp',@dataset_head_specifics_id,'0','specfc_spc_fnd_src',@dataset_head_rc_specific_fund_src_id,curdate(),'SYSTEM',curdate(),'SYSTEM');
 
 SET @parent_id=LAST_INSERT_ID();
-SET @right_id=(SELECT id FROM orsdb.dataset_element where dataset_head_id=@dataset_head_specific_fund_src_id and name='id');
+SET @right_id=(SELECT id FROM orsdb.dataset_element where dataset_head_id=@dataset_head_rc_specific_fund_src_id and name='id');
 SET @left_id=(SELECT id FROM orsdb.dataset_element where dataset_head_id=@dataset_head_specifics_id and name='specific_fund_src_id');
 
 

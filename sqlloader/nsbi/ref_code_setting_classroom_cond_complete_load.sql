@@ -12,8 +12,8 @@ INSERT INTO orsdb.table_metadata
 VALUES
 (2,
 'sisdbtest',
-'refcode_classcond',
-'refcode_classcond',
+'ref_code_setting',
+'ref_code_setting',
 0,
 0,
 NULL,
@@ -63,4 +63,4 @@ SET @column_id=LAST_INSERT_ID();
 
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','description','Classroom Condition','Classroom Condition',@dataset_head_id,0);
+VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','classroom_condition','Classroom Condition','Classroom Condition',@dataset_head_id,0);

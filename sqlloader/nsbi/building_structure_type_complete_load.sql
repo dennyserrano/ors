@@ -55,4 +55,4 @@ INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,ma
 VALUES(@table_id,'type_name','varchar',0,0,20,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','type_name','Building Structure Type','Building Structure Type',@dataset_head_id,1);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','building_structure_type','Building Structure Type','Building Structure Type',@dataset_head_id,1);

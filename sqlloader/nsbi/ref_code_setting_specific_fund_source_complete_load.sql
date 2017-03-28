@@ -12,8 +12,8 @@ INSERT INTO orsdb.table_metadata
 VALUES
 (2,
 'sisdbtest',
-'refcode_specific_fund_src',
-'refcode_specific_fund_src',
+'ref_code_setting',
+'ref_code_setting',
 0,
 0,
 NULL,
@@ -62,5 +62,5 @@ SET @column_id=LAST_INSERT_ID();
 
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','description','Specific Fund Source','Specific Fund Source',@dataset_head_id,0);
+VALUES(@column_id,NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','specific_fund_source','Specific Fund Source','Specific Fund Source',@dataset_head_id,0);
 
