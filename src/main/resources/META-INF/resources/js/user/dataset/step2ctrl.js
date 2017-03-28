@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step2Ctrl', ['$scope', '$state', '$window', '$timeout', '$compile', 'UserDatasetService', 'ElementService','localStorageService',
+    .controller('Step2Ctrl', ['$scope', '$state', '$window', '$timeout', '$compile', 'UserDatasetService', 'ElementService','localStorageService','CorrectionalDatasetService',
         function($scope, $state, $window, $timeout, $compile, UserDatasetService, ElementService,localStorageService) {
             
             $scope.step1 = 'complete';
@@ -114,10 +114,27 @@ angular.module('UserApp')
                         }
                     });
                 });
-                saveDataset(dataset, function() {
+                
+            	saveDataset(dataset, function() {
+//            		//temporary
+//            		if(dataset.name==='Specifics Report')
+//        			{
+//            			var temp=[]
+//                		angular.forEach(dataset.elements,function(e,i){
+//                			if(e.visible)
+//                				temp.push(e);
+//                		});
+//                		
+//                		dataset.elements=temp;
+//        			}
+//            		
+//            		//temporary
+            		
                 	localStorageService.set('dataset',dataset);
-                    $state.go('step3');
+                     $state.go('step3');
                 });
+                
+                
             };
         }
     ]

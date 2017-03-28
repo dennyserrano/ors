@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.meta.api.MetadataService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,11 +25,23 @@ public class DatasetRestController {
 
     private @Autowired MetadataService metadataService;
 
+    
     @SuppressWarnings({"unchecked"})
     @RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Dataset> findAvailableDatasets() {
         List<? extends Dataset> datasets = metadataService.findTopLevelDatasets();
         return (List<Dataset>) datasets;
+    }
+    
+    @RequestMapping(value = "/list/{ids}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<Dataset> list(@PathVariable("ids") long[] ids)
+    {
+    	ArrayList<Dataset> l=new ArrayList<>();
+    	
+    	for(long id:ids)
+    		l.add(metadataService.findDataset(id));
+    	
+    	return l;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })

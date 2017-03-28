@@ -26,16 +26,20 @@ public class Element implements Serializable {
 
     private final long datasetId;
 
+    private final boolean visible;
+    
     @JsonCreator
     public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
                    @JsonProperty("description") String description,
                    @JsonProperty("meaning") String meaning,
-                   @JsonProperty("datasetId") long datasetId) {
+                   @JsonProperty("datasetId") long datasetId,
+                   @JsonProperty("visible") boolean visible) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.meaning = meaning;
         this.datasetId = datasetId;
+        this.visible=visible;
     }
 
     public long getId() {
@@ -58,7 +62,12 @@ public class Element implements Serializable {
         return datasetId;
     }
 
-    @Override
+    
+    public boolean isVisible() {
+		return visible;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Element)) {
             return false;

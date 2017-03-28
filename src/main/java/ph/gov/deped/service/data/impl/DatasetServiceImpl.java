@@ -19,6 +19,7 @@ import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.ors.ds.*;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.repo.jpa.ors.ds.*;
 import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;
@@ -177,45 +178,89 @@ public @Service class DatasetServiceImpl implements DatasetService {
             }
         }
         PrefixTable prefixTable = schoolProfilePrefixTable;
-        JoinOrWhereClauseBuilder join;
+        JoinOrWhereClauseBuilder join = null;
         if (prefixTables.size() == 1) { // TODO Investigate if this is still possible since School Profile is always required.
             join = fromClauseBuilder.from(prefixTable.getTableName());
         }
         else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
-            PrefixTable leftTable = prefixTable;
-            PrefixTable rightTable;
-            DatasetCorrelation correlation;
-            List<DatasetCorrelationDtl> correlationDetails;
-            Iterator<DatasetCorrelationDtl> iterator;
-            DatasetCorrelationDtl correlationDtl;
-            OnClauseBuilder onClauseBuilder;
-            ColumnMetadata leftColumn;
-            ColumnMetadata rightColumn;
-            join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
-            for (int i = 1; i < prefixTables.size(); i++) {
-                rightTable = prefixTables.get(i);
-                correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
-                switch (correlation.getJoinType()) {
-                    case LEFT_JOIN:
-                        onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                        break;
-                    case INNER_JOIN:
-                        onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                        break;
-                    default: // Cross Join
-                        onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+        	
+        	if(isEligibleForStackQuery(prefixTables))
+        	{
+        		Object[] prefixTableArray= prefixTables.toArray();
+        		OnClauseBuilder onClauseBuilder;
+        		DatasetCorrelationDtl correlationDtl;
+        		PrefixTable leftTable=(PrefixTable) prefixTableArray[0];
+        		join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
+        		for(int leftIndex=0,rightIndex=1;rightIndex<prefixTableArray.length;leftIndex++,rightIndex++)
+        		{
+        			leftTable=(PrefixTable) prefixTableArray[leftIndex];
+        			
+        			if(leftTable.getDatasetName().equals("Specifics Reports"))
+    					leftIndex--;
+        			
+        			PrefixTable rightTable=(PrefixTable) prefixTableArray[rightIndex];
+        			DatasetCorrelation correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
+                    switch (correlation.getJoinType()) {
+                        case LEFT_JOIN:
+                            onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                            break;
+                        case INNER_JOIN:
+                            onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                            break;
+                        default: // Cross Join
+                            onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                    }
+                    List<DatasetCorrelationDtl> correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
+                    Iterator<DatasetCorrelationDtl> iterator = correlationDetails.iterator();
+                    do {
+                        correlationDtl = iterator.next();
+                        ColumnMetadata leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
+                        ColumnMetadata rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
+                        join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
+                                .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
+                    }
+                    while (iterator.hasNext());
+        		}
+        		
+        	}
+        	else
+        	{
+        		PrefixTable leftTable = prefixTable;
+                PrefixTable rightTable;
+                DatasetCorrelation correlation;
+                List<DatasetCorrelationDtl> correlationDetails;
+                Iterator<DatasetCorrelationDtl> iterator;
+                DatasetCorrelationDtl correlationDtl;
+                OnClauseBuilder onClauseBuilder;
+                ColumnMetadata leftColumn;
+                ColumnMetadata rightColumn;
+                join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
+                for (int i = 1; i < prefixTables.size(); i++) {
+                    rightTable = prefixTables.get(i);
+                    correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
+                    switch (correlation.getJoinType()) {
+                        case LEFT_JOIN:
+                            onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                            break;
+                        case INNER_JOIN:
+                            onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                            break;
+                        default: // Cross Join
+                            onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                    }
+                    correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
+                    iterator = correlationDetails.iterator();
+                    do {
+                        correlationDtl = iterator.next();
+                        leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
+                        rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
+                        join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
+                                .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
+                    }
+                    while (iterator.hasNext());
                 }
-                correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
-                iterator = correlationDetails.iterator();
-                do {
-                    correlationDtl = iterator.next();
-                    leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
-                    rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
-                    join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
-                            .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
-                }
-                while (iterator.hasNext());
-            }
+        	}
+            
         }
 
         List<Filter> filters = dataset.getFilters();
@@ -314,6 +359,15 @@ public @Service class DatasetServiceImpl implements DatasetService {
         return data;
     }
 
+    
+    private boolean isEligibleForStackQuery(List<PrefixTable> prefixTables)
+    {
+    	for(PrefixTable pt:prefixTables)
+    		if(pt.getDatasetName().equals("Specifics Reports"))
+    			return true;
+    	
+    	return false;
+    }
     private void multipleValueFilter(DatasetCriteria criterion, Filter filter, CriteriaFilterBuilder criteriaFilterBuilder,
                                      CriteriaChainBuilder criteriaChainBuilder, ColumnMetadata columnMetadata,
                                      String tablePrefix, String dataType) {
@@ -331,7 +385,6 @@ public @Service class DatasetServiceImpl implements DatasetService {
                 criteriaInValuesBuilder(criterion, filter, criteriaFilterBuilder, dataType);
         }
     }
-    
     
     
     private void rangeValueCriteriaBuilder(DatasetCriteria criterion, Filter filter,
@@ -447,20 +500,52 @@ public @Service class DatasetServiceImpl implements DatasetService {
     }
 
     private void lookupPrefixes(Map<Integer, String> tablePrefixMap, List<PrefixTable> prefixTables) {
-        Iterator<PrefixTable> iterator = prefixTables.iterator();
-        PrefixTable leftPrefixTable = iterator.next();
-        PrefixTable rightPrefixTable;
-        DatasetCorrelation correlation;
-        while (iterator.hasNext()) {
-            rightPrefixTable = iterator.next();
-            correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftPrefixTable.getDatasetId(), rightPrefixTable.getDatasetId());
-            if (isBlank(leftPrefixTable.getTablePrefix())) {
-                leftPrefixTable.setTablePrefix(correlation.getLeftTablePrefix());
-                tablePrefixMap.put(correlation.getLeftDataset().getTableId(), leftPrefixTable.getTablePrefix());
+    	
+    	if(isEligibleForStackQuery(prefixTables))
+    	{
+    		DatasetCorrelation correlation;
+	    	Object[] prefixTableArray= prefixTables.toArray();
+	    	
+	    	
+	    	
+	        for(int leftIndex=0,rightIndex=1;rightIndex<prefixTableArray.length;leftIndex++,rightIndex++)
+			{
+	        	
+				PrefixTable leftPrefixTable=(PrefixTable) prefixTableArray[leftIndex];
+				
+				if(leftPrefixTable.getDatasetName().equals("Specifics Reports"))
+					leftIndex--;
+				
+				PrefixTable rightPrefixTable=(PrefixTable) prefixTableArray[rightIndex];
+				
+				correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftPrefixTable.getDatasetId(), rightPrefixTable.getDatasetId());
+                if (isBlank(leftPrefixTable.getTablePrefix())) {
+                    leftPrefixTable.setTablePrefix(correlation.getLeftTablePrefix());
+                    tablePrefixMap.put(correlation.getLeftDataset().getTableId(), leftPrefixTable.getTablePrefix());
+                }
+                rightPrefixTable.setTablePrefix(correlation.getRightTablePrefix());
+                tablePrefixMap.put(correlation.getRightDataset().getTableId(), rightPrefixTable.getTablePrefix());
+			}
+    	}else
+    	{
+    		Iterator<PrefixTable> iterator = prefixTables.iterator();
+            PrefixTable leftPrefixTable = iterator.next();
+            PrefixTable rightPrefixTable;
+            DatasetCorrelation correlation;
+            
+            while (iterator.hasNext()) {
+                rightPrefixTable = iterator.next();
+                correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftPrefixTable.getDatasetId(), rightPrefixTable.getDatasetId());
+                if (isBlank(leftPrefixTable.getTablePrefix())) {
+                    leftPrefixTable.setTablePrefix(correlation.getLeftTablePrefix());
+                    tablePrefixMap.put(correlation.getLeftDataset().getTableId(), leftPrefixTable.getTablePrefix());
+                }
+                rightPrefixTable.setTablePrefix(correlation.getRightTablePrefix());
+                tablePrefixMap.put(correlation.getRightDataset().getTableId(), rightPrefixTable.getTablePrefix());
             }
-            rightPrefixTable.setTablePrefix(correlation.getRightTablePrefix());
-            tablePrefixMap.put(correlation.getRightDataset().getTableId(), rightPrefixTable.getTablePrefix());
-        }
+    	}
+    	
+        
     }
 
     // Map of Head ID and Element Names

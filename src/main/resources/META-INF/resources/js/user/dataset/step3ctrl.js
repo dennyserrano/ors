@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('UserApp')
-    .controller('Step3Ctrl', ['$scope', '$state', '$window', '$timeout', 'UserDatasetService', 'CriteriaService', 'SchoolNameCriteriaService','localStorageService',
-        function($scope, $state, $window, $timeout, UserDatasetService, CriteriaService, SchoolNameCriteriaService,localStorageService) {
+    .controller('Step3Ctrl', ['$scope', '$state', '$window', '$timeout', 'UserDatasetService', 'CriteriaService', 'SchoolNameCriteriaService','localStorageService','CorrectionalDatasetService',
+        function($scope, $state, $window, $timeout, UserDatasetService, CriteriaService, SchoolNameCriteriaService,localStorageService,CorrectionalDatasetService) {
             
             $scope.step1 = 'complete';
             $scope.step2 = 'complete';
@@ -225,11 +225,15 @@ angular.module('UserApp')
                 dataset.filters = $scope.filters;
                 
                 dataset.filters=clean($scope.filters);
-                
-                saveDataset(dataset, function() {
-                	localStorageService.set('dataset',dataset);
-                    $state.go('step4');
+                CorrectionalDatasetService.correct(dataset,function(requestData){
+                	
+                	saveDataset(requestData, function() {
+                    	localStorageService.set('dataset',requestData);
+                        $state.go('step4');
+                    });
+                	
                 });
+                
             };
             
             function clean(filters)

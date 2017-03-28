@@ -73,16 +73,16 @@ public class LISDataSourceSpringConfig implements LisMetadata {
         }
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setMaximumPoolSize(8);
-        ds.setConnectionTestQuery("SELECT 1");
-        ds.setDataSource(mysqlDs);
-        ds.setPoolName(DS);
-        try {
-            ds.setLoginTimeout(60);
-        }
-        catch (SQLException ex) {
-            log.catching(ex);
-        }
+//        ds.setMaximumPoolSize(8);
+//        ds.setConnectionTestQuery("SELECT 1");
+//        ds.setDataSource(mysqlDs);
+//        ds.setPoolName(DS);
+//        try {
+//            ds.setLoginTimeout(60);
+//        }
+//        catch (SQLException ex) {
+//            log.catching(ex);
+//        }
 
         return ds;
     }

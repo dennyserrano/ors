@@ -9,6 +9,11 @@ angular.module('UserApp')
                     get: {
                         method: 'GET',
                         cache: $cacheFactory('datasets')
+                    },
+                    list:{
+                    	method: 'GET',
+                    	url:'/dataset/list/:ids',
+                    	isArray:true
                     }
                 });
         }
@@ -16,7 +21,8 @@ angular.module('UserApp')
     .factory('SubdatasetService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/dataset/:datasetId/sub', {
-                datasetId: '@id'
+                datasetId: '@id',
+                ids:'@ids'
             }, {
                 get: {
                     method: 'GET',
@@ -28,7 +34,8 @@ angular.module('UserApp')
     .factory('ElementService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/elements/:headId', {
-                headId: '@id'
+                headId: '@id',
+                ids:'@ids'
             }, {
                 get: {
                     method: 'GET',
@@ -38,6 +45,12 @@ angular.module('UserApp')
                 query: {
                     method: 'GET',
                     isArray: false
+                },
+                listElementByDatasetId:{
+                	method:'GET',
+                	isArray:true,
+                	url:'/elements/list/:headId/:ids'
+                	
                 }
             })
         }
@@ -91,6 +104,150 @@ angular.module('UserApp')
     .factory('UserDatasetService', ['$resource',
         function($resource) {
             return $resource('/user/dataset');
+        }
+    ])
+    .factory('CorrectionalDatasetService',['DatasetService','ElementService',
+        function(DatasetService,ElementService)
+        {
+    		return {
+    			correct:correct
+    		}
+    		
+    		function correct(requestData,callback)
+    		{
+    			
+    			var reference=getReference();
+    			var matches=getMatches(requestData.elements,reference);
+    			
+    			var newDatasetIds=toArray(matches,'newDatasetIds');
+    			var newElementIds=toArray(matches,'substituteElementId');
+    			
+    			if(newElementIds.length==0)
+    			{
+    				callback(requestData);
+    				return;
+    			}
+    			
+    			DatasetService.list({ids:newDatasetIds},function(datasets){
+    				var newDatasets=[];
+    				var newElements={}; //for easy access this forms a map instead of an array since we have to replace every elements 
+    				for(var x=0;x<datasets.length;x++)
+					{
+    					var dataset=datasets[x];
+    					newDatasets.push(dataset);
+    					
+    					var sourceElements=dataset.elements;
+    					
+    					for(var y=0;y<newElementIds.length;y++) //loop by substituted element ids
+						{
+    						var searchingNewElementId=newElementIds[y];
+    						for(var z=0;z<sourceElements.length;z++) //loop by fetched elements in every dataset
+							{
+    							var sourceElement=sourceElements[z];
+    							if(sourceElement.id==searchingNewElementId)
+								{
+    								newElements[sourceElement.id]=sourceElement;
+    								break;
+								}
+							}
+						}
+					}
+    				
+    				angular.forEach(newDatasets,function(e,i){
+    					requestData.subDatasets.push(e);
+    				});
+    				
+    				angular.forEach(matches,function(e,i){
+    					var elementIndex=e.indexFound;
+    					requestData.elements[elementIndex]=newElements[e.substituteElementId];
+    					
+    				});
+    				
+    				
+    				
+    				if(callback)
+    				callback(requestData);
+    			});
+    			
+    			
+    			
+    			
+    		}
+    		
+    		function toArray(list,k)
+    		{
+    			var ret=[];
+    			
+    			for(var x=0;x<list.length;x++)
+    			{
+    				var e=list[x];
+    				if(!Array.isArray(e[k]))
+    					ret.push(e[k]);
+    				else
+    					for(var y=0;y<e[k].length;y++)
+    						ret.push(e[k][y]);
+    			}
+    		
+    			
+    			return ret;
+    		}
+    		
+    		function getMatches(elements,reference)
+    		{
+    			var matches=[];
+    			angular.forEach(reference,function(referenceValue){
+				 	
+					 
+					 angular.forEach(elements,function(elementValue,elementKey){
+		    				
+						 if(elementValue.id===referenceValue.targetElementId)
+							 matches.push({
+								 			indexFound:elementKey,
+								 		    substituteElementId:referenceValue.substituteElementId,
+								 		    newDatasetIds:referenceValue.addDatasetIds
+								 		   });	
+		    				
+		    			});
+    			});
+    			
+				return matches;
+    		}
+    		
+    		function getReference()
+    		{
+
+    			//targetElementId: tells the UI that whenever the said element is chosen the correction would occur
+    			//substituteElementId : the element to be substituted in targetElementId
+    			//addDatasetId: whenever the targetElementId is present, this datasetId is added as if the user chose this dataset
+    			return [
+	    			 {
+		   				 targetElementId:13428,
+						 addDatasetIds:[9101],
+						 substituteElementId:13485
+	    			 },
+	    			 {
+		   				 targetElementId:13430,
+						 addDatasetIds:[9103],
+						 substituteElementId:13489
+	    			 },
+	    			 {
+		   				 targetElementId:13432,
+						 addDatasetIds:[9102],
+						 substituteElementId:13487
+	    			 },
+	    			 {
+		   				 targetElementId:13435,
+						 addDatasetIds:[9105],
+						 substituteElementId:13493
+	    			 },
+	    			 {
+		   				 targetElementId:13437,
+						 addDatasetIds:[9106],
+						 substituteElementId:13495
+	    			 }
+    			 ];
+    		}
+    		
         }
     ])
 ;
