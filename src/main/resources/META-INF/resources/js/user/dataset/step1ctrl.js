@@ -3,7 +3,7 @@
 //Correction facility in service.js
 // hardcoded on step 2
 //bug? what if only type_name is chosen?
-
+// hard code on datasetserviceimpl specifics report
 'use strict';
 
 angular.module('UserApp')

@@ -194,6 +194,10 @@ public @Service class DatasetServiceImpl implements DatasetService {
         		for(int leftIndex=0,rightIndex=1;rightIndex<prefixTableArray.length;leftIndex++,rightIndex++)
         		{
         			leftTable=(PrefixTable) prefixTableArray[leftIndex];
+        			
+        			if(leftTable.getDatasetName().equals("Specifics Reports"))
+    					leftIndex--;
+        			
         			PrefixTable rightTable=(PrefixTable) prefixTableArray[rightIndex];
         			DatasetCorrelation correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
                     switch (correlation.getJoinType()) {
@@ -501,9 +505,17 @@ public @Service class DatasetServiceImpl implements DatasetService {
     	{
     		DatasetCorrelation correlation;
 	    	Object[] prefixTableArray= prefixTables.toArray();
+	    	
+	    	
+	    	
 	        for(int leftIndex=0,rightIndex=1;rightIndex<prefixTableArray.length;leftIndex++,rightIndex++)
 			{
+	        	
 				PrefixTable leftPrefixTable=(PrefixTable) prefixTableArray[leftIndex];
+				
+				if(leftPrefixTable.getDatasetName().equals("Specifics Reports"))
+					leftIndex--;
+				
 				PrefixTable rightPrefixTable=(PrefixTable) prefixTableArray[rightIndex];
 				
 				correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftPrefixTable.getDatasetId(), rightPrefixTable.getDatasetId());
