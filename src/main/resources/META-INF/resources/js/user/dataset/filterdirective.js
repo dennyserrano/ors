@@ -29,7 +29,15 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						var container=filterContainer.find('sp_subsector');
 						var option=chosenItems[currentIndex];
 						var selectedOption=option.selectedOptions[0].childKeyValues;
+						
+						if(!chosenItems[currentIndex+1])
+						{
+							chosenItems[currentIndex+1]={};
+							chosenItems[currentIndex+1].selectedOptions=selectedOption.slice();
+						}
+					else
 						chosenItems[currentIndex+1].selectedOptions=selectedOption.slice();
+						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
 					}
@@ -43,7 +51,14 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						var container=filterContainer.find('sp_sublevel');
 						var option=chosenItems[currentIndex];
 						var selectedOption=option.selectedOptions[0].childKeyValues;
-						chosenItems[currentIndex+1].selectedOptions=selectedOption.slice();
+						if(!chosenItems[currentIndex+1])
+							{
+								chosenItems[currentIndex+1]={};
+								chosenItems[currentIndex+1].selectedOptions=selectedOption.slice();
+							}
+						else
+							chosenItems[currentIndex+1].selectedOptions=selectedOption.slice();
+						
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
 					}
