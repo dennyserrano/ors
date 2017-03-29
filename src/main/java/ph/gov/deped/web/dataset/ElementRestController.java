@@ -6,16 +6,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import ph.gov.deped.data.dto.DatasetStore;
 import ph.gov.deped.data.dto.ElementsTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.meta.api.MetadataService;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map;import java.util.stream.Collectors;
+
 
 /**
  * Created by PSY on 2014/09/25.
@@ -74,6 +77,22 @@ public class ElementRestController {
         Dataset dataset = datasetStore.getDataset();
         ElementsTable table = new ElementsTable();
         dataset.getSubDatasets().stream().forEach(table::addDataset);
+        
+        dataset.getSubDatasets().forEach(ds->{
+        	List<Element> li=ds.getElements()
+        	.parallelStream()
+        	.collect(()->new ArrayList<>(),(l,e)->{
+        		if(e.isVisible())
+        			l.add(e);
+        	},(l1,l2)->{
+        		l1.addAll(l2);
+        	});
+        	ds.setElements(li);
+
+        });
+        
+        
+//        dataset.getSubDatasets().parallelStream().collect()
         int largestNumber = dataset.getSubDatasets().parallelStream()
                 .map(Dataset::getElements)
                 .mapToInt(List::size)
