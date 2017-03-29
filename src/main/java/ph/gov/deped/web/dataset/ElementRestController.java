@@ -42,7 +42,14 @@ public class ElementRestController {
     @RequestMapping(value = "/{headId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Element> findElementsOfHead(@PathVariable("headId") long headId) {
     	
-    	return metadataService.findElements(headId);
+    	return metadataService.findElements(headId)
+		.parallelStream()
+    	.collect(()->new ArrayList<>(),(l,e)->{
+    		if(e.isVisible())
+    			l.add(e);
+    	},(l1,l2)->{
+    		l1.addAll(l2);
+    	});
     }
     
     @RequestMapping(value="/list/{headId}/{ids}",method=RequestMethod.GET,produces={MediaType.APPLICATION_JSON_VALUE})

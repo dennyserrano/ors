@@ -62,9 +62,9 @@ angular.module('UserApp')
                         $scope.toggleAllElementsSelection(subdataset.id);
                     });
                 }
-                else {
-                    checkSelectedElements(dataset);
-                }
+//                else {
+//                    checkSelectedElements(dataset);
+//                }
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
                     $scope.loadingElements = 1;
