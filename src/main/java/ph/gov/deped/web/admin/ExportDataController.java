@@ -1,6 +1,7 @@
 package ph.gov.deped.web.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.xstream.XStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,9 +49,13 @@ public class ExportDataController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
+    	
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
         String filename=null;
 
+//        XStream xs=new XStream();
+//    	xs.toXML(ds, new FileOutputStream("/home/denny/enrollment138.xml"));
+        
         try {
               //datasetService.getData(ds, false);
 //            exportService.export("", data, ExportType.XLSX);

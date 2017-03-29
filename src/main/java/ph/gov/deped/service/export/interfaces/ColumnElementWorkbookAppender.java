@@ -9,5 +9,5 @@ import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelVal
 
 public interface ColumnElementWorkbookAppender
 {
-	Workbook append(Workbook source, Workbook destination, List<ColumnElement> columns);
+	Workbook append(Workbook source, Workbook destination, List<ColumnElement> columns,boolean isHeaderIncluded);
 }

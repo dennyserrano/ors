@@ -1,0 +1,813 @@
+<ph.gov.deped.data.dto.ds.Dataset>
+  <id>0</id>
+  <subDatasets>
+    <ph.gov.deped.data.dto.ds.Dataset>
+      <id>3</id>
+      <name>Total Enrolment</name>
+      <description>The total number of learners enrolled in the school </description>
+      <subDatasets/>
+      <elements>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>1</id>
+          <name>gkmale</name>
+          <description>Kinder Male Enrollment</description>
+          <meaning>Kinder Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>2</id>
+          <name>gkfemale</name>
+          <description>Kinder Female Enrollment</description>
+          <meaning>Kinder Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>3</id>
+          <name>gktotal</name>
+          <description>Kinder Total Enrollment</description>
+          <meaning>Kinder Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>5</id>
+          <name>g1male</name>
+          <description>Grade 1 Male Enrollment</description>
+          <meaning>Grade 1 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>6</id>
+          <name>g1female</name>
+          <description>Grade 1 Female Enrollment</description>
+          <meaning>Grade 1 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>7</id>
+          <name>g1total</name>
+          <description>Grade 1 Total Enrollment</description>
+          <meaning>Grade 1 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>8</id>
+          <name>g2male</name>
+          <description>Grade 2 Male Enrollment</description>
+          <meaning>Grade 2 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>9</id>
+          <name>g2female</name>
+          <description>Grade 2 Female Enrollment</description>
+          <meaning>Grade 2 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>10</id>
+          <name>g2total</name>
+          <description>Grade 2 Total Enrollment</description>
+          <meaning>Grade 2 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>11</id>
+          <name>g3male</name>
+          <description>Grade 3 Male Enrollment</description>
+          <meaning>Grade 3 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>12</id>
+          <name>g3female</name>
+          <description>Grade 3 Female Enrollment</description>
+          <meaning>Grade 3 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>13</id>
+          <name>g3total</name>
+          <description>Grade 3 Total Enrollment</description>
+          <meaning>Grade 3 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>14</id>
+          <name>g4male</name>
+          <description>Grade 4 Male Enrollment</description>
+          <meaning>Grade 4 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>15</id>
+          <name>g4female</name>
+          <description>Grade 4 Female Enrollment</description>
+          <meaning>Grade 4 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>16</id>
+          <name>g4total</name>
+          <description>Grade 4 Total Enrollment</description>
+          <meaning>Grade 4 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>17</id>
+          <name>g5male</name>
+          <description>Grade 5 Male Enrollment</description>
+          <meaning>Grade 5 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>18</id>
+          <name>g5female</name>
+          <description>Grade 5 Female Enrollment</description>
+          <meaning>Grade 5 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>19</id>
+          <name>g5total</name>
+          <description>Grade 5 Total Enrollment</description>
+          <meaning>Grade 5 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>20</id>
+          <name>g6male</name>
+          <description>Grade 6 Male Enrollment</description>
+          <meaning>Grade 6 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>21</id>
+          <name>g6female</name>
+          <description>Grade 6 Female Enrollment</description>
+          <meaning>Grade 6 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>22</id>
+          <name>g6total</name>
+          <description>Grade 6 Total Enrollment</description>
+          <meaning>Grade 6 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>23</id>
+          <name>g7male</name>
+          <description>Grade 7 Male Enrollment</description>
+          <meaning>Grade 7 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>24</id>
+          <name>g7female</name>
+          <description>Grade 7 Female Enrollment</description>
+          <meaning>Grade 7 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>25</id>
+          <name>g7total</name>
+          <description>Grade 7 Total Enrollment</description>
+          <meaning>Grade 7 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>26</id>
+          <name>g8male</name>
+          <description>Grade 8 Male Enrollment</description>
+          <meaning>Grade 8 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>27</id>
+          <name>g8female</name>
+          <description>Grade 8 Female Enrollment</description>
+          <meaning>Grade 8 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>28</id>
+          <name>g8total</name>
+          <description>Grade 8 Total Enrollment</description>
+          <meaning>Grade 8 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>29</id>
+          <name>g9male</name>
+          <description>Grade 9 Male Enrollment</description>
+          <meaning>Grade 9 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>30</id>
+          <name>g9female</name>
+          <description>Grade 9 Female Enrollment</description>
+          <meaning>Grade 9 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>31</id>
+          <name>g9total</name>
+          <description>Grade 9 Total Enrollment</description>
+          <meaning>Grade 9 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>32</id>
+          <name>g10male</name>
+          <description>Grade 10 Male Enrollment</description>
+          <meaning>Grade 10 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>33</id>
+          <name>g10female</name>
+          <description>Grade 10 Female Enrollment</description>
+          <meaning>Grade 10 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>34</id>
+          <name>g10total</name>
+          <description>Grade 10 Total Enrollment</description>
+          <meaning>Grade 10 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>35</id>
+          <name>g11male</name>
+          <description>Grade 11 Male Enrollment</description>
+          <meaning>Grade 11 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>36</id>
+          <name>g11female</name>
+          <description>Grade 11 Female Enrollment</description>
+          <meaning>Grade 11 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>37</id>
+          <name>g11total</name>
+          <description>Grade 11 Total Enrollment</description>
+          <meaning>Grade 11 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>38</id>
+          <name>g12male</name>
+          <description>Grade 12 Male Enrollment</description>
+          <meaning>Grade 12 Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>39</id>
+          <name>g12female</name>
+          <description>Grade 12 Female Enrollment</description>
+          <meaning>Grade 12 Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>40</id>
+          <name>g12total</name>
+          <description>Grade 12 Total Enrollment</description>
+          <meaning>Grade 12 Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>41</id>
+          <name>gtotmale</name>
+          <description>Total Male Enrollment</description>
+          <meaning>Total Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>42</id>
+          <name>gtotfemale</name>
+          <description>Total Female Enrollment</description>
+          <meaning>Total Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>43</id>
+          <name>gtotal</name>
+          <description>Total Enrollment</description>
+          <meaning>Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>44</id>
+          <name>ngmale</name>
+          <description>Non-graded Male Enrollment</description>
+          <meaning>Non-graded Male Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>45</id>
+          <name>ngfemale</name>
+          <description>Non-graded Female Enrollment</description>
+          <meaning>Non-graded Female Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+        <ph.gov.deped.data.dto.ds.Element>
+          <id>46</id>
+          <name>ngtotal</name>
+          <description>Non-graded Total Enrollment</description>
+          <meaning>Non-graded Total Enrollment</meaning>
+          <datasetId>3</datasetId>
+        </ph.gov.deped.data.dto.ds.Element>
+      </elements>
+      <parentDatasetHead>1</parentDatasetHead>
+      <filters/>
+    </ph.gov.deped.data.dto.ds.Dataset>
+  </subDatasets>
+  <elements>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>1</id>
+      <name>gkmale</name>
+      <description>Kinder Male Enrollment</description>
+      <meaning>Kinder Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>2</id>
+      <name>gkfemale</name>
+      <description>Kinder Female Enrollment</description>
+      <meaning>Kinder Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>3</id>
+      <name>gktotal</name>
+      <description>Kinder Total Enrollment</description>
+      <meaning>Kinder Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>5</id>
+      <name>g1male</name>
+      <description>Grade 1 Male Enrollment</description>
+      <meaning>Grade 1 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>6</id>
+      <name>g1female</name>
+      <description>Grade 1 Female Enrollment</description>
+      <meaning>Grade 1 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>7</id>
+      <name>g1total</name>
+      <description>Grade 1 Total Enrollment</description>
+      <meaning>Grade 1 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>8</id>
+      <name>g2male</name>
+      <description>Grade 2 Male Enrollment</description>
+      <meaning>Grade 2 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>9</id>
+      <name>g2female</name>
+      <description>Grade 2 Female Enrollment</description>
+      <meaning>Grade 2 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>10</id>
+      <name>g2total</name>
+      <description>Grade 2 Total Enrollment</description>
+      <meaning>Grade 2 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>11</id>
+      <name>g3male</name>
+      <description>Grade 3 Male Enrollment</description>
+      <meaning>Grade 3 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>12</id>
+      <name>g3female</name>
+      <description>Grade 3 Female Enrollment</description>
+      <meaning>Grade 3 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>13</id>
+      <name>g3total</name>
+      <description>Grade 3 Total Enrollment</description>
+      <meaning>Grade 3 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>14</id>
+      <name>g4male</name>
+      <description>Grade 4 Male Enrollment</description>
+      <meaning>Grade 4 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>15</id>
+      <name>g4female</name>
+      <description>Grade 4 Female Enrollment</description>
+      <meaning>Grade 4 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>16</id>
+      <name>g4total</name>
+      <description>Grade 4 Total Enrollment</description>
+      <meaning>Grade 4 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>17</id>
+      <name>g5male</name>
+      <description>Grade 5 Male Enrollment</description>
+      <meaning>Grade 5 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>18</id>
+      <name>g5female</name>
+      <description>Grade 5 Female Enrollment</description>
+      <meaning>Grade 5 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>19</id>
+      <name>g5total</name>
+      <description>Grade 5 Total Enrollment</description>
+      <meaning>Grade 5 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>20</id>
+      <name>g6male</name>
+      <description>Grade 6 Male Enrollment</description>
+      <meaning>Grade 6 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>21</id>
+      <name>g6female</name>
+      <description>Grade 6 Female Enrollment</description>
+      <meaning>Grade 6 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>22</id>
+      <name>g6total</name>
+      <description>Grade 6 Total Enrollment</description>
+      <meaning>Grade 6 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>23</id>
+      <name>g7male</name>
+      <description>Grade 7 Male Enrollment</description>
+      <meaning>Grade 7 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>24</id>
+      <name>g7female</name>
+      <description>Grade 7 Female Enrollment</description>
+      <meaning>Grade 7 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>25</id>
+      <name>g7total</name>
+      <description>Grade 7 Total Enrollment</description>
+      <meaning>Grade 7 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>26</id>
+      <name>g8male</name>
+      <description>Grade 8 Male Enrollment</description>
+      <meaning>Grade 8 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>27</id>
+      <name>g8female</name>
+      <description>Grade 8 Female Enrollment</description>
+      <meaning>Grade 8 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>28</id>
+      <name>g8total</name>
+      <description>Grade 8 Total Enrollment</description>
+      <meaning>Grade 8 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>29</id>
+      <name>g9male</name>
+      <description>Grade 9 Male Enrollment</description>
+      <meaning>Grade 9 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>30</id>
+      <name>g9female</name>
+      <description>Grade 9 Female Enrollment</description>
+      <meaning>Grade 9 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>31</id>
+      <name>g9total</name>
+      <description>Grade 9 Total Enrollment</description>
+      <meaning>Grade 9 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>32</id>
+      <name>g10male</name>
+      <description>Grade 10 Male Enrollment</description>
+      <meaning>Grade 10 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>33</id>
+      <name>g10female</name>
+      <description>Grade 10 Female Enrollment</description>
+      <meaning>Grade 10 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>34</id>
+      <name>g10total</name>
+      <description>Grade 10 Total Enrollment</description>
+      <meaning>Grade 10 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>35</id>
+      <name>g11male</name>
+      <description>Grade 11 Male Enrollment</description>
+      <meaning>Grade 11 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>36</id>
+      <name>g11female</name>
+      <description>Grade 11 Female Enrollment</description>
+      <meaning>Grade 11 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>37</id>
+      <name>g11total</name>
+      <description>Grade 11 Total Enrollment</description>
+      <meaning>Grade 11 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>38</id>
+      <name>g12male</name>
+      <description>Grade 12 Male Enrollment</description>
+      <meaning>Grade 12 Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>39</id>
+      <name>g12female</name>
+      <description>Grade 12 Female Enrollment</description>
+      <meaning>Grade 12 Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>40</id>
+      <name>g12total</name>
+      <description>Grade 12 Total Enrollment</description>
+      <meaning>Grade 12 Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>41</id>
+      <name>gtotmale</name>
+      <description>Total Male Enrollment</description>
+      <meaning>Total Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>42</id>
+      <name>gtotfemale</name>
+      <description>Total Female Enrollment</description>
+      <meaning>Total Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>43</id>
+      <name>gtotal</name>
+      <description>Total Enrollment</description>
+      <meaning>Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>44</id>
+      <name>ngmale</name>
+      <description>Non-graded Male Enrollment</description>
+      <meaning>Non-graded Male Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>45</id>
+      <name>ngfemale</name>
+      <description>Non-graded Female Enrollment</description>
+      <meaning>Non-graded Female Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+    <ph.gov.deped.data.dto.ds.Element>
+      <id>46</id>
+      <name>ngtotal</name>
+      <description>Non-graded Total Enrollment</description>
+      <meaning>Non-graded Total Enrollment</meaning>
+      <datasetId>3</datasetId>
+    </ph.gov.deped.data.dto.ds.Element>
+  </elements>
+  <filters>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>8</criterion>
+      <element>308</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key></key>
+          <value>Nationwide</value>
+          <childKeyValues>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key></key>
+              <value></value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+          </childKeyValues>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>9</criterion>
+      <element>309</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key></key>
+          <value></value>
+          <childKeyValues/>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>10</criterion>
+      <element>310</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key></key>
+          <value>All</value>
+          <childKeyValues/>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>11</criterion>
+      <element>311</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key></key>
+          <value>All</value>
+          <childKeyValues/>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>12</criterion>
+      <element>312</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key>433</key>
+          <value>Elementary</value>
+          <childKeyValues>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>19</key>
+              <value>Kinder</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>20</key>
+              <value>Elementary</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>22</key>
+              <value>Kinder &amp; Elementary</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>207</key>
+              <value>Integrated - Kinder &amp; Secondary</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>208</key>
+              <value>Integrated - Kinder, Elem &amp; Sec</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>210</key>
+              <value>Integrated - Elem &amp; Sec</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>454</key>
+              <value>Kinder, Elem. and Sec. Attached to Tertiary</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>958</key>
+              <value>Elementary, Junior High School and Senior High School</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>959</key>
+              <value>Kinder, Elementary, Junior High School and Senior High School</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>963</key>
+              <value>Kinder, Elementary, Junior High School and Senior High School attached to Tertiary</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>964</key>
+              <value>Kinder, Junior High School and Senior High School</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>967</key>
+              <value>Integrated - Elementary &amp; Senior High School</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>968</key>
+              <value>Integrated - Kinder &amp; Senior High School</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+            <ph.gov.deped.data.dto.KeyValue>
+              <key>969</key>
+              <value>Integrated - Kinder, Elementary &amp; Senior High School</value>
+              <childKeyValues/>
+            </ph.gov.deped.data.dto.KeyValue>
+          </childKeyValues>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>15</criterion>
+      <element>266</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key>2016</key>
+          <value>2016 - 2017</value>
+          <childKeyValues/>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>16</criterion>
+      <element>267</element>
+      <selectedOptions>
+        <ph.gov.deped.data.dto.KeyValue>
+          <key></key>
+          <value></value>
+          <childKeyValues/>
+        </ph.gov.deped.data.dto.KeyValue>
+      </selectedOptions>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>17</criterion>
+      <element>10936</element>
+      <selectedOptions/>
+    </ph.gov.deped.data.dto.ds.Filter>
+    <ph.gov.deped.data.dto.ds.Filter>
+      <criterion>18</criterion>
+      <element>10937</element>
+      <selectedOptions/>
+    </ph.gov.deped.data.dto.ds.Filter>
+  </filters>
+</ph.gov.deped.data.dto.ds.Dataset>

@@ -67,7 +67,7 @@ public class ExcelDocumentConsolidator
 			log.info("consolidating:"+fileName);
 			FileInputStream fs=new FileInputStream(fileName);
 			Workbook nWb=new XSSFWorkbook(fs);
-			workbookExporter.append(nWb, wb, columns);
+			workbookExporter.append(nWb, wb, columns,x==0);
 			nWb.close();
 			fs.close();
 		}
