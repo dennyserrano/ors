@@ -26,7 +26,8 @@ import reactor.spring.context.RingBufferApplicationEventPublisher;
 @Import({
         //ApplicationSecuritySpringConfig.class,
         RootSpringConfig.class,
-        WebSpringConfig.class
+        WebSpringConfig.class,
+        DefaultViewConfig.class
 })
 public class ApplicationSpringConfig implements ApplicationContextAware {
     
