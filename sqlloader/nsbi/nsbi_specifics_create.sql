@@ -1,18 +1,18 @@
-CREATE TABLE orsdb.`nsbi_specifics` (
+CREATE TABLE `nsbi_specifics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sy_from` smallint(5) DEFAULT 0,
+  `sy_from` smallint(5) DEFAULT '0',
   `school_id` int(11) NOT NULL,
   `bldg_struct` varchar(9) NOT NULL,
-  `bldg_struct_num` tinyint(3) NOT NULL,
+  `bldg_struct_num` smallint(5) NOT NULL,
   `bldg_struct_type_id` int(11) NOT NULL,
   `bldg_cond_id` int(11) NOT NULL,
-  `bldg_class_id` int(11) NOT NULL,
+  `bldg_class_id` int(11) DEFAULT NULL,
   `storeys` tinyint(3) DEFAULT '0',
   `fund_src_id` int(11) NOT NULL,
   `specific_fund_src_id` int(11) NOT NULL,
   `bldg_dimnsn_len` float DEFAULT '0',
   `bldg_dimnsn_wdth` float DEFAULT '0',
-  `rm_number` tinyint(3) DEFAULT '0',
+  `rm_number` smallint(5) DEFAULT '0',
   `class_cond_id` int(11) NOT NULL,
   `repair_5yrs` tinyint(3) DEFAULT '0',
   `rm_dimnsn_len` float DEFAULT '0',
@@ -55,5 +55,6 @@ CREATE TABLE orsdb.`nsbi_specifics` (
   `nonInst_aud_vis` tinyint(3) DEFAULT '0',
   `nonInst_notUsed` tinyint(3) DEFAULT '0',
   `others` tinyint(3) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `spec_idx` (`sy_from`,`school_id`,`bldg_cond_id`,`bldg_class_id`,`fund_src_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=786421 DEFAULT CHARSET=latin1;
