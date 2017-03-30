@@ -126,6 +126,10 @@ INNER JOIN ebeisdb.building_room BR ON BS.id=BR.building_structure_id
 INNER JOIN ebeisdb.building_room_usage BRU ON BR.id=BRU.building_room_id 
 INNER JOIN ebeisdb.ref_actual_usages RAU ON RAU.id=BRU.room_usage_id
 
+WHERE SPH.sy_from = 2016 
+AND SPH.school_subclassification_id IN (11,13,14)
+
+
 GROUP BY 
 school_id,
 bldg_struct, 
