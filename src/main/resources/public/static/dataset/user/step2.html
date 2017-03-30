@@ -72,7 +72,7 @@
                     Element Name
                   </th>
                   <th data-ng-repeat-end="">
-                    Description
+                    Definition
                   </th>
                 </tr>
               </thead>
@@ -83,7 +83,7 @@
                     <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
                            data-ng-model="elementsSelection[subdataset.id][element.id]"/>
                   </td>
-                  <td bo-text="element.name" ></td>
+                  <td bo-text="element.description" ></td>
                   <td bo-text="element.meaning" data-ng-repeat-end=""></td>
                 </tr>
               </tbody>

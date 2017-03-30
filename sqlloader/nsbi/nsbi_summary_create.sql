@@ -1,4 +1,4 @@
-CREATE TABLE orsdb.`nsbi_summary` (
+CREATE TABLE `nsbi_summary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sy_from` smallint(5) DEFAULT '0',
   `school_id` int(10) DEFAULT '0',
@@ -87,5 +87,6 @@ CREATE TABLE orsdb.`nsbi_summary` (
   `nonInst_aud_vis` tinyint(3) DEFAULT '0',
   `nonInst_notUsed` tinyint(3) DEFAULT '0',
   `others` smallint(5) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `summary_idx` (`sy_from`,`school_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=184569 DEFAULT CHARSET=latin1;
