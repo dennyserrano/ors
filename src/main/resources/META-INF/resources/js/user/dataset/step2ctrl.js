@@ -57,11 +57,12 @@ angular.module('UserApp')
                     $scope.allElementsSelected[subdataset.id] = false;
                     initializeElementIndex(subdataset);
                 });
-                if (!dataset.elements || dataset.elements.length === 0) {
+                
+//                if (!dataset.elements || dataset.elements.length === 0) {
                     angular.forEach(dataset.subDatasets, function(subdataset) {
                         $scope.toggleAllElementsSelection(subdataset.id);
                     });
-                }
+//                }
 //                else {
 //                    checkSelectedElements(dataset);
 //                }
