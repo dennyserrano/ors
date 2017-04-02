@@ -221,29 +221,29 @@ angular.module('UserApp')
     			//addDatasetId: whenever the targetElementId is present, this datasetId is added as if the user chose this dataset
     			return [
 	    			 {
-		   				 targetElementId:13428,
-						 addDatasetIds:[9101],
-						 substituteElementId:13485
+		   				 targetElementId:11032,
+						 addDatasetIds:[9017],
+						 substituteElementId:11089
 	    			 },
 	    			 {
-		   				 targetElementId:13430,
-						 addDatasetIds:[9103],
-						 substituteElementId:13489
+		   				 targetElementId:11034,
+						 addDatasetIds:[9019],
+						 substituteElementId:11093
 	    			 },
 	    			 {
-		   				 targetElementId:13432,
-						 addDatasetIds:[9102],
-						 substituteElementId:13487
+		   				 targetElementId:11036,
+						 addDatasetIds:[9018],
+						 substituteElementId:11091
 	    			 },
 	    			 {
-		   				 targetElementId:13435,
-						 addDatasetIds:[9105],
-						 substituteElementId:13493
+		   				 targetElementId:11039,
+						 addDatasetIds:[9021],
+						 substituteElementId:11097
 	    			 },
 	    			 {
-		   				 targetElementId:13437,
-						 addDatasetIds:[9106],
-						 substituteElementId:13495
+		   				 targetElementId:11041,
+						 addDatasetIds:[9022],
+						 substituteElementId:11099
 	    			 }
     			 ];
     		}

@@ -74,7 +74,8 @@ public @Service class DatasetServiceImpl implements DatasetService {
     	"Ref Code Fund Source",
     	"Ref Code Specific Fund Source",
     	"Building Structure Type",
-    	"Ref Code Bldg Condition"};
+    	"Ref Code Bldg Condition",
+    	"Ref Code Bldg Classification"};
     
     private TableMetadataRepository tableMetadataRepository;
 
@@ -194,6 +195,19 @@ public @Service class DatasetServiceImpl implements DatasetService {
         }
         else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
         		
+        	
+	        	
+	            ArrayList<PrefixTable> originalPrefixTable=new ArrayList<>(prefixTables);
+		    	PrefixTable nsbiSpecificTable=null;
+		    	
+		    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
+		    	
+		    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
+		    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
+		    	
+		    	if(!nsbiPrefixTables.isEmpty())
+		    		prefixTables.removeAll(nsbiPrefixTables);
+        	
         		PrefixTable leftTable = prefixTable;
                 PrefixTable rightTable;
                 DatasetCorrelation correlation;
@@ -229,6 +243,18 @@ public @Service class DatasetServiceImpl implements DatasetService {
                     while (iterator.hasNext());
                 }
         	
+                
+                if(nsbiSpecificTable!=null)
+                {
+                	prefixTables.clear();
+                	prefixTables.add(nsbiSpecificTable);
+                	prefixTables.addAll(nsbiPrefixTables);
+                	nsbiJoin(prefixTables, join, fromClauseBuilder);
+                	prefixTables.clear();
+                	prefixTables.addAll(originalPrefixTable);
+                	originalPrefixTable.clear();
+//                	prefixTables.removeAll(nsbiPrefixTables);
+                }
             
         }
 
@@ -283,6 +309,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
         });
 
         Map<Long, List<String>> orderMap = lookupOrderElements();
+
         orderMap.entrySet().forEach(e -> {
             PrefixTable pt = prefixTables.stream()
                     .filter(table -> e.getKey().equals(table.getDatasetId()))
@@ -328,15 +355,6 @@ public @Service class DatasetServiceImpl implements DatasetService {
         return data;
     }
 
-    
-    private boolean isEligibleForStackQuery(List<PrefixTable> prefixTables)
-    {
-    	for(PrefixTable pt:prefixTables)
-    		if(pt.getDatasetName().equals(NSBI_REPORT_NAME))
-    			return true;
-    	
-    	return false;
-    }
     private void multipleValueFilter(DatasetCriteria criterion, Filter filter, CriteriaFilterBuilder criteriaFilterBuilder,
                                      CriteriaChainBuilder criteriaChainBuilder, ColumnMetadata columnMetadata,
                                      String tablePrefix, String dataType) {
@@ -468,9 +486,20 @@ public @Service class DatasetServiceImpl implements DatasetService {
         uniqueElements.forEach(prefixTable::addColumn);
     }
 
-    private void lookupPrefixes(Map<Integer, String> tablePrefixMap, List<PrefixTable> prefixTables) {
+    private void lookupPrefixes(Map<Integer, String> tablePrefixMap, List<PrefixTable> localPrefixTables) {
     	
+    	
+    		ArrayList<PrefixTable> prefixTables=new ArrayList<>(localPrefixTables);
     		lookupNsbiPrefix(prefixTables, tablePrefixMap);
+    		
+    		
+    		
+    		List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
+        	
+        	if(!nsbiPrefixTables.isEmpty())
+    			prefixTables.removeAll(nsbiPrefixTables);
+    		
+    		
     		Iterator<PrefixTable> iterator = prefixTables.iterator();
             PrefixTable leftPrefixTable = iterator.next();
             PrefixTable rightPrefixTable;
@@ -610,65 +639,64 @@ public @Service class DatasetServiceImpl implements DatasetService {
         else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
         	
         	
-        	 //NSBI process temporary
-            List<PrefixTable> nsbiPrefixTables=new ArrayList<>();
-	    	PrefixTable nsbiSpecificTable=null;
-	    	
-	    	for(String name:NSBI_CHILD_DATESET_NAMES)
-	    	{
-	    		nsbiPrefixTables.addAll(prefixTables.parallelStream()
-	    		.filter(e->e.getDatasetName().equals(name))
-	    		.collect(Collectors.toList()));
-	    	}
-	    	
-	    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
-	    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
-	    	
-	    	if(!nsbiPrefixTables.isEmpty())
-	    		prefixTables.removeAll(nsbiPrefixTables);
-        	
-            PrefixTable leftTable = prefixTable;
-            PrefixTable rightTable;
-            DatasetCorrelation correlation;
-            List<DatasetCorrelationDtl> correlationDetails;
-            Iterator<DatasetCorrelationDtl> iterator;
-            DatasetCorrelationDtl correlationDtl;
-            OnClauseBuilder onClauseBuilder;
-            ColumnMetadata leftColumn;
-            ColumnMetadata rightColumn;
-            join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
-            for (int i = 1; i < prefixTables.size(); i++) {
-                rightTable = prefixTables.get(i);
-                correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
-                switch (correlation.getJoinType()) {
-                    case LEFT_JOIN:
-                        onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                        break;
-                    case INNER_JOIN:
-                        onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                        break;
-                    default: // Cross Join
-                        onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                }
-                correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
-                iterator = correlationDetails.iterator();
-                do {
-                    correlationDtl = iterator.next();
-                    leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
-                    rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
-                    join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
-                            .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
-                }
-                while (iterator.hasNext());
-            }
-            
-            if(nsbiSpecificTable!=null)
-            {
-            	prefixTables.clear();
-            	prefixTables.add(nsbiSpecificTable);
-            	prefixTables.addAll(nsbiPrefixTables);
-            	nsbiJoin(prefixTables, join, fromClauseBuilder);
-            }
+        	  ArrayList<PrefixTable> originalPrefixTable=new ArrayList<>(prefixTables);
+		    	PrefixTable nsbiSpecificTable=null;
+		    	
+		    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
+		    	
+		    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
+		    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
+		    	
+		    	if(!nsbiPrefixTables.isEmpty())
+		    		prefixTables.removeAll(nsbiPrefixTables);
+      	
+      		PrefixTable leftTable = prefixTable;
+              PrefixTable rightTable;
+              DatasetCorrelation correlation;
+              List<DatasetCorrelationDtl> correlationDetails;
+              Iterator<DatasetCorrelationDtl> iterator;
+              DatasetCorrelationDtl correlationDtl;
+              OnClauseBuilder onClauseBuilder;
+              ColumnMetadata leftColumn;
+              ColumnMetadata rightColumn;
+              join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
+              for (int i = 1; i < prefixTables.size(); i++) {
+                  rightTable = prefixTables.get(i);
+                  correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
+                  switch (correlation.getJoinType()) {
+                      case LEFT_JOIN:
+                          onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                          break;
+                      case INNER_JOIN:
+                          onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                          break;
+                      default: // Cross Join
+                          onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+                  }
+                  correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
+                  iterator = correlationDetails.iterator();
+                  do {
+                      correlationDtl = iterator.next();
+                      leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
+                      rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
+                      join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
+                              .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
+                  }
+                  while (iterator.hasNext());
+              }
+      	
+              
+              if(nsbiSpecificTable!=null)
+              {
+              	prefixTables.clear();
+              	prefixTables.add(nsbiSpecificTable);
+              	prefixTables.addAll(nsbiPrefixTables);
+              	nsbiJoin(prefixTables, join, fromClauseBuilder);
+              	prefixTables.clear();
+              	prefixTables.addAll(originalPrefixTable);
+              	originalPrefixTable.clear();
+//              	prefixTables.removeAll(nsbiPrefixTables);
+              }
             
             
         }
@@ -819,45 +847,52 @@ public @Service class DatasetServiceImpl implements DatasetService {
 		return data;
 	}
 
-	 private Map<Integer,String> lookupNsbiPrefix(List<PrefixTable> prefixTables,Map<Integer, String> tablePrefixMap)
-	    {
-	    	DatasetCorrelation correlation;
-	    	
-	    	
-	    	List<PrefixTable> nsbiPrefixTables=new ArrayList<>();
-	    	
-	    	for(String name:NSBI_CHILD_DATESET_NAMES)
-	    	{
-	    		nsbiPrefixTables.addAll(prefixTables.parallelStream()
-	    		.filter(e->e.getDatasetName().equals(name))
-	    		.collect(Collectors.toList()));
-	    	}
-	    	
-	    	if(!nsbiPrefixTables.isEmpty())
-	    		prefixTables.removeAll(nsbiPrefixTables);
-	    		
-	    	Object[] nsbiTableArray=nsbiPrefixTables.toArray();
-	    	
-	        for(int leftIndex=0,rightIndex=1;rightIndex<nsbiTableArray.length;leftIndex++,rightIndex++)
-			{
-	        	
-				PrefixTable leftPrefixTable=(PrefixTable) nsbiTableArray[leftIndex];
-				
-				if(leftPrefixTable.getDatasetName().equals(NSBI_REPORT_NAME))
-					leftIndex--;
-				
-				PrefixTable rightPrefixTable=(PrefixTable) nsbiTableArray[rightIndex];
-				
-				correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftPrefixTable.getDatasetId(), rightPrefixTable.getDatasetId());
-	            if (isBlank(leftPrefixTable.getTablePrefix())) {
-	                leftPrefixTable.setTablePrefix(correlation.getLeftTablePrefix());
-	                tablePrefixMap.put(correlation.getLeftDataset().getTableId(), leftPrefixTable.getTablePrefix());
-	            }
-	            rightPrefixTable.setTablePrefix(correlation.getRightTablePrefix());
-	            tablePrefixMap.put(correlation.getRightDataset().getTableId(), rightPrefixTable.getTablePrefix());
-			}
-	        return tablePrefixMap;
-	    }
+	private void lookupNsbiPrefix(List<PrefixTable> localPrefixTable,Map<Integer, String> tablePrefixMap)
+    {
+    	DatasetCorrelation correlation;
+    	
+    	List<PrefixTable> transactionList=new ArrayList<PrefixTable>();
+    	
+    	
+    	ArrayList<PrefixTable> prefixTables=new ArrayList<>(localPrefixTable);
+    
+    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
+    	
+    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
+    	PrefixTable nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
+    	
+    	if(!nsbiPrefixTables.isEmpty())
+		{
+			prefixTables.removeAll(nsbiPrefixTables);
+			transactionList.add(nsbiSpecificTable);
+			transactionList.addAll(nsbiPrefixTables);
+		}
+    	
+    	if(transactionList.size()==0)
+    		return;
+    	
+    	Object[] nsbiTableArray=transactionList.toArray();
+    	
+        for(int leftIndex=0,rightIndex=1;rightIndex<nsbiTableArray.length;leftIndex++,rightIndex++)
+		{
+        	
+			PrefixTable leftPrefixTable=(PrefixTable) nsbiTableArray[leftIndex];
+			
+			if(leftPrefixTable.getDatasetName().equals(NSBI_REPORT_NAME))
+				leftIndex--;
+			
+			PrefixTable rightPrefixTable=(PrefixTable) nsbiTableArray[rightIndex];
+			
+			correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftPrefixTable.getDatasetId(), rightPrefixTable.getDatasetId());
+            if (isBlank(leftPrefixTable.getTablePrefix())) {
+                leftPrefixTable.setTablePrefix(correlation.getLeftTablePrefix());
+                tablePrefixMap.put(correlation.getLeftDataset().getTableId(), leftPrefixTable.getTablePrefix());
+            }
+            rightPrefixTable.setTablePrefix(correlation.getRightTablePrefix());
+            tablePrefixMap.put(correlation.getRightDataset().getTableId(), rightPrefixTable.getTablePrefix());
+		}
+        
+    }
 	 
 	 private void nsbiJoin(List<PrefixTable> nsbiTables,JoinOrWhereClauseBuilder join,FromClauseBuilder fromClauseBuilder)
 	 {
@@ -865,7 +900,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
  		OnClauseBuilder onClauseBuilder;
  		DatasetCorrelationDtl correlationDtl;
  		PrefixTable leftTable=(PrefixTable) prefixTableArray[0];
- 		join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
+// 		join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
  		for(int leftIndex=0,rightIndex=1;rightIndex<prefixTableArray.length;leftIndex++,rightIndex++)
  		{
  			leftTable=(PrefixTable) prefixTableArray[leftIndex];
@@ -897,6 +932,18 @@ public @Service class DatasetServiceImpl implements DatasetService {
              while (iterator.hasNext());
  		}
 	 }
-
+	 
+	 private List<PrefixTable> getNsbiTables(List<PrefixTable> existing)
+	 {
+		 ArrayList<PrefixTable> al=new ArrayList<PrefixTable>();
+		 for(String name:NSBI_CHILD_DATESET_NAMES)
+	    	{
+			 al.addAll(existing.parallelStream()
+	    		.filter(e->e.getDatasetName().equals(name))
+	    		.collect(Collectors.toList()));
+	    	}
+		 
+		 return al;
+	 }
 	
 }
