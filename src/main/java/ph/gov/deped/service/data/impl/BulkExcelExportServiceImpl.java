@@ -118,12 +118,12 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		} 
 		finally
 		{
-//			try {
-//				cleanup();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				cleanup();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	
 		
