@@ -25,6 +25,10 @@
           Datasets
         </h3>
       </div>
+      <div data-ng-if="!dataset">
+      <i class="fa fa-spin fa-spinner"></i>
+      Loading Datasets ...
+      </div>
       
       <div data-ng-show="loadingDatasets === 1" id="sidemenu-container">
         <ul id="side-menu" class="nav datasets list-unstyled ">

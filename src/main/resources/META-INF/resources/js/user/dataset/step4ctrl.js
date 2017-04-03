@@ -64,6 +64,10 @@ angular.module('UserApp')
                     $state.go('step3');
                 });
             };
+            
+            $scope.step1=function(){
+            	$state.go('step1');
+            }
         }
     ]
 );
