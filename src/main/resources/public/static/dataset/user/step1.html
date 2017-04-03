@@ -149,8 +149,8 @@
                 </tbody>
                 <tbody data-ng-show="subdataset.elements.length > 0">
                   <tr bindonce data-ng-repeat="element in subdataset.elements">
-                    <td bo-text="element.name" data-ng-if="element.visible"></td>
-                    <td style="white-space: normal !important;" bo-text="element.description" data-ng-if="element.visible"></td>
+                    <td bo-text="element.description" data-ng-if="element.visible"></td>
+                    <td style="white-space: normal !important;" bo-text="element.meaning" data-ng-if="element.visible"></td>
                   </tr>
                 </tbody>
               </table>
@@ -166,7 +166,7 @@
           </small>
         </div>
         <button data-ng-show="selectedDatasets && selectedDatasets.length > 0"
-                data-ng-disabled="saving" data-ng-click="save()" class="btn btn-primary">
+                data-ng-disabled="selectedDatasets[0].elements.length===0" data-ng-click="save()" class="btn btn-primary">
           Next
         </button>
         <i data-ng-show="saving" class="fa fa-spin fa-spinner"></i>

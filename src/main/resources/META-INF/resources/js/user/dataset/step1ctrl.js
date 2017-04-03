@@ -4,6 +4,7 @@
 // hardcoded on step 2
 //bug? what if only type_name is chosen?
 // hard code on datasetserviceimpl specifics report
+// selected dataset disable next
 'use strict';
 
 angular.module('UserApp')
