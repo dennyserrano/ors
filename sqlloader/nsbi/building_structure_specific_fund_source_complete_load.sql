@@ -8,8 +8,8 @@ INSERT INTO orsdb.table_metadata
 VALUES
 (2,
 'sisdbtest',
-'building_structure_specific_fund_source',
-'building_structure_specific_fund_source',
+'ref_specific_fund_source',
+'ref_specific_fund_source',
 0,
 0,
 NULL,
@@ -27,8 +27,8 @@ INSERT INTO orsdb.dataset_head
 (name,description,owner_id,date_created,created_by,date_updated,updated_by,visible,parent_dataset_head,table_id,ranking)
 VALUES
 (
-'Building Structure Specific Fund Source',
-'Building Structure Specific Fund Source',
+'Ref Specific Fund Source',
+'Ref Specific Fund Source',
 0,
 CURDATE(),
 'SYSTEM',
@@ -49,22 +49,16 @@ INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,ma
 VALUES(@table_id,'id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','id','building_structure_specific_fund_source_id','building_structure_specific_fund_source_id',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','id','ref_specific_fund_source_id','ref_specific_fund_source_id',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES(@table_id,'building_structure_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
+VALUES(@table_id,'description','varchar',0,0,500,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','building_structure_id','building_structure_id','building_structure_id',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','specific_fund_source','specific_fund_source','specific_fund_source',@dataset_head_id,0);
 
 INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES(@table_id,'building_structure_fund_source_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
+VALUES(@table_id,'fund_source_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
 
 INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','building_structure_fund_source_id','building_structure_fund_source_id','building_structure_fund_source_id',@dataset_head_id,0);
-
-INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key)
-VALUES(@table_id,'ref_specific_fund_source_id','int',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1);
-
-INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible)
-VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','ref_specific_fund_source_id','ref_specific_fund_source_id','ref_specific_fund_source_id',@dataset_head_id,0);
+VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','fund_source_id','fund_source_id','fund_source_id',@dataset_head_id,0);

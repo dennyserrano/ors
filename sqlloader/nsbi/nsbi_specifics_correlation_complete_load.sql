@@ -7,7 +7,7 @@ SET @dataset_head_rc_bldg_cond_name="Ref Code Bldg Condition";
 SET @dataset_head_rc_bldg_class_name="Ref Code Bldg Classification";
 SET @dataset_head_rc_class_cond_name="Ref Code Classroom Condition";
 SET @dataset_head_rc_fund_src_name="Ref Code Fund Source";
-SET @dataset_head_rc_specific_fund_src_name="Ref Code Specific Fund Source";
+SET @dataset_head_rc_specific_fund_src_name="Ref Specific Fund Source";
 
 SET @dataset_head_specifics_id=(SELECT id FROM orsdb.dataset_head where name=@dataset_head_specifics_name);
 SET @dataset_head_bldg_struct_type_id=(SELECT id FROM orsdb.dataset_head where name=@dataset_head_bldg_struct_type_name);

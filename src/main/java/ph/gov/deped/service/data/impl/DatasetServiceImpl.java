@@ -75,7 +75,8 @@ public @Service class DatasetServiceImpl implements DatasetService {
     	"Ref Code Specific Fund Source",
     	"Building Structure Type",
     	"Ref Code Bldg Condition",
-    	"Ref Code Bldg Classification"};
+    	"Ref Code Bldg Classification",
+    	"Ref Specific Fund Source"};
     
     private TableMetadataRepository tableMetadataRepository;
 
