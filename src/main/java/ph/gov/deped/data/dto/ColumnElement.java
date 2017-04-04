@@ -48,7 +48,6 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.dataType = column.getDataType();
         this.scale = column.getMin();
         this.precision = column.getMax();
-        this.elementName=elementDescription;
     }
 
     // Copy Constructor: used for cloning this object
@@ -65,7 +64,6 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.scale = scale;
         this.tablePrefix = tablePrefix;
         this.value = value;
-        this.elementName=elementDescription;
     }
 
     public long getElementId() {
