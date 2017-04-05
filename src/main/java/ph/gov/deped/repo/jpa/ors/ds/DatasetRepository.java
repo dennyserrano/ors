@@ -28,4 +28,10 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
 
     List<DatasetHead> findByParentDatasetHeadAndVisible(Long id, boolean visible);
 
+    @Query("select distinct dh from DatasetHead dh "
+    		+ "join fetch dh.tableMetaData "
+    		+ "join fetch dh.datasetElements de "
+    		+ "join fetch de.columnMetaData where dh.id in (3)")
+    List<DatasetHead> findMe();
+    
 }

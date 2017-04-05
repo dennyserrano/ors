@@ -5,16 +5,24 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
+
 import ph.gov.deped.data.BaseJpaEntity;
+import ph.gov.deped.data.ors.meta.TableMetadata;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by ej on 8/18/14.
@@ -62,6 +70,13 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable, Co
     @Basic @Column
     private Integer ranking;
 
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="tableId",referencedColumnName="tableId",insertable=false,updatable=false)
+    private TableMetadata tableMetaData;
+    
+    @OneToMany(mappedBy="datasetHead",fetch=FetchType.LAZY)
+    private Set<DatasetElement> datasetElements;
+    
     public DatasetHead() {
     }
 
@@ -188,4 +203,22 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable, Co
                 .append("ranking", ranking)
                 .toString();
     }
+
+	public TableMetadata getTableMetaData() {
+		return tableMetaData;
+	}
+
+	public void setTableMetaData(TableMetadata tableMetaData) {
+		this.tableMetaData = tableMetaData;
+	}
+
+	public Set<DatasetElement> getDatasetElements() {
+		return datasetElements;
+	}
+
+	public void setDatasetElements(Set<DatasetElement> datasetElements) {
+		this.datasetElements = datasetElements;
+	}
+    
+    
 }

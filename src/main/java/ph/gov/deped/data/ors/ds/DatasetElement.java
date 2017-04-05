@@ -5,7 +5,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
+
 import ph.gov.deped.data.BaseJpaEntity;
+import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import java.io.Serializable;
 
 /**
@@ -55,6 +59,10 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @Basic @Column
     private boolean visible;
 
+    @OneToOne
+    @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
+    private ColumnMetadata columnMetaData;
+    
     public DatasetElement() {}
 
     public Long getId() {
@@ -129,7 +137,17 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         this.visible = visible;
     }
 
-    @Override
+    
+    
+    public ColumnMetadata getColumnMetaData() {
+		return columnMetaData;
+	}
+
+	public void setColumnMetaData(ColumnMetadata columnMetaData) {
+		this.columnMetaData = columnMetaData;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof DatasetElement)) {
             return false;
