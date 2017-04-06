@@ -49,7 +49,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 /**
  * Created by ej on 9/10/14.
  */
-public @Service class DatasetServiceImpl implements DatasetService {
+public class DatasetServiceImpl implements DatasetService {
 
     private static final Logger log = LogManager.getLogger(DatasetServiceImpl.class);
 
