@@ -12,13 +12,17 @@ import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ej on 8/18/14.
@@ -63,9 +67,13 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
     private ColumnMetadata columnMetaData;
     
+    @OneToMany(fetch=FetchType.LAZY,mappedBy="datasetElement")
+    private List<DatasetCorrelation> datasetCorrelations;
+    
     public DatasetElement() {}
+    
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 

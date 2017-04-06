@@ -126,6 +126,7 @@ public @Service class DatasetServiceImpl implements DatasetService {
         this.datasetRepository = datasetRepository;
     }
 
+    
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<List<ColumnElement>> getData(
             Dataset dataset, boolean previewOnly) {
     	
@@ -135,6 +136,9 @@ public @Service class DatasetServiceImpl implements DatasetService {
     	//TODO preview page hanging when data is too big
     	//TODO next buttons should be disabled when there are still loading parts of pages
     	//TODO on error of excel generation, delete all temp files
+    	
+    	
+    	
         List<DatasetElement> elements = dataset.getElements().stream()
                 .map(Element::getId)
                 .map(elementRepository::findOne)
