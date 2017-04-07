@@ -11,6 +11,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ph.gov.deped.common.util.PrefixTableMapBuilder;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
@@ -41,8 +42,9 @@ public class DatasetServiceImpl2 implements DatasetService
     	//mandatory datasets?
     	List<DatasetHead> datasetHeads=datasetRepository.findByIds(ids); 
     	List<Element> selectedUIElements=dataset.getElements();
-    	List<DatasetHead> constructedDatasetHeads=construct(datasetHeads,selectedUIElements);
+    	PrefixTableMapBuilder prefixBuilder=new PrefixTableMapBuilder(datasetHeads, selectedUIElements);
 		
+		Map m=prefixBuilder.build();
 		return null;
 	}
 

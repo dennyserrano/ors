@@ -4,10 +4,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
 * Created by PSY on 2014/10/15.
@@ -38,6 +40,8 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 
     private Serializable value;
 
+    private List<ColumnCorrelation> columnCorrelations;
+    
     public ColumnElement(DatasetElement element, ColumnMetadata column) {
         this.elementId = element.getId();
         this.columnId = column.getColumnId();
@@ -50,6 +54,20 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.precision = column.getMax();
     }
 
+    public ColumnElement(DatasetElement element,ColumnMetadata column, List<ColumnCorrelation> relations)
+    {
+    	this.elementId = element.getId();
+        this.columnId = column.getColumnId();
+        this.elementName = element.getName();
+        this.columnName = column.getColumnName();
+        this.elementDescription = element.getDescription();
+        this.datasetId = element.getDatasetHead().getId();
+        this.dataType = column.getDataType();
+        this.scale = column.getMin();
+        this.precision = column.getMax();
+        this.columnCorrelations=relations;
+    }
+    
     // Copy Constructor: used for cloning this object
     private ColumnElement(long elementId, int columnId, String elementName, String columnName, String elementDescription,
                          long datasetId, String dataType, Long precision, int scale, String tablePrefix, Serializable value) {
@@ -106,7 +124,11 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         return tablePrefix;
     }
 
-    @SuppressWarnings({"unchecked"})
+    public List<ColumnCorrelation> getColumnCorrelations() {
+		return columnCorrelations;
+	}
+
+	@SuppressWarnings({"unchecked"})
     public <O extends Serializable> O getValue() {
         return (O) value;
     }
