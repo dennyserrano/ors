@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -219,6 +220,8 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable, Co
 	public void setDatasetElements(Set<DatasetElement> datasetElements) {
 		this.datasetElements = datasetElements;
 	}
+
+	
     
     
 }

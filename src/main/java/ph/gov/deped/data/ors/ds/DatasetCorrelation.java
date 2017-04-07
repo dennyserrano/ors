@@ -64,8 +64,8 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @JoinColumn(name = "right_dataset_head_id", nullable = false)
     private DatasetHead rightDataset;
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="datasetElementId",insertable=false,updatable=false)
+    @ManyToOne
+    @JoinColumn(name="datasetElementId",insertable=false,updatable=false,nullable=true)
     private DatasetElement datasetElement;
     
     public DatasetCorrelation() {}

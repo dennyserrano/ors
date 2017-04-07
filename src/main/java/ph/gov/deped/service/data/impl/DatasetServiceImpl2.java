@@ -19,7 +19,7 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.DatasetService;
-
+import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 @Service
 public class DatasetServiceImpl2 implements DatasetService
 {
@@ -38,9 +38,10 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	//automatic joining here? 
     	//the tables present here are the ones chosen by the user
+    	//mandatory datasets?
     	List<DatasetHead> datasetHeads=datasetRepository.findByIds(ids); 
     	List<Element> selectedUIElements=dataset.getElements();
-    	construct(datasetHeads,selectedUIElements);
+    	List<DatasetHead> constructedDatasetHeads=construct(datasetHeads,selectedUIElements);
 		
 		return null;
 	}
@@ -94,48 +95,9 @@ public class DatasetServiceImpl2 implements DatasetService
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-	public void getData1(Dataset dataset)
-    {
-    	
-    	
-    }
     
     
-    private void construct(List<DatasetHead> datasetHeads,List<Element> uiElements)
-    {
-    	Map<Long,List<Element>> map=new HashMap<Long, List<Element>>();
-    	
-    	uiElements.forEach(e->{
-    		if(!map.containsKey(e.getDatasetId()))
-    		{
-    			ArrayList<Element> al=new ArrayList<>();
-    			al.add(e);
-    			map.put(e.getDatasetId(), al);
-    		}
-    		else
-    		{
-    			ArrayList<Element> elementList= (ArrayList<Element>) map.get(e.getDatasetId());
-    			elementList.add(e);
-    		}
-    	});
-    	
-    	datasetHeads.forEach(e->{
-    		List<Element> elementList= map.get(e.getId());
-    		Set<DatasetElement> datasetHeadElementList=e.getDatasetElements();
-    		HashSet<DatasetElement> finalSet=new HashSet<>();
-    		elementList.forEach(elem->{
-    			datasetHeadElementList.forEach(setE->{
-    				if(elem.getId()==setE.getId())
-    					finalSet.add(setE);
-    			});
-    		});
-    		e.setDatasetElements(finalSet);
-    	});
-    	
-    }
+    
     
     private DatasetElement toDatasetElement(Element elemet)
     {

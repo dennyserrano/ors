@@ -67,8 +67,8 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
     private ColumnMetadata columnMetaData;
     
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="datasetElement")
-    private List<DatasetCorrelation> datasetCorrelations;
+    @OneToMany(fetch=FetchType.EAGER,mappedBy="datasetElement")
+    private Set<DatasetCorrelation> datasetCorrelations;
     
     public DatasetElement() {}
     
@@ -147,7 +147,17 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
 
     
     
-    public ColumnMetadata getColumnMetaData() {
+    public Set<DatasetCorrelation> getDatasetCorrelations() {
+		return datasetCorrelations;
+	}
+
+
+	public void setDatasetCorrelations(Set<DatasetCorrelation> datasetCorrelations) {
+		this.datasetCorrelations = datasetCorrelations;
+	}
+
+
+	public ColumnMetadata getColumnMetaData() {
 		return columnMetaData;
 	}
 
