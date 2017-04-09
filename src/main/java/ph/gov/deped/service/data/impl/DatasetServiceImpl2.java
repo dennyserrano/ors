@@ -1,6 +1,7 @@
 package ph.gov.deped.service.data.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -32,19 +33,23 @@ public class DatasetServiceImpl2 implements DatasetService
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
 		
 		
-		long[] ids=getIds(dataset.getSubDatasets());
+		List<Long> ids=getIds(dataset.getSubDatasets());
     	
-    	if(ids.length==0)
+    	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
     	
     	//automatic joining here? 
     	//the tables present here are the ones chosen by the user
     	//mandatory datasets?
+//    	MandatoryDatasetAppender mandatoryDatasetAppender=new MandatoryDatasetAppender();
+//    	ids=mandatoryDatasetAppender.appendIds(ids);
+    	
     	List<DatasetHead> datasetHeads=datasetRepository.findByIds(ids); 
     	List<Element> selectedUIElements=dataset.getElements();
     	PrefixTableMapBuilder prefixBuilder=new PrefixTableMapBuilder(datasetHeads, selectedUIElements);
 		
-		Map m=prefixBuilder.build();
+		Map<Long,PrefixTable> prefixTableMap=prefixBuilder.build();
+		
 		return null;
 	}
 
@@ -98,33 +103,93 @@ public class DatasetServiceImpl2 implements DatasetService
 		return null;
 	}
     
-    
-    
-    
-    private DatasetElement toDatasetElement(Element elemet)
-    {
-    	DatasetElement de= new DatasetElement();
-//    	de.set
-    	return null;
-    }
-    
-    private long[] getIds(List<Dataset> subDataset)
+    private List<Long> getIds(List<Dataset> subDataset)
     {
     	
     	if(subDataset==null || subDataset.size()==0)
-    		return new long[0];
+    		return new ArrayList<Long>();
     	else
     	{
-    		long[] ids=new long[subDataset.size()];
-    		for(int x=0;x<subDataset.size();x++)
-    		{
-    			Dataset dataset=subDataset.get(x);
-    			ids[x]=dataset.getId();
-    		}
-    		return ids;
+    		ArrayList<Long> retList=new ArrayList<Long>();
+    		subDataset.forEach(e->{retList.add(e.getId());});
+    		return retList;
     	}
     	
     }
 	
+    
+    private class MandatoryDatasetAppender
+    {
+    	//dataset, element name
+    	public final Map<Long,String[]> MANDATORY_SET=new HashMap<>();
+    	private List<Long> ids;
+    	private List<Element> elements;
+    	public MandatoryDatasetAppender() 
+    	{
+    		MANDATORY_SET.put(8L, new String[]{"sy_from","school_name","division_name","school_id","sector_id"});
+		}
+    	
+    	public MandatoryDatasetAppender appendExistingIds(List<Long> ids)
+    	{
+    		ids=new ArrayList<Long>(MANDATORY_SET.keySet());
+    		ids.addAll(ids);
+    		return this;
+    	}
+    	
+    	
+    	private List<String> getMandatoryElements()
+    	{
+    		List<String> al=new ArrayList<String>();
+    		
+    		MANDATORY_SET.entrySet().forEach(e->{
+    				for(String s:e.getValue())
+    					al.add(s);
+				}
+    		);
+    		
+    		return al;
+    	}
+    	
+    	public List<Long> appendIds(List<Long> ids)
+    	{
+    		ids.addAll(0, ids);
+    		return ids;
+    	}
+    	
+    	public List<Element> appendElements(List<Element> elements)
+    	{
+    		this.elements= new ArrayList<Element>(elements);
+    	}
+    	
+    }
+    
+    private class MandatoryDatasetReturnClass
+    {
+    	List<DatasetHead> datasetHeads;
+    	List<Element> elements;
+		
+    	
+    	
+    	public MandatoryDatasetReturnClass(List<DatasetHead> datasetHeads,
+				List<Element> elements) {
+			super();
+			this.datasetHeads = datasetHeads;
+			this.elements = elements;
+		}
+		public List<DatasetHead> getDatasetHeads() {
+			return datasetHeads;
+		}
+		public void setDatasetHeads(List<DatasetHead> datasetHeads) {
+			this.datasetHeads = datasetHeads;
+		}
+		public List<Element> getElements() {
+			return elements;
+		}
+		public void setElements(List<Element> elements) {
+			this.elements = elements;
+		}
+    	
+    	
+    }
 
 }
