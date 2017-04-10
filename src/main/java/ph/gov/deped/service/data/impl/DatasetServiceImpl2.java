@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,18 @@ public class DatasetServiceImpl2 implements DatasetService
     	//mandatory datasets?
 //    	MandatoryDatasetAppender mandatoryDatasetAppender=new MandatoryDatasetAppender();
 //    	ids=mandatoryDatasetAppender.appendIds(ids);
-    	
+    	MandatoryDatasetAppender appender=new MandatoryDatasetAppender();
+    	ids=appender.appendMandatoryIds(ids);
     	List<DatasetHead> datasetHeads=datasetRepository.findByIds(ids); 
     	List<Element> selectedUIElements=dataset.getElements();
+    	
+    	MandatoryDataset mds= appender.setExistingIds(ids)
+    	.setFetchedHeads(datasetHeads)
+    	.setSelectedElements(selectedUIElements)
+    	.build();
+    	datasetHeads=mds.getDatasetHeads();
+    	selectedUIElements=mds.getElements();
+    	
     	PrefixTableMapBuilder prefixBuilder=new PrefixTableMapBuilder(datasetHeads, selectedUIElements);
 		
 		Map<Long,PrefixTable> prefixTableMap=prefixBuilder.build();
@@ -124,19 +134,84 @@ public class DatasetServiceImpl2 implements DatasetService
     	public final Map<Long,String[]> MANDATORY_SET=new HashMap<>();
     	private List<Long> ids;
     	private List<Element> elements;
+    	private List<DatasetHead> datasetHeads;
     	public MandatoryDatasetAppender() 
     	{
     		MANDATORY_SET.put(8L, new String[]{"sy_from","school_name","division_name","school_id","sector_id"});
 		}
     	
-    	public MandatoryDatasetAppender appendExistingIds(List<Long> ids)
+    	public List<Long> appendMandatoryIds(List<Long> ids)
+    	{
+    		 ids.addAll(0, MANDATORY_SET.keySet());
+    		 return ids;
+    	}
+    	
+    	public MandatoryDatasetAppender setExistingIds(List<Long> ids)
     	{
     		ids=new ArrayList<Long>(MANDATORY_SET.keySet());
     		ids.addAll(ids);
     		return this;
     	}
     	
+    	public MandatoryDatasetAppender setFetchedHeads(List<DatasetHead> dh)
+    	{
+    		this.datasetHeads=dh;
+    		return this;
+    	}
     	
+    	public MandatoryDataset build()
+    	{
+    		ArrayList<DatasetElement> elements=new ArrayList<DatasetElement>();
+    		ArrayList<Element> mandatorySelectedElements=new ArrayList<Element>();
+    		for(DatasetHead dh:datasetHeads)
+    		{
+    			for(DatasetElement de:dh.getDatasetElements())
+				{
+    				for(String mandatoryElementName:getMandatoryElements())
+						if(mandatoryElementName.equals(de.getName()))
+						{
+							elements.add(de);
+							break;
+						}
+				}
+    			
+    			for(DatasetElement de:dh.getDatasetElements())
+    			{
+    				for(Element selectedElement:this.elements)
+    					if(selectedElement.getName().equals(de.getName()))
+    						elements.add(de);
+    			}
+    			
+    			dh.getDatasetElements().clear();
+    			dh.getDatasetElements().addAll(elements);
+    			elements.clear();
+    		}
+    		elements.clear();
+    		elements=null;
+    		
+    		for(Entry<Long, String[]> entry:MANDATORY_SET.entrySet())
+    		{
+    			for(DatasetHead dh:datasetHeads)
+    				if(dh.getId()==entry.getKey())
+    				{
+    					for(int x=0;x<entry.getValue().length;x++)
+    					{
+    						String val=entry.getValue()[x];
+    						for(DatasetElement de:dh.getDatasetElements())
+    							if(de.getName().equals(val))
+    								mandatorySelectedElements.add(toElement(de));
+    					}
+    				}
+    		}
+    		
+    		
+  		return new MandatoryDataset(datasetHeads, mandatorySelectedElements);
+    	}
+    	
+    	private Element toElement(DatasetElement de)
+    	{
+    		return new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), de.getDatasetHead().getId(), false);
+    	}
     	private List<String> getMandatoryElements()
     	{
     		List<String> al=new ArrayList<String>();
@@ -150,27 +225,22 @@ public class DatasetServiceImpl2 implements DatasetService
     		return al;
     	}
     	
-    	public List<Long> appendIds(List<Long> ids)
-    	{
-    		ids.addAll(0, ids);
-    		return ids;
-    	}
-    	
-    	public List<Element> appendElements(List<Element> elements)
+    	public MandatoryDatasetAppender setSelectedElements(List<Element> elements)
     	{
     		this.elements= new ArrayList<Element>(elements);
+    		return this;
     	}
     	
     }
     
-    private class MandatoryDatasetReturnClass
+    private class MandatoryDataset
     {
     	List<DatasetHead> datasetHeads;
     	List<Element> elements;
 		
     	
     	
-    	public MandatoryDatasetReturnClass(List<DatasetHead> datasetHeads,
+    	public MandatoryDataset(List<DatasetHead> datasetHeads,
 				List<Element> elements) {
 			super();
 			this.datasetHeads = datasetHeads;
