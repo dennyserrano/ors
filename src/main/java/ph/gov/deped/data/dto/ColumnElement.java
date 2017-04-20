@@ -40,7 +40,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 
     private Serializable value;
 
-    private List<ColumnCorrelation> columnCorrelations;
+    private List<JoinInfo<PrefixTable,PrefixTable>> columnCorrelations;
     
     public ColumnElement(DatasetElement element, ColumnMetadata column) {
         this.elementId = element.getId();
@@ -54,9 +54,8 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.precision = column.getMax();
     }
 
-    public ColumnElement(DatasetElement element,ColumnMetadata column, List<ColumnCorrelation> relations)
-    {
-    	this.elementId = element.getId();
+    public ColumnElement(DatasetElement element, ColumnMetadata column,List<JoinInfo<PrefixTable,PrefixTable>> columnRelations) {
+        this.elementId = element.getId();
         this.columnId = column.getColumnId();
         this.elementName = element.getName();
         this.columnName = column.getColumnName();
@@ -65,7 +64,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.dataType = column.getDataType();
         this.scale = column.getMin();
         this.precision = column.getMax();
-        this.columnCorrelations=relations;
+        this.columnCorrelations=columnRelations;
     }
     
     // Copy Constructor: used for cloning this object
@@ -123,10 +122,10 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
     public String getTablePrefix() {
         return tablePrefix;
     }
-
-    public List<ColumnCorrelation> getColumnCorrelations() {
-		return columnCorrelations;
-	}
+//
+//    public List<ColumnCorrelation> getColumnCorrelations() {
+//		return columnCorrelations;
+//	}
 
 	@SuppressWarnings({"unchecked"})
     public <O extends Serializable> O getValue() {

@@ -4,12 +4,15 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
@@ -37,7 +40,12 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
     protected Set<ColumnElement> columns = new LinkedHashSet<>();
 
+    protected PrefixTable joinTable;
+    
+    protected List<JoinInfo<ColumnElement,ColumnElement>> joinColumns;
+    
     public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, ColumnElement... columnElements) {
+    	
         this.datasetId = datasetHead.getId();
         this.parentId = datasetHead.getParentDatasetHead();
         this.datasetName = datasetHead.getName();
@@ -46,8 +54,28 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.ranking = datasetHead.getRanking();
         this.columns.addAll(asList(columnElements));
     }
+    
+    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,PrefixTable joinTable, ColumnElement... columnElements) {
+    	
+        this.datasetId = datasetHead.getId();
+        this.parentId = datasetHead.getParentDatasetHead();
+        this.datasetName = datasetHead.getName();
+        this.tableId = tableMetadata.getTableId();
+        this.tableName = tableMetadata.getTableName();
+        this.ranking = datasetHead.getRanking();
+        this.columns.addAll(asList(columnElements));
+    }
+    
+    
+	public PrefixTable getJoinTable() {
+		return joinTable;
+	}
 
-    public String getTablePrefix() {
+	public void setJoinTable(PrefixTable joinTable) {
+		this.joinTable = joinTable;
+	}
+
+	public String getTablePrefix() {
         return tablePrefix;
     }
 
@@ -87,11 +115,27 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.columns.add(ce);
     }
 
+    public void addJoinColumn(JoinInfo<ColumnElement, ColumnElement> join)
+    {
+    	this.joinColumns.add(join);
+    }
+    
     public int compareTo(PrefixTable o) {
         return new Integer(getRanking()).compareTo(new Integer(o.getRanking()));
     }
 
-    public @Override boolean equals(Object o) {
+    
+    
+    public List<JoinInfo<ColumnElement, ColumnElement>> getJoinColumns() {
+		return joinColumns;
+	}
+
+	public void setJoinColumns(
+			List<JoinInfo<ColumnElement, ColumnElement>> joinColumns) {
+		this.joinColumns = joinColumns;
+	}
+
+	public @Override boolean equals(Object o) {
         if (o == null || !(o instanceof PrefixTable)) {
             return false;
         }

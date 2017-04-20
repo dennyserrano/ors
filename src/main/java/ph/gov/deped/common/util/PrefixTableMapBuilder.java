@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ph.gov.deped.data.dto.ColumnCorrelation;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Element;
@@ -19,11 +18,12 @@ public class PrefixTableMapBuilder
 {
 	private List<DatasetHead> datasetHeads;
 	private List<Element> elements;
-	
+	private Map<Long,DatasetHead> datasetHeadReferenceMap;
 	public PrefixTableMapBuilder(List<DatasetHead> datasetHeads,List<Element> elements)
 	{
 		this.datasetHeads=datasetHeads;
 		this.elements=elements;
+		datasetHeadReferenceMap=new HashMap<Long, DatasetHead>();
 		
 		if(datasetHeads==null)
 			throw new RuntimeException();
@@ -36,46 +36,17 @@ public class PrefixTableMapBuilder
 	{
 		List<DatasetHead> ldatasetHeads=construct(datasetHeads,elements);
 		Map<Long,PrefixTable> map=new HashMap<>();
+		
+		
+		
 		ldatasetHeads.forEach(e->{
-			map.put(e.getId(), toPrefixTable(e));
+			map.put(e.getId(), ConvertUtil.toPrefixTable(e));
 		});
 		
 		return map;
 	}
 	
-	private PrefixTable toPrefixTable(DatasetHead dh)
-	{
-		List<ColumnElement> columnElementList=new ArrayList<ColumnElement>();
-		if(dh.getDatasetElements()!=null)
-		{
-			dh.getDatasetElements().forEach(e->{
-				columnElementList.add(toColumnElement(e));
-			});
-		}
-		
-		ColumnElement[] ce=new ColumnElement[columnElementList.size()];
-		
-		return new PrefixTable(dh, dh.getTableMetaData(), columnElementList.toArray(ce));
-	}
 	
-	private ColumnElement toColumnElement(DatasetElement de)
-	{
-		Set<DatasetCorrelation> list=de.getDatasetCorrelations();
-		ArrayList<ColumnCorrelation> relationList=new ArrayList<ColumnCorrelation>();
-		
-		if(list!=null)
-		{
-			list.forEach(e->{
-				relationList.add(toColumnCorrelation(e));
-			});
-		}
-		return new ColumnElement(de,de.getColumnMetaData(),relationList);
-	}
-	
-	private ColumnCorrelation toColumnCorrelation(DatasetCorrelation dc)
-	{
-		return new ColumnCorrelation(dc.getLeftTablePrefix(), dc.getRightTablePrefix());
-	}
 	private List<DatasetHead> construct(List<DatasetHead> datasetHeads,List<Element> uiElements)
     {
     	Map<Long,List<Element>> map=new HashMap<Long, List<Element>>();
@@ -108,6 +79,8 @@ public class PrefixTableMapBuilder
     		e.setDatasetElements(finalSet);
     	});
 
+    	
+    	
     	return datasetHeads;
     	
     }

@@ -13,7 +13,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ph.gov.deped.common.util.ColumnProcessBuilder;
 import ph.gov.deped.common.util.PrefixTableMapBuilder;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
@@ -57,7 +56,7 @@ public class DatasetServiceImpl2 implements DatasetService
     	datasetHeads=mds.getDatasetHeads();
     	selectedUIElements=mds.getElements();
     	
-    	List<ColumnElement> columnElements=new ColumnProcessBuilder(datasetHeads, selectedUIElements).build();
+    	Map<Long,PrefixTable> prefixTableMap=new PrefixTableMapBuilder(datasetHeads, selectedUIElements).build();
     	
 		
 		return null;

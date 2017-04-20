@@ -21,6 +21,8 @@ import com.thoughtworks.xstream.XStream;
 import ph.gov.deped.common.util.PrefixTableMapBuilder;
 import ph.gov.deped.config.ApplicationSpringConfig;
 import ph.gov.deped.config.TestAppConfig;
+import ph.gov.deped.data.dto.JoinInfo;
+import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
@@ -70,5 +72,12 @@ public class CriteriaQueryTest
 		
 		datasetService.getData(ds, false);
 
+	}
+	
+	public void t()
+	{
+		PrefixTable pt=new PrefixTable(null, null, new PrefixTable(null, null, null), null);
+		pt.setJoinColumns(new ArrayList<>());
+		pt.getJoinColumns().add(new JoinInfo<>());
 	}
 }

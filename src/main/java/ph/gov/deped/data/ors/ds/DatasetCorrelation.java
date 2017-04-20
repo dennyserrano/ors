@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by PSY on 2014/09/30.
@@ -68,7 +69,27 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @JoinColumn(name="datasetElementId",insertable=false,updatable=false,nullable=true)
     private DatasetElement datasetElement;
     
+    private Set<DatasetCorrelationDtl> details;
+    
     public DatasetCorrelation() {}
+
+
+
+    
+    
+	public Set<DatasetCorrelationDtl> getDetails() {
+		return details;
+	}
+
+
+
+
+
+	public void setDetails(Set<DatasetCorrelationDtl> details) {
+		this.details = details;
+	}
+
+
 
 
 
