@@ -1,4 +1,5 @@
 INSERT INTO orsdb.nsbi_specifics(
+sy_from,
 school_id,
 bldg_struct,
 bldg_struct_num,
@@ -7,7 +8,9 @@ bldg_cond_id,
 bldg_class_id,
 storeys,
 fund_src_id,
+fund_src,
 specific_fund_src_id,
+specific_fund_src,
 bldg_dimnsn_len,
 bldg_dimnsn_wdth,
 rm_number,
@@ -52,10 +55,14 @@ stud_curr_cntr,
 youth_dev,
 nonInst_aud_vis,
 nonInst_notUsed,
-others
+others,
+purely_instructional,
+purely_non_instructional,
+shared_instructional
 )
 
 SELECT 
+SPH.sy_from,
 SPH.school_id as school_id,
 IF(BST.category=1,'Building','Structure') as bldg_struct,
 BS.building_no as bldg_struct_num,
@@ -63,8 +70,20 @@ BST.id as bldg_struct_type_id ,
 BS.building_condition_id as bldg_cond_id,
 BS.building_classification_id as bldg_class_id,
 BS.number_of_storey as storeys,
-BSFS.fund_source_id as fund_src_id,
-RSFS.id as specific_fund_src_id,
+0 as fund_src_id, -- temporarily not included
+(
+	SELECT group_concat(B.description separator ',')
+    FROM ebeisdb.building_structure_fund_source A
+    INNER JOIN ebeisdb.ref_code_setting B ON B.id=A.fund_source_id
+	WHERE A.building_structure_id=BS.id
+) as fund_src, -- temporarily included
+0 as specific_fund_src_id, -- temporarily not included,
+(
+	SELECT group_concat(B.description separator ',')
+    FROM ebeisdb.building_structure_specific_fund_source A
+    INNER JOIN ebeisdb.ref_specific_fund_source B ON B.id=A.ref_specific_fund_source_id
+	WHERE A.building_structure_id=BS.id
+) as specific_fund_src,
 BS.building_length as bldg_dimnsn_len,
 BS.building_width as bldg_dimnsn_wdth,
 BR.room_id as rm_number,
@@ -73,78 +92,360 @@ BR.repair_last5 as repair_5yrs,
 BR.room_length as rm_dimnsn_len,
 BR.room_width as rm_dimnsn_wdth,
 BR.num_concurrent_usage as concurrent_usage,
-SUM(IF(RAU.id=1,1,0)) as kinder_class,
-SUM(IF(RAU.id=2,1,0)) as g1_class,
-SUM(IF(RAU.id=3,1,0)) as g2_class,
-SUM(IF(RAU.id=4,1,0)) as g3_class,
-SUM(IF(RAU.id=5,1,0)) as g4_class,
-SUM(IF(RAU.id=6,1,0)) as g5_class,
-SUM(IF(RAU.id=7,1,0)) as g6_class,
-SUM(IF(RAU.id=8,1,0)) as g7_class,
-SUM(IF(RAU.id=9,1,0)) as g8_class,
-SUM(IF(RAU.id=10,1,0)) as g9_class,
-SUM(IF(RAU.id=11,1,0)) as g10_class,
-SUM(IF(RAU.id=12,1,0)) as g11_class,
-SUM(IF(RAU.id=13,1,0)) as g12_class,
-SUM(IF(RAU.id=14,1,0)) as sped_class,
-SUM(IF(RAU.id=15,1,0)) as als_rm,
-SUM(IF(RAU.id=15,1,0)) as comp_rm,
-SUM(IF(RAU.id=18,1,0)) as indus_arts_rm,
-SUM(IF(RAU.id=19,1,0)) as home_econ_rm,
-SUM(IF(RAU.id=20,1,0)) as sci_lab,
-SUM(IF(RAU.id=22,1,0)) as speech_lab,
-SUM(IF(RAU.id=21,1,0)) as research_lab,
-SUM(IF(RAU.id=16,1,0)) as inst_aud_visual,
-SUM(IF(RAU.id=35,1,0)) as inst_not_used,
-SUM(IF(RAU.id=24,1,0)) as lib_res_cntr,
-SUM(IF(RAU.id=25,1,0)) as canteen,
-SUM(IF(RAU.id=26,1,0)) as clinic,
-SUM(IF(RAU.id=27,1,0)) as conf_room,
-SUM(IF(RAU.id=28,1,0)) as offices,
-SUM(IF(RAU.id=29,1,0)) as faclty_rm,
-SUM(IF(RAU.id=30,1,0)) as museum,
-SUM(IF(RAU.id=31,1,0)) as supply_rm,
-SUM(IF(RAU.id=32,1,0)) as datafle_rm,
-SUM(IF(RAU.id=33,1,0)) as stud_curr_cntr,
-SUM(IF(RAU.id=34,1,0)) as youth_dev,
-SUM(IF(RAU.id=23,1,0)) as nonInst_notUsed,
-SUM(IF(RAU.id=35,1,0)) as nonInst_aud_vis,
-COUNT(RAU.id not in (24,25,	26,	27,	28,	29,	30,	31,	32,	33,	34,	23)) as others
+(
+	SELECT SUM(IF(B.id=1,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as kinder_class,
+(
+	SELECT SUM(IF(B.id=2,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g1_class,
+(
+	SELECT SUM(IF(B.id=3,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g2_class,
+(
+	SELECT SUM(IF(B.id=4,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g3_class,
+(
+	SELECT SUM(IF(B.id=5,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g4_class,
+(
+	SELECT SUM(IF(B.id=6,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g5_class,
+(
+	SELECT SUM(IF(B.id=7,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g6_class,
+(
+	SELECT SUM(IF(B.id=8,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g7_class,
+(
+	SELECT SUM(IF(B.id=9,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g8_class,
+(
+	SELECT SUM(IF(B.id=10,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g9_class,
+(
+	SELECT SUM(IF(B.id=11,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g10_class,
+(
+	SELECT SUM(IF(B.id=12,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g11_class,
+(
+	SELECT SUM(IF(B.id=13,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as g12_class,
+(
+	SELECT SUM(IF(B.id=14,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as sped_class,
+(
+	SELECT SUM(IF(B.id=15,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as als_rm,
+(
+	SELECT SUM(IF(B.id=17,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as comp_rm,
+(
+	SELECT SUM(IF(B.id=18,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as indus_arts_rm,
+(
+	SELECT SUM(IF(B.id=19,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as home_econ_rm,
+(
+	SELECT SUM(IF(B.id=20,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as sci_lab,
+(
+	SELECT SUM(IF(B.id=22,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as speech_lab,
+(
+	SELECT SUM(IF(B.id=21,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as research_lab,
+(
+	SELECT SUM(IF(B.id=16,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as inst_aud_visual,
+(
+	SELECT SUM(IF(B.id=35,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as inst_not_used,
+(
+	SELECT SUM(IF(B.id=24,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as lib_res_cntr,
+(
+	SELECT SUM(IF(B.id=25,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as canteen,
+(
+	SELECT SUM(IF(B.id=26,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as clinic,
+(
+	SELECT SUM(IF(B.id=27,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as conf_room,
+(
+	SELECT SUM(IF(B.id=28,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as offices,
+(
+	SELECT SUM(IF(B.id=29,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as faclty_rm,
+(
+	SELECT SUM(IF(B.id=30,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as museum,
+(
+	SELECT SUM(IF(B.id=31,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as supply_rm,
+(
+	SELECT SUM(IF(B.id=32,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as datafle_rm,
+(
+	SELECT SUM(IF(B.id=33,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as stud_curr_cntr,
+(
+	SELECT SUM(IF(B.id=34,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as youth_dev,
+(
+	SELECT SUM(IF(B.id=23,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as nonInst_notUsed,
+(
+	SELECT SUM(IF(B.id=35,1,0))
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+) as nonInst_aud_vis,
+(
+	SELECT group_concat(B.description separator ',')
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE A.building_room_id=BR.id
+    AND B.id not in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25, 26,
+	27, 28,
+	29, 30,
+	31, 32,
+	33, 34,
+	35)
+) as others,
+(
+	SELECT IF(COUNT(*)=1,1,0)
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE 
+    A.building_room_id=BR.id
+    AND B.category=1 
+    AND 
+    (
+			SELECT 
+			(
+				IF
+				(
+					(
+						SELECT COUNT(*)
+						FROM ebeisdb.building_room_usage A1
+						INNER JOIN ebeisdb.ref_actual_usages B1 ON A1.room_usage_id=B1.id
+						WHERE 
+						A1.building_room_id=BR.id
+						AND B1.category=2
+					)>0,1,0
+				)
+				+
+				IF
+				(
+					(
+						SELECT COUNT(*)
+						FROM ebeisdb.building_room_usage A1 
+						INNER JOIN ebeisdb.ref_actual_usages B1 ON A1.room_usage_id=B1.id
+						WHERE 
+						A1.building_room_id=BR.id
+						AND B1.category=1
+					)>0,1,0
+				)
+			) as a
+    ) <> 2
+    
+) as purely_instructional,
+(
+	SELECT IF(COUNT(B.category)>0,1,0)
+    FROM ebeisdb.building_room_usage A 
+    INNER JOIN ebeisdb.ref_actual_usages B ON A.room_usage_id=B.id
+    WHERE 
+    A.building_room_id=BR.id
+    AND B.category=2
+    AND 
+    (
+			SELECT 
+			(
+				IF
+				(
+					(
+						SELECT COUNT(B1.category)
+						FROM ebeisdb.building_room_usage A1 
+						INNER JOIN ebeisdb.ref_actual_usages B1 ON A1.room_usage_id=B1.id
+						WHERE 
+						A1.building_room_id=BR.id
+						AND B1.category=2
+					)>0,1,0
+				)
+				+
+				IF
+				(
+					(
+						SELECT COUNT(B1.category)
+						FROM ebeisdb.building_room_usage A1 
+						INNER JOIN ebeisdb.ref_actual_usages B1 ON A1.room_usage_id=B1.id
+						WHERE 
+						A1.building_room_id=BR.id
+						AND B1.category=1
+					)>0,1,0
+				)
+			) as a
+    ) <> 2
+
+) as purely_non_instructional,
+(
+		SELECT 
+		(
+				
+				IF
+                (
+					(	
+							IF
+							(
+								(
+									SELECT COUNT(B1.category)
+									FROM ebeisdb.building_room_usage A1 
+									INNER JOIN ebeisdb.ref_actual_usages B1 ON A1.room_usage_id=B1.id
+									WHERE 
+									A1.building_room_id=BR.id
+									AND B1.category=2
+								)>0,1,0
+							)
+							+
+							IF
+							(
+							
+								(
+									SELECT COUNT(B1.category)
+									FROM ebeisdb.building_room_usage A1 
+									INNER JOIN ebeisdb.ref_actual_usages B1 ON A1.room_usage_id=B1.id
+									WHERE 
+									A1.building_room_id=BR.id
+									AND B1.category=1
+								)>0,1,0
+							)
+					)=2,1,0
+				)
+                
+		) as a
+ 
+  
+) as shared_instructional
 
 FROM ebeisdb.school_profile_history SPH
-INNER JOIN ebeisdb.report_history RH on (RH.school_id = SPH.school_id and RH.sy_from = SPH.sy_from and RH.report_id = if(SPH.co_gen_class=433, 30,31) and RH.report_status > 300 and SPH.general_classification_id = 7) 
+INNER JOIN ebeisdb.report_history RH on (RH.school_id = SPH.school_id and RH.sy_from = SPH.sy_from and RH.report_id = if(SPH.co_gen_class=433, 30,31) and RH.report_status >= 300 and SPH.general_classification_id = 7) 
 INNER JOIN ebeisdb.building_structure BS ON BS.report_history_id=RH.id
 INNER JOIN ebeisdb.building_structure_type BST ON BS.building_type_id=BST.id
-INNER JOIN ebeisdb.ref_code_setting RCS_building_condition ON BS.building_condition_id=RCS_building_condition.id
--- INNER JOIN ebeisdb.ref_code_setting RCS_classification ON BS.building_classification_id=RCS_classification.id
-INNER JOIN ebeisdb.building_structure_fund_source BSFS ON BSFS.building_structure_id=BS.id
--- INNER JOIN ebeisdb.ref_code_setting RCS_bldg_fund_source ON RCS_bldg_fund_source.id=BSFS.fund_source_id
-INNER JOIN ebeisdb.building_structure_specific_fund_source BSSFS ON BSSFS.building_structure_id=BS.id
-INNER JOIN ebeisdb.ref_specific_fund_source RSFS ON RSFS.id=BSSFS.ref_specific_fund_source_id
-INNER JOIN ebeisdb.building_room BR ON BS.id=BR.building_structure_id
--- INNER JOIN ebeisdb.ref_code_setting RCS_class_cond ON RCS_class_cond.id=BR.room_condition_id
-INNER JOIN ebeisdb.building_room_usage BRU ON BR.id=BRU.building_room_id 
-INNER JOIN ebeisdb.ref_actual_usages RAU ON RAU.id=BRU.room_usage_id
+LEFT JOIN ebeisdb.building_room BR ON BS.id=BR.building_structure_id
+
 
 WHERE SPH.sy_from = 2016 
 AND SPH.school_subclassification_id IN (11,13,14)
+AND SPH.general_classification_id = 7
 
 
-GROUP BY 
-school_id,
-bldg_struct, 
-bldg_struct_num,
-bldg_struct_type_id,
-bldg_cond_id,
-bldg_class_id,
-storeys,
-fund_src_id,
-specific_fund_src_id,
-bldg_dimnsn_len,
-bldg_dimnsn_wdth,
-rm_number,
-class_cond_id,
-repair_5yrs,
-rm_dimnsn_len,
-rm_dimnsn_wdth,
-concurrent_usage
+order by school_id, bldg_struct_num, rm_number
+;

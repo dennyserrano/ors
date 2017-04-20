@@ -9,7 +9,9 @@ CREATE TABLE `nsbi_specifics` (
   `bldg_class_id` int(11) DEFAULT NULL,
   `storeys` tinyint(3) DEFAULT '0',
   `fund_src_id` int(11) NOT NULL,
+  `fund_src` varchar(150),
   `specific_fund_src_id` int(11) NOT NULL,
+  `specific_fund_src` varchar(150),
   `bldg_dimnsn_len` float DEFAULT '0',
   `bldg_dimnsn_wdth` float DEFAULT '0',
   `rm_number` smallint(5) DEFAULT '0',
@@ -54,7 +56,11 @@ CREATE TABLE `nsbi_specifics` (
   `youth_dev` tinyint(3) DEFAULT '0',
   `nonInst_aud_vis` tinyint(3) DEFAULT '0',
   `nonInst_notUsed` tinyint(3) DEFAULT '0',
-  `others` tinyint(3) DEFAULT '0',
+  `others` varchar(300),
+  `purely_instructional` tinyint(3) DEFAULT '0',
+  `purely_non_instructional` tinyint(3) DEFAULT '0',
+  `shared_instructional` tinyint(3) DEFAULT '0',
+  
   PRIMARY KEY (`id`),
   KEY `spec_idx` (`sy_from`,`school_id`,`bldg_cond_id`,`bldg_class_id`,`fund_src_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=786421 DEFAULT CHARSET=latin1;

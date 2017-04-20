@@ -10,6 +10,9 @@ bldg_perm,
 bldg_semi_perm,
 bldg_make_shift,
 total_rm,
+purely_instructional,
+purely_non_instructional,
+shared_instructional,
 rm_cond_good,
 rm_cond_minRep,
 rm_cond_majRep,
@@ -159,6 +162,49 @@ WHERE RCS.id=1156 and BS.report_history_id=rh.id AND BST.category=1
 (SELECT IFNULL(SUM(BS.number_of_rooms),0) FROM ebeisdb.building_structure BS 
 WHERE BS.report_history_id=rh.id 
 ) as tot_room,
+
+
+-- PURELY INSTRUCTIONAL
+(SELECT COUNT(BR.id) FROM ebeisdb.building_room BR
+INNER JOIN ebeisdb.building_room_usage BRU
+INNER JOIN ebeisdb.ref_actual_usages AU
+INNER JOIN ebeisdb.building_structure BS
+WHERE AU.category=1 and BS.report_history_id=rh.id) as purely_instructional,
+
+
+-- PURELY NON_INSTRUCTIONAL
+(SELECT COUNT(BR.id) FROM ebeisdb.building_room BR
+INNER JOIN ebeisdb.building_room_usage BRU
+INNER JOIN ebeisdb.ref_actual_usages AU
+INNER JOIN ebeisdb.building_structure BS
+WHERE AU.category=2 and BS.report_history_id=rh.id) as purely_non_instructional,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- SHARED_NON_INST
+(SELECT COUNT(BR.id) FROM ebeisdb.building_room BR
+INNER JOIN ebeisdb.building_room_usage BRU
+INNER JOIN ebeisdb.ref_actual_usages AU
+INNER JOIN ebeisdb.building_structure BS
+WHERE AU.category=2 and BS.report_history_id=rh.id) as shared_instructional,
 
 -- ROOM GOOD CONDITION
 
@@ -632,4 +678,5 @@ LEFT JOIN ebeisdb.report_history rh on (rh.school_id = sph.school_id and rh.sy_f
 
 where sph.sy_from = 2016 
 and sph.school_subclassification_id in (11,13,14)
+and sph.general_classification_id = 7
 GROUP BY sph.sy_from, sph.school_id, rh.id;
