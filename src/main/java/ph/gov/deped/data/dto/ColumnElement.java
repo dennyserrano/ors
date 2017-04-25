@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
@@ -14,7 +15,7 @@ import java.util.List;
 /**
 * Created by PSY on 2014/10/15.
 */
-public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Serializable {
+public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Serializable, TableColumn {
 
     private static final long serialVersionUID = -8460528631378807133L;
 
