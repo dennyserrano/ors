@@ -1,4 +1,4 @@
-package ph.gov.deped.common.util;
+package ph.gov.deped.common.util.builders;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Element;
@@ -24,7 +25,6 @@ public class PrefixTableMapBuilder
 		this.datasetHeads=datasetHeads;
 		this.elements=elements;
 		datasetHeadReferenceMap=new HashMap<Long, DatasetHead>();
-		
 		if(datasetHeads==null)
 			throw new RuntimeException();
 		

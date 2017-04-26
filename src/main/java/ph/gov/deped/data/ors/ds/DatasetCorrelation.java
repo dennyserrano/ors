@@ -65,10 +65,6 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @JoinColumn(name = "right_dataset_head_id", nullable = false)
     private DatasetHead rightDataset;
     
-    @ManyToOne
-    @JoinColumn(name="datasetElementId",insertable=false,updatable=false,nullable=true)
-    private DatasetElement datasetElement;
-    
     private Set<DatasetCorrelationDtl> details;
     
     public DatasetCorrelation() {}
@@ -87,20 +83,6 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
 
 	public void setDetails(Set<DatasetCorrelationDtl> details) {
 		this.details = details;
-	}
-
-
-
-
-
-	public DatasetElement getDatasetElement() {
-		return datasetElement;
-	}
-
-
-
-	public void setDatasetElement(DatasetElement datasetElement) {
-		this.datasetElement = datasetElement;
 	}
 
 

@@ -17,6 +17,7 @@ import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
+import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.*;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -181,13 +182,13 @@ public class DatasetServiceImpl implements DatasetService {
         LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
         FromClauseBuilder fromClauseBuilder = null;
         ColumnElement columnElement;
-        List<ColumnElement> ces;
+        List<TableColumn> ces;
         for (int i = 0; i < prefixTables.size(); i++) {
             PrefixTable pt = prefixTables.get(i);
             ces = new ArrayList<>(pt.getColumns());
             log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
             for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = ces.get(j);
+                columnElement = (ColumnElement) ces.get(j);
                 sortedColumns.add(columnElement);
                 log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
                 fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
@@ -265,12 +266,12 @@ public class DatasetServiceImpl implements DatasetService {
 
         List<Filter> filters = dataset.getFilters();
         Filter filter = null;
-        Optional<ColumnElement> optionalSchoolYearElement = schoolProfilePrefixTable.getColumns().parallelStream()
-                .filter(ce -> ce.getElementName().equals(SCHOOL_YEAR)) // find school year element
+        Optional<TableColumn> optionalSchoolYearElement = schoolProfilePrefixTable.getColumns().parallelStream()
+                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
                 .findFirst();
         ColumnElement schoolYearElement;
         if (optionalSchoolYearElement.isPresent()) {
-            schoolYearElement = optionalSchoolYearElement.get();
+            schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
         }
         else {
             DatasetElement schoolYearDatasetElement = elementRepository.findByDatasetHeadIdAndName(schoolProfilePrefixTable.getDatasetId(), SCHOOL_YEAR);
@@ -474,17 +475,17 @@ public class DatasetServiceImpl implements DatasetService {
     private void lookupMandatoryElements(PrefixTable prefixTable, Set<String> mandatoryElements) {
         long datasetId = prefixTable.getDatasetId();
         // remove mandatory elements first
-        Set<ColumnElement> userSelectedNonMandatoryFields = prefixTable.getColumns().stream()
-                .filter(ce -> !mandatoryElements.contains(ce.getElementName()))
+        Set<TableColumn> userSelectedNonMandatoryFields = prefixTable.getColumns().stream()
+                .filter(ce -> !mandatoryElements.contains(((ColumnElement)ce).getElementName()))
                 .collect(toCollection(LinkedHashSet::new));
         // lookup mandatory elements
-        Set<ColumnElement> mandatoryFields = mandatoryElements.stream()
+        Set<TableColumn> mandatoryFields = mandatoryElements.stream()
                 .map(elementName -> elementRepository.findByDatasetHeadIdAndName(datasetId, elementName))
                 .filter(element -> element != null)
                 .map(element -> new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId())))
                 .collect(toCollection(LinkedHashSet::new));
         // combine mandatory elements and user selected elements
-        Set<ColumnElement> uniqueElements = new LinkedHashSet<>(mandatoryFields);
+        Set<TableColumn> uniqueElements = new LinkedHashSet<>(mandatoryFields);
         uniqueElements.addAll(userSelectedNonMandatoryFields);
         // replace the list of column elements under this prefixed table.
         prefixTable.getColumns().clear();
@@ -625,13 +626,13 @@ public class DatasetServiceImpl implements DatasetService {
         ProjectionBuilder projectionBuilder = read();
         FromClauseBuilder fromClauseBuilder = null;
         ColumnElement columnElement;
-        List<ColumnElement> ces;
+        List<TableColumn> ces;
         for (int i = 0; i < prefixTables.size(); i++) {
             PrefixTable pt = prefixTables.get(i);
             ces = new ArrayList<>(pt.getColumns());
             log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
             for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = ces.get(j);
+                columnElement = (ColumnElement) ces.get(j);
                 log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
                 fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
             }
@@ -708,12 +709,12 @@ public class DatasetServiceImpl implements DatasetService {
 
         List<Filter> filters = dataset.getFilters();
         Filter filter = null;
-        Optional<ColumnElement> optionalSchoolYearElement = schoolProfilePrefixTable.getColumns().parallelStream()
-                .filter(ce -> ce.getElementName().equals(SCHOOL_YEAR)) // find school year element
+        Optional<TableColumn> optionalSchoolYearElement = schoolProfilePrefixTable.getColumns().parallelStream()
+                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
                 .findFirst();
         ColumnElement schoolYearElement;
         if (optionalSchoolYearElement.isPresent()) {
-            schoolYearElement = optionalSchoolYearElement.get();
+            schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
         }
         else {
             DatasetElement schoolYearDatasetElement = elementRepository.findByDatasetHeadIdAndName(schoolProfilePrefixTable.getDatasetId(), SCHOOL_YEAR);
@@ -814,13 +815,13 @@ public class DatasetServiceImpl implements DatasetService {
 	public LinkedList<ColumnElement> getSortedColumns(LinkedList<PrefixTable> prefixTables) 
 	{
 		LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
-		List<ColumnElement> ces;
+		List<TableColumn> ces;
 		ColumnElement columnElement;
 		for (int i = 0; i < prefixTables.size(); i++) {
 			PrefixTable pt = prefixTables.get(i);
             ces = new ArrayList<>(pt.getColumns());
             for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = ces.get(j);
+                columnElement = (ColumnElement) ces.get(j);
                 sortedColumns.add(columnElement);
             }
         }

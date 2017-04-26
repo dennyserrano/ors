@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.xstream.XStream;
 
-import ph.gov.deped.common.util.PrefixTableMapBuilder;
+import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
 import ph.gov.deped.config.ApplicationSpringConfig;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.JoinInfo;
@@ -76,8 +76,8 @@ public class CriteriaQueryTest
 	
 	public void t()
 	{
-		PrefixTable pt=new PrefixTable(null, null, new PrefixTable(null, null, null), null);
-		pt.setJoinColumns(new ArrayList<>());
-		pt.getJoinColumns().add(new JoinInfo<>());
+//		PrefixTable pt=new PrefixTable(null, null, new PrefixTable(null, null, null), null);
+//		pt.setJoinColumns(new ArrayList<>());
+//		pt.getJoinColumns().add(new JoinInfo<>());
 	}
 }

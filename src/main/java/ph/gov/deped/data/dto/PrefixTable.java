@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -65,7 +66,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.joinTables=jt;
         this.joinColumns=jc;
     }
-
+    
     private PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata)
     {
     	this.datasetId = datasetHead.getId();
@@ -135,6 +136,11 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.columns.add(ce);
     }
 
+    public void addColumn(TableColumn c)
+    {
+    	this.columns.add(c);
+    }
+    
     public void addJoinColumn(JoinInfo<ColumnElement, ColumnElement> join)
     {
     	this.joinColumns.add(join);
