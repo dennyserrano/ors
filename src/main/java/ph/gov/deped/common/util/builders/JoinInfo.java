@@ -1,25 +1,18 @@
 package ph.gov.deped.common.util.builders;
 
+import ph.gov.deped.data.dto.EqualityOperatorType;
+import ph.gov.deped.data.dto.JoinOperator;
+
 import com.bits.sql.JoinType;
 
 public class JoinInfo<L,R>
 {
 	private L left;
 	private R right;
-	private JoinType type;
+	private JoinOperator next;
+	private EqualityOperatorType operator;
 	
-	
-	protected JoinInfo(L left, R right, String type) {
-		this(left,right);
-		this.type=JoinType.valueOf(type);
-	}
-	
-	protected JoinInfo(L left,R right, JoinType type){
-		this(left,right);
-		this.type=type;
-	}
-	
-	private JoinInfo(L left,R right)
+	public JoinInfo(L left,R right)
 	{
 		this.left = left;
 		this.right = right;
@@ -38,12 +31,20 @@ public class JoinInfo<L,R>
 		this.right = right;
 	}
 
-	public JoinType getType() {
-		return type;
+	public JoinOperator getNext() {
+		return next;
 	}
 
-	public void setType(JoinType type) {
-		this.type = type;
+	public void setNext(JoinOperator next) {
+		this.next = next;
+	}
+
+	public EqualityOperatorType getOperator() {
+		return operator;
+	}
+
+	public void setOperator(EqualityOperatorType operator) {
+		this.operator = operator;
 	}
 	
 	

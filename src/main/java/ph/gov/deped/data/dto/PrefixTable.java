@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import ph.gov.deped.common.util.builders.JoinInfo;
+import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
@@ -40,11 +42,9 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
     private int ranking;
 
-    protected Set<TableColumn> columns = new LinkedHashSet<>();
-
-    protected Set<PrefixTable> joinTables;
+    private Set<TableColumn> columns = new LinkedHashSet<>();
     
-    protected List<JoinInfo<ColumnElement,ColumnElement>> joinColumns;
+    private Map<PrefixTable,JoinProperty> joinColumns;
     
     public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, ColumnElement... columnElements) {
     	
@@ -52,19 +52,24 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.columns.addAll(asList(columnElements));
     }
     
-    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,Set<PrefixTable> jt,ColumnElement... columnElements) {
-    	
-        this(datasetHead,tableMetadata);
-        this.columns.addAll(asList(columnElements));
-        this.joinTables=jt;
-    }
+//    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,Set<PrefixTable> jt,ColumnElement... columnElements) {
+//    	
+//        this(datasetHead,tableMetadata);
+//        this.columns.addAll(asList(columnElements));
+//        this.joinTables=jt;
+//    }
+//    
+//    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,Set<PrefixTable> jt,JoinInfo<ColumnElement,ColumnElement> joins,ColumnElement... columnElements) {
+//    	
+//        this(datasetHead,tableMetadata);
+//        this.columns.addAll(asList(columnElements));
+//        this.joinTables=jt;
+//        this.joinColumns=joins;
+//    }
     
-    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,Set<PrefixTable> jt,List<JoinInfo<ColumnElement,ColumnElement>> jc,ColumnElement... columnElements) {
-    	
-        this(datasetHead,tableMetadata);
-        this.columns.addAll(asList(columnElements));
-        this.joinTables=jt;
-        this.joinColumns=jc;
+    public void addJoin(PrefixTable prefixTable, JoinProperty join)
+    {
+    	joinColumns.put(prefixTable, join);
     }
     
     private PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata)
@@ -76,25 +81,6 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.tableName = tableMetadata.getTableName();
         this.ranking = datasetHead.getRanking();
     }
-    
-	public Set<PrefixTable> getJoinTables() {
-		return joinTables;
-	}
-	
-	public void addJoin(PrefixTable pt)
-	{
-		joinTables.add(pt);
-	}
-	
-	public void addJoin(Set<PrefixTable> set)
-	{
-		joinTables.addAll(set);
-	}
-	
-	public int getJoinTableSize()
-	{
-		return joinTables.size();
-	}
 	
 	public String getTablePrefix() {
         return tablePrefix;
@@ -140,25 +126,14 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     {
     	this.columns.add(c);
     }
-    
-    public void addJoinColumn(JoinInfo<ColumnElement, ColumnElement> join)
-    {
-    	this.joinColumns.add(join);
-    }
-    
-    public int compareTo(PrefixTable o) {
+	public int compareTo(PrefixTable o) {
         return new Integer(getRanking()).compareTo(new Integer(o.getRanking()));
     }
 
-    
-    
-    public List<JoinInfo<ColumnElement, ColumnElement>> getJoinColumns() {
-		return joinColumns;
-	}
+	
 
-	public void setJoinColumns(
-			List<JoinInfo<ColumnElement, ColumnElement>> joinColumns) {
-		this.joinColumns = joinColumns;
+	public Map<PrefixTable, JoinProperty> getJoinColumns() {
+		return joinColumns;
 	}
 
 	public @Override boolean equals(Object o) {

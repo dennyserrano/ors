@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.EqualityOperatorType;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
+import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
@@ -17,6 +20,13 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class PrefixTableBuilder 
 {
+	
+	private JoinInfoBuilder joinInfoBuilder;
+	
+	public PrefixTableBuilder() {
+		joinInfoBuilder=new JoinInfoBuilder();
+	}
+	
 	public PrefixTable build(DatasetHead dh)
 	{
 		PrefixTable pt= new PrefixTable(dh, dh.getTableMetaData());
@@ -27,9 +37,19 @@ public class PrefixTableBuilder
 	private Set<PrefixTable> findAutoJoinTables(DatasetHead dh)
 	{
 		Set<PrefixTable> hs=new HashSet<PrefixTable>();
-		List<DatasetCorrelation> correlationList=mergeTables(dh.getDatasetElements());
-		
-		
+		List<DatasetCorrelationGroup> correlationList=mergeColElementGroup(dh.getDatasetElements());
+		PrefixTable head=ConvertUtil.toPrefixTable(dh);
+		List<JoinInfo<DatasetElement, DatasetElement>> joinList=new ArrayList<JoinInfo<DatasetElement,DatasetElement>>();
+		for(DatasetCorrelationGroup dc:correlationList)
+		{
+			for(DatasetCorrelationGroupDtl dtl:dc.getGroupDetails())
+			{
+				Set<DatasetCorrelationDtl> correlationDetails= dtl.getDatasetCorrelation().getDetails();
+				
+				for(DatasetCorrelationDtl correlationDetail:correlationDetails)
+					joinInfoBuilder.build(correlationDetail.getLeftElement(), correlationDetail.getRightElement(),EqualityOperatorType.valueOf(correlationDetail.getOperator().getName()));
+			}
+		}
 	}
 	
 	//check if the left table of the first element of the dataset correlation 
@@ -43,19 +63,15 @@ public class PrefixTableBuilder
 	//per DatasetElement, collects each and every auto join table.
 	//there is a possibility that mutiple columns has the same join table
 	//this should be merged.
-	private List<DatasetCorrelation> mergeTables(Set<DatasetElement> ce)
+	private List<DatasetCorrelationGroup> mergeColElementGroup(Set<DatasetElement> ce)
 	{
-		List<DatasetCorrelation> l=new ArrayList<DatasetCorrelation>();
+		List<DatasetCorrelationGroup> l=new ArrayList<DatasetCorrelationGroup>();
 		for(DatasetElement element:ce)
 		{
 			DatasetCorrelationGroup corGroup= element.getDatasetCorrelationGroup();
 			if(corGroup!=null)
-				for(DatasetCorrelationGroupDtl grpDtl:corGroup.getGroupDetails())
-					{
-						DatasetCorrelation correlation=grpDtl.getDatasetCorrelation();
-						if(!l.contains(correlation))
-							l.add(correlation);
-					}
+				if(!l.contains(corGroup))
+					l.add(corGroup);
 		}
 		return l;
 	}

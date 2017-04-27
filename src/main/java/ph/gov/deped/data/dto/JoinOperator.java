@@ -1,11 +1,13 @@
 package ph.gov.deped.data.dto;
 
+import ph.gov.deped.common.util.builders.JoinInfo;
+
 public class JoinOperator 
 {
 	private JoinInfo<ColumnElement,ColumnElement> joinInfo;
-	private OperatorType operator;
+	private ConditionalOperatorType operator;
 	public JoinOperator(JoinInfo<ColumnElement, ColumnElement> joinInfo,
-			OperatorType operator) {
+			ConditionalOperatorType operator) {
 		super();
 		this.joinInfo = joinInfo;
 		this.operator = operator;
@@ -19,12 +21,6 @@ public class JoinOperator
 	}
 	public void setJoinInfo(JoinInfo<ColumnElement, ColumnElement> joinInfo) {
 		this.joinInfo = joinInfo;
-	}
-	public OperatorType getOperator() {
-		return operator;
-	}
-	public void setOperator(OperatorType operator) {
-		this.operator = operator;
 	}
 	
 	
