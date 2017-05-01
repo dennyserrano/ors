@@ -10,11 +10,11 @@ public class JoinProperty {
 	private JoinInfo<ColumnElement, ColumnElement> joinInfo;
 	
 	
-	public JoinProperty() {
+	protected JoinProperty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public JoinProperty(JoinType joinType,
+	protected JoinProperty(JoinType joinType,
 			JoinInfo<ColumnElement, ColumnElement> joinInfo) {
 		super();
 		this.joinType = joinType;

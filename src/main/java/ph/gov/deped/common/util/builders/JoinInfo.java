@@ -12,10 +12,23 @@ public class JoinInfo<L,R>
 	private JoinOperator next;
 	private EqualityOperatorType operator;
 	
-	public JoinInfo(L left,R right)
+	public JoinInfo(L left,R right,EqualityOperatorType operator)
 	{
-		this.left = left;
-		this.right = right;
+		this(left,right);
+		this.operator=operator;
+	}
+	
+	public JoinInfo(L left,R right,EqualityOperatorType operator,JoinOperator next)
+	{
+		this(left,right);
+		this.operator=operator;
+		this.next=next;
+	}
+	
+	private JoinInfo(L left,R right)
+	{
+		this.left=left;
+		this.right=right;
 	}
 	
 	public L getLeft() {
