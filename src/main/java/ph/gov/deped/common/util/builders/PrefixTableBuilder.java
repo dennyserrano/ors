@@ -20,11 +20,10 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class PrefixTableBuilder 
 {
-	
-	private JoinInfoBuilder joinInfoBuilder;
-	
+
+	private JoinPropertyBuilder joinPropertyBuilder;
 	public PrefixTableBuilder() {
-		joinInfoBuilder=new JoinInfoBuilder();
+		joinPropertyBuilder=new JoinPropertyBuilder();
 	}
 	
 	public PrefixTable build(DatasetHead dh)
@@ -46,10 +45,12 @@ public class PrefixTableBuilder
 			{
 				Set<DatasetCorrelationDtl> correlationDetails= dtl.getDatasetCorrelation().getDetails();
 				
-				for(DatasetCorrelationDtl correlationDetail:correlationDetails)
-					joinInfoBuilder.build(correlationDetail.getLeftElement(), correlationDetail.getRightElement(),EqualityOperatorType.valueOf(correlationDetail.getOperator().getName()));
+				for(DatasetCorrelationDtl correlationDetail:correlationDetails);
+//					joinInfoBuilder.build(correlationDetail.getLeftElement(), correlationDetail.getRightElement(),EqualityOperatorType.valueOf(correlationDetail.getOperator().getName()));
 			}
 		}
+		
+		return null;
 	}
 	
 	//check if the left table of the first element of the dataset correlation 

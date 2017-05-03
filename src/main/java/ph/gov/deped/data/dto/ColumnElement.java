@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
@@ -43,7 +44,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 
     private List<JoinInfo<PrefixTable,PrefixTable>> columnCorrelations;
     
-    public ColumnElement(DatasetElement element, ColumnMetadata column) {
+	public ColumnElement(DatasetElement element, ColumnMetadata column) {
         this.elementId = element.getId();
         this.columnId = column.getColumnId();
         this.elementName = element.getName();

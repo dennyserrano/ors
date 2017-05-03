@@ -32,7 +32,16 @@ public class ConvertUtil
 	
 	public static ColumnElement toColumnElement(DatasetElement de)
 	{
-		return new ColumnElement(de, de.getColumnMetaData());
+		ColumnElement ce= new ColumnElement(de, de.getColumnMetaData());
+//		ce.setTablePrefix("a");
+		return ce;
+	}
+	
+	public static ColumnElement toColumnElement(DatasetElement de,String tablePrefix)
+	{
+		ColumnElement ce= new ColumnElement(de, de.getColumnMetaData());
+		ce.setTablePrefix(tablePrefix);
+		return ce;
 	}
 	
 	public static JoinInfo<PrefixTable,PrefixTable> toJoinTable(DatasetCorrelation dc)

@@ -13,6 +13,7 @@ import ph.gov.deped.data.ors.meta.TableMetadata;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,28 +45,23 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
     private Set<TableColumn> columns = new LinkedHashSet<>();
     
-    private Map<PrefixTable,JoinProperty> joinColumns;
+    //PrefixTable - the table to be joined. Becomes one (this table) to many.
+    //JoinProperty - defines how the join table be joined to this table (i.e inner join, left join etc)
+    //				- contains the fields that are joined to this table.
+    private Map<PrefixTable,JoinProperty> joinColumns=new HashMap<PrefixTable, JoinProperty>();
     
-    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, ColumnElement... columnElements) {
+    
+    
+    public PrefixTable() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, ColumnElement... columnElements) {
     	
         this(datasetHead,tableMetadata);
         this.columns.addAll(asList(columnElements));
     }
-    
-//    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,Set<PrefixTable> jt,ColumnElement... columnElements) {
-//    	
-//        this(datasetHead,tableMetadata);
-//        this.columns.addAll(asList(columnElements));
-//        this.joinTables=jt;
-//    }
-//    
-//    public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata,Set<PrefixTable> jt,JoinInfo<ColumnElement,ColumnElement> joins,ColumnElement... columnElements) {
-//    	
-//        this(datasetHead,tableMetadata);
-//        this.columns.addAll(asList(columnElements));
-//        this.joinTables=jt;
-//        this.joinColumns=joins;
-//    }
     
     public void addJoin(PrefixTable prefixTable, JoinProperty join)
     {

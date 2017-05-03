@@ -1,5 +1,6 @@
 package ph.gov.deped.data.ors.ds;
 
+import java.util.List;
 import java.util.Set;
 
 public class DatasetCorrelationGroup 
@@ -26,6 +27,8 @@ public class DatasetCorrelationGroup
 	public void setGroupDetails(Set<DatasetCorrelationGroupDtl> groupDetails) {
 		this.groupDetails = groupDetails;
 	}
+	
+	
 	
 	
 }
