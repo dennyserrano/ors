@@ -48,7 +48,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     //PrefixTable - the table to be joined. Becomes one (this table) to many.
     //JoinProperty - defines how the join table be joined to this table (i.e inner join, left join etc)
     //				- contains the fields that are joined to this table.
-    private Map<PrefixTable,JoinProperty> joinColumns=new HashMap<PrefixTable, JoinProperty>();
+    private Map<PrefixTable,JoinProperty> joinTables=new HashMap<PrefixTable, JoinProperty>();
     
     
     
@@ -65,7 +65,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     
     public void addJoin(PrefixTable prefixTable, JoinProperty join)
     {
-    	joinColumns.put(prefixTable, join);
+    	joinTables.put(prefixTable, join);
     }
     
     private PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata)
@@ -128,8 +128,8 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
 	
 
-	public Map<PrefixTable, JoinProperty> getJoinColumns() {
-		return joinColumns;
+	public Map<PrefixTable, JoinProperty> getJoinTables() {
+		return joinTables;
 	}
 
 	public @Override boolean equals(Object o) {

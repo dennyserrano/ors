@@ -43,6 +43,19 @@ public class ConvertUtil
 		ce.setTablePrefix(tablePrefix);
 		return ce;
 	}
+
+	public static ColumnElement toColumnElement(String fieldName)
+	{
+		ColumnElement ce=new ColumnElement(null,fieldName);
+		
+		return ce;
+	}
+	
+	public static ColumnElement toColumnElement(String prefix,String fieldName)
+	{
+		ColumnElement ce=new ColumnElement(fieldName, prefix);
+		return ce;
+	}
 	
 	public static JoinInfo<PrefixTable,PrefixTable> toJoinTable(DatasetCorrelation dc)
 	{

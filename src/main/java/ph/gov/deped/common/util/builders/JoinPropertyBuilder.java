@@ -31,13 +31,18 @@ public class JoinPropertyBuilder
 		JoinProperty jp=new JoinProperty();
 		DatasetCorrelation dc=groupDetail.getDatasetCorrelation();
 		jp.setJoinType(dc.getJoinType());
-		JoinOperator jo=buildJoinInfo(dc.getLeftTablePrefix(),dc.getRightTablePrefix(), new ArrayList<DatasetCorrelationDtl>(dc.getDetails()), 0);
+		JoinOperator jo=buildJoinOperator(dc.getLeftTablePrefix(),dc.getRightTablePrefix(), new ArrayList<DatasetCorrelationDtl>(dc.getDetails()), 0);
 		jp.setJoinInfo(jo.getJoinInfo());
 		jp.setJoinType(JoinType.LEFT_JOIN); //for every correlation group detail, there is no way we can determine if what join is used?
 		return jp;
 	}
 	
-	private JoinOperator buildJoinInfo(String leftPrefix,String rightPrefix,List<DatasetCorrelationDtl> list,int indexBaseCount)
+	public JoinPropertyManualBuilder getManualBuilder()
+	{
+		return new JoinPropertyManualBuilder();
+	}
+	
+	private JoinOperator buildJoinOperator(String leftPrefix,String rightPrefix,List<DatasetCorrelationDtl> list,int indexBaseCount)
 	{
 		
 		if(indexBaseCount<list.size())
@@ -47,13 +52,57 @@ public class JoinPropertyBuilder
 					ConvertUtil.toColumnElement(corDtl.getLeftElement(),leftPrefix),
 					ConvertUtil.toColumnElement(corDtl.getRightElement(),rightPrefix)
 					);
-			ji.setNext(buildJoinInfo(leftPrefix,rightPrefix,list, indexBaseCount+1));
+			ji.setNext(buildJoinOperator(leftPrefix,rightPrefix,list, indexBaseCount+1));
 			return new JoinOperator(ji, ConditionalOperatorType.AND);
 		}
 		else
 			return null;
 	}
 	
+	protected class JoinPropertyManualBuilder
+	{
+		
+		private JoinProperty jp;
+		public JoinPropertyManualBuilder() {
+			super();
+			jp=new JoinProperty();
+		}
+
+		public JoinProperty build()
+		{
+			if(jp.getJoinType()==null)
+				throw new RuntimeException("No Jointype set!");
+			return jp;
+		}
+		
+		public JoinPropertyManualBuilder add(String leftPrefix,String leftElementName,String rightPrefix,String rightElementName)
+		{
+			if(jp.getJoinInfo()==null)
+			{
+				jp.setJoinInfo(joinInfoBuilder.build(ConvertUtil.toColumnElement(leftPrefix,leftElementName), ConvertUtil.toColumnElement(rightPrefix,rightElementName)));
+			}else
+			{
+				JoinInfo ji=jp.getJoinInfo();
+				ji.setNext(new JoinOperator(joinInfoBuilder.build(ConvertUtil.toColumnElement(leftPrefix,leftElementName), ConvertUtil.toColumnElement(rightPrefix,rightElementName)), ConditionalOperatorType.AND));
+			}
+			return this;
+		}
+		
+		public JoinPropertyManualBuilder set(JoinType jt)
+		{
+			jp.setJoinType(jt);
+			return this;
+		}
+		
+	}
 	
+	public static void main(String[] args) {
+		JoinPropertyBuilder jpb=new JoinPropertyBuilder();
+		JoinProperty jp=jpb.getManualBuilder().add("", "", "", "")
+		.add("", "", "", "")
+		.build();
+		
+		System.out.println();
+	}
 	
 }

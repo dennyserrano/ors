@@ -5,6 +5,8 @@ public class DatasetCorrelationGroupDtl
 	private int id;
 	private DatasetCorrelationGroup datasetCorrelationGroup;
 	private DatasetCorrelation datasetCorrelation;
+	private int chainType; //1 - Linear, 2 - Distributed
+	
 	public int getId() {
 		return id;
 	}
@@ -23,6 +25,12 @@ public class DatasetCorrelationGroupDtl
 	}
 	public void setDatasetCorrelation(DatasetCorrelation datasetCorrelation) {
 		this.datasetCorrelation = datasetCorrelation;
+	}
+	public int getChainType() {
+		return chainType;
+	}
+	public void setChainType(int chainType) {
+		this.chainType = chainType;
 	}
 	
 	

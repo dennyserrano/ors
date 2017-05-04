@@ -57,7 +57,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			fromClauseBuilder=projectionBuilder.select(new Projection(pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
 		}
 		
-		for(PrefixTable nextTable:pt.getJoinColumns().keySet())
+		for(PrefixTable nextTable:pt.getJoinTables().keySet())
 			constructSelect(nextTable);
 		
 		return fromClauseBuilder;
@@ -66,7 +66,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	
 	private JoinOrWhereClauseBuilder constructJoins(PrefixTable pt,JoinOrWhereClauseBuilder joinOrWhereClauseBuilder)
 	{
-		Map<PrefixTable,JoinProperty> joinMap= pt.getJoinColumns();
+		Map<PrefixTable,JoinProperty> joinMap= pt.getJoinTables();
 		JoinOrWhereClauseBuilder joinWhere = null;
 		for(Entry<PrefixTable, JoinProperty> joinInfo:joinMap.entrySet())
 		{
@@ -78,7 +78,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			OnClauseBuilder onClauseBuilder=getOnClause(pt, joinTable, joinProp.getJoinType(), joinOrWhereClauseBuilder);
 			joinWhere=constructOn(joinProp.getJoinInfo(), onClauseBuilder);
 			
-			if(joinTable.getJoinColumns().size()!=0)
+			if(joinTable.getJoinTables().size()!=0)
 				constructJoins(joinTable,joinOrWhereClauseBuilder);
 		}
 		return joinWhere;

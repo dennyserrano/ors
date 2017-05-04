@@ -44,6 +44,13 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 
     private List<JoinInfo<PrefixTable,PrefixTable>> columnCorrelations;
     
+    
+    public ColumnElement(String fieldName,String prefix)
+    {
+    	this.tablePrefix=prefix;
+    	this.columnName=fieldName;
+    }
+    
 	public ColumnElement(DatasetElement element, ColumnMetadata column) {
         this.elementId = element.getId();
         this.columnId = column.getColumnId();

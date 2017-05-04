@@ -9,6 +9,7 @@ public class DatasetCorrelationGroup
 	private String name;
 	private Set<DatasetCorrelationGroupDtl> groupDetails;
 	
+	
 	public int getId() {
 		return id;
 	}

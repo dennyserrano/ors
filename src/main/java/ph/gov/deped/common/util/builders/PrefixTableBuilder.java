@@ -43,10 +43,8 @@ public class PrefixTableBuilder
 		{
 			for(DatasetCorrelationGroupDtl dtl:dc.getGroupDetails())
 			{
-				Set<DatasetCorrelationDtl> correlationDetails= dtl.getDatasetCorrelation().getDetails();
+				joinPropertyBuilder.build(dtl);
 				
-				for(DatasetCorrelationDtl correlationDetail:correlationDetails);
-//					joinInfoBuilder.build(correlationDetail.getLeftElement(), correlationDetail.getRightElement(),EqualityOperatorType.valueOf(correlationDetail.getOperator().getName()));
 			}
 		}
 		
