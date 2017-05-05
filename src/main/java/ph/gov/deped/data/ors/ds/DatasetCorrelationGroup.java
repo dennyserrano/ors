@@ -7,7 +7,7 @@ public class DatasetCorrelationGroup
 {
 	private int id;
 	private String name;
-	private Set<DatasetCorrelationGroupDtl> groupDetails;
+	private List<DatasetCorrelationGroupDtl> groupDetails;
 	
 	
 	public int getId() {
@@ -22,12 +22,13 @@ public class DatasetCorrelationGroup
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Set<DatasetCorrelationGroupDtl> getGroupDetails() {
+	public List<DatasetCorrelationGroupDtl> getGroupDetails() {
 		return groupDetails;
 	}
-	public void setGroupDetails(Set<DatasetCorrelationGroupDtl> groupDetails) {
+	public void setGroupDetails(List<DatasetCorrelationGroupDtl> groupDetails) {
 		this.groupDetails = groupDetails;
 	}
+	
 	
 	
 	

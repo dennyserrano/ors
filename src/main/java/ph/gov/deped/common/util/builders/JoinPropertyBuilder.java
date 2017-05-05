@@ -95,14 +95,6 @@ public class JoinPropertyBuilder
 		}
 		
 	}
-	
-	public static void main(String[] args) {
-		JoinPropertyBuilder jpb=new JoinPropertyBuilder();
-		JoinProperty jp=jpb.getManualBuilder().add("", "", "", "")
-		.add("", "", "", "")
-		.build();
-		
-		System.out.println();
-	}
+
 	
 }

@@ -33,6 +33,12 @@ public class PrefixTableBuilder
 		return pt;
 	}
 	
+	public PrefixTable lightBuild(DatasetHead dh) //no auto join included
+	{
+		PrefixTable pt=new PrefixTable(dh, dh.getTableMetaData());
+		return pt;
+	}
+	
 	private Set<PrefixTable> findAutoJoinTables(DatasetHead dh)
 	{
 		Set<PrefixTable> hs=new HashSet<PrefixTable>();
