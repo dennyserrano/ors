@@ -22,14 +22,17 @@ public class PrefixTableBuilder
 {
 
 	private JoinPropertyBuilder joinPropertyBuilder;
+	private CorrelationGroupBuilder correlationGroupBuilder;
 	public PrefixTableBuilder() {
 		joinPropertyBuilder=new JoinPropertyBuilder();
+		correlationGroupBuilder=new CorrelationGroupBuilder();
 	}
 	
 	public PrefixTable build(DatasetHead dh)
 	{
 		PrefixTable pt= new PrefixTable(dh, dh.getTableMetaData());
 		dh.getDatasetElements().forEach(e->pt.addColumn(new ColumnElement(e, e.getColumnMetaData())));
+		findAutoJoinTables(dh);
 		return pt;
 	}
 	
@@ -39,19 +42,16 @@ public class PrefixTableBuilder
 		return pt;
 	}
 	
-	private Set<PrefixTable> findAutoJoinTables(DatasetHead dh)
+	private Map<PrefixTable,JoinProperty> findAutoJoinTables(DatasetHead dh)
 	{
-		Set<PrefixTable> hs=new HashSet<PrefixTable>();
+		HashMap<PrefixTable,JoinProperty> map=new HashMap<PrefixTable, JoinProperty>();
 		List<DatasetCorrelationGroup> correlationList=mergeColElementGroup(dh.getDatasetElements());
 		PrefixTable head=ConvertUtil.toPrefixTable(dh);
-		List<JoinInfo<DatasetElement, DatasetElement>> joinList=new ArrayList<JoinInfo<DatasetElement,DatasetElement>>();
+		PrefixTable hpt=null;
 		for(DatasetCorrelationGroup dc:correlationList)
 		{
-			for(DatasetCorrelationGroupDtl dtl:dc.getGroupDetails())
-			{
-				joinPropertyBuilder.build(dtl);
-				
-			}
+			hpt=correlationGroupBuilder.build(head, dc);
+			
 		}
 		
 		return null;

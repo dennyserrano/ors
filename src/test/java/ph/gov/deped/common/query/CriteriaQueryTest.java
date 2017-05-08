@@ -82,23 +82,23 @@ public class CriteriaQueryTest
 	public void t()
 	{
 		
-		JoinOperator op1=new JoinOperator();
-		JoinInfo ji1= new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
-		op1.setJoinInfo(ji1);
-//		JoinProperty jp1=new JoinProperty(JoinType.LEFT_JOIN,ji1);
-		
-		
-		JoinOperator op2=new JoinOperator();
-		JoinInfo ji2=new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
-		op2.setJoinInfo(ji2);
-		ji1.setNext(op2);
-		
-		
-		JoinOperator op3=new JoinOperator();
-		JoinInfo ji3=new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
-		op3.setJoinInfo(ji3);
-		
-		ji2.setNext(op3);
+//		JoinOperator op1=new JoinOperator();
+//		JoinInfo ji1= new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
+//		op1.setJoinInfo(ji1);
+////		JoinProperty jp1=new JoinProperty(JoinType.LEFT_JOIN,ji1);
+//		
+//		
+//		JoinOperator op2=new JoinOperator();
+//		JoinInfo ji2=new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
+//		op2.setJoinInfo(ji2);
+//		ji1.setNext(op2);
+//		
+//		
+//		JoinOperator op3=new JoinOperator();
+//		JoinInfo ji3=new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
+//		op3.setJoinInfo(ji3);
+//		
+//		ji2.setNext(op3);
 		
 		
 		

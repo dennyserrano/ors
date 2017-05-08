@@ -19,7 +19,6 @@ public class CorrelationGroupBuilder
 	public CorrelationGroupBuilder() {
 		super();
 		joinPropertyBuilder=new JoinPropertyBuilder();
-		prefixTableBuilder=new PrefixTableBuilder();
 	}
 
 	public PrefixTable build(PrefixTable parentTable,DatasetCorrelationGroup group)
@@ -35,34 +34,24 @@ public class CorrelationGroupBuilder
 			throw new RuntimeException(String.format("Disalignment of parent table and group detail relationship for table id %s",parentTable.getDatasetId()));
 		
 		
-		JoinProperty firstRowJp= joinPropertyBuilder.build(firstGroupDetail);
-		PrefixTable firstRowTable= prefixTableBuilder.lightBuild(firstGroupDetail.getDatasetCorrelation().getRightDataset());
-		
-		parentTable.addJoin(firstRowTable, firstRowJp);
-		
-		group.getGroupDetails().remove(0);
-		
-		
+		return getSequence(group.getGroupDetails());
 	}
 	
-	private void findSequence(List<DatasetCorrelationGroupDtl> grpDetails)
+	private PrefixTable getSequence(List<DatasetCorrelationGroupDtl> grpDetails)
 	{
-		
-		
-		
-		return null;
-	}
-	
-	protected class KeyValue<T,K>
-	{
-		private T key; 
-		private K val;
-		public KeyValue(T key, K val) {
-			super();
-			this.key = key;
-			this.val = val;
+		prefixTableBuilder=new PrefixTableBuilder();
+		DatasetCorrelationGroupDtl first=grpDetails.get(0);
+		TableWrapper wrapper=new TableWrapper(prefixTableBuilder.lightBuild(first.getDatasetCorrelation().getLeftDataset()));
+		for(DatasetCorrelationGroupDtl dtl:grpDetails)
+		{
+			if(dtl.getChainType()==1)
+				wrapper.chain(prefixTableBuilder.lightBuild(dtl.getDatasetCorrelation().getRightDataset()),
+								joinPropertyBuilder.build(dtl));
+			else
+				wrapper.append(prefixTableBuilder.lightBuild(dtl.getDatasetCorrelation().getRightDataset()),
+						joinPropertyBuilder.build(dtl));
 		}
 		
-		
+		return wrapper.getHead();
 	}
 }
