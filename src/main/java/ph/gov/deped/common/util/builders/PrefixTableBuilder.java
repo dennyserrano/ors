@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.ColumnElement;
@@ -21,19 +23,24 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 public class PrefixTableBuilder 
 {
 
-	private JoinPropertyBuilder joinPropertyBuilder;
 	private CorrelationGroupBuilder correlationGroupBuilder;
 	public PrefixTableBuilder() {
-		joinPropertyBuilder=new JoinPropertyBuilder();
 		correlationGroupBuilder=new CorrelationGroupBuilder();
 	}
 	
 	public PrefixTable build(DatasetHead dh)
 	{
 		PrefixTable pt= new PrefixTable(dh, dh.getTableMetaData());
-		dh.getDatasetElements().forEach(e->pt.addColumn(new ColumnElement(e, e.getColumnMetaData())));
-		findAutoJoinTables(dh);
+		
+		for(DatasetElement de:dh.getDatasetElements())
+			pt.addColumn(new ColumnElement(de, de.getColumnMetaData()));
+		
+	    for(Entry<PrefixTable, JoinProperty>  entry: findAutoJoinTables(dh).entrySet())
+	    	pt.addJoin(entry.getKey(), entry.getValue());
+	    
+	    
 		return pt;
+		
 	}
 	
 	public PrefixTable lightBuild(DatasetHead dh) //no auto join included
@@ -46,15 +53,13 @@ public class PrefixTableBuilder
 	{
 		HashMap<PrefixTable,JoinProperty> map=new HashMap<PrefixTable, JoinProperty>();
 		List<DatasetCorrelationGroup> correlationList=mergeColElementGroup(dh.getDatasetElements());
-		PrefixTable head=ConvertUtil.toPrefixTable(dh);
-		PrefixTable hpt=null;
-		for(DatasetCorrelationGroup dc:correlationList)
-		{
-			hpt=correlationGroupBuilder.build(head, dc);
-			
-		}
 		
-		return null;
+		PrefixTable head=ConvertUtil.toPrefixTable(dh);
+		for(DatasetCorrelationGroup dc:correlationList)
+			map.putAll(correlationGroupBuilder.build(head, dc));
+		
+		
+		return map;
 	}
 	
 	//check if the left table of the first element of the dataset correlation 
@@ -80,4 +85,14 @@ public class PrefixTableBuilder
 		}
 		return l;
 	}
+	
+	private List<DatasetCorrelationGroupDtl> parentGroupDetails(DatasetHead dh,List<DatasetCorrelationGroupDtl> list)
+	{
+		
+		return list.parallelStream()
+		.filter(e->e.getDatasetCorrelation().getLeftDataset().getId()==dh.getId())
+		.collect(Collectors.toList());
+		
+	}
+	
 }

@@ -21,7 +21,7 @@ public class CorrelationGroupBuilder
 		joinPropertyBuilder=new JoinPropertyBuilder();
 	}
 
-	public PrefixTable build(PrefixTable parentTable,DatasetCorrelationGroup group)
+	public Map<PrefixTable,JoinProperty> build(PrefixTable parentTable,DatasetCorrelationGroup group)
 	{
 		
 		if(group.getGroupDetails().size()==0)
@@ -34,7 +34,10 @@ public class CorrelationGroupBuilder
 			throw new RuntimeException(String.format("Disalignment of parent table and group detail relationship for table id %s",parentTable.getDatasetId()));
 		
 		
-		return getSequence(group.getGroupDetails());
+		PrefixTable headTable= getSequence(group.getGroupDetails());
+		
+		
+		return headTable.getJoinTables();
 	}
 	
 	private PrefixTable getSequence(List<DatasetCorrelationGroupDtl> grpDetails)

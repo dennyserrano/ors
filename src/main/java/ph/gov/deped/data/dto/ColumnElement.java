@@ -171,6 +171,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
                 .append(this.elementId, rhs.elementId)
                 .append(this.columnId, rhs.columnId)
                 .append(this.datasetId, rhs.datasetId)
+                .append(this.columnName,rhs.columnName)
                 .isEquals();
     }
 

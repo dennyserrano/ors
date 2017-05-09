@@ -2,8 +2,11 @@ package ph.gov.deped.common.query;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
+import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.PrefixTableBuilder;
+import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
@@ -13,11 +16,14 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
+import ph.gov.deped.service.data.api.ServiceQueryBuilder;
+import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 
 public class PrefixTableConversionTest
 {
 	
 	static PrefixTableBuilder tableBuilder=new PrefixTableBuilder();
+	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	public static void main(String[] args) {
 		
 		DatasetHead dh=new DatasetHead(1L,"main",1);
@@ -25,22 +31,24 @@ public class PrefixTableConversionTest
 		dh.setTableMetaData(new TableMetadata(1, 1, "","", "", ""));
 		dh.setRanking(1);
 		dh.setDatasetElements(new HashSet<DatasetElement>());
-		DatasetElement de= build("col1");
+		DatasetElement de= build("col1","col1");
 		de.setDatasetCorrelationGroup(getGroup());
 		dh.getDatasetElements().add(de);
-		dh.getDatasetElements().add(build("col2"));
-		dh.getDatasetElements().add(build("col3"));
+		dh.getDatasetElements().add(build("col2","col2"));
+		dh.getDatasetElements().add(build("col3","col3"));
 		PrefixTable resPt=tableBuilder.build(dh);
-		System.out.println();
+		
+		
+		System.out.println(sqb.getQuery(resPt));
 	}
 	
-	private static DatasetElement build(String name)
+	private static DatasetElement build(String name,String colname)
 	{
 		DatasetElement de= new DatasetElement();
 		de.setId(1L);
 		de.setColumnId(1);
 		de.setName(name);
-		de.setColumnMetaData(new ColumnMetadata(1, "", "", false, 0, 1L, false));
+		de.setColumnMetaData(new ColumnMetadata(1, colname, "", false, 0, 1L, false));
 		de.setDatasetHead(buildDh("dummy"));
 		return de;
 	}
@@ -61,8 +69,8 @@ public class PrefixTableConversionTest
 		dc.setRightDataset(right);
 		
 		DatasetCorrelationDtl dtl1=new DatasetCorrelationDtl();
-		dtl1.setLeftElement(build("c1"));
-		dtl1.setRightElement(build("c2"));
+		dtl1.setLeftElement(build("c1","c1"));
+		dtl1.setRightElement(build("c2","c2"));
 		
 		
 		dc.setDetails(new HashSet<DatasetCorrelationDtl>());
