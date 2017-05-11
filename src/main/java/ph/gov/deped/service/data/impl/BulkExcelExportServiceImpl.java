@@ -119,7 +119,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		finally
 		{
 			try {
-				cleanup();
+				cleanup(files);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,20 +149,12 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
     	 return fArr;
     }
 	
-	private void cleanup() throws IOException
+	private void cleanup(String[] files) throws IOException
 	{
-		String baseTempPath = orsSettings.getTmpDir() + File.separator;
-		File f=new File(baseTempPath);
-		for(File file:f.listFiles())
-		{
-			if(file.isFile())
-				{
-					for(String ext:deletionExtension)
-						if(FilenameUtils.getExtension(file.getAbsolutePath()).equals(ext))
-							Files.delete(Paths.get(file.getAbsolutePath()));
-				}
-					
-		}
+		
+		for(String stringFile:files)
+				Files.delete(Paths.get(new File(stringFile).getAbsolutePath()));
+		
 	}
 	
 
