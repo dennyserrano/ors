@@ -26,11 +26,7 @@ public class PrefixTableConversionTest
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	public static void main(String[] args) {
 		
-		DatasetHead dh=new DatasetHead(1L,"main",1);
-		dh.setParentDatasetHead(1L);
-		dh.setTableMetaData(new TableMetadata(1, 1, "","", "", ""));
-		dh.setRanking(1);
-		dh.setDatasetElements(new HashSet<DatasetElement>());
+		DatasetHead dh=buildDh(1l,"main", "mainTable");
 		DatasetElement de= build("col1","col1");
 		de.setDatasetCorrelationGroup(getGroup());
 		dh.getDatasetElements().add(de);
@@ -49,7 +45,7 @@ public class PrefixTableConversionTest
 		de.setColumnId(1);
 		de.setName(name);
 		de.setColumnMetaData(new ColumnMetadata(1, colname, "", false, 0, 1L, false));
-		de.setDatasetHead(buildDh("dummy"));
+		de.setDatasetHead(buildDh(2L,"dummy","tableDummy"));
 		return de;
 	}
 	
@@ -57,7 +53,7 @@ public class PrefixTableConversionTest
 	{
 		DatasetCorrelationGroup g= new DatasetCorrelationGroup();
 		g.setGroupDetails(new ArrayList<DatasetCorrelationGroupDtl>());
-		g.getGroupDetails().add(getGroupDtl(buildDh("dataset1"), buildDh("dataset2"), 1));
+		g.getGroupDetails().add(getGroupDtl(buildDh(1L,"dataset1","table1"), buildDh(4L,"dataset2","table2"), 1));
 		return g;
 	}
 	
@@ -82,10 +78,11 @@ public class PrefixTableConversionTest
 		return dtl;
 	}
 	
-	private static DatasetHead buildDh(String name)
+	private static DatasetHead buildDh(long datasetId,String name,String tableName)
 	{
-		DatasetHead dh= new DatasetHead(1L, name, 0);
-		dh.setTableMetaData(new TableMetadata(1,1, "", "table1", "", ""));
+		DatasetHead dh= new DatasetHead(datasetId, name, 0);
+		dh.setDatasetElements(new HashSet<DatasetElement>());
+		dh.setTableMetaData(new TableMetadata(1,1, "", tableName, "", ""));
 		dh.setParentDatasetHead(1L);
 		dh.setRanking(1);
 		return dh;
