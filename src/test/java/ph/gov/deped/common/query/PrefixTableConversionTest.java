@@ -57,25 +57,41 @@ public class PrefixTableConversionTest
 		return g;
 	}
 	
-	private static DatasetCorrelationGroupDtl getGroupDtl(DatasetHead left,DatasetHead right,int chainType)
+//	private static DatasetCorrelationGroupDtl getGroupDtl(DatasetHead left,DatasetHead right,int chainType)
+//	{
+//		DatasetCorrelationGroupDtl dtl= new DatasetCorrelationGroupDtl();
+//		DatasetCorrelation dc= new DatasetCorrelation();
+//		dc.setLeftDataset(left);
+//		dc.setRightDataset(right);
+//		
+//		DatasetCorrelationDtl dtl1=new DatasetCorrelationDtl();
+//		dtl1.setLeftElement(build("c1","c1"));
+//		dtl1.setRightElement(build("c2","c2"));
+//		
+//		
+//		dc.setDetails(new HashSet<DatasetCorrelationDtl>());
+//		dc.getDetails().add(dtl1);
+//		
+//		dtl.setChainType(chainType);
+//		dtl.setDatasetCorrelation(dc);
+//		
+//		return dtl;
+//	}
+	
+	private static DatasetCorrelation getCor(DatasetHead left,DatasetHead right)
 	{
-		DatasetCorrelationGroupDtl dtl= new DatasetCorrelationGroupDtl();
 		DatasetCorrelation dc= new DatasetCorrelation();
 		dc.setLeftDataset(left);
 		dc.setRightDataset(right);
-		
+		return dc;
+	}
+	
+	private static DatasetCorrelationDtl getCorDtl(DatasetElement left,DatasetElement right)
+	{
 		DatasetCorrelationDtl dtl1=new DatasetCorrelationDtl();
-		dtl1.setLeftElement(build("c1","c1"));
-		dtl1.setRightElement(build("c2","c2"));
-		
-		
-		dc.setDetails(new HashSet<DatasetCorrelationDtl>());
-		dc.getDetails().add(dtl1);
-		
-		dtl.setChainType(chainType);
-		dtl.setDatasetCorrelation(dc);
-		
-		return dtl;
+		dtl1.setLeftElement(left);
+		dtl1.setRightElement(right);
+		return dtl1;
 	}
 	
 	private static DatasetHead buildDh(long datasetId,String name,String tableName)
