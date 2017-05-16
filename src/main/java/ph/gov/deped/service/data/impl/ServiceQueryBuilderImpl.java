@@ -41,6 +41,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	@Override
 	public String getQuery(PrefixTable pt) 
 	{
+		
 		FromClauseBuilder fromClauseBuilder=constructSelect(pt);
 		JoinOrWhereClauseBuilder joinOrWhereClauseBuilder=constructFrom(pt,fromClauseBuilder);
 		joinOrWhereClauseBuilder=constructJoins(pt, joinOrWhereClauseBuilder);

@@ -33,7 +33,6 @@ public class CorrelationGroupBuilder
 		if(firstGroupDetail.getDatasetCorrelation().getLeftDataset().getId()!=parentTable.getDatasetId()) 
 			throw new RuntimeException(String.format("Disalignment of parent table and group detail relationship for table id %s",parentTable.getDatasetId()));
 		
-		
 		PrefixTable headTable= getSequence(group.getGroupDetails());
 		
 		
