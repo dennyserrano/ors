@@ -75,8 +75,11 @@ public class JoinPropertyBuilder
 			return jp;
 		}
 		
+		//automatically set the next JoinProperty when add is invoked
+		//so multiple add invocation would result in chain of join properties
 		public JoinPropertyManualBuilder add(String leftPrefix,String leftElementName,String rightPrefix,String rightElementName)
 		{
+			
 			if(jp.getJoinInfo()==null)
 			{
 				jp.setJoinInfo(joinInfoBuilder.build(ConvertUtil.toColumnElement(leftPrefix,leftElementName), ConvertUtil.toColumnElement(rightPrefix,rightElementName)));

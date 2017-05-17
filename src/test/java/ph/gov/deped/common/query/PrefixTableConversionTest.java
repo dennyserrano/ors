@@ -11,6 +11,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ph.gov.deped.common.util.builders.JoinProperty;
+import ph.gov.deped.common.util.builders.JoinPropertyBuilder;
 import ph.gov.deped.common.util.builders.PrefixTableBuilder;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.ColumnElement;
@@ -68,6 +69,7 @@ public class PrefixTableConversionTest
 		dh.getDatasetElements().add(build("col2","col2"));
 		dh.getDatasetElements().add(build("col3","col3"));
 		PrefixTable resPt=tableBuilder.build(dh);
+		
 		sqb.getQuery(resPt);
 	}
 	
@@ -82,28 +84,28 @@ public class PrefixTableConversionTest
 		table2.setDatasetElements(new HashSet<DatasetElement>());
 		table2.getDatasetElements().add(build("i1", "i2"));
 		
-		de.setDatasetCorrelationGroup(
-				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
-				.getGroupDetailBuilder()
-				.add( 
-						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-						.set("t1", buildDh(1, "table1", "table1"), "t2", table2)
-						.getDtlBuilder()
-						.add(build("c1", "c1"), build("c2","c2"))
-						.build()
-						.build()
-						)
-				.add(
-						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-						.set("t1", buildDh(1, "table1", "table1"), "t3", buildDh(3,"table3","table3"))
-						.getDtlBuilder()
-						.add(build("c1", "c1"), build("c2","c2"))
-						.build()
-						.build()
-						)
-				.build()
-				.build()
-				);
+//		de.setDatasetCorrelationGroup(
+//				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
+//				.getGroupDetailBuilder()
+//				.add( 
+//						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+//						.set("t1", buildDh(1, "table1", "table1"), "t2", table2)
+//						.getDtlBuilder()
+//						.add(build("c1", "c1"), build("c2","c2"))
+//						.build()
+//						.build()
+//						)
+//				.add(
+//						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+//						.set("t1", buildDh(1, "table1", "table1"), "t3", buildDh(3,"table3","table3"))
+//						.getDtlBuilder()
+//						.add(build("c1", "c1"), build("c2","c2"))
+//						.build()
+//						.build()
+//						)
+//				.build()
+//				.build()
+//				);
 		
 		PrefixTable resPt=tableBuilder.build(dh);
 		
