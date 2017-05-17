@@ -5,8 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.PrefixTableBuilder;
+import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
@@ -20,21 +26,86 @@ import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = {
+        TestAppConfig.class
+})
 public class PrefixTableConversionTest
 {
 	
 	static PrefixTableBuilder tableBuilder=new PrefixTableBuilder();
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
-	public static void main(String[] args) {
-		
-		DatasetHead dh=buildDh(1l,"main", "mainTable");
+	
+	
+	@Test
+	public void test1()
+	{
+		DatasetHead dh=buildDh(1l,"school_profile_history", "sph");
 		DatasetElement de= build("col1","col1");
-		de.setDatasetCorrelationGroup(getGroup("group1"));
+		de.setDatasetCorrelationGroup(
+				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
+				.getGroupDetailBuilder()
+				.add( 
+						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+						.set("t1", buildDh(1, "table1", "table1"), "t2", buildDh(2,"table2","table2"))
+						.getDtlBuilder()
+						.add(build("c1", "c1"), build("c2","c2"))
+						.build()
+						.build()
+						)
+				.add(
+						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+						.set("t1", buildDh(1, "table1", "table1"), "t3", buildDh(3,"table3","table3"))
+						.getDtlBuilder()
+						.add(build("c1", "c1"), build("c2","c2"))
+						.build()
+						.build()
+						)
+				.build()
+				.build()
+				);
 		dh.getDatasetElements().add(de);
 		dh.getDatasetElements().add(build("col2","col2"));
 		dh.getDatasetElements().add(build("col3","col3"));
 		PrefixTable resPt=tableBuilder.build(dh);
-		resPt.setTablePrefix("tr1");
+		sqb.getQuery(resPt);
+	}
+	
+	public static void main(String[] args) {
+		
+		DatasetHead dh=buildDh(1l,"school_prof_history", "sph");
+		
+		dh.getDatasetElements().add(build("sy_from","sy_from"));
+		dh.getDatasetElements().add(build("region_shortname","region_shortname"));
+		
+		DatasetHead table2=buildDh(2,"table2","table2");
+		table2.setDatasetElements(new HashSet<DatasetElement>());
+		table2.getDatasetElements().add(build("i1", "i2"));
+		
+		de.setDatasetCorrelationGroup(
+				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
+				.getGroupDetailBuilder()
+				.add( 
+						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+						.set("t1", buildDh(1, "table1", "table1"), "t2", table2)
+						.getDtlBuilder()
+						.add(build("c1", "c1"), build("c2","c2"))
+						.build()
+						.build()
+						)
+				.add(
+						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+						.set("t1", buildDh(1, "table1", "table1"), "t3", buildDh(3,"table3","table3"))
+						.getDtlBuilder()
+						.add(build("c1", "c1"), build("c2","c2"))
+						.build()
+						.build()
+						)
+				.build()
+				.build()
+				);
+		
+		PrefixTable resPt=tableBuilder.build(dh);
 		
 		System.out.println(sqb.getQuery(resPt));
 	}
@@ -50,38 +121,6 @@ public class PrefixTableConversionTest
 		return de;
 	}
 	
-	private static DatasetCorrelationGroup getGroup(String name)
-	{
-		DatasetGroupBuilder groupBuilder=new PrefixTableConversionTest() .new DatasetGroupBuilder();
-		
-		groupBuilder.getGroupDetailBuilder()
-		.add(
-				new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-				.set("tr1",buildDh(1, "tabl1", "table1"), "tr2",buildDh(2,"tabl2","table2"))
-				.getDtlBuilder()
-				.add(build("c1", "c1"), build("c2","c2"))
-				.build()
-				.build()
-				
-				, 1)
-		.add(
-				new PrefixTableConversionTest().new DatasetCorrelationBuilder().set("t3",buildDh(3, "t3", "t3"), "t2",buildDh(4,"t4","t4"))
-				.getDtlBuilder().add(build("c3", "c3"), build("c4","c4"))
-				.build()
-				.build()
-				
-				, 1);
-//		.add(dc, chainType)
-		
-		groupBuilder.setName(name);
-		
-//		.add(null);
-		DatasetCorrelationGroup g=groupBuilder.build();
-		
-		
-		return g;
-	}
-	
 	private static DatasetCorrelationGroupDtl getGroupDtl(DatasetHead left,DatasetHead right,int chainType)
 	{
 		DatasetCorrelationGroupDtl dtl= new DatasetCorrelationGroupDtl();
@@ -92,14 +131,6 @@ public class PrefixTableConversionTest
 		return dtl;
 	}
 	
-	
-	private static DatasetCorrelation getCor(DatasetHead left,DatasetHead right)
-	{
-		DatasetCorrelation dc= new DatasetCorrelation();
-		dc.setLeftDataset(left);
-		dc.setRightDataset(right);
-		return dc;
-	}
 	
 	private static DatasetCorrelationDtl getCorDtl(DatasetElement left,DatasetElement right)
 	{
@@ -128,13 +159,14 @@ public class PrefixTableConversionTest
 		private DatasetCorrelationGroup group;
 		public DatasetGroupBuilder()
 		{
-			detailBuilder=new DatasetGroupDetailBuilder();
+			detailBuilder=new DatasetGroupDetailBuilder(this);
 			group=new DatasetCorrelationGroup();
 		}
 		
-		public void setName(String name)
+		public DatasetGroupBuilder setName(String name)
 		{
 			group.setName(name);
+			return this;
 		}
 		
 		public DatasetGroupDetailBuilder getGroupDetailBuilder()
@@ -152,10 +184,11 @@ public class PrefixTableConversionTest
 	class DatasetGroupDetailBuilder
 	{
 		private List<DatasetCorrelationGroupDtl> list;
-		
-		public DatasetGroupDetailBuilder()
+		private DatasetGroupBuilder parent;
+		public DatasetGroupDetailBuilder(DatasetGroupBuilder parent)
 		{
 			list=new ArrayList<DatasetCorrelationGroupDtl>();
+			this.parent=parent;
 		}
 		
 		public DatasetGroupDetailBuilder add(DatasetCorrelationGroupDtl dtl)
@@ -165,11 +198,11 @@ public class PrefixTableConversionTest
 			return this;
 		}
 		
-		public DatasetGroupDetailBuilder add(DatasetCorrelation dc,int chainType)
+		public DatasetGroupDetailBuilder add(DatasetCorrelation dc)
 		{
 			DatasetCorrelationGroupDtl dtl=new DatasetCorrelationGroupDtl();
 			dtl.setDatasetCorrelation(dc);
-			dtl.setChainType(chainType);
+//			dtl.setChainType(chainType);
 			list.add(dtl);
 			return this;
 		}
@@ -178,7 +211,10 @@ public class PrefixTableConversionTest
 			return list;
 		}
 		
-		
+		public DatasetGroupBuilder build()
+		{
+			return parent;
+		}
 		
 	}
 	

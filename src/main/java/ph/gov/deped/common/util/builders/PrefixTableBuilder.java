@@ -34,11 +34,11 @@ public class PrefixTableBuilder
 		
 		for(DatasetElement de:dh.getDatasetElements())
 			pt.addColumn(new ColumnElement(de, de.getColumnMetaData()));
-		
-	    for(Entry<PrefixTable, JoinProperty>  entry: findAutoJoinTables(dh).entrySet())
+		AutoJoinTableResult autoResult= findAutoJoinTables(dh);
+	    for(Entry<PrefixTable, JoinProperty>  entry: autoResult.getMap().entrySet())
 	    	pt.addJoin(entry.getKey(), entry.getValue());
 	    
-	    
+	    pt.setTablePrefix(autoResult.headPrefix);
 		return pt;
 		
 	}
@@ -49,17 +49,21 @@ public class PrefixTableBuilder
 		return pt;
 	}
 	
-	private Map<PrefixTable,JoinProperty> findAutoJoinTables(DatasetHead dh)
+	private AutoJoinTableResult findAutoJoinTables(DatasetHead dh)
 	{
 		HashMap<PrefixTable,JoinProperty> map=new HashMap<PrefixTable, JoinProperty>();
 		List<DatasetCorrelationGroup> correlationList=mergeColElementGroup(dh.getDatasetElements());
 		
+		//assignment of the parent table prefix is done via reference
+		//so upon invocation of correlationGroupBuilder.build(), the head.tablePrefix is filled with the parent prefix
+		//which is via DatasetCorrelation
 		PrefixTable head=ConvertUtil.toPrefixTable(dh);
 		for(DatasetCorrelationGroup dc:correlationList)
-			map.putAll(correlationGroupBuilder.build(head, dc));
+				map.putAll(correlationGroupBuilder.build(head, dc));
+			
 		
 		
-		return map;
+		return new AutoJoinTableResult(head.getTablePrefix(), map);
 	}
 	
 	//check if the left table of the first element of the dataset correlation 
@@ -92,6 +96,25 @@ public class PrefixTableBuilder
 		return list.parallelStream()
 		.filter(e->e.getDatasetCorrelation().getLeftDataset().getId()==dh.getId())
 		.collect(Collectors.toList());
+		
+	}
+	
+	private class AutoJoinTableResult
+	{
+		private String headPrefix;
+		private Map<PrefixTable, JoinProperty> map;
+		public AutoJoinTableResult(String headPrefix, Map map) {
+			super();
+			this.headPrefix = headPrefix;
+			this.map = map;
+		}
+		public String getHeadPrefix() {
+			return headPrefix;
+		}
+		public Map<PrefixTable, JoinProperty> getMap() {
+			return map;
+		}
+		
 		
 	}
 	

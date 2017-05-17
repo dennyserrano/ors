@@ -69,6 +69,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	{
 		Map<PrefixTable,JoinProperty> joinMap= pt.getJoinTables();
 		JoinOrWhereClauseBuilder joinWhere = null;
+		
 		for(Entry<PrefixTable, JoinProperty> joinInfo:joinMap.entrySet())
 		{
 			PrefixTable joinTable=joinInfo.getKey();
@@ -82,6 +83,10 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			if(joinTable.getJoinTables().size()!=0)
 				constructJoins(joinTable,joinOrWhereClauseBuilder);
 		}
+		
+		if(joinWhere==null)
+			joinWhere=joinOrWhereClauseBuilder;
+		
 		return joinWhere;
 	}
 	
