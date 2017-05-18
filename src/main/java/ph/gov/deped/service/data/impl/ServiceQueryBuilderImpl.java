@@ -55,7 +55,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		for(TableColumn tc:pt.getColumns())
 		{
 			ColumnElement ce=(ColumnElement)tc;
-			fromClauseBuilder=projectionBuilder.select(new Projection(pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
+			fromClauseBuilder=projectionBuilder.select(new Projection(ce.getTablePrefix()!=null?ce.getTablePrefix():pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
 		}
 		
 		for(PrefixTable nextTable:pt.getJoinTables().keySet())

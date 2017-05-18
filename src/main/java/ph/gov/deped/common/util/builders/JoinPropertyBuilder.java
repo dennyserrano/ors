@@ -37,6 +37,11 @@ public class JoinPropertyBuilder
 		return jp;
 	}
 	
+	public JoinProperty build(DatasetHead d1,DatasetHead d2)
+	{
+		return null;
+	}
+	
 	public JoinPropertyManualBuilder getManualBuilder()
 	{
 		return new JoinPropertyManualBuilder();

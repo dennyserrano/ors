@@ -1,5 +1,7 @@
 package ph.gov.deped.common.util.builders;
 
+import java.util.List;
+
 import ph.gov.deped.data.dto.PrefixTable;
 
 public class TableWrapper
@@ -32,4 +34,24 @@ public class TableWrapper
 	{
 		head.addJoin(pt, jp);
 	}
+	
+	public PrefixTable findTail()
+	{
+		tail= find(head);
+		return tail;
+	}
+	
+	private PrefixTable find(PrefixTable pt) //finds the first encounters of all successor PrefixTables
+	{
+		if(pt.getJoinTables().size()!=0)
+		{
+			PrefixTable firstOne = null;
+			for(PrefixTable nextPt:pt.getJoinTables().keySet())
+				firstOne=nextPt;
+			
+			return find(firstOne);
+		}else
+			return pt;
+	}
+	
 }

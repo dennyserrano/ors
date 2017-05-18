@@ -63,6 +63,12 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.columns.addAll(asList(columnElements));
     }
     
+	public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, Set<ColumnElement> elements) {
+    	
+        this(datasetHead,tableMetadata);
+        this.columns=new HashSet<TableColumn>(elements);
+    }
+	
     public void addJoin(PrefixTable prefixTable, JoinProperty join)
     {
     	joinTables.put(prefixTable, join);

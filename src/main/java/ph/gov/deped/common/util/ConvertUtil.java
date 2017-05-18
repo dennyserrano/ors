@@ -1,6 +1,7 @@
 package ph.gov.deped.common.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class ConvertUtil
 {
 	public static PrefixTable toPrefixTable(DatasetHead dh)
 	{
-		List<ColumnElement> columnElementList=new ArrayList<ColumnElement>();
+		HashSet<ColumnElement> columnElementList=new HashSet<ColumnElement>();
 		if(dh.getDatasetElements()!=null)
 		{
 			dh.getDatasetElements().forEach(e->{
@@ -27,7 +28,7 @@ public class ConvertUtil
 		
 		ColumnElement[] ce=new ColumnElement[columnElementList.size()];
 		
-		return new PrefixTable(dh, dh.getTableMetaData(), ce);
+		return new PrefixTable(dh, dh.getTableMetaData(), columnElementList);
 	}
 	
 	public static ColumnElement toColumnElement(DatasetElement de)
