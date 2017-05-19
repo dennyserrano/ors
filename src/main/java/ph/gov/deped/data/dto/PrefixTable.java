@@ -111,8 +111,12 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     public int getRanking() {
         return ranking;
     }
+    
+    public void setColumns(Set<TableColumn> columns) {
+		this.columns = columns;
+	}
 
-    public Set<TableColumn> getColumns() {
+	public Set<TableColumn> getColumns() {
         return columns;
     }
 

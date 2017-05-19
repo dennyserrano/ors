@@ -12,6 +12,7 @@ public class TableWrapper
 	public TableWrapper(PrefixTable head)
 	{
 		this.head=head;
+		this.tail=head;
 	}
 	
 	public PrefixTable getHead()
@@ -21,7 +22,7 @@ public class TableWrapper
 	
 	public void chain(PrefixTable pt,JoinProperty jp)
 	{
-		head.addJoin(pt, jp);
+		tail.addJoin(pt, jp);
 		tail=pt;
 	}
 	
@@ -32,7 +33,7 @@ public class TableWrapper
 	
 	public void append(PrefixTable pt,JoinProperty jp)
 	{
-		head.addJoin(pt, jp);
+		tail.addJoin(pt, jp);
 	}
 	
 	public PrefixTable findTail()

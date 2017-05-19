@@ -104,7 +104,7 @@ public class CriteriaQueryTest
 		
 		
 		
-		PrefixTable pt=new PrefixTable(null,null,null);
+//		PrefixTable pt=new PrefixTable(null,null,null);
 		
 		
 		
