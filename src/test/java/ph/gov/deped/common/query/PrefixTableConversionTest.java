@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.JoinPropertyBuilder;
 import ph.gov.deped.common.util.builders.PrefixTableBuilder;
+import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
@@ -34,14 +35,28 @@ import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 public class PrefixTableConversionTest
 {
 	
-	static PrefixTableBuilder tableBuilder=new PrefixTableBuilder();
+	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl();
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	
 	
-	@Test
-	public void test1()
+	
+	public static void main(String[] args) {
+		
+		
+		ArrayList<DatasetHead> children=new ArrayList<DatasetHead>();
+		children.add(getNsbiTable());
+		
+		DatasetHead root= getRootTable();
+		
+		PrefixTable finalTable = tableBuilder.chain(root, children);
+
+		System.out.println(sqb.getQuery(finalTable));
+	}
+	
+	
+	private static DatasetHead getNsbiTable()
 	{
-		DatasetHead dh=buildDh(1l,"school_profile_history", "sph");
+		DatasetHead dh=buildDh(1l,"nsbi_specifics", "nsbi_spec");
 		DatasetElement de= build("col1","col1");
 		de.setDatasetCorrelationGroup(
 				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
@@ -56,7 +71,7 @@ public class PrefixTableConversionTest
 						)
 				.add(
 						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-						.set("t1", buildDh(1, "table1", "table1"), "t3", buildDh(3,"table3","table3"))
+						.set("t2", buildDh(2, "table2", "table2"), "t3", buildDh(3,"table3","table3"))
 						.getDtlBuilder()
 						.add(build("c1", "c1"), build("c2","c2"))
 						.build()
@@ -68,84 +83,18 @@ public class PrefixTableConversionTest
 		dh.getDatasetElements().add(de);
 		dh.getDatasetElements().add(build("col2","col2"));
 		dh.getDatasetElements().add(build("col3","col3"));
-		PrefixTable resPt=tableBuilder.build(dh);
-		
-		sqb.getQuery(resPt);
+		return dh;
 	}
 	
-	public static void main(String[] args) {
-		
-		
-		
-		DatasetHead dh=buildDh(1l,"school_profile_history", "sph");
-		DatasetElement de= build("col1","col1");
-//		de.setDatasetCorrelationGroup(
-//				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
-//				.getGroupDetailBuilder()
-//				.add( 
-//						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-//						.set("t1", buildDh(1, "table1", "table1"), "t2", buildDh(2,"table2","table2"))
-//						.getDtlBuilder()
-//						.add(build("c1", "c1"), build("c2","c2"))
-//						.build()
-//						.build()
-//						)
-//				.add(
-//						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-//						.set("t2", buildDh(2, "table2", "table2"), "t3", buildDh(3,"table3","table3"))
-//						.getDtlBuilder()
-//						.add(build("c1", "c1"), build("c2","c2"))
-//						.build()
-//						.build()
-//						)
-//				.build()
-//				.build()
-//				);
-		dh.getDatasetElements().add(de);
-		dh.getDatasetElements().add(build("col2","col2"));
-		dh.getDatasetElements().add(build("col3","col3"));
-		PrefixTable resPt=tableBuilder.build(dh);
-		
-		System.out.println(sqb.getQuery(resPt));
-		
-		
-		
-//		DatasetHead dh=buildDh(1l,"school_prof_history", "sph");
-//		
-//		dh.getDatasetElements().add(build("sy_from","sy_from"));
-//		dh.getDatasetElements().add(build("region_shortname","region_shortname"));
-//		
-//		DatasetHead table2=buildDh(2,"table2","table2");
-//		table2.setDatasetElements(new HashSet<DatasetElement>());
-//		table2.getDatasetElements().add(build("i1", "i2"));
-//		
-////		de.setDatasetCorrelationGroup(
-////				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
-////				.getGroupDetailBuilder()
-////				.add( 
-////						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-////						.set("t1", buildDh(1, "table1", "table1"), "t2", table2)
-////						.getDtlBuilder()
-////						.add(build("c1", "c1"), build("c2","c2"))
-////						.build()
-////						.build()
-////						)
-////				.add(
-////						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-////						.set("t1", buildDh(1, "table1", "table1"), "t3", buildDh(3,"table3","table3"))
-////						.getDtlBuilder()
-////						.add(build("c1", "c1"), build("c2","c2"))
-////						.build()
-////						.build()
-////						)
-////				.build()
-////				.build()
-////				);
-//		
-//		PrefixTable resPt=tableBuilder.build(dh);
-//		
-//		System.out.println(sqb.getQuery(resPt));
+	private static DatasetHead getRootTable()
+	{
+		DatasetHead dh=buildDh(8l,"school_prof_history", "school_prof_history");
+		dh.setDatasetElements(new HashSet<DatasetElement>());
+		dh.getDatasetElements().add(build("sy_from", "sy_from"));
+		dh.getDatasetElements().add(build("school_id", "school_id"));
+		return dh;
 	}
+	
 	
 	private static DatasetElement build(String name,String colname)
 	{

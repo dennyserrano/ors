@@ -49,6 +49,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
     {
     	this.tablePrefix=prefix;
     	this.columnName=fieldName;
+    	this.elementName=fieldName;
     }
     
 	public ColumnElement(DatasetElement element, ColumnMetadata column) {

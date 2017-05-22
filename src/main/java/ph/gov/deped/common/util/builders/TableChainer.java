@@ -7,5 +7,5 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public interface TableChainer 
 {
-	public PrefixTable chain(List<DatasetHead> heads);
+	public PrefixTable chain(DatasetHead parent,List<DatasetHead> heads);
 }
