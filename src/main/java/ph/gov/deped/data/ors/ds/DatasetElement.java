@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import java.io.Serializable;
 import java.util.List;
@@ -67,7 +68,8 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
     private ColumnMetadata columnMetaData;
     
-//    @OneToMany(fetch=FetchType.EAGER,mappedBy="datasetElement")
+//    @OneToOne(fetch=FetchType.EAGER,mappedBy="datasetElement")
+    @Transient
     private DatasetCorrelationGroup datasetCorrelationGroup;
     
     public DatasetElement() {}

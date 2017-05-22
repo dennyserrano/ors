@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
@@ -65,6 +66,7 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @JoinColumn(name = "right_dataset_head_id", nullable = false)
     private DatasetHead rightDataset;
     
+    @Transient
     private Set<DatasetCorrelationDtl> details;
     
     public DatasetCorrelation() {}

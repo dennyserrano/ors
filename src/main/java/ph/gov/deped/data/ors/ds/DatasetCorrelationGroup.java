@@ -3,10 +3,22 @@ package ph.gov.deped.data.ors.ds;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.cache.annotation.Cacheable;
+
+@Entity
+@Cacheable("DatasetCorrelationGroup")
+@javax.persistence.Cacheable
 public class DatasetCorrelationGroup 
 {
+	@Id
 	private int id;
 	private String name;
+	
+	@Transient
 	private List<DatasetCorrelationGroupDtl> groupDetails;
 	
 	

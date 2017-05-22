@@ -23,7 +23,7 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-@Service
+
 public class DatasetServiceImpl2 implements DatasetService
 {
 
