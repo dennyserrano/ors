@@ -31,8 +31,10 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
     @Query("select distinct dh from DatasetHead dh "
     		+ "join fetch dh.tableMetaData "
     		+ "join fetch dh.datasetElements de "
-//    		+ "left join fetch  de.datasetCorrelations "
-    		+ "join fetch de.columnMetaData"
+    		+ "join fetch de.datasetCorrelationGroup grp "
+    		+ "join fetch grp.groupDetails grpDtl "
+    		+ "join fetch grpDtl.datasetCorrelation dc "
+//    		+ "join fetch dc.details"
     		+ " where dh.id in ?1")
     List<DatasetHead> findByIds(List<Long> ids);
     

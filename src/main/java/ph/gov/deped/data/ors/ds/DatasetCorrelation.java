@@ -19,6 +19,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -66,7 +68,7 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @JoinColumn(name = "right_dataset_head_id", nullable = false)
     private DatasetHead rightDataset;
     
-    @Transient
+    @OneToMany(fetch=FetchType.LAZY)
     private Set<DatasetCorrelationDtl> details;
     
     public DatasetCorrelation() {}

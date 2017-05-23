@@ -1,7 +1,11 @@
 package ph.gov.deped.data.ors.ds;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -13,9 +17,11 @@ public class DatasetCorrelationGroupDtl
 {
 	@Id
 	private int id;
-	@Transient
+	
+	@ManyToOne
 	private DatasetCorrelationGroup datasetCorrelationGroup;
-	@Transient
+	
+	@OneToOne(fetch=FetchType.LAZY)
 	private DatasetCorrelation datasetCorrelation;
 	
 	public int getId() {

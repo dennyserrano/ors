@@ -39,7 +39,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "dataset_head_id", nullable = false)
     private DatasetHead datasetHead;
 
@@ -64,12 +64,11 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @Basic @Column
     private boolean visible;
 
-    @OneToOne
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
     private ColumnMetadata columnMetaData;
     
-//    @OneToOne(fetch=FetchType.EAGER,mappedBy="datasetElement")
-    @Transient
+    @OneToOne(fetch=FetchType.LAZY)
     private DatasetCorrelationGroup datasetCorrelationGroup;
     
     public DatasetElement() {}

@@ -3,8 +3,12 @@ package ph.gov.deped.data.ors.ds;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -16,11 +20,12 @@ public class DatasetCorrelationGroup
 {
 	@Id
 	private int id;
+	
+	@Column(length=50)
 	private String name;
 	
-	@Transient
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="datasetCorrelationGroup")
 	private List<DatasetCorrelationGroupDtl> groupDetails;
-	
 	
 	public int getId() {
 		return id;
