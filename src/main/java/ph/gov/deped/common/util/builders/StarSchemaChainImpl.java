@@ -21,7 +21,7 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 public class StarSchemaChainImpl implements TableChainer {
 
 	private PrefixTableBuilder tableBuilder;
-	private static final String[] MANDATORY_FIELDS=new String[]{"sy_from"};
+	private static final String[] MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name"};
 	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from"};
 	public StarSchemaChainImpl()
 	{
