@@ -52,7 +52,7 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @Column(length = 20, nullable = false)
     private String leftTablePrefix;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "left_dataset_head_id", nullable = false)
     private DatasetHead leftDataset;
 
@@ -64,11 +64,11 @@ public class DatasetCorrelation extends BaseJpaEntity<Long> implements Serializa
     @Column(length = 20, nullable = false)
     private String rightTablePrefix;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "right_dataset_head_id", nullable = false)
     private DatasetHead rightDataset;
     
-    @OneToMany(fetch=FetchType.LAZY)
+    @OneToMany(fetch=FetchType.LAZY,mappedBy="datasetCorrelation")
     private Set<DatasetCorrelationDtl> details;
     
     public DatasetCorrelation() {}

@@ -18,10 +18,11 @@ public class DatasetCorrelationGroupDtl
 	@Id
 	private int id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private DatasetCorrelationGroup datasetCorrelationGroup;
 	
 	@OneToOne(fetch=FetchType.LAZY)
+//	@Transient
 	private DatasetCorrelation datasetCorrelation;
 	
 	public int getId() {

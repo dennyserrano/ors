@@ -40,7 +40,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "dataset_head_id", nullable = false)
+//    @JoinColumn(name = "dataset_head_id", nullable = false)
     private DatasetHead datasetHead;
 
     @Basic

@@ -10,6 +10,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ph.gov.deped.config.TestAppConfig;
+import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
+import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
@@ -31,7 +33,14 @@ public class QueryDirectionTest
 		DatasetHead dh=l.get(0);
 		for(DatasetElement de:dh.getDatasetElements())
 		{
-			System.out.println();
+			if(de.getDatasetCorrelationGroup()!=null)
+			for(DatasetCorrelationGroupDtl grpdtl: de.getDatasetCorrelationGroup().getGroupDetails())
+			{
+				for(DatasetCorrelationDtl corDtl: grpdtl.getDatasetCorrelation().getDetails())
+				{
+					System.out.println();
+				}
+			}
 		}
 		System.out.println();
 	}

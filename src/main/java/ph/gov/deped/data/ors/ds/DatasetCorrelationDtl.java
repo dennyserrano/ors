@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -36,8 +37,8 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "dataset_correlation_id", nullable = false)
+    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name = "dataset_correlation_id", nullable = false)
     private DatasetCorrelation datasetCorrelation;
 
     @ManyToOne
@@ -58,9 +59,9 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
         return id;
     }
 
-    public DatasetCorrelation getDatasetCorrelation() {
-        return datasetCorrelation;
-    }
+//    public DatasetCorrelation getDatasetCorrelation() {
+//        return datasetCorrelation;
+//    }
 
     public Operator getOperator() {
         return operator;
@@ -101,7 +102,7 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
         }
         DatasetCorrelationDtl rhs = (DatasetCorrelationDtl) obj;
         return new EqualsBuilder()
-                .append(this.datasetCorrelation, rhs.datasetCorrelation)
+//                .append(this.datasetCorrelation, rhs.datasetCorrelation)
                 .append(this.leftElement, rhs.leftElement)
                 .append(this.operator, rhs.operator)
                 .append(this.rightElement, rhs.rightElement)
@@ -111,7 +112,7 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(datasetCorrelation)
+//                .append(datasetCorrelation)
                 .append(leftElement)
                 .append(operator)
                 .append(rightElement)
@@ -122,7 +123,7 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
-                .append("datasetCorrelation", datasetCorrelation)
+//                .append("datasetCorrelation", datasetCorrelation)
                 .append("leftElement", leftElement)
                 .append("operator", operator)
                 .append("rightElement", rightElement)
