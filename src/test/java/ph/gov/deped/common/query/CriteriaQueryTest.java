@@ -29,6 +29,7 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.JoinOperator;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.ors.ds.DatasetCriteria;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -57,12 +58,14 @@ public class CriteriaQueryTest
 	@Autowired
 	DatasetService datasetService;
 	
+	@Autowired
+	CriteriaRepository cr;
 	@Test
 	public void test() throws JsonParseException, JsonMappingException, IOException
 	{
 		
-		XStream xs=new XStream();
-		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
+//		XStream xs=new XStream();
+//		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
 //		
 //		long[] ids = new long[ds.getSubDatasets().size()];
 //		
@@ -75,8 +78,9 @@ public class CriteriaQueryTest
 //
 //		System.out.println();
 		
-		datasetService.getData(ds, false);
-
+//		datasetService.getData(ds, false);
+		DatasetCriteria dc=cr.findOne(8L);
+		System.out.println();
 	}
 	
 	public void t()

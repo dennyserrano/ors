@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.common.util.builders.JoinProperty;
+import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -50,12 +51,33 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     //				- contains the fields that are joined to this table.
     private Map<PrefixTable,JoinProperty> joinTables=new HashMap<PrefixTable, JoinProperty>();
     
+    private Set<ColumnElement> groupBy=new HashSet<ColumnElement>();
     
+    private Set<ColumnElement> orderBy=new HashSet<ColumnElement>();
+    
+    private Where where;
     
     public PrefixTable() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+    
+    
+	public Where getWhere() {
+		return where;
+	}
+
+
+
+
+	public void setWhere(Where where) {
+		this.where = where;
+	}
+
+
+
 
 	public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, ColumnElement... columnElements) {
     	
@@ -137,6 +159,34 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     }
 
 	
+
+	public Set<ColumnElement> getGroupBy() {
+		return groupBy;
+	}
+
+
+
+
+	public void setGroupBy(Set<ColumnElement> groupBy) {
+		this.groupBy = groupBy;
+	}
+
+
+
+
+	public Set<ColumnElement> getOrderBy() {
+		return orderBy;
+	}
+
+
+
+
+	public void setOrderBy(Set<ColumnElement> orderBy) {
+		this.orderBy = orderBy;
+	}
+
+
+
 
 	public Map<PrefixTable, JoinProperty> getJoinTables() {
 		return joinTables;

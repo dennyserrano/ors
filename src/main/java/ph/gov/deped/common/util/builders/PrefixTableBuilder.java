@@ -57,6 +57,10 @@ public class PrefixTableBuilder
 				pt.addJoin(j.getKey(), j.getValue());
 			pt.setTablePrefix(parentTable.getTablePrefix());
 		}
+		
+		if(pt.getTablePrefix()==null)
+			pt.setTablePrefix(pt.getTableName());
+		
 		al.stream().forEach(e->{
 			
 			ColumnElement ce=((ColumnElement)e);

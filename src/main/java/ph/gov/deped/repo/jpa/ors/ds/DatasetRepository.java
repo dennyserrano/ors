@@ -31,6 +31,7 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
     @Query("select distinct dh from DatasetHead dh "
     		+ "join fetch dh.tableMetaData "
     		+ "join fetch dh.datasetElements de "
+    		+ "join fetch de.columnMetaData "
     		+ "left join fetch de.datasetCorrelationGroup grp "
     		+ "left join fetch grp.groupDetails grpDtl "
     		+ "left join fetch grpDtl.datasetCorrelation dc "

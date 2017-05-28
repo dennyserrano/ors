@@ -24,9 +24,10 @@ public class ConvertUtil
 			dh.getDatasetElements().forEach(e->{
 				columnElementList.add(toColumnElement(e));
 			});
+			
 		}
 		
-		ColumnElement[] ce=new ColumnElement[columnElementList.size()];
+//		ColumnElement[] ce=new ColumnElement[columnElementList.size()];
 		
 		return new PrefixTable(dh, dh.getTableMetaData(), columnElementList);
 	}

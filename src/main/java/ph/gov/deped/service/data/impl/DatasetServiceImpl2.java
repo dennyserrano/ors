@@ -1,6 +1,7 @@
 package ph.gov.deped.service.data.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
+import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
+import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
@@ -22,13 +25,17 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.DatasetService;
+import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 
+@Service
 public class DatasetServiceImpl2 implements DatasetService
 {
 
 	@Autowired
 	private DatasetRepository datasetRepository;
+	
+	private TableChainer tableChainer=new StarSchemaChainImpl();
 	
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
@@ -39,26 +46,11 @@ public class DatasetServiceImpl2 implements DatasetService
     	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
     	
-    	//automatic joining here? 
-    	//the tables present here are the ones chosen by the user
-    	//mandatory datasets?
-//    	MandatoryDatasetAppender mandatoryDatasetAppender=new MandatoryDatasetAppender();
-//    	ids=mandatoryDatasetAppender.appendIds(ids);
-    	MandatoryDatasetAppender appender=new MandatoryDatasetAppender();
-    	ids=appender.appendMandatoryIds(ids);
-    	List<DatasetHead> datasetHeads=datasetRepository.findByIds(ids); 
-    	List<Element> selectedUIElements=dataset.getElements();
-    	
-    	MandatoryDataset mds= appender.setExistingIds(ids)
-    	.setFetchedHeads(datasetHeads)
-    	.setSelectedElements(selectedUIElements)
-    	.build();
-    	datasetHeads=mds.getDatasetHeads();
-    	selectedUIElements=mds.getElements();
-    	
-    	Map<Long,PrefixTable> prefixTableMap=new PrefixTableMapBuilder(datasetHeads, selectedUIElements).build();
-    	
-		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(8L)).get(0);
+    	List<DatasetHead> children=datasetRepository.findByIds(ids);
+    	PrefixTable pt=tableChainer.chain(parent, children);
+    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
+    	System.out.println(sq.getQuery(pt));
 		return null;
 	}
 
