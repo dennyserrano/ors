@@ -116,7 +116,8 @@ public class StarSchemaChainImpl implements TableChainer {
 		
 		public WhereBuilder addCriteria(DatasetCriteria dc)
 		{
-			
+			if(dc.getOperator().getName().equals("EQ"))
+				where.where(fieldName)
 		}
 	}
 
