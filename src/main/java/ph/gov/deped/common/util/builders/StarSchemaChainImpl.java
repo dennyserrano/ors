@@ -59,7 +59,7 @@ public class StarSchemaChainImpl implements TableChainer {
 	
 	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children, List<Filter> filters)
 	{
-		PrefixTable table=chain(parent, children);
+		
 		ArrayList<DatasetHead> combinedList=new ArrayList<DatasetHead>();
 		combinedList.add(parent);
 		combinedList.addAll(children);
@@ -80,17 +80,18 @@ public class StarSchemaChainImpl implements TableChainer {
 			if(firstFilter==null)
 			{
 				whereBuilder.where(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey(), criteria.getOperator().getName());
+				firstFilter=filter;
 				continue;
 			}
 			
-			if(criteria.getOperator().equals("EQ"))
+			if(criteria.getOperator().getName().equals("EQ"))
 				whereBuilder.addCriteria(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey());
-			else if(criteria.getOperator().equals("IN"))
+			else if(criteria.getOperator().getName().equals("IN"))
 				whereBuilder.addCriteria(datasetElement.getName(), toArray(filter.getSelectedOptions()));
 			else
 				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
 		}
-		
+		PrefixTable table=chain(parent, children);
 		table.setWhere(whereBuilder.getWhere());
 		return table;
 	}
@@ -148,12 +149,13 @@ public class StarSchemaChainImpl implements TableChainer {
 			{
 				boolean childFound = false;
 				for(DatasetElement de:dh.getDatasetElements())
-					if(de.getId()==criteria.getLeftElement().getId())
+					if(de.getId().longValue()==criteria.getLeftElement().getId().longValue())
 						{
 							hm.put(de.getId(), de);
 							childFound=true;
 							break;
 						}
+
 				if(childFound)
 					break;
 			}		
@@ -174,6 +176,11 @@ public class StarSchemaChainImpl implements TableChainer {
 	{
 		private Where where;
 		private Conjunctive conjunctive;
+		
+		WhereBuilder()
+		{
+			where=new Where();
+		}
 		
 		public WhereBuilder addCriteria(String fieldName,Object value,String operator)
 		{

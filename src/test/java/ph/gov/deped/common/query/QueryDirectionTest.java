@@ -1,5 +1,6 @@
 package ph.gov.deped.common.query;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,10 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.thoughtworks.xstream.XStream;
+
 import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
@@ -36,10 +41,13 @@ public class QueryDirectionTest
 	@Test
 	public void test()
 	{
+		XStream xs=new XStream();
+		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
+		List<Filter> filters=ds.getFilters();
 		DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
 		
     	List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(9015L,9016L));
-    	PrefixTable pt=tableChainer.chain(parent, children);
+    	PrefixTable pt=tableChainer.chain(parent, children,filters);
     	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
     	System.out.println(sq.getQuery(pt));
 	}

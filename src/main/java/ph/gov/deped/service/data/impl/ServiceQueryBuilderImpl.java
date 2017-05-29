@@ -15,6 +15,7 @@ import static com.bits.sql.QueryBuilders.read;
 import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.JoinPropertyBuilder;
+import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
@@ -117,5 +118,9 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		return fromClauseBuilder.from(pt.getTableName(),pt.getTablePrefix());
 	}
 	
+	private void constructWhere(Where where)
+	{
+		
+	}
 	
 }
