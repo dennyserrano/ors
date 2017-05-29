@@ -73,6 +73,10 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     
     public DatasetElement() {}
     
+    public DatasetElement(long id)
+    {
+    	this.id=id;
+    }
 
 	public Long getId() {
         return id;

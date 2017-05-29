@@ -13,8 +13,11 @@ import com.bits.sql.Operator;
 import ph.gov.deped.common.OperatorUserType;
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.common.util.builders.JoinPropertyBuilder.JoinPropertyManualBuilder;
+import ph.gov.deped.data.Conjunctive;
+import ph.gov.deped.data.Operational;
 import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
@@ -35,29 +38,61 @@ public class StarSchemaChainImpl implements TableChainer {
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
 	
 	static
-	{
-		CRITERIA=new HashMap<>();
-		CRITERIA.put(8L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(9L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(10L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(11L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(12L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(15L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(16L, new DatasetCriteria(8L,null,FilterType.VALUE,null,new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
-		CRITERIA.put(17L, new DatasetCriteria(8L,null,FilterType.VALUES,null,new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
-		CRITERIA.put(18L, new DatasetCriteria(8L,null,FilterType.VALUES,null,new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
-	}
-	
-	private List<Filter> filters;
-	public StarSchemaChainImpl(List<Filter> filters)
-	{
-		tableBuilder=new PrefixTableBuilder();
-		this.filters=filters;
+	{	
+		CRITERIA=new HashMap<Long, DatasetCriteria>();
+		CRITERIA.put(8L, new DatasetCriteria(8L,null,FilterType.VALUE,new DatasetElement(308L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(9L, new DatasetCriteria(9L,null,FilterType.VALUE,new DatasetElement(309L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(10L, new DatasetCriteria(10L,null,FilterType.VALUE,new DatasetElement(310L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(11L, new DatasetCriteria(11L,null,FilterType.VALUE,new DatasetElement(311L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(12L, new DatasetCriteria(12L,null,FilterType.VALUE,new DatasetElement(312L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(15L, new DatasetCriteria(13L,null,FilterType.VALUE,new DatasetElement(266L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(16L, new DatasetCriteria(14L,null,FilterType.VALUE,new DatasetElement(267L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(17L, new DatasetCriteria(15L,null,FilterType.VALUES,new DatasetElement(10936L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
+		CRITERIA.put(18L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(10937L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
 	}
 	
 	public StarSchemaChainImpl()
 	{
 		tableBuilder=new PrefixTableBuilder();
+	}
+	
+	
+	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children, List<Filter> filters)
+	{
+		PrefixTable table=chain(parent, children);
+		ArrayList<DatasetHead> combinedList=new ArrayList<DatasetHead>();
+		combinedList.add(parent);
+		combinedList.addAll(children);
+		Map<Long,DatasetElement> elementMap=findElementsRelatedToCriteria(combinedList, CRITERIA);
+		WhereBuilder whereBuilder=new WhereBuilder();
+		//TODO: Improve this code....
+		Filter firstFilter=null;
+		for(Filter filter:filters)
+		{
+			if(!CRITERIA.containsKey(filter.getCriterion()))
+				throw new RuntimeException(String.format("No criteria defined for filter id %s",filter.getCriterion()));
+			
+			DatasetCriteria criteria=CRITERIA.get(filter.getCriterion());
+			DatasetElement datasetElement=elementMap.get(criteria.getLeftElement().getId());
+			
+				
+			
+			if(firstFilter==null)
+			{
+				whereBuilder.where(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey(), criteria.getOperator().getName());
+				continue;
+			}
+			
+			if(criteria.getOperator().equals("EQ"))
+				whereBuilder.addCriteria(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey());
+			else if(criteria.getOperator().equals("IN"))
+				whereBuilder.addCriteria(datasetElement.getName(), toArray(filter.getSelectedOptions()));
+			else
+				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
+		}
+		
+		table.setWhere(whereBuilder.getWhere());
+		return table;
 	}
 	
 	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children)
@@ -105,20 +140,77 @@ public class StarSchemaChainImpl implements TableChainer {
 		return parentPT;
 	}
 	
-	private class WhereBuilder
+	private Map<Long,DatasetElement> findElementsRelatedToCriteria(List<DatasetHead> datasetHeadList,Map<Long,DatasetCriteria> criteriaList)
 	{
-		private Where where;
+		HashMap<Long,DatasetElement> hm=new HashMap<Long, DatasetElement>();
+		for(DatasetCriteria criteria:criteriaList.values())
+			for(DatasetHead dh:datasetHeadList)
+			{
+				boolean childFound = false;
+				for(DatasetElement de:dh.getDatasetElements())
+					if(de.getId()==criteria.getLeftElement().getId())
+						{
+							hm.put(de.getId(), de);
+							childFound=true;
+							break;
+						}
+				if(childFound)
+					break;
+			}		
 		
-		WhereBuilder()
-		{
-			where=new Where();
-		}
-		
-		public WhereBuilder addCriteria(DatasetCriteria dc)
-		{
-			if(dc.getOperator().getName().equals("EQ"))
-				where.where(fieldName)
-		}
+		return hm;
 	}
 
+	
+	private Object[] toArray(List<KeyValue> kv)
+	{
+		Object[] objArr=new Object[kv.size()];
+		for(int x=0;x<kv.size();x++)
+			objArr[x]=kv.get(x).getKey();
+		return objArr;
+	}
+	
+	class WhereBuilder
+	{
+		private Where where;
+		private Conjunctive conjunctive;
+		
+		public WhereBuilder addCriteria(String fieldName,Object value,String operator)
+		{
+			if(where.getFieldName()==null)
+				throw new RuntimeException("where() needs to be invoke first");
+			
+			Operational operational=conjunctive.and(fieldName);
+			if(operator.equals("EQ"))
+				conjunctive=operational.eq(value.toString());
+			
+			return this;
+		}
+		
+		public WhereBuilder addCriteria(String fieldName,Object... values)
+		{
+			if(where.getFieldName()==null)
+				throw new RuntimeException("where() needs to be invoke first");
+			
+			Operational operational=conjunctive.and(fieldName);
+			conjunctive=operational.in(values);
+			
+			return this;
+		}
+		
+		public WhereBuilder where(String fieldName,Object value,String operator)
+		{
+			conjunctive=where.where(fieldName).eq(value.toString());
+			return this;
+		}
+		
+		public Where getWhere()
+		{
+			return where;
+		}
+	}
+	
+
+	
+	
 }
