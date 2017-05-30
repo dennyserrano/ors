@@ -4,17 +4,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.bits.sql.CriteriaChainBuilder;
+import com.bits.sql.CriteriaFilterBuilder;
 import com.bits.sql.FromClauseBuilder;
+import com.bits.sql.JdbcTypes;
 import com.bits.sql.JoinOrWhereClauseBuilder;
 import com.bits.sql.JoinType;
 import com.bits.sql.OnClauseBuilder;
 import com.bits.sql.Projection;
 import com.bits.sql.ProjectionBuilder;
+import com.jayway.jsonpath.Criteria;
 
 import static com.bits.sql.QueryBuilders.read;
 import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.JoinPropertyBuilder;
+import ph.gov.deped.data.Conjunctive;
+import ph.gov.deped.data.Operational;
 import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
@@ -46,8 +52,9 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		FromClauseBuilder fromClauseBuilder=constructSelect(pt);
 		JoinOrWhereClauseBuilder joinOrWhereClauseBuilder=constructFrom(pt,fromClauseBuilder);
 		joinOrWhereClauseBuilder=constructJoins(pt, joinOrWhereClauseBuilder);
+		CriteriaChainBuilder chainBuilder=constructWhere(pt.getWhere(), joinOrWhereClauseBuilder);
 		
-		return joinOrWhereClauseBuilder.build().toString();
+		return chainBuilder.build().toString();
 	}
 
 	private FromClauseBuilder constructSelect(PrefixTable pt)
@@ -118,9 +125,36 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		return fromClauseBuilder.from(pt.getTableName(),pt.getTablePrefix());
 	}
 	
-	private void constructWhere(Where where)
+	private CriteriaChainBuilder constructWhere(Where where,JoinOrWhereClauseBuilder whereBuilder)
 	{
-		
+		return dig(where.getOperational(),whereBuilder.where(where.getFieldName()));
+	}
+	
+	private CriteriaChainBuilder dig(Operational op,CriteriaFilterBuilder filterBuilder)
+	{
+		if(op.getConjunctive()!=null)
+		{
+			CriteriaChainBuilder chainBuilder = null;
+			if(op.getOperator().equals(Operational.EQUALS))
+			{
+				chainBuilder=filterBuilder.eq(op.getValues()[0].toString());
+				dig(op.getConjunctive(),chainBuilder);
+			}else if(op.getOperator().equals(Operational.IN))
+			{
+//				chainBuilder=filterBuilder.in(null);
+			}
+			return chainBuilder;
+		}else
+			return filterBuilder.eq(op.getValues()[0].toString());
+	}
+	
+	private void dig(Conjunctive con,CriteriaChainBuilder chainBuilder)
+	{
+		if(con.getOperational()!=null)
+			{
+				CriteriaFilterBuilder filterBuilder=chainBuilder.and(con.getFieldName());
+				dig(con.getOperational(),filterBuilder);
+			}
 	}
 	
 }

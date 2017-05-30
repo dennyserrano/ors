@@ -6,6 +6,9 @@ public class Operational
 	private String operator;
 	private Object[] values;
 	
+	public static final String EQUALS="eq";
+	public static final String IN="in";
+	
 	public Conjunctive in(Object ...arr)
 	{
 		operator="in";
