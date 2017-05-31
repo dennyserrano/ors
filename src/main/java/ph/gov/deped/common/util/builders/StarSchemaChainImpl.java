@@ -1,5 +1,6 @@
 package ph.gov.deped.common.util.builders;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import ph.gov.deped.data.Conjunctive;
 import ph.gov.deped.data.Operational;
 import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.GenericKeyValue;
 import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Filter;
@@ -85,9 +87,9 @@ public class StarSchemaChainImpl implements TableChainer {
 			}
 			
 			if(criteria.getOperator().getName().equals("EQ"))
-				whereBuilder.addCriteria(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey());
+				whereBuilder.addCriteria(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey(),criteria.getOperator().getName());
 			else if(criteria.getOperator().getName().equals("IN"))
-				whereBuilder.addCriteria(datasetElement.getName(), toArray(filter.getSelectedOptions()));
+				whereBuilder.addCriteria(datasetElement.getName(), toArray(filter.getSelectedOptions(),datasetElement.getColumnMetaData().getDataType()));
 			else
 				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
 		}
@@ -164,12 +166,13 @@ public class StarSchemaChainImpl implements TableChainer {
 	}
 
 	
-	private Object[] toArray(List<KeyValue> kv)
+	private ArrayList<GenericKeyValue<Serializable, String>> toArray(List<KeyValue> kv,String dataType)
 	{
-		Object[] objArr=new Object[kv.size()];
+		ArrayList<GenericKeyValue<Serializable, String>> list=new ArrayList<GenericKeyValue<Serializable, String>>();
 		for(int x=0;x<kv.size();x++)
-			objArr[x]=kv.get(x).getKey();
-		return objArr;
+				list.add(new GenericKeyValue<Serializable, String>(kv.get(x).getKey(),dataType));
+			
+		return list;
 	}
 	
 	class WhereBuilder
@@ -194,13 +197,13 @@ public class StarSchemaChainImpl implements TableChainer {
 			return this;
 		}
 		
-		public WhereBuilder addCriteria(String fieldName,Object... values)
+		public WhereBuilder addCriteria(String fieldName,List<GenericKeyValue<Serializable, String>> list)
 		{
 			if(where.getFieldName()==null)
 				throw new RuntimeException("where() needs to be invoke first");
 			
 			Operational operational=conjunctive.and(fieldName);
-			conjunctive=operational.in(values);
+			conjunctive=operational.in(list);
 			
 			return this;
 		}
