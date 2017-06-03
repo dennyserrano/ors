@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.bits.sql.FilterType;
 import com.bits.sql.JoinType;
@@ -59,7 +60,7 @@ public class StarSchemaChainImpl implements TableChainer {
 	}
 	
 	
-	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children, List<Filter> filters)
+	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children, List<Filter> transactionFilters)
 	{
 		
 		ArrayList<DatasetHead> combinedList=new ArrayList<DatasetHead>();
@@ -69,6 +70,16 @@ public class StarSchemaChainImpl implements TableChainer {
 		WhereBuilder whereBuilder=new WhereBuilder();
 		//TODO: Improve this code....
 		Filter firstFilter=null;
+		
+		List<Filter> filters=transactionFilters.stream().filter(e->{
+			boolean valid=false;
+			for(KeyValue kv:e.getSelectedOptions())
+				valid |=!kv.getKey().isEmpty();
+			return valid;
+			
+			}).collect(Collectors.toList());
+		
+		
 		for(Filter filter:filters)
 		{
 			if(!CRITERIA.containsKey(filter.getCriterion()))
@@ -85,7 +96,6 @@ public class StarSchemaChainImpl implements TableChainer {
 				firstFilter=filter;
 				continue;
 			}
-			
 			if(criteria.getOperator().getName().equals("EQ"))
 				whereBuilder.addCriteria(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey(),criteria.getOperator().getName());
 			else if(criteria.getOperator().getName().equals("IN"))
@@ -189,6 +199,10 @@ public class StarSchemaChainImpl implements TableChainer {
 		{
 			if(where.getFieldName()==null)
 				throw new RuntimeException("where() needs to be invoke first");
+			
+			
+			if(value==null || value.toString().equals(""))
+				return this;
 			
 			Operational operational=conjunctive.and(fieldName);
 			if(operator.equals("EQ"))

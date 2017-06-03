@@ -149,7 +149,8 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			CriteriaChainBuilder chainBuilder = null;
 			if(op.getOperator().equals(Operational.EQUALS))
 			{
-				chainBuilder=filterBuilder.eq(op.getValues().get(0).getKey().toString());
+				
+				chainBuilder=filterBuilder.eq(Long.parseLong(op.getValues().get(0).getKey().toString()));
 				dig(op.getConjunctive(),chainBuilder);
 			}else if(op.getOperator().equals(Operational.IN))
 			{
@@ -167,7 +168,9 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		                })
 		                .collect(toList());
 				if(values.size()!=0)
-					filterBuilder.in(values.toArray(new ValueExpression[values.size()]));
+					chainBuilder=filterBuilder.in(values.toArray(new ValueExpression[values.size()]));
+				
+				dig(op.getConjunctive(),chainBuilder);
 			}
 			return chainBuilder;
 		}else

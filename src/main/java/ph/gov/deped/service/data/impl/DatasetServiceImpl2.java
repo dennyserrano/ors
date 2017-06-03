@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
-import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
-import ph.gov.deped.common.util.builders.TableChainer;
+//import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
+//import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
@@ -35,7 +35,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Autowired
 	private DatasetRepository datasetRepository;
 	
-	private TableChainer tableChainer=new StarSchemaChainImpl();
+//	private TableChainer tableChainer=new StarSchemaChainImpl();
 	
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
@@ -48,9 +48,9 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(8L)).get(0);
     	List<DatasetHead> children=datasetRepository.findByIds(ids);
-    	PrefixTable pt=tableChainer.chain(parent, children);
-    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
-    	System.out.println(sq.getQuery(pt));
+//    	PrefixTable pt=tableChainer.chain(parent, children);
+//    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
+//    	System.out.println(sq.getQuery(pt));
 		return null;
 	}
 
