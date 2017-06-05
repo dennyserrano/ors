@@ -51,18 +51,9 @@ public class DatasetServiceImpl2 implements DatasetService
 		ids.add(8L);
     	
     	List<DatasetHead> children= datasetRepository.findByIds(ids);
-    	
-    	for(DatasetHead dh:children)
-    		for(DatasetElement de:dh.getDatasetElements())
-    			{
-    				DatasetCorrelationGroup grp= de.getDatasetCorrelationGroup();
-    				if(grp!=null)
-    				for(DatasetCorrelationGroupDtl grpDtl:grp.getGroupDetails())
-    				System.out.println();
-    			}
-    			
+
     	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==8L).findFirst().get();
-    	
+    	children.remove(parent);
     	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
     	

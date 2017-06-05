@@ -90,9 +90,6 @@ public class PrefixTableBuilder
 			DatasetCorrelationGroup corGroup= element.getDatasetCorrelationGroup();
 			
 			if(corGroup!=null)
-			for(DatasetCorrelationGroupDtl grpDtl:corGroup.getGroupDetails())
-				System.out.println(String.format("%s : %s",grpDtl.getDatasetCorrelation().getLeftDataset().getId(),grpDtl.getDatasetCorrelation().getRightDataset().getId() ) );
-			if(corGroup!=null)
 				if(hm.containsKey(corGroup))				
 					hm.get(corGroup).add(element);
 				else
