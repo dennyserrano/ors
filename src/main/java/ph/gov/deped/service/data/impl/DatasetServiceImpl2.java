@@ -15,12 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
+import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
+import ph.gov.deped.common.util.builders.TableChainer;
 //import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 //import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
+import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
@@ -35,22 +39,37 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Autowired
 	private DatasetRepository datasetRepository;
 	
-//	private TableChainer tableChainer=new StarSchemaChainImpl();
+	private TableChainer tableChainer=new StarSchemaChainImpl();
+	
+	private ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 	
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
 		
 		
 		List<Long> ids=getIds(dataset.getSubDatasets());
+		ids.add(8L);
+    	
+    	List<DatasetHead> children= datasetRepository.findByIds(ids);
+    	
+    	for(DatasetHead dh:children)
+    		for(DatasetElement de:dh.getDatasetElements())
+    			{
+    				DatasetCorrelationGroup grp= de.getDatasetCorrelationGroup();
+    				if(grp!=null)
+    				for(DatasetCorrelationGroupDtl grpDtl:grp.getGroupDetails())
+    				System.out.println();
+    			}
+    			
+    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==8L).findFirst().get();
     	
     	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
     	
-    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(8L)).get(0);
-    	List<DatasetHead> children=datasetRepository.findByIds(ids);
-//    	PrefixTable pt=tableChainer.chain(parent, children);
-//    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
-//    	System.out.println(sq.getQuery(pt));
+    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
+    	
+    	System.out.println("SQL STATEMENT:"+serviceQueryBuilder.getQuery(finalTable));
+    	
 		return null;
 	}
 

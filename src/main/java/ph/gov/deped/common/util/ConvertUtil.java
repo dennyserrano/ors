@@ -21,9 +21,14 @@ public class ConvertUtil
 		HashSet<ColumnElement> columnElementList=new HashSet<ColumnElement>();
 		if(dh.getDatasetElements()!=null)
 		{
-			dh.getDatasetElements().forEach(e->{
-				columnElementList.add(toColumnElement(e));
-			});
+//			dh.getDatasetElements().forEach(e->{
+//				columnElementList.add(toColumnElement(e));
+//			});
+			
+			for(DatasetElement de:dh.getDatasetElements())
+			{
+				columnElementList.add(toColumnElement(de));
+			}
 			
 		}
 		

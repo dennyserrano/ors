@@ -3,21 +3,27 @@ package ph.gov.deped.data;
 public class Where {
 	
 	private String fieldName;
+	private String tablePrefix;
 	private Operational operational;
 	
-	public Operational where(String fieldName)
+	public Operational where(String fieldName,String tablePrefix)
 	{
 		this.fieldName=fieldName;
+		this.tablePrefix=tablePrefix;
 		operational=new Operational();
 		return operational;
 	}
-
+	
 	public String getFieldName() {
 		return fieldName;
 	}
 
 	public Operational getOperational() {
 		return operational;
+	}
+
+	public String getTablePrefix() {
+		return tablePrefix;
 	}
 	
 	

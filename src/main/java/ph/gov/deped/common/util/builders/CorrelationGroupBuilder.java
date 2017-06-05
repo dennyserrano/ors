@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
 
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.PrefixTable;
@@ -30,7 +32,7 @@ public class CorrelationGroupBuilder
 		if(group.getGroupDetails().size()==0)
 			throw new RuntimeException("group details size is 0");
 
-		DatasetCorrelationGroupDtl firstGroupDetail=group.getGroupDetails().get(0);
+		DatasetCorrelationGroupDtl firstGroupDetail=group.getGroupDetails().iterator().next();
 		
 		//it is expected that if a dataset's field has a group. The parent dataset's id should first appear at the first row of the group.
 		if(firstGroupDetail.getDatasetCorrelation().getLeftDataset().getId()!=parentTable.getDatasetId()) 
@@ -53,14 +55,14 @@ public class CorrelationGroupBuilder
 	
 	private interface Sequence
 	{
-		PrefixTable getSequence(List<DatasetCorrelationGroupDtl> grpDetails);
+		PrefixTable getSequence(Set<DatasetCorrelationGroupDtl> grpDetails);
 	}
 	
 	private class ZigZagImpl implements Sequence
 	{
 
 		@Override
-		public PrefixTable getSequence(List<DatasetCorrelationGroupDtl> grpDetails) 
+		public PrefixTable getSequence(Set<DatasetCorrelationGroupDtl> grpDetails) 
 		{
 			prefixTableBuilder=new PrefixTableBuilder();
 			TableWrapper wrapper=null;
@@ -81,7 +83,7 @@ public class CorrelationGroupBuilder
 					wrapper=new TableWrapper(left);
 					wrapper.chain(localRightPrefix,joinPropertyBuilder.build(dtl));
 					
-				}else if(left.equals(localLeftPrefix) || !localLeftPrefix.equals(right))
+				}else if(!localLeftPrefix.equals(right))
 				{
 					throw new RuntimeException("Invalid Sequence:::");
 				}

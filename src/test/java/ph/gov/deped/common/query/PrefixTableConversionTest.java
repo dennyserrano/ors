@@ -48,9 +48,9 @@ public class PrefixTableConversionTest
 		
 		DatasetHead root= getRootTable();
 		
-		PrefixTable finalTable = tableBuilder.chain(root, children);
+//		PrefixTable finalTable = tableBuilder.chain(root, children);
 
-		System.out.println(sqb.getQuery(finalTable));
+//		System.out.println(sqb.getQuery(finalTable));
 	}
 	
 	
@@ -162,8 +162,8 @@ public class PrefixTableConversionTest
 		
 		public DatasetCorrelationGroup build()
 		{
-			group.setGroupDetails(detailBuilder.getList());
-			return group;
+//			group.setGroupDetails(detailBuilder.getList());
+			return null;
 		}
 	}
 	

@@ -220,31 +220,31 @@ angular.module('UserApp')
     			//substituteElementId : the element to be substituted in targetElementId
     			//addDatasetId: whenever the targetElementId is present, this datasetId is added as if the user chose this dataset
     			return [
-	    			 {
-		   				 targetElementId:11032,
-						 addDatasetIds:[9017],
-						 substituteElementId:11089
-	    			 },
-	    			 {
-		   				 targetElementId:11034,
-						 addDatasetIds:[9019],
-						 substituteElementId:11093
-	    			 },
-	    			 {
-		   				 targetElementId:11036,
-						 addDatasetIds:[9018],
-						 substituteElementId:11091
-	    			 },
-	    			 {
-		   				 targetElementId:11039,
-						 addDatasetIds:[9021],
-						 substituteElementId:11097
-	    			 },
-	    			 {
-		   				 targetElementId:11041,
-						 addDatasetIds:[9023],
-						 substituteElementId:11101
-	    			 }
+//	    			 {
+//		   				 targetElementId:11032,
+//						 addDatasetIds:[9017],
+//						 substituteElementId:11089
+//	    			 },
+//	    			 {
+//		   				 targetElementId:11034,
+//						 addDatasetIds:[9019],
+//						 substituteElementId:11093
+//	    			 },
+//	    			 {
+//		   				 targetElementId:11036,
+//						 addDatasetIds:[9018],
+//						 substituteElementId:11091
+//	    			 },
+//	    			 {
+//		   				 targetElementId:11039,
+//						 addDatasetIds:[9021],
+//						 substituteElementId:11097
+//	    			 },
+//	    			 {
+//		   				 targetElementId:11041,
+//						 addDatasetIds:[9023],
+//						 substituteElementId:11101
+//	    			 }
     			 ];
     		}
     		

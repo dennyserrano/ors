@@ -63,10 +63,41 @@ public class StarSchemaChainImpl implements TableChainer {
 	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children, List<Filter> transactionFilters)
 	{
 		
-		ArrayList<DatasetHead> combinedList=new ArrayList<DatasetHead>();
-		combinedList.add(parent);
-		combinedList.addAll(children);
-		Map<Long,DatasetElement> elementMap=findElementsRelatedToCriteria(combinedList, CRITERIA);
+		HashSet<DatasetElement> mandatoryFieldList=new HashSet<>();
+		HashSet<DatasetElement> joinElementList=new HashSet<>();
+		
+		for(DatasetElement de:parent.getDatasetElements())
+			{
+				for(String mandatoryName:MANDATORY_FIELDS)
+					if(de.getName().equals(mandatoryName))
+						mandatoryFieldList.add(de);
+				
+				for(String joinElement:JOINING_ELEMENTS)
+					if(de.getName().equals(joinElement))
+						joinElementList.add(de);
+			}
+		
+		
+		
+		PrefixTable parentPT=convertParent(parent);
+		
+		ArrayList<PrefixTable> childrenPrefixList=new ArrayList<PrefixTable>();
+		ArrayList<GenericKeyValue<PrefixTable, JoinPropertyManualBuilder>> childConvertedList=new ArrayList<GenericKeyValue<PrefixTable,JoinPropertyManualBuilder>>();
+		
+		for(DatasetHead child:children)
+		{
+			GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv=convertChild(parentPT, child, joinElementList);
+			childConvertedList.add(gkv);
+			childrenPrefixList.add(gkv.getKey());
+		}
+		
+		ArrayList<PrefixTable> combined=new ArrayList<PrefixTable>();
+		combined.add(parentPT);
+		combined.addAll(childrenPrefixList);
+		
+		Map<Long,ColumnElement> elementMap=findElementsRelatedToCriteria(combined, CRITERIA);
+		parent.setDatasetElements(mandatoryFieldList);
+		combined.clear();
 		WhereBuilder whereBuilder=new WhereBuilder();
 		//TODO: Improve this code....
 		Filter firstFilter=null;
@@ -86,62 +117,27 @@ public class StarSchemaChainImpl implements TableChainer {
 				throw new RuntimeException(String.format("No criteria defined for filter id %s",filter.getCriterion()));
 			
 			DatasetCriteria criteria=CRITERIA.get(filter.getCriterion());
-			DatasetElement datasetElement=elementMap.get(criteria.getLeftElement().getId());
+			ColumnElement columnElement=elementMap.get(criteria.getLeftElement().getId());
 			
 				
 			
 			if(firstFilter==null)
 			{
-				whereBuilder.where(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey(), criteria.getOperator().getName());
+				whereBuilder.where(columnElement.getTablePrefix(),columnElement.getColumnName(), filter.getSelectedOptions().get(0).getKey(), criteria.getOperator().getName());
 				firstFilter=filter;
 				continue;
 			}
 			if(criteria.getOperator().getName().equals("EQ"))
-				whereBuilder.addCriteria(datasetElement.getName(), filter.getSelectedOptions().get(0).getKey(),criteria.getOperator().getName());
+				whereBuilder.addCriteria(columnElement.getTablePrefix(),columnElement.getColumnName(), filter.getSelectedOptions().get(0).getKey(),criteria.getOperator().getName());
 			else if(criteria.getOperator().getName().equals("IN"))
-				whereBuilder.addCriteria(datasetElement.getName(), toArray(filter.getSelectedOptions(),datasetElement.getColumnMetaData().getDataType()));
+				whereBuilder.addCriteria(columnElement.getTablePrefix(),columnElement.getColumnName(), toArray(filter.getSelectedOptions(),columnElement.getDataType()));
 			else
 				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
 		}
-		PrefixTable table=chain(parent, children);
-		table.setWhere(whereBuilder.getWhere());
-		return table;
-	}
-	
-	public PrefixTable chain(DatasetHead parent, List<DatasetHead> children)
-	{
 		
-		HashSet<DatasetElement> mandatoryFieldList=new HashSet<>();
-		HashSet<DatasetElement> joinElementList=new HashSet<>();
-		
-		for(DatasetElement de:parent.getDatasetElements())
-			{
-				for(String mandatoryName:MANDATORY_FIELDS)
-					if(de.getName().equals(mandatoryName))
-						mandatoryFieldList.add(de);
-				
-				for(String joinElement:JOINING_ELEMENTS)
-					if(de.getName().equals(joinElement))
-						joinElementList.add(de);
-			}
-		
-		parent.setDatasetElements(mandatoryFieldList);
-		
-		PrefixTable parentPT=ConvertUtil.toPrefixTable(parent);
-		parentPT.setTablePrefix("sph");
-		
-		for(DatasetHead child:children)
-		{
-			JoinPropertyManualBuilder jpBuilder=new JoinPropertyBuilder().getManualBuilder();
-			PrefixTable childPrefixTable= tableBuilder.build(child);
-			for(DatasetElement joinElement:joinElementList)
-			{
-				jpBuilder.add(parentPT.getTablePrefix(), joinElement.getName(), childPrefixTable.getTablePrefix(), joinElement.getName());
-				jpBuilder.set(JoinType.LEFT_JOIN);
-			}
-			
-			parentPT.addJoin(childPrefixTable, jpBuilder.build());
-		}
+		//joining of children
+		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
+			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
 		
 		for(TableColumn tc:parentPT.getColumns())
 		{
@@ -150,24 +146,56 @@ public class StarSchemaChainImpl implements TableChainer {
 				ce.setTablePrefix(parentPT.getTablePrefix());
 		}
 		
+		parentPT.setWhere(whereBuilder.getWhere());
 		return parentPT;
 	}
 	
-	private Map<Long,DatasetElement> findElementsRelatedToCriteria(List<DatasetHead> datasetHeadList,Map<Long,DatasetCriteria> criteriaList)
+	
+	private PrefixTable convertParent(DatasetHead parent)
 	{
-		HashMap<Long,DatasetElement> hm=new HashMap<Long, DatasetElement>();
+		PrefixTable parentPT=ConvertUtil.toPrefixTable(parent);
+		parentPT.setTablePrefix("sph");
+		for(TableColumn tc:parentPT.getColumns())
+		{
+			ColumnElement ce=(ColumnElement)tc;
+			ce.setTablePrefix(parentPT.getTablePrefix());
+		}
+			
+		
+		return parentPT;
+	}
+	
+	private GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> convertChild(PrefixTable parentPT,DatasetHead child,HashSet<DatasetElement> joinElementList)
+	{
+		JoinPropertyManualBuilder jpBuilder=new JoinPropertyBuilder().getManualBuilder();
+		PrefixTable childPrefixTable= tableBuilder.build(child);
+		for(DatasetElement joinElement:joinElementList)
+		{
+			jpBuilder.add(parentPT.getTablePrefix(), joinElement.getName(), childPrefixTable.getTablePrefix(), joinElement.getName());
+			jpBuilder.set(JoinType.LEFT_JOIN);
+		}
+		
+		return new GenericKeyValue<PrefixTable, JoinPropertyBuilder.JoinPropertyManualBuilder>(childPrefixTable, jpBuilder);
+	}
+	
+	private Map<Long,ColumnElement> findElementsRelatedToCriteria(List<PrefixTable> prefixTables,Map<Long,DatasetCriteria> criteriaList)
+	{
+		HashMap<Long,ColumnElement> hm=new HashMap<Long, ColumnElement>();
 		for(DatasetCriteria criteria:criteriaList.values())
-			for(DatasetHead dh:datasetHeadList)
+			for(PrefixTable dh:prefixTables)
 			{
 				boolean childFound = false;
-				for(DatasetElement de:dh.getDatasetElements())
-					if(de.getId().longValue()==criteria.getLeftElement().getId().longValue())
-						{
-							hm.put(de.getId(), de);
-							childFound=true;
-							break;
-						}
-
+				for(TableColumn tc:dh.getColumns())
+				{
+					ColumnElement ce=(ColumnElement) tc;
+					if(ce.getElementId()==criteria.getLeftElement().getId().longValue())
+					{
+						hm.put(ce.getElementId(), ce);
+						childFound=true;
+						break;
+					}
+				}
+				
 				if(childFound)
 					break;
 			}		
@@ -195,7 +223,7 @@ public class StarSchemaChainImpl implements TableChainer {
 			where=new Where();
 		}
 		
-		public WhereBuilder addCriteria(String fieldName,Object value,String operator)
+		public WhereBuilder addCriteria(String tablePrefix,String fieldName,Object value,String operator)
 		{
 			if(where.getFieldName()==null)
 				throw new RuntimeException("where() needs to be invoke first");
@@ -204,27 +232,27 @@ public class StarSchemaChainImpl implements TableChainer {
 			if(value==null || value.toString().equals(""))
 				return this;
 			
-			Operational operational=conjunctive.and(fieldName);
+			Operational operational=conjunctive.and( tablePrefix,fieldName);
 			if(operator.equals("EQ"))
 				conjunctive=operational.eq(value.toString());
 			
 			return this;
 		}
 		
-		public WhereBuilder addCriteria(String fieldName,List<GenericKeyValue<Serializable, String>> list)
+		public WhereBuilder addCriteria(String tablePrefix,String fieldName,List<GenericKeyValue<Serializable, String>> list)
 		{
 			if(where.getFieldName()==null)
 				throw new RuntimeException("where() needs to be invoke first");
 			
-			Operational operational=conjunctive.and(fieldName);
+			Operational operational=conjunctive.and(tablePrefix,fieldName);
 			conjunctive=operational.in(list);
 			
 			return this;
 		}
 		
-		public WhereBuilder where(String fieldName,Object value,String operator)
+		public WhereBuilder where(String tablePrefix,String fieldName,Object value,String operator)
 		{
-			conjunctive=where.where(fieldName).eq(value.toString());
+			conjunctive=where.where(fieldName,tablePrefix).eq(value.toString());
 			return this;
 		}
 		

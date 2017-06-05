@@ -139,7 +139,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	
 	private CriteriaChainBuilder constructWhere(Where where,JoinOrWhereClauseBuilder whereBuilder)
 	{
-		return dig(where.getOperational(),whereBuilder.where(where.getFieldName()));
+		return dig(where.getOperational(),whereBuilder.where(where.getTablePrefix(),where.getFieldName()));
 	}
 	
 	private CriteriaChainBuilder dig(Operational op,CriteriaFilterBuilder filterBuilder)
@@ -181,7 +181,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	{
 		if(con.getOperational()!=null)
 			{
-				CriteriaFilterBuilder filterBuilder=chainBuilder.and(con.getFieldName());
+				CriteriaFilterBuilder filterBuilder=chainBuilder.and(con.getTablePrefix(),con.getFieldName());
 				dig(con.getOperational(),filterBuilder);
 			}
 		

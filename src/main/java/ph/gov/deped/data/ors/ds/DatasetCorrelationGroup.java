@@ -2,6 +2,7 @@ package ph.gov.deped.data.ors.ds;
 
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.springframework.cache.annotation.Cacheable;
 
 @Entity
@@ -27,7 +31,8 @@ public class DatasetCorrelationGroup
 	private String name;
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="datasetCorrelationGroup")
-	private List<DatasetCorrelationGroupDtl> groupDetails;
+	@OrderBy
+	private Set<DatasetCorrelationGroupDtl> groupDetails;
 	
 	public int getId() {
 		return id;
@@ -41,10 +46,10 @@ public class DatasetCorrelationGroup
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<DatasetCorrelationGroupDtl> getGroupDetails() {
+	public Set<DatasetCorrelationGroupDtl> getGroupDetails() {
 		return groupDetails;
 	}
-	public void setGroupDetails(List<DatasetCorrelationGroupDtl> groupDetails) {
+	public void setGroupDetails(Set<DatasetCorrelationGroupDtl> groupDetails) {
 		this.groupDetails = groupDetails;
 	}
 	@Override
