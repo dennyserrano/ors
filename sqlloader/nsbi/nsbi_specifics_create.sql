@@ -2,6 +2,7 @@ CREATE TABLE `nsbi_specifics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sy_from` smallint(5) DEFAULT '0',
   `school_id` int(11) NOT NULL,
+  `bldg_struct_id` int(11) NOT NULL, -- NOT INCLUDED IN THE EXISTING TABLE
   `bldg_struct` varchar(9) NOT NULL,
   `bldg_struct_num` smallint(5) NOT NULL,
   `bldg_struct_type_id` int(11) NOT NULL,
@@ -15,7 +16,7 @@ CREATE TABLE `nsbi_specifics` (
   `bldg_dimnsn_len` float DEFAULT '0',
   `bldg_dimnsn_wdth` float DEFAULT '0',
   `rm_number` smallint(5) DEFAULT '0',
-  `class_cond_id` int(11) NOT NULL,
+  `class_cond_id` int(11) DEFAULT NULL,
   `repair_5yrs` tinyint(3) DEFAULT '0',
   `rm_dimnsn_len` float DEFAULT '0',
   `rm_dimnsn_wdth` float DEFAULT '0',
@@ -60,7 +61,7 @@ CREATE TABLE `nsbi_specifics` (
   `purely_instructional` tinyint(3) DEFAULT '0',
   `purely_non_instructional` tinyint(3) DEFAULT '0',
   `shared_instructional` tinyint(3) DEFAULT '0',
-  
   PRIMARY KEY (`id`),
   KEY `spec_idx` (`sy_from`,`school_id`,`bldg_cond_id`,`bldg_class_id`,`fund_src_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=786421 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4684483 DEFAULT CHARSET=latin1;
+

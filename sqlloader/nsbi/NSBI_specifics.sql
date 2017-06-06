@@ -447,5 +447,5 @@ AND SPH.school_subclassification_id IN (11,13,14)
 AND SPH.general_classification_id = 7
 
 
-order by school_id, bldg_struct_num, rm_number
-;
+order by school_id, bldg_struct_num, rm_number;
+

@@ -65,7 +65,7 @@ public class DatasetServiceImpl implements DatasetService {
 
     private static final String SCHOOL_NAME = "school_name";
 
-    private static final String SCHOOL_ID = "school_id";
+    private static final String SCHOOL_ID = "beis_school_id";
 
     private static final String SECTOR_ID = "sector_id";
     
