@@ -37,6 +37,8 @@ public class QueryDirectionTest
 	private DatasetRepository datasetRepo;
 	
 	private TableChainer tableChainer=new StarSchemaChainImpl();
+//	@Autowired
+//	DatasetService datasetService;
 	
 	@Test
 	public void test()
@@ -44,12 +46,21 @@ public class QueryDirectionTest
 		XStream xs=new XStream();
 		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
 		List<Filter> filters=ds.getFilters();
-		DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
 		
-    	List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(9015L,9016L));
-    	PrefixTable pt=tableChainer.chain(parent, children,filters);
-    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
-    	System.out.println(sq.getQuery(pt));
+		
+		
+		for(DatasetHead childrenDH:datasetRepo.findAll())
+		{
+			if(childrenDH.getParentDatasetHead()==null)
+				continue;
+			DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
+			List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(childrenDH.getId()));
+	    	PrefixTable pt=tableChainer.chain(parent, children,filters);
+	    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
+	    	System.out.println("=============================================="+sq.getQuery(pt));
+		}
+		
+    	
 	}
 	
 }

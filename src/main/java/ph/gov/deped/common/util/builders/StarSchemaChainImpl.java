@@ -96,7 +96,7 @@ public class StarSchemaChainImpl implements TableChainer {
 		combined.addAll(childrenPrefixList);
 		
 		Map<Long,ColumnElement> elementMap=findElementsRelatedToCriteria(combined, CRITERIA);
-		parent.setDatasetElements(mandatoryFieldList);
+		
 		combined.clear();
 		WhereBuilder whereBuilder=new WhereBuilder();
 		//TODO: Improve this code....
@@ -134,7 +134,7 @@ public class StarSchemaChainImpl implements TableChainer {
 			else
 				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
 		}
-		
+		parent.setDatasetElements(mandatoryFieldList);
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
 			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
