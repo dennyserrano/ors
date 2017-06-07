@@ -1,6 +1,7 @@
 package ph.gov.deped.common.query;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class QueryDirectionTest
 	private DatasetRepository datasetRepo;
 	
 	private TableChainer tableChainer=new StarSchemaChainImpl();
-//	@Autowired
-//	DatasetService datasetService;
+	@Autowired
+	DatasetService datasetService;
 	
 	@Test
 	public void test()
@@ -47,20 +48,33 @@ public class QueryDirectionTest
 		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
 		List<Filter> filters=ds.getFilters();
 		
+		ds.setSubDatasets(new ArrayList<Dataset>());
 		
+		
+		int x=1;
+		long start=System.currentTimeMillis();
 		
 		for(DatasetHead childrenDH:datasetRepo.findAll())
 		{
 			if(childrenDH.getParentDatasetHead()==null)
 				continue;
-			DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
-			List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(childrenDH.getId()));
-	    	PrefixTable pt=tableChainer.chain(parent, children,filters);
-	    	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
-	    	System.out.println("=============================================="+sq.getQuery(pt));
+
+			ds.getSubDatasets().add(new Dataset(childrenDH.getId(), null, null, null));
+			
+			datasetService.getData(ds, true);
+			x++;
+			if(x==20)
+				break;
 		}
 		
-    	
+    	long end=System.currentTimeMillis();
+    	System.out.println("HOOOOYYYYY::"+" "+(end-start));
 	}
 	
+	
+//	DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
+//	List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(childrenDH.getId()));
+//	PrefixTable pt=tableChainer.chain(parent, children,filters);
+//	ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
+//	System.out.println("=============================================="+sq.getQuery(pt));
 }

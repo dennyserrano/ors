@@ -1,5 +1,10 @@
 package ph.gov.deped.service.data.impl;
 
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toCollection;
+
+import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,9 +16,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.bits.sql.JdbcTypes;
+
+import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
 import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 import ph.gov.deped.common.util.builders.TableChainer;
@@ -32,16 +44,23 @@ import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 
+import javax.sql.DataSource;
+
 @Service
 public class DatasetServiceImpl2 implements DatasetService
 {
 
+	private static final Logger log = LogManager.getLogger(DatasetServiceImpl2.class);
+	
 	@Autowired
 	private DatasetRepository datasetRepository;
 	
 	private TableChainer tableChainer=new StarSchemaChainImpl();
 	
 	private ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
+	
+	@Autowired @Qualifier(AppMetadata.DS)
+	private DataSource dataSource;
 	
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
@@ -59,7 +78,25 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
     	
-    	System.out.println("SQL STATEMENT:"+serviceQueryBuilder.getQuery(finalTable));
+    	String sql=serviceQueryBuilder.getQuery(finalTable);
+    	
+    	log.debug("Generated SQL [{}]", sql);
+    	
+    	
+    	JdbcTemplate template = new JdbcTemplate(dataSource);
+        List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
+   
+            return null;
+        });
+//        
+//        LinkedList<ColumnElement> headers = sortedColumns.stream()
+//                .map(ColumnElement::clone) // copy the original user selected column elements
+//                .map(ce -> {
+//                    ce.setValue(ce.getElementName()); // set the value as the element description
+//                    return ce;
+//                })
+//                .collect(toCollection(LinkedList::new));
+//        data.add(0, headers);
     	
 		return null;
 	}

@@ -335,30 +335,31 @@ public class DatasetServiceImpl implements DatasetService {
         log.debug("Generated SQL [{}]", sql);
         JdbcTemplate template = new JdbcTemplate(dataSource);
         List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
-            List<ColumnElement> row = new LinkedList<>();
-            sortedColumns.forEach(ce -> {
-                try {
-                    ColumnElement columnElementWithValue = ce.clone(); 
-                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
-                    columnElementWithValue.setValue(value);
-                    row.add(columnElementWithValue);
-                }
-                catch (SQLException ex) {
-                    log.catching(ex);
-                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
-                }
-            });
-            return row;
+//            List<ColumnElement> row = new LinkedList<>();
+//            sortedColumns.forEach(ce -> {
+//                try {
+//                    ColumnElement columnElementWithValue = ce.clone(); 
+//                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+//                    columnElementWithValue.setValue(value);
+//                    row.add(columnElementWithValue);
+//                }
+//                catch (SQLException ex) {
+//                    log.catching(ex);
+//                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
+//                }
+//            });
+//            return row;
+        	return null;
         });
         
-        LinkedList<ColumnElement> headers = sortedColumns.stream()
-                .map(ColumnElement::clone) // copy the original user selected column elements
-                .map(ce -> {
-                    ce.setValue(ce.getElementName()); // set the value as the element description
-                    return ce;
-                })
-                .collect(toCollection(LinkedList::new));
-        data.add(0, headers);
+//        LinkedList<ColumnElement> headers = sortedColumns.stream()
+//                .map(ColumnElement::clone) // copy the original user selected column elements
+//                .map(ce -> {
+//                    ce.setValue(ce.getElementName()); // set the value as the element description
+//                    return ce;
+//                })
+//                .collect(toCollection(LinkedList::new));
+//        data.add(0, headers);
         return data;
     }
 
@@ -483,7 +484,11 @@ public class DatasetServiceImpl implements DatasetService {
         Set<TableColumn> mandatoryFields = mandatoryElements.stream()
                 .map(elementName -> elementRepository.findByDatasetHeadIdAndName(datasetId, elementName))
                 .filter(element -> element != null)
-                .map(element -> new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId())))
+                .map(element ->
+                {
+                return	new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId()));
+                }
+                )
                 .collect(toCollection(LinkedHashSet::new));
         // combine mandatory elements and user selected elements
         Set<TableColumn> uniqueElements = new LinkedHashSet<>(mandatoryFields);

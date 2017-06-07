@@ -134,7 +134,10 @@ public class StarSchemaChainImpl implements TableChainer {
 			else
 				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
 		}
-		parent.setDatasetElements(mandatoryFieldList);
+		parentPT.getColumns().clear();
+		for(DatasetElement de:mandatoryFieldList)
+			parentPT.getColumns().add(ConvertUtil.toColumnElement(de));
+		
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
 			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
