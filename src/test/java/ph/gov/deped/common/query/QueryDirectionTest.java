@@ -65,6 +65,8 @@ public class QueryDirectionTest
 			x++;
 			if(x==20)
 				break;
+			
+			System.out.println("==================PASSSSSS====================");
 		}
 		
     	long end=System.currentTimeMillis();

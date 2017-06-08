@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +36,7 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
@@ -46,7 +48,7 @@ import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 
 import javax.sql.DataSource;
 
-@Service
+//@Service
 public class DatasetServiceImpl2 implements DatasetService
 {
 
@@ -78,29 +80,56 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
     	
-    	String sql=serviceQueryBuilder.getQuery(finalTable);
     	
+    	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
+    	
+    	collectColumns(sortedColumns, finalTable);
+    	
+    	String sql=serviceQueryBuilder.getQuery(finalTable);
+    	sql=new StringBuilder(sql).append(" LIMIT 20").toString();
     	log.debug("Generated SQL [{}]", sql);
     	
     	
     	JdbcTemplate template = new JdbcTemplate(dataSource);
-        List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
-   
-            return null;
+    	List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
+            List<ColumnElement> row = new LinkedList<>();
+            sortedColumns.forEach(ce -> {
+                try {
+                    ColumnElement columnElementWithValue = ce.clone(); 
+                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                    columnElementWithValue.setValue(value);
+                    row.add(columnElementWithValue);
+                }
+                catch (SQLException ex) {
+                    log.catching(ex);
+                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
+                }
+            });
+            return row;
         });
-//        
-//        LinkedList<ColumnElement> headers = sortedColumns.stream()
-//                .map(ColumnElement::clone) // copy the original user selected column elements
-//                .map(ce -> {
-//                    ce.setValue(ce.getElementName()); // set the value as the element description
-//                    return ce;
-//                })
-//                .collect(toCollection(LinkedList::new));
-//        data.add(0, headers);
+        
+        LinkedList<ColumnElement> headers = sortedColumns.stream()
+                .map(ColumnElement::clone) // copy the original user selected column elements
+                .map(ce -> {
+                    ce.setValue(ce.getElementName()); // set the value as the element description
+                    return ce;
+                })
+                .collect(toCollection(LinkedList::new));
+        data.add(0, headers);
     	
-		return null;
+		return data;
 	}
 
+	private void collectColumns(LinkedList<ColumnElement> columns,PrefixTable head)
+	{
+		for(PrefixTable pt:head.getJoinTables().keySet())
+		{
+			for(TableColumn tc:pt.getColumns())
+				columns.add((ColumnElement) tc);
+			collectColumns(columns,pt);
+		}
+	}
+	
 	@Override
 	public long getDataSize(String sql) {
 		// TODO Auto-generated method stub

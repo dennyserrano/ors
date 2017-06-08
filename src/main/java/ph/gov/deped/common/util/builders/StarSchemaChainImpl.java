@@ -98,6 +98,7 @@ public class StarSchemaChainImpl implements TableChainer {
 		Map<Long,ColumnElement> elementMap=findElementsRelatedToCriteria(combined, CRITERIA);
 		
 		combined.clear();
+		childrenPrefixList.clear();
 		WhereBuilder whereBuilder=new WhereBuilder();
 		//TODO: Improve this code....
 		Filter firstFilter=null;
@@ -141,6 +142,8 @@ public class StarSchemaChainImpl implements TableChainer {
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
 			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
+		
+		childConvertedList.clear();
 		
 		for(TableColumn tc:parentPT.getColumns())
 		{

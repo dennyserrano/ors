@@ -50,7 +50,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 /**
  * Created by ej on 9/10/14.
  */
-//@Service
+@Service
 public class DatasetServiceImpl implements DatasetService {
 
     private static final Logger log = LogManager.getLogger(DatasetServiceImpl.class);
@@ -335,31 +335,30 @@ public class DatasetServiceImpl implements DatasetService {
         log.debug("Generated SQL [{}]", sql);
         JdbcTemplate template = new JdbcTemplate(dataSource);
         List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
-//            List<ColumnElement> row = new LinkedList<>();
-//            sortedColumns.forEach(ce -> {
-//                try {
-//                    ColumnElement columnElementWithValue = ce.clone(); 
-//                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
-//                    columnElementWithValue.setValue(value);
-//                    row.add(columnElementWithValue);
-//                }
-//                catch (SQLException ex) {
-//                    log.catching(ex);
-//                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
-//                }
-//            });
-//            return row;
-        	return null;
+            List<ColumnElement> row = new LinkedList<>();
+            sortedColumns.forEach(ce -> {
+                try {
+                    ColumnElement columnElementWithValue = ce.clone(); 
+                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                    columnElementWithValue.setValue(value);
+                    row.add(columnElementWithValue);
+                }
+                catch (SQLException ex) {
+                    log.catching(ex);
+                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
+                }
+            });
+            return row;
         });
         
-//        LinkedList<ColumnElement> headers = sortedColumns.stream()
-//                .map(ColumnElement::clone) // copy the original user selected column elements
-//                .map(ce -> {
-//                    ce.setValue(ce.getElementName()); // set the value as the element description
-//                    return ce;
-//                })
-//                .collect(toCollection(LinkedList::new));
-//        data.add(0, headers);
+        LinkedList<ColumnElement> headers = sortedColumns.stream()
+                .map(ColumnElement::clone) // copy the original user selected column elements
+                .map(ce -> {
+                    ce.setValue(ce.getElementName()); // set the value as the element description
+                    return ce;
+                })
+                .collect(toCollection(LinkedList::new));
+        data.add(0, headers);
         return data;
     }
 
