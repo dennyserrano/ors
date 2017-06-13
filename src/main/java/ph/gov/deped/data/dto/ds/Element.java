@@ -30,7 +30,7 @@ public class Element implements Serializable {
     
     private final boolean aggregatable;
     
-    private String aggregate;
+    private final String aggregate;
     
     @JsonCreator
     public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
@@ -38,7 +38,7 @@ public class Element implements Serializable {
                    @JsonProperty("meaning") String meaning,
                    @JsonProperty("datasetId") long datasetId,
                    @JsonProperty("visible") boolean visible,
-                   boolean aggregatable) {
+                   @JsonProperty("aggregatable") boolean aggregatable) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -46,22 +46,24 @@ public class Element implements Serializable {
         this.datasetId = datasetId;
         this.visible=visible;
         this.aggregatable=aggregatable;
+        aggregate="";
     }
 
-    @JsonCreator
-    public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
-                   @JsonProperty("description") String description,
-                   @JsonProperty("meaning") String meaning,
-                   @JsonProperty("datasetId") long datasetId,
-                   @JsonProperty("visible") boolean visible) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.meaning = meaning;
-        this.datasetId = datasetId;
-        this.visible=visible;
-        this.aggregatable=false;
-    }
+//    @JsonCreator
+//    public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
+//                   @JsonProperty("description") String description,
+//                   @JsonProperty("meaning") String meaning,
+//                   @JsonProperty("datasetId") long datasetId,
+//                   @JsonProperty("visible") boolean visible) {
+//        this.id = id;
+//        this.name = name;
+//        this.description = description;
+//        this.meaning = meaning;
+//        this.datasetId = datasetId;
+//        this.visible=visible;
+//        this.aggregatable=false;
+//        aggregate="";
+//    }
     
     public String getAggregate() {
 		return aggregate;
@@ -69,9 +71,9 @@ public class Element implements Serializable {
 
 
 
-	public void setAggregate(String aggregate) {
-		this.aggregate = aggregate;
-	}
+//	public void setAggregate(String aggregate) {
+//		this.aggregate = aggregate;
+//	}
 
 
 	public boolean isAggregatable() {

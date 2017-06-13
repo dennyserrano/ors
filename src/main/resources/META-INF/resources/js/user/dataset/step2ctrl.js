@@ -8,7 +8,6 @@ angular.module('UserApp')
             $scope.step2 = 'active';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
-            
             $scope.loadingElements = 0;
             // Top checkbox per dataset for select all elements per dataset functionality
             $scope.allElementsSelected = {};

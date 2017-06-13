@@ -1,5 +1,6 @@
 package ph.gov.deped.web.dataset;
 
+import org.hibernate.transform.ToListResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +12,8 @@ import ph.gov.deped.data.dto.DatasetStore;
 import ph.gov.deped.data.dto.ElementsTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.service.meta.api.MetadataService;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,9 +29,12 @@ import java.util.Map;import java.util.stream.Collectors;
 public class ElementRestController {
 
     private MetadataService metadataService;
-    
+    private long[] mandatoryIds=new long[]{280,285};
     private DatasetStore datasetStore;
 
+    @Autowired
+    private ElementRepository elementRepository; 
+    
     public @Autowired void setMetadataService(MetadataService metadataService) {
         this.metadataService = metadataService;
     }
@@ -42,7 +46,7 @@ public class ElementRestController {
     @RequestMapping(value = "/{headId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Element> findElementsOfHead(@PathVariable("headId") long headId) {
     	
-    	return metadataService.findElements(headId)
+    	List<Element> elems= metadataService.findElements(headId)
 		.parallelStream()
     	.collect(()->new ArrayList<>(),(l,e)->{
     		if(e.isVisible())
@@ -50,6 +54,24 @@ public class ElementRestController {
     	},(l1,l2)->{
     		l1.addAll(l2);
     	});
+    	
+    	//temporary
+//    	List<Element> mandatoryList=metadataService.findElements(8L)
+//    	.parallelStream()
+//    	.filter(e->{
+//    		for(long mandatoryId:mandatoryIds)
+//    			if(e.getId()==mandatoryId)
+//    				return true;
+//    		
+//    		return false;
+//    	})
+//    	.collect(Collectors.toList());
+//    	
+//    	ArrayList<Element> al=new ArrayList<>(mandatoryList);
+//    	al.addAll(elems);
+//    	elems.clear();
+//    	mandatoryList.clear();
+    	return elems;
     }
     
     @RequestMapping(value="/list/{headId}/{ids}",method=RequestMethod.GET,produces={MediaType.APPLICATION_JSON_VALUE})
@@ -98,6 +120,16 @@ public class ElementRestController {
 
         });
         
+        List<Element> mandatoryList=metadataService.findElements(8L)
+            	.parallelStream()
+            	.filter(e->{
+            		for(long mandatoryId:mandatoryIds)
+            			if(e.getId()==mandatoryId)
+            				return true;
+            		
+            		return false;
+            	})
+            	.collect(Collectors.toList());
         
 //        dataset.getSubDatasets().parallelStream().collect()
         int largestNumber = dataset.getSubDatasets().parallelStream()
@@ -113,8 +145,14 @@ public class ElementRestController {
                     .map(d -> d.getElements())
                     .map(es -> es.get(idx))
                     .forEach(e -> row.put(e.getDatasetId(), e));
+            
+            
             elements.add(i, row);
         }
+        
+        elements.get(0).put(9016L, mandatoryList.get(0));
+        elements.get(1).put(9016L, mandatoryList.get(1));
+        
         table.setElements(elements);
         return table;
     }
