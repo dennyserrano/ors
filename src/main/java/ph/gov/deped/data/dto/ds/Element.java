@@ -28,6 +28,26 @@ public class Element implements Serializable {
 
     private final boolean visible;
     
+    private final boolean aggregatable;
+    
+    private String aggregate;
+    
+    @JsonCreator
+    public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
+                   @JsonProperty("description") String description,
+                   @JsonProperty("meaning") String meaning,
+                   @JsonProperty("datasetId") long datasetId,
+                   @JsonProperty("visible") boolean visible,
+                   boolean aggregatable) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.meaning = meaning;
+        this.datasetId = datasetId;
+        this.visible=visible;
+        this.aggregatable=aggregatable;
+    }
+
     @JsonCreator
     public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
                    @JsonProperty("description") String description,
@@ -40,9 +60,27 @@ public class Element implements Serializable {
         this.meaning = meaning;
         this.datasetId = datasetId;
         this.visible=visible;
+        this.aggregatable=false;
     }
+    
+    public String getAggregate() {
+		return aggregate;
+	}
 
-    public long getId() {
+
+
+	public void setAggregate(String aggregate) {
+		this.aggregate = aggregate;
+	}
+
+
+	public boolean isAggregatable() {
+		return aggregatable;
+	}
+
+
+
+	public long getId() {
         return id;
     }
 

@@ -6,6 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.bits.sql.BigDecimalValueMapper;
+import com.bits.sql.DoubleValueMapper;
+import com.bits.sql.FloatValueMapper;
+import com.bits.sql.IntegerValueMapper;
+import com.bits.sql.JdbcType;
+import com.bits.sql.ShortValueMapper;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.command.RequestContext;
 import ph.gov.deped.data.dto.ds.Dataset;
@@ -24,6 +32,8 @@ import ph.gov.deped.service.meta.api.SynchronizeMetadataContext;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataRequest;
 import ph.gov.deped.service.meta.api.SynchronizeMetadataResponse;
 
+import java.math.BigDecimal;
+import java.sql.Types;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -34,6 +44,15 @@ import static java.util.stream.Collectors.toList;
 public @Service class MetadataServiceImpl implements MetadataService {
 
     private static final Logger log = LogManager.getLogger(MetadataServiceImpl.class);
+
+    private static final String[] aggregateList=new String[]{
+    	"decimal",
+    	"double",
+    	"float",
+    	"mediumint",
+    	"smallint",
+    	"tinyint"
+    	};
 
     private SynchronizeMetadataCommand synchronizeMetadataCommand;
 
@@ -119,9 +138,21 @@ public @Service class MetadataServiceImpl implements MetadataService {
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Element> findElements(long headId) {
-        List<DatasetElement> datasetElements = elementRepository.findByDatasetHeadId(headId);
+        List<DatasetElement> datasetElements = elementRepository.findByDatasetId(headId);
         return datasetElements.parallelStream()
-                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), headId,de.isVisible()))
+                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), headId,de.isVisible(),isAggregate(de)))
                 .collect(toList());
+    }
+    
+    private boolean isAggregate(DatasetElement de)
+    {
+    	
+    	for(String dataType: aggregateList)
+    	{
+    		if(de.getColumnMetaData().getDataType().equals(dataType))
+    			return true;
+    	}
+    	
+    	return false;
     }
 }

@@ -12,7 +12,7 @@ public class Column extends Element implements Serializable {
     private final int columnId;
 
     public Column(long id, String name, String desccription, String meaning, long datasetId, int columnId,boolean visible) {
-        super(id, name, desccription, meaning, datasetId,visible);
+        super(id, name, desccription, meaning, datasetId,visible,false);
         this.columnId = columnId;
     }
 

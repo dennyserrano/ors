@@ -1,7 +1,9 @@
 package ph.gov.deped.repo.jpa.ors.ds;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
+
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.api.BaseJpaRepository;
@@ -20,6 +22,11 @@ public interface ElementRepository extends BaseJpaRepository<DatasetElement, Lon
     List<DatasetElement> findByDatasetHead(DatasetHead datasetHead);
     
     List<DatasetElement> findByDatasetHeadId(Long datasetHeadHd);
+    
+    @Query("select de from DatasetElement de "
+    	 + "join fetch de.columnMetaData "
+    	 + "where de.datasetHead.id=?1")
+    List<DatasetElement> findByDatasetId(Long datasetId);
 
     DatasetElement findByDatasetHeadAndName(DatasetHead datasetHead, String name);
 

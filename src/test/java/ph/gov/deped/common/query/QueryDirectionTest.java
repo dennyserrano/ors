@@ -18,15 +18,18 @@ import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
+import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
+import ph.gov.deped.service.meta.api.MetadataService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {
@@ -41,7 +44,10 @@ public class QueryDirectionTest
 	@Autowired
 	DatasetService datasetService;
 	
-	@Test
+	@Autowired
+	MetadataService metadataService;
+	
+//	@Test
 	public void test()
 	{
 		XStream xs=new XStream();
@@ -73,6 +79,13 @@ public class QueryDirectionTest
     	System.out.println("HOOOOYYYYY::"+" "+(end-start));
 	}
 	
+	@Test
+	public void test2()
+	{
+		List<Element> list=metadataService.findElements(8L);
+		for(Element e:list)
+			System.out.println(e.getName()+" "+ e.isAggregatable());
+	}
 	
 //	DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
 //	List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(childrenDH.getId()));

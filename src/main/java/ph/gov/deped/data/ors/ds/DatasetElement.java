@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
 
 import ph.gov.deped.data.BaseJpaEntity;
+import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 import javax.persistence.Basic;
@@ -31,7 +32,7 @@ import java.util.Set;
 @Entity
 @Cacheable("DatasetElements")
 @javax.persistence.Cacheable
-public class DatasetElement extends BaseJpaEntity<Long> implements Serializable {
+public class DatasetElement extends BaseJpaEntity<Long> implements Serializable,Aggregatable {
 
     private static final long serialVersionUID = 5690000895468705426L;
 
@@ -64,6 +65,9 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
     @Basic @Column
     private boolean visible;
 
+    @Transient
+    private String aggregate;
+    
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
     private ColumnMetadata columnMetaData;
@@ -150,7 +154,10 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
         this.visible = visible;
     }
 
-    
+    public void setAggregate(String agg)
+    {
+    	this.aggregate=agg;
+    }
 
 	public DatasetCorrelationGroup getDatasetCorrelationGroup() {
 		return datasetCorrelationGroup;
@@ -218,4 +225,22 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable 
                 .append("visible", visible)
                 .toString();
     }
+
+	@Override
+	public boolean isNew() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasAggregate() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getAggregate() {
+		// TODO Auto-generated method stub
+		return aggregate;
+	}
 }
