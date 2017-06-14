@@ -67,6 +67,17 @@ angular.module('UserApp')
 //                }
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
+                    
+                   
+                    	angular.forEach(table.elements,function(element){
+                    		angular.forEach(dataset.subDatasets,function(subdataset){
+                    			$scope.elementsSelection[subdataset.id][element[subdataset.id].id]=true;
+                    		});
+                    		
+                    	});
+                    	
+                    
+                    
                     $scope.loadingElements = 1;
                 }, function(response) {
                     $scope.loadingElements = 2;
@@ -130,8 +141,8 @@ angular.module('UserApp')
 //            		
 //            		//temporary
             		
-                	localStorageService.set('dataset',dataset);
-                     $state.go('step3');
+//                	localStorageService.set('dataset',dataset);
+//                     $state.go('step3');
                 });
                 
                 

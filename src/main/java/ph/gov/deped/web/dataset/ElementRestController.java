@@ -150,8 +150,33 @@ public class ElementRestController {
             elements.add(i, row);
         }
         
-        elements.get(0).put(9016L, mandatoryList.get(0));
-        elements.get(1).put(9016L, mandatoryList.get(1));
+//        for(Dataset ds:dataset.getSubDatasets())
+//        {
+//        	for(Map<Long,Element> element:elements)
+//        	{
+//        		for(Element e:mandatoryList)
+//    			{
+//    				element.put(ds.getId(), e);
+//    				
+//    			}
+//        		break;
+//        	}
+//        	break;
+//        }
+        ArrayList<Element> iElements=new ArrayList<Element>();
+        for(int x=0;x<mandatoryList.size();x++)
+        {
+        	for(Dataset ds:dataset.getSubDatasets())
+        	{
+        		elements.get(x).put(ds.getId(), mandatoryList.get(x));
+        	}
+        	iElements.add(mandatoryList.get(x));
+        	
+        }
+        iElements.addAll(dataset.getElements());
+        dataset.setElements(iElements);
+//        elements.get(0).put(9016L, mandatoryList.get(0));
+//        elements.get(1).put(9016L, mandatoryList.get(1));
         
         table.setElements(elements);
         return table;
