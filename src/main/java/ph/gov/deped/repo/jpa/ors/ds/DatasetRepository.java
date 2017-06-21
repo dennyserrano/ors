@@ -39,7 +39,11 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
     		+ "left join fetch ld.tableMetaData "
     		+ "left join fetch dc.rightDataset rd "
     		+ "left join fetch rd.tableMetaData "
-    		+ "left join fetch dc.details"
+    		+ "left join fetch dc.details dtl "
+    		+ "left join fetch dtl.leftElement le "
+    		+ "left join fetch le.columnMetaData "
+    		+ "left join fetch dtl.rightElement re "
+    		+ "left join fetch re.columnMetaData "
     		+ " where dh.id in ?1")
     List<DatasetHead> findByIds(List<Long> ids);
     

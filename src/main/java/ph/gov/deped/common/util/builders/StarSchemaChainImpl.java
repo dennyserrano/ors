@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -136,10 +137,19 @@ public class StarSchemaChainImpl implements TableChainer {
 			else
 				throw new RuntimeException(String.format("No Available operator for %s in StarSchemaImp while trying to chain with filters",criteria.getOperator().getName()));
 		}
-		parentPT.getColumns().clear();
-		for(DatasetElement de:mandatoryFieldList)
-			parentPT.getColumns().add(ConvertUtil.toColumnElement(de));
 		
+		
+		HashSet<TableColumn> tempSet=new HashSet<TableColumn>();
+		
+		for(DatasetElement de:mandatoryFieldList)
+		{
+			Optional<TableColumn> o=parentPT.getColumns().stream().filter(e->((ColumnElement)e).getElementId()==de.getId()).findFirst();
+			if(o.isPresent())
+				tempSet.add(o.get());
+		}
+		parentPT.getColumns().clear();
+		parentPT.getColumns().addAll(tempSet);
+		tempSet.clear();
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
 			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
@@ -163,11 +173,12 @@ public class StarSchemaChainImpl implements TableChainer {
 	private PrefixTable convertParent(DatasetHead parent)
 	{
 		PrefixTable parentPT=tableBuilder.build(parent);
-		parentPT.setTablePrefix("sph");
+		parentPT.setTablePrefix("sp");
 		for(TableColumn tc:parentPT.getColumns())
 		{
 			ColumnElement ce=(ColumnElement)tc;
-			ce.setTablePrefix(parentPT.getTablePrefix());
+			if(ce.getTablePrefix()==null)
+				ce.setTablePrefix(parentPT.getTablePrefix());
 		}
 			
 		

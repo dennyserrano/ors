@@ -12,7 +12,7 @@ public class TableWrapper
 	public TableWrapper(PrefixTable head)
 	{
 		this.head=head;
-		this.tail=head;
+		this.tail=findTail();
 	}
 	
 	public PrefixTable getHead()
