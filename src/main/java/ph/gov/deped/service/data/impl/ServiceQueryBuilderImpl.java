@@ -4,16 +4,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.bits.sql.CriteriaChainBuilder;
 import com.bits.sql.CriteriaFilterBuilder;
 import com.bits.sql.FromClauseBuilder;
+import com.bits.sql.GroupByBuilder;
 import com.bits.sql.JdbcTypes;
 import com.bits.sql.JoinOrWhereClauseBuilder;
 import com.bits.sql.JoinType;
 import com.bits.sql.OnClauseBuilder;
+import com.bits.sql.OrderByClauseBuilder;
 import com.bits.sql.Projection;
 import com.bits.sql.ProjectionBuilder;
+import com.bits.sql.Projections;
+import com.bits.sql.SqlBuilder;
 import com.bits.sql.SqlValueMapper;
 import com.bits.sql.ValueExpression;
 import com.jayway.jsonpath.Criteria;
@@ -34,7 +39,9 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
 import ph.gov.deped.data.dto.KeyValue;
+import ph.gov.deped.data.dto.Order;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
@@ -62,6 +69,16 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		JoinOrWhereClauseBuilder joinOrWhereClauseBuilder=constructFrom(pt,fromClauseBuilder);
 		joinOrWhereClauseBuilder=constructJoins(pt, joinOrWhereClauseBuilder);
 		CriteriaChainBuilder chainBuilder=constructWhere(pt.getWhere(), joinOrWhereClauseBuilder);
+		SqlBuilder sb= constructGroupBy(chainBuilder,pt.getGroupBy());
+		
+		if(sb!=null)
+			return sb.build().toString();
+		
+		sb=constructOrderBy((CriteriaChainBuilder) sb, pt.getOrder());
+		
+		if(sb!=null)
+			return sb.build().toString();
+		
 		
 		if(chainBuilder!=null)
 			return chainBuilder.build().toString();
@@ -75,7 +92,11 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		for(TableColumn tc:pt.getColumns())
 		{
 			ColumnElement ce=(ColumnElement)tc;
-			fromClauseBuilder=projectionBuilder.select(new Projection(ce.getTablePrefix()!=null?ce.getTablePrefix():pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
+			
+			if(ce.getAggregate()==null)
+				fromClauseBuilder=projectionBuilder.select(new Projection(ce.getTablePrefix()!=null?ce.getTablePrefix():pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
+			else
+				fromClauseBuilder=projectionBuilder.select(Projections.column(ce.getAggregate(), ce.getTablePrefix(), ce.getColumnName(),ce.getColumnName()));
 		}
 		
 		for(PrefixTable nextTable:pt.getJoinTables().keySet())
@@ -140,6 +161,30 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	private CriteriaChainBuilder constructWhere(Where where,JoinOrWhereClauseBuilder whereBuilder)
 	{
 		return dig(where.getOperational(),whereBuilder.where(where.getTablePrefix(),where.getFieldName()));
+	}
+	
+	private SqlBuilder constructGroupBy(CriteriaChainBuilder criteriaChain,Set<ColumnElement> groupByList)
+	{
+		OrderByClauseBuilder gbb = null;
+		if(groupByList.size()==0)
+			return criteriaChain;
+		else
+			for(ColumnElement ce:groupByList)
+				gbb=criteriaChain.groupBy(ce.getTablePrefix(), ce.getColumnName());
+		
+		return gbb;
+	}
+	
+	private SqlBuilder constructOrderBy(CriteriaChainBuilder criteriaChain,Order order)
+	{
+		OrderByClauseBuilder obc = null;
+		if(order.getOrderBy().size()==0)
+			return criteriaChain;
+		else
+			for(ColumnElement ce:order.getOrderBy())
+				obc=criteriaChain.orderBy(ce.getTablePrefix(),ce.getColumnName(), true);
+		
+		return obc;
 	}
 	
 	private CriteriaChainBuilder dig(Operational op,CriteriaFilterBuilder filterBuilder)

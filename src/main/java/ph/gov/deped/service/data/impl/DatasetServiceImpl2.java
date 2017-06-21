@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.bits.sql.AggregateTypes;
 import com.bits.sql.JdbcTypes;
 
 import ph.gov.deped.common.AppMetadata;
@@ -36,6 +37,7 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
@@ -48,7 +50,7 @@ import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 
 import javax.sql.DataSource;
 
-//@Service
+@Service
 public class DatasetServiceImpl2 implements DatasetService
 {
 
@@ -76,9 +78,17 @@ public class DatasetServiceImpl2 implements DatasetService
     	List<DatasetHead> children= datasetRepository.findByIds(ids);
 
     	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
+    	
     	children.remove(parent);
     	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
+    	
+    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
+    	datasetHeads.add(parent);
+    	datasetHeads.addAll(children);
+    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
+    	
+    	setAggregates(dataset.getElements(),hm);
     	
     	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
     	
@@ -129,6 +139,32 @@ public class DatasetServiceImpl2 implements DatasetService
 			for(TableColumn tc:pt.getColumns())
 				columns.add((ColumnElement) tc);
 			collectColumns(columns,pt);
+		}
+	}
+	
+	private HashMap<Long,DatasetElement> collectColumns(List<DatasetHead> heads)
+	{
+		HashMap<Long,DatasetElement> hm=new HashMap<Long, DatasetElement>();
+		for(DatasetHead dh:heads)
+			for(DatasetElement de:dh.getDatasetElements())
+				hm.put(de.getId(), de);
+		
+		return hm;
+	}
+	
+	private void setAggregates(List<Element> elements,HashMap<Long,DatasetElement> elementMap)
+	{
+
+		for(Element e:elements)
+		{
+			DatasetElement de=elementMap.get(e.getId());
+			if(de==null)
+				throw new RuntimeException("No mapping provided while preparing aggregate");
+			
+			Aggregatable aggregatableDatasetElement=de;
+			if(e.getAggregate()!=null)
+				aggregatableDatasetElement.setAggregate(AggregateTypes.valueOf(e.getAggregate()));
+			
 		}
 	}
 	

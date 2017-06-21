@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
 
+import com.bits.sql.AggregateTypes;
+
 import ph.gov.deped.data.BaseJpaEntity;
 import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
@@ -66,7 +68,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable,
     private boolean visible;
 
     @Transient
-    private String aggregate;
+    private AggregateTypes aggregate;
     
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="columnId",referencedColumnName="columnId",insertable=false,updatable=false)
@@ -154,7 +156,7 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable,
         this.visible = visible;
     }
 
-    public void setAggregate(String agg)
+    public void setAggregate(AggregateTypes agg)
     {
     	this.aggregate=agg;
     }
@@ -239,8 +241,10 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable,
 	}
 
 	@Override
-	public String getAggregate() {
+	public AggregateTypes getAggregate() {
 		// TODO Auto-generated method stub
 		return aggregate;
 	}
+
+
 }

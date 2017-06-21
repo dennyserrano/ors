@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.bits.sql.AggregateTypes;
+
 import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
@@ -43,7 +45,9 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 
     private Serializable value;
     
-    private String aggregatable;
+    private AggregateTypes aggregate;
+    
+    private boolean isAggregate;
     
     public ColumnElement(String fieldName,String prefix)
     {
@@ -64,7 +68,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.precision = column.getMax();
     }
     
-	public ColumnElement(DatasetElement element, ColumnMetadata column,String aggregatable) {
+	public ColumnElement(DatasetElement element, ColumnMetadata column,String aggregate) {
         this.elementId = element.getId();
         this.columnId = column.getColumnId();
         this.elementName = element.getName();
@@ -74,7 +78,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.dataType = column.getDataType();
         this.scale = column.getMin();
         this.precision = column.getMax();
-        this.aggregatable=aggregatable;
+        this.aggregate=AggregateTypes.valueOf(aggregate);
     }
 	
     // Copy Constructor: used for cloning this object
@@ -94,7 +98,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
     }
 
     private ColumnElement(long elementId, int columnId, String elementName, String columnName, String elementDescription,
-            long datasetId, String dataType, Long precision, int scale, String tablePrefix, Serializable value,String aggregatable) {
+            long datasetId, String dataType, Long precision, int scale, String tablePrefix, Serializable value,String aggregate) {
 		this.elementId = elementId;
 		this.columnId = columnId;
 		this.elementName = elementName;
@@ -106,7 +110,7 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 		this.scale = scale;
 		this.tablePrefix = tablePrefix;
 		this.value = value;
-		this.aggregatable=aggregatable;
+		this.aggregate=AggregateTypes.valueOf(aggregate);
 	}
     
     public long getElementId() {
@@ -219,12 +223,19 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 	@Override
 	public boolean hasAggregate() {
 		// TODO Auto-generated method stub
-		return false;
+		return isAggregate;
 	}
 
 	@Override
-	public String getAggregate() {
+	public AggregateTypes getAggregate() {
 		// TODO Auto-generated method stub
-		return aggregatable;
+		return aggregate;
+	}
+
+	@Override
+	public void setAggregate(AggregateTypes aggregate) {
+		this.aggregate=aggregate;
+		isAggregate=aggregate!=null;
+			
 	}
 }

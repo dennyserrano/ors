@@ -30,7 +30,7 @@ public class Element implements Serializable {
     
     private final boolean aggregatable;
     
-    private final String aggregate;
+    private String aggregate;
     
     @JsonCreator
     public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
@@ -46,7 +46,7 @@ public class Element implements Serializable {
         this.datasetId = datasetId;
         this.visible=visible;
         this.aggregatable=aggregatable;
-        aggregate="";
+        
     }
 
 //    @JsonCreator
@@ -71,9 +71,9 @@ public class Element implements Serializable {
 
 
 
-//	public void setAggregate(String aggregate) {
-//		this.aggregate = aggregate;
-//	}
+	public void setAggregate(String aggregate) {
+		this.aggregate = aggregate;
+	}
 
 
 	public boolean isAggregatable() {

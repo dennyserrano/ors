@@ -94,7 +94,7 @@
                 <td data-ng-repeat-end="">
                 	
                 	
-                	<select ng-model="ha" data-ng-options="x for x in ['Average']" data-ng-hide='!element.aggregatable'>
+                	<select ng-model="ha" data-ng-options="x for x in ['Sum','Average']" data-ng-init="ha='Sum'" data-ng-hide='!element.aggregatable'>
                 	
                 	</select>
                 </td>

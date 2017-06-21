@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.bits.sql.FilterType;
@@ -35,7 +36,7 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 public class StarSchemaChainImpl implements TableChainer {
 
 	private PrefixTableBuilder tableBuilder;
-	private static final String[] MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name"};
+	private static final String[] MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
 	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from"};
 	
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
@@ -153,13 +154,15 @@ public class StarSchemaChainImpl implements TableChainer {
 		}
 		
 		parentPT.setWhere(whereBuilder.getWhere());
+		parentPT=new AggregateAdjuster().adjust(parentPT);
+		
 		return parentPT;
 	}
 	
 	
 	private PrefixTable convertParent(DatasetHead parent)
 	{
-		PrefixTable parentPT=ConvertUtil.toPrefixTable(parent);
+		PrefixTable parentPT=tableBuilder.build(parent);
 		parentPT.setTablePrefix("sph");
 		for(TableColumn tc:parentPT.getColumns())
 		{
@@ -265,6 +268,46 @@ public class StarSchemaChainImpl implements TableChainer {
 		public Where getWhere()
 		{
 			return where;
+		}
+	}
+	
+	//inefficient 
+	class AggregateAdjuster
+	{
+		public PrefixTable adjust(PrefixTable pt)
+		{
+			HashSet<ColumnElement> groupBy=new HashSet<ColumnElement>();
+			
+			if(hasAggregate(pt))
+				digForGroupBy(groupBy, pt);
+			
+			pt.setGroupBy(groupBy);
+			return pt;
+		}
+		
+		private boolean hasAggregate(PrefixTable pt)
+		{
+			for(TableColumn tc:pt.getColumns())
+			{
+				ColumnElement ce=(ColumnElement) tc;
+				if(ce.hasAggregate())
+					return true;
+			}
+			boolean isAggregate=false;
+			for(PrefixTable nextPt:pt.getJoinTables().keySet())
+				isAggregate |=hasAggregate(nextPt);
+			
+			return isAggregate;
+		}
+		
+		private void digForGroupBy(Set<ColumnElement> set,PrefixTable pt)
+		{
+			for(TableColumn tc:pt.getColumns())
+			{
+				ColumnElement ce=(ColumnElement) tc;
+				if(!ce.hasAggregate())
+					set.add(ce);
+			}
 		}
 	}
 	

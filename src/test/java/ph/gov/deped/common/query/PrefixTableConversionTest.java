@@ -1,6 +1,7 @@
 package ph.gov.deped.common.query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -28,10 +29,10 @@ import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {
-        TestAppConfig.class
-})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(classes = {
+//        TestAppConfig.class
+//})
 public class PrefixTableConversionTest
 {
 	
@@ -40,7 +41,7 @@ public class PrefixTableConversionTest
 	
 	
 	
-	public static void main(String[] args) {
+	public static DatasetHead getMockParentDatasetHead() {
 		
 		
 		ArrayList<DatasetHead> children=new ArrayList<DatasetHead>();
@@ -48,9 +49,12 @@ public class PrefixTableConversionTest
 		
 		DatasetHead root= getRootTable();
 		
-//		PrefixTable finalTable = tableBuilder.chain(root, children);
-
-//		System.out.println(sqb.getQuery(finalTable));
+		return root;
+	}
+	
+	public static List<DatasetHead> getMockChildrenDatasetHead()
+	{
+		return Arrays.asList(getNsbiTable());
 	}
 	
 	

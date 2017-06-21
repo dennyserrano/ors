@@ -53,7 +53,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     
     private Set<ColumnElement> groupBy=new HashSet<ColumnElement>();
     
-    private Set<ColumnElement> orderBy=new HashSet<ColumnElement>();
+    private Order order;
     
     private Where where;
     
@@ -90,6 +90,24 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this(datasetHead,tableMetadata);
         this.columns=new HashSet<TableColumn>(elements);
     }
+	
+	public PrefixTable(DatasetHead datasetHead,Order order, TableMetadata tableMetadata, ColumnElement... columnElements) {
+    	
+        this(datasetHead,tableMetadata);
+        this.columns.addAll(asList(columnElements));
+    }
+	
+	public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, Set<ColumnElement> elements,Order order) {
+    	
+        this(datasetHead,tableMetadata);
+        this.columns=new HashSet<TableColumn>(elements);
+        this.order=order;
+    }
+	
+	public Order getOrder()
+	{
+		return order==null?new Order("",new HashSet<ColumnElement>()):order;
+	}
 	
     public void addJoin(PrefixTable prefixTable, JoinProperty join)
     {
@@ -171,23 +189,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 		this.groupBy = groupBy;
 	}
 
-
-
-
-	public Set<ColumnElement> getOrderBy() {
-		return orderBy;
-	}
-
-
-
-
-	public void setOrderBy(Set<ColumnElement> orderBy) {
-		this.orderBy = orderBy;
-	}
-
-
-
-
+	
 	public Map<PrefixTable, JoinProperty> getJoinTables() {
 		return joinTables;
 	}

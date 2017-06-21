@@ -47,39 +47,43 @@ public class QueryDirectionTest
 	@Autowired
 	MetadataService metadataService;
 	
-//	@Test
+	@Test
 	public void test()
 	{
 		XStream xs=new XStream();
 		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
 		List<Filter> filters=ds.getFilters();
 		
-		ds.setSubDatasets(new ArrayList<Dataset>());
-		
+//		ds.setSubDatasets(new ArrayList<Dataset>());
+//		for(Element e:ds.getElements())
+//		{
+//			e.setAggregate("SUM");
+//		}
 		
 		int x=1;
 		long start=System.currentTimeMillis();
 		
-		for(DatasetHead childrenDH:datasetRepo.findAll())
-		{
-			if(childrenDH.getParentDatasetHead()==null)
-				continue;
+//		for(DatasetHead childrenDH:datasetRepo.findAll())
+//		{
+		DatasetHead childrenDH = datasetRepo.findOne(1002L);
+//			if(childrenDH.getParentDatasetHead()==null)
+//				continue;
 
 			ds.getSubDatasets().add(new Dataset(childrenDH.getId(), null, null, null));
 			
 			datasetService.getData(ds, true);
 			x++;
-			if(x==20)
-				break;
+//			if(x==20)
+//				break;
 			
 			System.out.println("==================PASSSSSS====================");
-		}
+//		}
 		
     	long end=System.currentTimeMillis();
     	System.out.println("HOOOOYYYYY::"+" "+(end-start));
 	}
 	
-	@Test
+//	@Test
 	public void test2()
 	{
 		List<Element> list=metadataService.findElements(8L);

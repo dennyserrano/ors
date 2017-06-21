@@ -1,7 +1,10 @@
 package ph.gov.deped.data.dto.interfaces;
 
+import com.bits.sql.AggregateTypes;
+
 public interface Aggregatable 
 {
 	public boolean hasAggregate();
-	public String getAggregate();
+	public AggregateTypes getAggregate();
+	public void setAggregate(AggregateTypes aggregate);
 }

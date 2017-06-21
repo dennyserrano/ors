@@ -2,6 +2,10 @@ package ph.gov.deped.common.query;
 
 import org.junit.Test;
 
+import com.bits.sql.AggregateProjection;
+import com.bits.sql.AggregateTypes;
+import com.bits.sql.Projections;
+
 import static com.bits.sql.Expressions.string;
 import static org.junit.Assert.assertEquals;
 import static com.bits.sql.Projections.column;
@@ -51,4 +55,29 @@ public class SelectQueryBuilderTest {
         System.out.println("SQL Generated: " + sql);
         assertEquals(expected, sql.toString());
     }
+    
+    public @Test void testAggregates()
+    {
+    	String expected ="SELECT SUM(length) FROM tableA";
+    	StringBuilder sql=read()
+    			.select(new AggregateProjection(AggregateTypes.SUM.getAggregate(), "length"))
+    			.from("tableA")
+    			.build();
+    	
+    	
+    	System.out.println("SQL Generated: "+sql);
+    	assertEquals(expected, sql.toString());
+    	
+    	expected ="SELECT SUM(tableA.length) AS 'length' FROM tableA AS a";
+    	sql=read()
+    			.select(Projections.sum("tableA", "length", "length"))
+    			.from("tableA", "a")
+    			.build();
+    	
+    	
+    	System.out.println("SQL Generated: "+sql);
+    	assertEquals(expected, sql.toString());
+    	
+    }
+    
 }
