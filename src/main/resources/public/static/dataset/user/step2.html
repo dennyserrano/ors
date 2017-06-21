@@ -53,98 +53,44 @@
       </div>
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
-      <input type='checkbox' data-ng-model="aggregateCheckValue"> Aggregate
-      
-      
-      <div id="elements" double-scroll-bar-horizontal="" class="table-responsive" data-ng-if="aggregateCheckValue">
-        <div id="tableWrapper" class="table-wrapper">
+        <div id="elements" double-scroll-bar-horizontal="" class="table-responsive">
+          <div id="tableWrapper" class="table-wrapper">
 
-          <table id="elementsTable" class="table table-bordered table-striped table-condensed"
-                 style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
-            <thead class="white-bg">
-              <tr>
-                <th bindonce data-ng-repeat="subdataset in elementsTable.datasets" colspan="3" bo-text="subdataset.name"></th>
-              </tr>
-              <tr style="background-color: blue; color: #FFF;">
-                <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
-                  <input type="checkbox" id="subdataset{{ ::subdataset.id }}"
-                         data-ng-checked="allElementsSelected[subdataset.id]"
-                         data-ng-click="toggleAllElementsSelection(subdataset.id)"/>
-                </th>
-                <th>
-                  Element Name
-                </th>
-                <th data-ng-repeat-end="">
-                  Definition
-                </th>
-                <th>
-                	Aggregate Function
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
-                <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
-                    data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
-                  <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
-                         data-ng-model="elementsSelection[subdataset.id][element.id]"/>
-                </td>
-                <td bo-text="element.name" ></td>
-                <td bo-text="element.description" ></td>
-                <td data-ng-repeat-end="">
-                	
-                	
-                	<select ng-model="ha" data-ng-options="x for x in ['Sum','Average']" data-ng-init="ha='Sum'" data-ng-hide='!element.aggregatable'>
-                	
-                	</select>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          
+            <table id="elementsTable" class="table table-bordered table-striped table-condensed"
+                   style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
+              <thead class="white-bg">
+                <tr>
+                  <th bindonce data-ng-repeat="subdataset in elementsTable.datasets" colspan="3" bo-text="subdataset.name"></th>
+                </tr>
+                <tr style="background-color: blue; color: #FFF;">
+                  <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
+                    <input type="checkbox" id="subdataset{{ ::subdataset.id }}"
+                           data-ng-checked="allElementsSelected[subdataset.id]"
+                           data-ng-click="toggleAllElementsSelection(subdataset.id)"/>
+                  </th>
+                  <th>
+                    Element Name
+                  </th>
+                  <th data-ng-repeat-end="">
+                    Definition
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
+                  <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
+                      data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
+                    <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
+                           data-ng-model="elementsSelection[subdataset.id][element.id]"/>
+                  </td>
+                  <td bo-text="element.name" ></td>
+                  <td bo-text="element.description" data-ng-repeat-end=""></td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
         </div>
-      </div>
-      
-      <div id="elements" double-scroll-bar-horizontal="" class="table-responsive" data-ng-if="!aggregateCheckValue">
-        <div id="tableWrapper" class="table-wrapper">
-
-          <table id="elementsTable" class="table table-bordered table-striped table-condensed"
-                 style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
-            <thead class="white-bg">
-              <tr>
-                <th bindonce data-ng-repeat="subdataset in elementsTable.datasets" colspan="3" bo-text="subdataset.name"></th>
-              </tr>
-              <tr style="background-color: blue; color: #FFF;">
-                <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
-                  <input type="checkbox" id="subdataset{{ ::subdataset.id }}"
-                         data-ng-checked="allElementsSelected[subdataset.id]"
-                         data-ng-click="toggleAllElementsSelection(subdataset.id)"/>
-                </th>
-                <th>
-                  Element Name
-                </th>
-                <th data-ng-repeat-end="">
-                  Definition
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
-                <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
-                    data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
-                  <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
-                         data-ng-model="elementsSelection[subdataset.id][element.id]"/>
-                </td>
-                <td bo-text="element.name" ></td>
-                <td bo-text="element.description" data-ng-repeat-end=""></td>
-              </tr>
-            </tbody>
-          </table>
-          
-        </div>
-      </div>
-      
-      
       </div>
 
       <div data-ng-if="loadingElements === 2" class="col-sm-12">

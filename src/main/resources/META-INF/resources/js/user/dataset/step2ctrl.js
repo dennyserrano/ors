@@ -8,6 +8,7 @@ angular.module('UserApp')
             $scope.step2 = 'active';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
+            
             $scope.loadingElements = 0;
             // Top checkbox per dataset for select all elements per dataset functionality
             $scope.allElementsSelected = {};
@@ -67,17 +68,6 @@ angular.module('UserApp')
 //                }
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
-                    
-                   
-                    	angular.forEach(table.elements,function(element){
-                    		angular.forEach(dataset.subDatasets,function(subdataset){
-                    			$scope.elementsSelection[subdataset.id][element[subdataset.id].id]=true;
-                    		});
-                    		
-                    	});
-                    	
-                    
-                    
                     $scope.loadingElements = 1;
                 }, function(response) {
                     $scope.loadingElements = 2;
@@ -141,8 +131,8 @@ angular.module('UserApp')
 //            		
 //            		//temporary
             		
-//                	localStorageService.set('dataset',dataset);
-//                     $state.go('step3');
+                	localStorageService.set('dataset',dataset);
+                     $state.go('step3');
                 });
                 
                 
