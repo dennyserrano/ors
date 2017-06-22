@@ -54,11 +54,11 @@ public class QueryDirectionTest
 		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
 		List<Filter> filters=ds.getFilters();
 		
-//		ds.setSubDatasets(new ArrayList<Dataset>());
-//		for(Element e:ds.getElements())
-//		{
-//			e.setAggregate("SUM");
-//		}
+		ds.setSubDatasets(new ArrayList<Dataset>());
+		for(Element e:ds.getElements())
+		{
+			e.setAggregate("SUM");
+		}
 		
 		int x=1;
 		long start=System.currentTimeMillis();

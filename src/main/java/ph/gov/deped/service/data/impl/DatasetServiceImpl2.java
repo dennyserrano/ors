@@ -2,6 +2,7 @@ package ph.gov.deped.service.data.impl;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -28,6 +29,7 @@ import com.bits.sql.AggregateTypes;
 import com.bits.sql.JdbcTypes;
 
 import ph.gov.deped.common.AppMetadata;
+import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
 import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 import ph.gov.deped.common.util.builders.TableChainer;
@@ -47,6 +49,7 @@ import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
+import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 import javax.sql.DataSource;
 
@@ -170,23 +173,72 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	@Override
 	public long getDataSize(String sql) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		return template.query(sql, (rs, rowNum)->{return null;}).size();
 	}
 
 	@Override
-	public String getGeneratedSQL(Dataset dataset,
-			LinkedList<PrefixTable> prefixTables) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getGeneratedSQL(Dataset dataset,LinkedList<PrefixTable> prefixTables) {
+		
+		
+		List<Long> ids=getIds(dataset.getSubDatasets());
+		ids.add(PARENT_ID);
+    	
+    	List<DatasetHead> children= datasetRepository.findByIds(ids);
+
+    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
+    	
+    	children.remove(parent);
+    	if(ids.size()==0)
+    		throw new RuntimeException("No datasets retrieved out of the given ids");
+    	
+    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
+    	datasetHeads.add(parent);
+    	datasetHeads.addAll(children);
+    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
+    	
+    	setAggregates(dataset.getElements(),hm);
+    	
+    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
+    	
+    	
+    	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
+    	
+    	collectColumns(sortedColumns, finalTable);
+    	
+    	String sql=serviceQueryBuilder.getQuery(finalTable);
+		
+		return sql;
 	}
 
 	@Override
 	public List<List<ColumnElement>> getData(String sql,
 			LinkedList<PrefixTable> prefixTables,
 			LinkedList<ColumnElement> sortedColumns) {
-		// TODO Auto-generated method stub
-		return null;
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		List<List<ColumnElement>> data = template.query(sql, (rs, rowNum) -> {
+          List<ColumnElement> row = new LinkedList<>();
+          
+          sortedColumns.forEach(ce -> {
+              try {
+                  ColumnElement columnElementWithValue = ce.clone(); 
+                  Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                  columnElementWithValue.setValue(value);
+                  
+                  row.add(columnElementWithValue);
+              }
+              catch (SQLException ex) {
+                  log.catching(ex);
+                  throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
+              }
+          });
+          return row;
+      });
+		
+		 
+		
+		return data;
 	}
 
 	@Override
@@ -194,28 +246,75 @@ public class DatasetServiceImpl2 implements DatasetService
 			LinkedList<PrefixTable> prefixTables,
 			LinkedList<ColumnElement> sortedColumns,
 			LinkedList<ColumnElement> headers) {
-		// TODO Auto-generated method stub
-		return null;
+		List<List<ColumnElement>> data=getData(sql, prefixTables, sortedColumns);
+		data.add(0, headers);
+		return data;
 	}
 
 	@Override
 	public LinkedList<PrefixTable> getPrefixTables(Dataset dataset) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		LinkedList<PrefixTable> ll=new LinkedList<PrefixTable>();
+		List<Long> ids=getIds(dataset.getSubDatasets());
+		ids.add(PARENT_ID);
+    	
+    	List<DatasetHead> children= datasetRepository.findByIds(ids);
+
+    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
+    	
+    	children.remove(parent);
+    	if(ids.size()==0)
+    		throw new RuntimeException("No datasets retrieved out of the given ids");
+    	
+    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
+    	datasetHeads.add(parent);
+    	datasetHeads.addAll(children);
+    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
+    	
+    	setAggregates(dataset.getElements(),hm);
+    	
+    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
+    	
+    	dig(ll,finalTable);
+    	
+        return ll;
 	}
 
+	private void dig(List<PrefixTable> list,PrefixTable pt)
+	{
+		list.add(pt);
+		for(PrefixTable p:pt.getJoinTables().keySet())
+			dig(list,p);
+	}
+	
 	@Override
-	public LinkedList<ColumnElement> getSortedColumns(
-			LinkedList<PrefixTable> prefixTables) {
-		// TODO Auto-generated method stub
-		return null;
+	public LinkedList<ColumnElement> getSortedColumns(LinkedList<PrefixTable> prefixTables) {
+		LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
+		List<TableColumn> ces;
+		ColumnElement columnElement;
+		for (int i = 0; i < prefixTables.size(); i++) {
+			PrefixTable pt = prefixTables.get(i);
+            ces = new ArrayList<>(pt.getColumns());
+            for (int j = 0; j < pt.getColumns().size(); j++) {
+                columnElement = (ColumnElement) ces.get(j);
+                sortedColumns.add(columnElement);
+            }
+        }
+		
+		return sortedColumns;
 	}
 
 	@Override
 	public LinkedList<ColumnElement> getHeaders(
 			LinkedList<ColumnElement> sortedColumns) {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<ColumnElement> headers = sortedColumns.stream()
+                .map(ColumnElement::clone) // copy the original user selected column elements
+                .map(ce -> {
+                    ce.setValue(ce.getElementName()); // set the value as the element description
+                    return ce;
+                })
+                .collect(toCollection(LinkedList::new));
+		return headers;
 	}
     
     private List<Long> getIds(List<Dataset> subDataset)
