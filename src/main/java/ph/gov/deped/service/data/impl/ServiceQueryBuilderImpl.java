@@ -69,6 +69,10 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		JoinOrWhereClauseBuilder joinOrWhereClauseBuilder=constructFrom(pt,fromClauseBuilder);
 		joinOrWhereClauseBuilder=constructJoins(pt, joinOrWhereClauseBuilder);
 		CriteriaChainBuilder chainBuilder=constructWhere(pt.getWhere(), joinOrWhereClauseBuilder);
+		
+		if(chainBuilder==null)
+			return joinOrWhereClauseBuilder.build().toString();
+			
 		SqlBuilder sb= constructGroupBy(chainBuilder,pt.getGroupBy());
 		
 		if(sb!=null)
@@ -160,7 +164,10 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	
 	private CriteriaChainBuilder constructWhere(Where where,JoinOrWhereClauseBuilder whereBuilder)
 	{
-		return dig(where.getOperational(),whereBuilder.where(where.getTablePrefix(),where.getFieldName()));
+		if(where.getOperational()!=null)
+			return dig(where.getOperational(),whereBuilder.where(where.getTablePrefix(),where.getFieldName()));
+		else
+			return null;
 	}
 	
 	private SqlBuilder constructGroupBy(CriteriaChainBuilder criteriaChain,Set<ColumnElement> groupByList)

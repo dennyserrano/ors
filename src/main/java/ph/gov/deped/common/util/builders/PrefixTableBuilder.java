@@ -37,7 +37,7 @@ public class PrefixTableBuilder
 		TableWrapper tw;
 		for(Entry<DatasetCorrelationGroup, List<DatasetElement>> es:colElementGroupResult.entrySet())
 		{
-			PrefixTable parentTable=correlationGroupBuilder.build(es.getKey());
+			PrefixTable parentTable=correlationGroupBuilder.build(dh.getId(),es.getKey());
 			tw=new TableWrapper(parentTable);
 			if(parentTable.getDatasetId()!=pt.getDatasetId())
 				throw new RuntimeException(String.format("There has been a disalignment while auto joining from parent table: %s",pt.getDatasetId()));
@@ -48,8 +48,9 @@ public class PrefixTableBuilder
 				
 				if(al.contains(ce))
 				{
+					int indx=al.indexOf(ce);
 					ce.setTablePrefix(tw.findTail().getTablePrefix());
-					al.set(al.indexOf(ce),ce);
+					al.set(indx,ce);
 				}
 				
 			}
@@ -60,7 +61,7 @@ public class PrefixTableBuilder
 		
 		if(pt.getTablePrefix()==null)
 			pt.setTablePrefix(pt.getTableName());
-		
+	
 		al.stream().forEach(e->{
 			
 			ColumnElement ce=((ColumnElement)e);

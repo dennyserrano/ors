@@ -81,7 +81,7 @@ public class ExcelExportTest
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void consolidationTest() throws IOException
 	{
 		

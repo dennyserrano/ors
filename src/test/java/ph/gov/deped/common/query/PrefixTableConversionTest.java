@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -29,10 +31,10 @@ import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = {
-//        TestAppConfig.class
-//})
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = {
+        TestAppConfig.class
+})
 public class PrefixTableConversionTest
 {
 	
@@ -40,25 +42,39 @@ public class PrefixTableConversionTest
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	
 	
-	
-	public static DatasetHead getMockParentDatasetHead() {
-		
-		
-		ArrayList<DatasetHead> children=new ArrayList<DatasetHead>();
-		children.add(getNsbiTable());
-		
-		DatasetHead root= getRootTable();
-		
-		return root;
-	}
-	
-	public static List<DatasetHead> getMockChildrenDatasetHead()
+	//check if transformation of prefix table is intact
+//	@Test
+	public void a()
 	{
-		return Arrays.asList(getNsbiTable());
+		PrefixTable pt=tableBuilder.chain(getRootTable(), Arrays.asList(getNsbiTableOneTableJoin()), new ArrayList<>());
+		String referenceString="SELECT "
+				+ "school_prof_history.school_id AS 'school_id', "
+				+ "t2.col1 AS 'col1', t1.col2 AS 'col2', "
+				+ "t1.col3 AS 'col3' "
+				+ "FROM school_prof_history AS sp "
+				+ "LEFT JOIN nsbi_spec AS t1 ON sp.sy_from = t1.sy_from "
+				+ "LEFT JOIN table2 AS t2 ON t1.c1 = t2.c2";
+//		System.out.println(sqb.getQuery(pt));
+//		System.out.println(referenceString);
+		Assert.assertEquals(referenceString, sqb.getQuery(pt));
 	}
 	
 	
-	private static DatasetHead getNsbiTable()
+	@Test
+	public void b()
+	{
+		String referenceString="SELECT "
+				+ "school_prof_history.school_id AS 'school_id', "
+				+ "t2.col1 AS 'col1', t1.col2 AS 'col2', "
+				+ "t1.col3 AS 'col3' "
+				+ "FROM school_prof_history AS sp "
+				+ "LEFT JOIN nsbi_spec AS t1 ON sp.sy_from = t1.sy_from "
+				+ "LEFT JOIN table2 AS t2 ON t1.c1 = t2.c2";
+		PrefixTable pt=tableBuilder.chain(getRootTable(), Arrays.asList(getNsbiTableOneTableJoin()), new ArrayList<>());
+		Assert.assertEquals(referenceString, sqb.getQuery(pt));
+	}
+	
+	private static DatasetHead getNsbiTableTwoTableJoin()
 	{
 		DatasetHead dh=buildDh(1l,"nsbi_specifics", "nsbi_spec");
 		DatasetElement de= build("col1","col1");
@@ -76,6 +92,30 @@ public class PrefixTableConversionTest
 				.add(
 						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
 						.set("t2", buildDh(2, "table2", "table2"), "t3", buildDh(3,"table3","table3"))
+						.getDtlBuilder()
+						.add(build("c1", "c1"), build("c2","c2"))
+						.build()
+						.build()
+						)
+				.build()
+				.build()
+				);
+		dh.getDatasetElements().add(de);
+		dh.getDatasetElements().add(build("col2","col2"));
+		dh.getDatasetElements().add(build("col3","col3"));
+		return dh;
+	}
+	
+	private static DatasetHead getNsbiTableOneTableJoin()
+	{
+		DatasetHead dh=buildDh(1l,"nsbi_specifics", "nsbi_spec");
+		DatasetElement de= build("col1","col1");
+		de.setDatasetCorrelationGroup(
+				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
+				.getGroupDetailBuilder()
+				.add( 
+						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
+						.set("t1", buildDh(1, "table1", "table1"), "t2", buildDh(2,"table2","table2"))
 						.getDtlBuilder()
 						.add(build("c1", "c1"), build("c2","c2"))
 						.build()
@@ -166,18 +206,18 @@ public class PrefixTableConversionTest
 		
 		public DatasetCorrelationGroup build()
 		{
-//			group.setGroupDetails(detailBuilder.getList());
-			return null;
+			group.setGroupDetails(detailBuilder.getList());
+			return group;
 		}
 	}
 	
 	class DatasetGroupDetailBuilder
 	{
-		private List<DatasetCorrelationGroupDtl> list;
+		private Set<DatasetCorrelationGroupDtl> list;
 		private DatasetGroupBuilder parent;
 		public DatasetGroupDetailBuilder(DatasetGroupBuilder parent)
 		{
-			list=new ArrayList<DatasetCorrelationGroupDtl>();
+			list=new HashSet<DatasetCorrelationGroupDtl>();
 			this.parent=parent;
 		}
 		
@@ -197,7 +237,7 @@ public class PrefixTableConversionTest
 			return this;
 		}
 
-		public List<DatasetCorrelationGroupDtl> getList() {
+		public Set<DatasetCorrelationGroupDtl> getList() {
 			return list;
 		}
 		

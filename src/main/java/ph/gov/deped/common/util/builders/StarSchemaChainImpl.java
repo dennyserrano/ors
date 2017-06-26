@@ -37,7 +37,7 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 public class StarSchemaChainImpl implements TableChainer {
 
 	private PrefixTableBuilder tableBuilder;
-	private static final String[] MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
+	private String[] MANDATORY_FIELDS;
 	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from"};
 	
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
@@ -59,6 +59,13 @@ public class StarSchemaChainImpl implements TableChainer {
 	public StarSchemaChainImpl()
 	{
 		tableBuilder=new PrefixTableBuilder();
+		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
+	}
+	
+	public StarSchemaChainImpl(String[] mandatoryFields)
+	{
+		tableBuilder=new PrefixTableBuilder();
+		MANDATORY_FIELDS=mandatoryFields;
 	}
 	
 	

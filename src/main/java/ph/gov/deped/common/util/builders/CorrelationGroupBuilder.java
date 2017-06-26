@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
@@ -40,7 +42,7 @@ public class CorrelationGroupBuilder
 		
 		parentTable.setTablePrefix(firstGroupDetail.getDatasetCorrelation().getLeftTablePrefix());
 		
-		PrefixTable headTable= sequence.getSequence(group.getGroupDetails());
+		PrefixTable headTable= sequence.getSequence(arrange(0,group.getGroupDetails()));
 		
 		
 		return headTable.getJoinTables();
@@ -50,19 +52,54 @@ public class CorrelationGroupBuilder
 	{
 		if(group.getGroupDetails().size()==0)
 			throw new RuntimeException("group details size is 0");
-		return sequence.getSequence(group.getGroupDetails());
+		return sequence.getSequence(arrange(0,group.getGroupDetails()));
 	}
+	
+	public PrefixTable build(long referenceId,DatasetCorrelationGroup group)
+	{
+		if(group.getGroupDetails().size()==0)
+			throw new RuntimeException("group details size is 0");
+		return sequence.getSequence(arrange(referenceId,group.getGroupDetails()));
+	}
+	private List<DatasetCorrelationGroupDtl> arrange(long initialId,Set<DatasetCorrelationGroupDtl> set)
+	{
+		ArrayList<DatasetCorrelationGroupDtl> al= new ArrayList<>();
+		long nextId=initialId;
+		
+		while(nextId!=0)
+		{
+			int x=0;
+			for(DatasetCorrelationGroupDtl dtl:set)
+			{
+				x++;
+				DatasetCorrelation dc=dtl.getDatasetCorrelation();
+				if(dc.getLeftDataset().getId()==nextId)
+				{
+					al.add(dtl);
+					nextId=dc.getRightDataset().getId();
+					break;
+				}
+				
+				if(x==set.size())
+					nextId=0;
+			}
+			
+			
+		}
+		return al;
+	}
+	
 	
 	private interface Sequence
 	{
-		PrefixTable getSequence(Set<DatasetCorrelationGroupDtl> grpDetails);
+		PrefixTable getSequence(List<DatasetCorrelationGroupDtl> grpDetails);
 	}
 	
 	private class ZigZagImpl implements Sequence
 	{
 
 		@Override
-		public PrefixTable getSequence(Set<DatasetCorrelationGroupDtl> grpDetails) 
+		public PrefixTable getSequence(List<DatasetCorrelationGroupDtl> grpDetails) 
 		{
 			prefixTableBuilder=new PrefixTableBuilder();
 			TableWrapper wrapper=null;
