@@ -3,6 +3,8 @@ package ph.gov.deped.common.query;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -135,8 +137,27 @@ public class QueryGenerationTest
 	}
 	
 	@Test
-	@Ignore
 	public void c()
+	{
+		XStream xs=new XStream();
+		Dataset dataset=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
+		ArrayList<Element> list=new ArrayList<Element>();
+		for(Element e:dataset.getElements())		
+		{
+			Element e1=new Element(e.getId(),e.getName(),e.getDescription(),e.getMeaning(),e.getDatasetId(),true,true);
+			e1.setAggregate("SUM");
+			list.add(e1);
+		}
+		
+		dataset.setElements(list);
+		
+		datasetService.getData(dataset, true);
+		
+	}
+	
+	@Test
+	@Ignore
+	public void d()
 	{
 		XStream xs=new XStream();
 		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
