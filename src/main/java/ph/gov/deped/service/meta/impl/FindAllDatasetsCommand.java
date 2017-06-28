@@ -31,7 +31,7 @@ public @Command class FindAllDatasetsCommand implements ICommand<FindAllDatasets
         List<Dataset> datasets = datasetHeads.stream()
                 .map(head -> {
                     Dataset dataset = new Dataset(head.getId(), head.getName(), head.getDescription(), head.getParentDatasetHead());
-                    dataset.setSubDatasets(findChildDatasets(dataset));
+//                    dataset.setSubDatasets(findChildDatasets(dataset));
                     return dataset;
                 }).collect(Collectors.toCollection(LinkedList::new));
         context.setDatasets(datasets);

@@ -15,6 +15,7 @@ angular.module('UserApp')
                     	url:'/dataset/list/:ids',
                     	isArray:true
                     }
+                    
                 });
         }
     ])
