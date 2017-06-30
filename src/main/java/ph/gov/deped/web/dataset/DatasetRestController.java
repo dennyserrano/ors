@@ -51,7 +51,8 @@ public class DatasetRestController {
 
     @RequestMapping(value = "/{id}/sub", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Dataset> findSubdatasets(@PathVariable(DATASET_ID) long headId) {
-        return metadataService.findSubdatasets(headId);
+        List<Dataset> l= metadataService.findSubdatasets(headId);
+        return l;
     }
 
     @RequestMapping(value = "/owner/{ownerId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })

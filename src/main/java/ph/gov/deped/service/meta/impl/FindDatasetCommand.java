@@ -1,6 +1,7 @@
 package ph.gov.deped.service.meta.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import ph.gov.deped.common.command.Command;
 import ph.gov.deped.common.command.ICommand;
 import ph.gov.deped.data.dto.ds.Dataset;
@@ -10,6 +11,7 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +42,11 @@ public @Command class FindDatasetCommand implements ICommand<FindDatasetContext>
                 .map(dh -> new Dataset(dh.getId(), dh.getName(), dh.getDescription(), head.getId()))
                 .collect(Collectors.toList());
 
-        List<Element> elements = datasetElements.parallelStream()
-                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId(),de.isVisible(),false))
-                .collect(Collectors.toList());
+//        List<Element> elements = datasetElements.parallelStream()
+//                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId(),de.isVisible(),false))
+//                .collect(Collectors.toList());
 
-        context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), head.getParentDatasetHead(), subDatasets, elements));
+        context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), head.getParentDatasetHead(), subDatasets,new ArrayList<Element>()));
         context.createResponse();
     }
 }
