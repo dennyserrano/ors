@@ -120,16 +120,16 @@ public class ElementRestController {
 
         });
         
-        List<Element> mandatoryList=metadataService.findElements(8L)
-            	.parallelStream()
-            	.filter(e->{
-            		for(long mandatoryId:mandatoryIds)
-            			if(e.getId()==mandatoryId)
-            				return true;
-            		
-            		return false;
-            	})
-            	.collect(Collectors.toList());
+//        List<Element> mandatoryList=metadataService.findElements(8L)
+//            	.parallelStream()
+//            	.filter(e->{
+//            		for(long mandatoryId:mandatoryIds)
+//            			if(e.getId()==mandatoryId)
+//            				return true;
+//            		
+//            		return false;
+//            	})
+//            	.collect(Collectors.toList());
         
 //        dataset.getSubDatasets().parallelStream().collect()
         int largestNumber = dataset.getSubDatasets().parallelStream()
