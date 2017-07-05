@@ -71,7 +71,7 @@ FROM ebeisdb.school_profile_history sph
    LEFT JOIN ebeisdb.other_school_data osd on (osd.report_history_id = rh.id)
    WHERE  sph.take_part_id IN (1,2,3) and sph.sy_from = 2016 and sph.co_gen_class=434
    GROUP BY sph.SCHOOL_ID 
-   ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC;
+   ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC
 
 
 ON DUPLICATE KEY UPDATE
@@ -98,7 +98,7 @@ ngfemale_dwcg=ngfemale_dwcg,
 ngtotal_dwcg=ngtotal_dwcg,
 totmale_dwcg=totmale_dwcg,
 totfemale_dwcg=totfemale_dwcg,
-total_dwcg=total_dwcg
+total_dwcg=total_dwcg;
 
 
 Commit;
