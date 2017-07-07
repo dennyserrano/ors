@@ -184,7 +184,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	
 	private SqlBuilder constructOrderBy(CriteriaChainBuilder criteriaChain,Order order)
 	{
-		OrderByClauseBuilder obc = null;
+		SqlBuilder obc = null;
 		if(order.getOrderBy().size()==0)
 			return criteriaChain;
 		else

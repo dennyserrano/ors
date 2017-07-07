@@ -56,7 +56,7 @@ public class QueryGenerationTest
 	//check root table if correct
 	//using all the filters available
 	@Test
-	@Ignore
+//	@Ignore
 	public void a()
 	{
 		XStream xs=new XStream();
@@ -137,6 +137,7 @@ public class QueryGenerationTest
 	}
 	
 	@Test
+	@Ignore
 	public void c()
 	{
 		XStream xs=new XStream();
