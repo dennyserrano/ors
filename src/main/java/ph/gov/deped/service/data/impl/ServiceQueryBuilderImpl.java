@@ -148,8 +148,8 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	private JoinOrWhereClauseBuilder constructOn(JoinInfo<ColumnElement,ColumnElement> ji,OnClauseBuilder onClauseBuilder)
 	{
 		JoinOrWhereClauseBuilder jowc=onClauseBuilder
-		.on(ji.getLeft().getTablePrefix(),ji.getLeft().getElementName())
-		.eq(ji.getRight().getTablePrefix(), ji.getRight().getElementName());
+		.on(ji.getLeft().getTablePrefix(),ji.getLeft().getColumnName())
+		.eq(ji.getRight().getTablePrefix(), ji.getRight().getColumnName());
 		
 		JoinOperator jo=ji.getNext();
 		if(jo!=null)

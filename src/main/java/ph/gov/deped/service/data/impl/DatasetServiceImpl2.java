@@ -66,15 +66,15 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private TableChainer tableChainer=new StarSchemaChainImpl();
 	
-	private ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
+	private ServiceQueryBuilder serviceQueryBuilder=null;
 	
 	@Autowired @Qualifier(AppMetadata.DS)
 	private DataSource dataSource;
 	
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
-		
-		
+
+		serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
 		ids.add(PARENT_ID);
     	
@@ -89,6 +89,8 @@ public class DatasetServiceImpl2 implements DatasetService
     	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
     	datasetHeads.add(parent);
     	datasetHeads.addAll(children);
+
+    	
     	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
     	
     	setAggregates(dataset.getElements(),hm);

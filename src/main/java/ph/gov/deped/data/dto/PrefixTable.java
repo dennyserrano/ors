@@ -117,7 +117,11 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
     private PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata)
     {
     	this.datasetId = datasetHead.getId();
-        this.parentId = datasetHead.getParentDatasetHead();
+    	if(datasetHead.getParentDatasetHead()!=null)
+    		this.parentId = datasetHead.getParentDatasetHead();
+    	else
+    		this.parentId=0;
+    	
         this.datasetName = datasetHead.getName();
         this.tableId = tableMetadata.getTableId();
         this.tableName = tableMetadata.getTableName();

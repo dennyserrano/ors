@@ -46,7 +46,7 @@ public class QueryGenerationTest
 	@Autowired
 	private DatasetRepository datasetRepo;
 	
-	private TableChainer tableChainer=new StarSchemaChainImpl(new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name","municipality_name"});
+	private TableChainer tableChainer=new StarSchemaChainImpl(new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name","municipality_name","region_name"});
 	@Autowired
 	DatasetService datasetService;
 	
@@ -56,7 +56,7 @@ public class QueryGenerationTest
 	//check root table if correct
 	//using all the filters available
 	@Test
-//	@Ignore
+	@Ignore
 	public void a()
 	{
 		XStream xs=new XStream();
@@ -156,6 +156,7 @@ public class QueryGenerationTest
 		
 	}
 	
+	//test if generating SQL statement if ok..
 	@Test
 	@Ignore
 	public void d()
@@ -179,6 +180,55 @@ public class QueryGenerationTest
 		
 	}
 	
+	@Test
+	public void e()
+	{
+		XStream xs=new XStream();
+		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
+		List<DatasetHead> children= datasetRepo.findAll();
+		for(DatasetHead child:children)
+		{
+			
+			List<DatasetHead> al=datasetRepo.findByIds(Arrays.asList(child.getId()));
+			if(al.size()==0)
+				continue;
+			
+			if(!al.get(0).isVisible())
+				continue;
+			
+			if(al.get(0).getParentDatasetHead()==null)
+				continue;
+			
+			if(al.get(0).getParentDatasetHead()==0)
+				continue;
+			
+			child=al.get(0);
+			Dataset sub=new Dataset();
+			sub.setId(child.getId());
+			ArrayList<Element> elementCol=new ArrayList<Element>();
+			for(DatasetElement de:child.getDatasetElements())
+				elementCol.add(toElement(de));
+			
+//			sub.setElements(elementCol);
+			
+			ds.setElements(elementCol);
+			ds.setSubDatasets(Arrays.asList(sub));
+			try
+			{
+				datasetService.getData(ds, true);
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	
+	private Element toElement(DatasetElement de)
+	{
+		return new Element(de.getId(), de.getName(), "", "", de.getDatasetHead().getId(), false, false);
+	}
 //	DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
 //	List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(childrenDH.getId()));
 //	PrefixTable pt=tableChainer.chain(parent, children,filters);
