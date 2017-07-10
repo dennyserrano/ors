@@ -18,7 +18,10 @@ angular.module('UserApp')
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
             
+<<<<<<< cc26b6b83670576360ef22070ecf719766d9d652
             $window.ORS.AdjustDatasetContents(0);
+=======
+>>>>>>> changes
 
             DatasetService.query(function(datasets) {
                 $scope.datasets = datasets;
