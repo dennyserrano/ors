@@ -45,6 +45,10 @@ public @Command class FindDatasetCommand implements ICommand<FindDatasetContext>
 //        List<Element> elements = datasetElements.parallelStream()
 //                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId(),de.isVisible(),false))
 //                .collect(Collectors.toList());
+<<<<<<< df1dc1bce3164d95f7af88a945cc54d56f0b552b
+=======
+
+>>>>>>> improvements for step1
 
         context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), head.getParentDatasetHead(), subDatasets,new ArrayList<Element>()));
         context.createResponse();
