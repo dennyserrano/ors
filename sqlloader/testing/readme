@@ -1,0 +1,1 @@
+this is for testing purposes. This would insert datasets and its heirarchy to orsdb to produce mock data. before executing, make sure that all the setup tables are truncated. execute ./loadsql.sh to automatically execute all sql scripts then run junit in QueryGenerationTest.java to ensure that changes made to core translator is stable.

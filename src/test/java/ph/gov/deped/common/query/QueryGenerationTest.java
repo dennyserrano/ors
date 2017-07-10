@@ -66,17 +66,17 @@ public class QueryGenerationTest
 		PrefixTable parentPT= tableChainer.chain(parent, new ArrayList<DatasetHead>(), ds.getFilters());
 		ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
 		String reference="SELECT "
-				+ "schl_ref_region.short_name AS 'region_short_name', "
+				+ "brgy_mun.municipality_name AS 'municipality_name', "
 				+ "sp.division_name AS 'division_name', "
 				+ "sp.school_name AS 'school_name', "
 				+ "sp.sy_from AS 'sy_from', "
 				+ "sp.school_id AS 'school_id', "
-				+ "brgy_mun.municipality_name AS 'municipality_name', "
+				+ "schl_ref_region.region_name AS 'region_name', "
 				+ "sp.region_shortname AS 'region_shortname' "
 				+ "FROM school_profile_history AS sp "
+				+ "LEFT JOIN ref_region AS schl_ref_region ON sp.region_id = schl_ref_region.id "
 				+ "LEFT JOIN ref_baranggay AS sch_brgy ON sp.branggay_id = sch_brgy.id "
 				+ "LEFT JOIN ref_municipality AS brgy_mun ON sch_brgy.ref_municipality_id = brgy_mun.id "
-				+ "LEFT JOIN ref_region AS schl_ref_region ON sp.region_id = schl_ref_region.id "
 				+ "WHERE sp.region_id = 7 "
 				+ "AND sp.division_id = 20 "
 				+ "AND sp.school_type_id = 292 "
@@ -103,12 +103,12 @@ public class QueryGenerationTest
 		PrefixTable parentPT= tableChainer.chain(parent, children, ds.getFilters());
 		ServiceQueryBuilder sq=new ServiceQueryBuilderImpl();
 		String reference="SELECT "
-				+ "schl_ref_region.short_name AS 'region_short_name', "
+				+ "brgy_mun.municipality_name AS 'municipality_name', "
 				+ "sp.division_name AS 'division_name', "
 				+ "sp.school_name AS 'school_name', "
 				+ "sp.sy_from AS 'sy_from', "
 				+ "sp.school_id AS 'school_id', "
-				+ "brgy_mun.municipality_name AS 'municipality_name', "
+				+ "schl_ref_region.region_name AS 'region_name', "
 				+ "sp.region_shortname AS 'region_shortname', "
 				+ "enrolment_age.gtotAge15 AS 'gtotAge15', "
 				+ "enrolment_age.gtotmaleAge5 AS 'gtotmaleAge5', "
@@ -126,9 +126,9 @@ public class QueryGenerationTest
 				+ "enrolment_age.gtotAge5 AS 'gtotAge5', "
 				+ "enrolment_age.gtotmaleAge13Above AS 'gtotmaleAge13Above', enrolment_age.gtotfemaleAge13Above AS 'gtotfemaleAge13Above', enrolment_age.gtotAge13Above AS 'gtotAge13Above', enrolment_age.gtotmaleAge19Above AS 'gtotmaleAge19Above', enrolment_age.gtotmaleAge4 AS 'gtotmaleAge4', enrolment_age.gtotfemaleAge8 AS 'gtotfemaleAge8', enrolment_age.gtotAge11 AS 'gtotAge11', enrolment_age.gtotAge8 AS 'gtotAge8', enrolment_age.gtotmaleAge6 AS 'gtotmaleAge6', enrolment_age.gtotfemaleAge19Above AS 'gtotfemaleAge19Above', enrolment_age.gtotfemaleAge4 AS 'gtotfemaleAge4', enrolment_age.gtotAge19Above AS 'gtotAge19Above', enrolment_age.gtotmaleAge12 AS 'gtotmaleAge12', enrolment_age.gtotAge4 AS 'gtotAge4', enrolment_age.gtotfemaleAge12 AS 'gtotfemaleAge12', enrolment_age.gtotAge12 AS 'gtotAge12', enrolment_age.gtotmaleAge16to18 AS 'gtotmaleAge16to18', enrolment_age.gtotfemaleAge16to18 AS 'gtotfemaleAge16to18', enrolment_age.gtotAge16to18 AS 'gtotAge16to18', enrolment_age.gtotmaleAge9 AS 'gtotmaleAge9', enrolment_age.gtotfemaleAge6 AS 'gtotfemaleAge6', enrolment_age.gtotAge6 AS 'gtotAge6', enrolment_age.gtotmaleAge13to15 AS 'gtotmaleAge13to15', enrolment_age.gtotfemaleAge13to15 AS 'gtotfemaleAge13to15', enrolment_age.gtotAge13to15 AS 'gtotAge13to15', enrolment_age.gtotmaleAge4_5 AS 'gtotmaleAge4_5', enrolment_age.gtotfemaleAge9 AS 'gtotfemaleAge9', enrolment_age.gtotAge9 AS 'gtotAge9', enrolment_age.gtotmaleAge14 AS 'gtotmaleAge14', enrolment_age.gtotmaleAge7 AS 'gtotmaleAge7', enrolment_age.gtotmaleAge17 AS 'gtotmaleAge17', enrolment_age.gtotfemaleAge4_5 AS 'gtotfemaleAge4_5', enrolment_age.gtotfemaleAge17 AS 'gtotfemaleAge17', enrolment_age.gtotAge4_5 AS 'gtotAge4_5', enrolment_age.gtotmaleAge12Above AS 'gtotmaleAge12Above', enrolment_age.gtotAge17 AS 'gtotAge17', enrolment_age.gtotfemaleAge12Above AS 'gtotfemaleAge12Above', enrolment_age.gtotAge12Above AS 'gtotAge12Above', enrolment_age.gtotfemaleAge18 AS 'gtotfemaleAge18', enrolment_age.gtotmaleAge13 AS 'gtotmaleAge13', enrolment_age.gtotAge18 AS 'gtotAge18', enrolment_age.gtotfemaleAge13 AS 'gtotfemaleAge13', enrolment_age.gtotAge13 AS 'gtotAge13', enrolment_age.gtotmaleAge10 AS 'gtotmaleAge10', enrolment_age.gtotfemaleAge14 AS 'gtotfemaleAge14', enrolment_age.gtotfemaleAge7 AS 'gtotfemaleAge7', enrolment_age.gtotAge14 AS 'gtotAge14', enrolment_age.gtotAge7 AS 'gtotAge7', enrolment_age.gtotmaleAge18 AS 'gtotmaleAge18' "
 				+ "FROM school_profile_history AS sp "
+				+ "LEFT JOIN ref_region AS schl_ref_region ON sp.region_id = schl_ref_region.id "
 				+ "LEFT JOIN ref_baranggay AS sch_brgy ON sp.branggay_id = sch_brgy.id "
 				+ "LEFT JOIN ref_municipality AS brgy_mun ON sch_brgy.ref_municipality_id = brgy_mun.id "
-				+ "LEFT JOIN ref_region AS schl_ref_region ON sp.region_id = schl_ref_region.id "
 				+ "LEFT JOIN enrolment_age AS enrolment_age ON sp.sy_from = enrolment_age.sy_from "
 				+ "WHERE sp.region_id = 7 AND sp.division_id = 20 AND sp.school_type_id = 292 AND sp.sector_id = 7 AND sp.school_classification_id IN (11,12,13,14,15,986) AND sp.level_of_education_id = 433 AND sp.coc_id IN (19,20,22,207,208,210,454,958,959,963,964,967,968,969) AND sp.sy_from = 2016";
 		String output=sq.getQuery(parentPT);
@@ -181,6 +181,7 @@ public class QueryGenerationTest
 	}
 	
 	@Test
+	@Ignore
 	public void e()
 	{
 		XStream xs=new XStream();
