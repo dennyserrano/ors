@@ -43,15 +43,15 @@
       <DefaultRolloverStrategy max="10"/>
     </RollingRandomAccessFile>
 
-<!--     <Async name="AsyncSpringLogFile"> -->
-<!--       <AppenderRef ref="SpringRollingRandomAccessFile"/> -->
-<!--     </Async> -->
-<!--     <Async name="AsyncOrsLogFile"> -->
-<!--       <AppenderRef ref="OrsRollingRandomAccessFile"/> -->
-<!--     </Async> -->
-<!--     <Async name="AsyncOrmLogFile"> -->
-<!--       <AppenderRef ref="OrmRollingRandomAccessFile"/> -->
-<!--     </Async> -->
+    <Async name="AsyncSpringLogFile">
+      <AppenderRef ref="SpringRollingRandomAccessFile"/>
+    </Async>
+    <Async name="AsyncOrsLogFile">
+      <AppenderRef ref="OrsRollingRandomAccessFile"/>
+    </Async>
+    <Async name="AsyncOrmLogFile">
+      <AppenderRef ref="OrmRollingRandomAccessFile"/>
+    </Async>
   </Appenders>
   <Loggers>
     <AsyncLogger name="org.hibernate" level="warn" additivity="false">
