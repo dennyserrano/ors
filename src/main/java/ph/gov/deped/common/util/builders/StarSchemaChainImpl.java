@@ -179,8 +179,7 @@ public class StarSchemaChainImpl implements TableChainer {
 	
 	private PrefixTable convertParent(DatasetHead parent)
 	{
-		PrefixTable parentPT=tableBuilder.build(parent);
-		parentPT.setTablePrefix("sp");
+		PrefixTable parentPT=tableBuilder.build(parent,"sp");
 		for(TableColumn tc:parentPT.getColumns())
 		{
 			ColumnElement ce=(ColumnElement)tc;
