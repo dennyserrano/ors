@@ -31,44 +31,13 @@ public class PrefixTableBuilder
 	
 	public PrefixTable build(DatasetHead dh)
 	{
-		PrefixTable pt= ConvertUtil.toPrefixTable(dh);
-		ArrayList<TableColumn> al=new ArrayList<>(pt.getColumns());
-		Map<DatasetCorrelationGroup, List<DatasetElement>> colElementGroupResult=mergeColElementGroup(dh.getDatasetElements());
-		TableWrapper tw;
-		for(Entry<DatasetCorrelationGroup, List<DatasetElement>> es:colElementGroupResult.entrySet())
-		{
-			PrefixTable parentTable=correlationGroupBuilder.build(dh.getId(),es.getKey());
-			tw=new TableWrapper(parentTable);
-			if(parentTable.getDatasetId()!=pt.getDatasetId())
-				throw new RuntimeException(String.format("There has been a disalignment while auto joining from parent table: %s",pt.getDatasetId()));
-			
-			for(DatasetElement de:es.getValue())
-			{
-				ColumnElement ce=ConvertUtil.toColumnElement(de);
-				
-				if(al.contains(ce))
-				{
-					int indx=al.indexOf(ce);
-					ce.setTablePrefix(tw.findTail().getTablePrefix());
-					al.set(indx,ce);
-				}
-				
-			}
-			for(Entry<PrefixTable,JoinProperty> j:parentTable.getJoinTables().entrySet())
-				pt.addJoin(j.getKey(), j.getValue());
-			pt.setTablePrefix(parentTable.getTablePrefix());
-		}
-		
-		if(pt.getTablePrefix()==null)
-			pt.setTablePrefix(pt.getTableName());
+		return localBuild(dh,null);
+	}
 	
-		al.stream().forEach(e->{
-			
-			ColumnElement ce=((ColumnElement)e);
-			if(ce.getTablePrefix()==null)
-				ce.setTablePrefix(pt.getTablePrefix());
-		});
-		pt.setColumns(new HashSet<TableColumn>(al));
+	public PrefixTable build(DatasetHead dh,String alias)
+	{
+		PrefixTable pt=localBuild(dh,alias);
+		pt.setTablePrefix(alias);
 		return pt;
 	}
 	
@@ -105,8 +74,48 @@ public class PrefixTableBuilder
 	}
 	
 
+	private PrefixTable localBuild(DatasetHead dh,String alias)
+	{
+		PrefixTable pt= ConvertUtil.toPrefixTable(dh);
+		ArrayList<TableColumn> al=new ArrayList<>(pt.getColumns());
+		Map<DatasetCorrelationGroup, List<DatasetElement>> colElementGroupResult=mergeColElementGroup(dh.getDatasetElements());
+		TableWrapper tw;
+		for(Entry<DatasetCorrelationGroup, List<DatasetElement>> es:colElementGroupResult.entrySet())
+		{
+			PrefixTable parentTable=correlationGroupBuilder.build(dh.getId(),es.getKey());
+			tw=new TableWrapper(parentTable);
+			if(parentTable.getDatasetId()!=pt.getDatasetId())
+				throw new RuntimeException(String.format("There has been a disalignment while auto joining from parent table: %s",pt.getDatasetId()));
+			
+			for(DatasetElement de:es.getValue())
+			{
+				ColumnElement ce=ConvertUtil.toColumnElement(de);
+				
+				if(al.contains(ce))
+				{
+					int indx=al.indexOf(ce);
+					ce.setTablePrefix(tw.findTail().getTablePrefix());
+					al.set(indx,ce);
+				}
+				
+			}
+			for(Entry<PrefixTable,JoinProperty> j:parentTable.getJoinTables().entrySet())
+				pt.addJoin(j.getKey(), j.getValue());
+			pt.setTablePrefix(parentTable.getTablePrefix());
+		}
+		
+		if(pt.getTablePrefix()==null)
+			pt.setTablePrefix(alias==null?pt.getTableName():alias);
 	
-	
+		al.stream().forEach(e->{
+			
+			ColumnElement ce=((ColumnElement)e);
+			if(ce.getTablePrefix()==null)
+				ce.setTablePrefix(pt.getTablePrefix());
+		});
+		pt.setColumns(new HashSet<TableColumn>(al));
+		return pt;
+	}
 	
 	
 }

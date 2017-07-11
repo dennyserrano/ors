@@ -139,6 +139,10 @@ public class DatasetServiceImpl2 implements DatasetService
 
 	private void collectColumns(LinkedList<ColumnElement> columns,PrefixTable head)
 	{
+		
+		for(TableColumn tc:head.getColumns())
+			columns.add((ColumnElement) tc);
+		
 		for(PrefixTable pt:head.getJoinTables().keySet())
 		{
 			for(TableColumn tc:pt.getColumns())
