@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,7 +67,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private TableChainer tableChainer=new StarSchemaChainImpl();
 	
-	private ServiceQueryBuilder serviceQueryBuilder=null;
+	
 	
 	@Autowired @Qualifier(AppMetadata.DS)
 	private DataSource dataSource;
@@ -74,7 +75,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
 
-		serviceQueryBuilder=new ServiceQueryBuilderImpl();
+		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
 		ids.add(PARENT_ID);
     	
@@ -139,13 +140,14 @@ public class DatasetServiceImpl2 implements DatasetService
 
 	private void collectColumns(LinkedList<ColumnElement> columns,PrefixTable head)
 	{
-		
-		for(TableColumn tc:head.getColumns())
+		List<TableColumn> tempList=head.getColumns().stream().sorted().collect(Collectors.toList());
+		for(TableColumn tc:tempList)
 			columns.add((ColumnElement) tc);
 		
 		for(PrefixTable pt:head.getJoinTables().keySet())
 		{
-			for(TableColumn tc:pt.getColumns())
+			tempList=pt.getColumns().stream().sorted().collect(Collectors.toList());
+			for(TableColumn tc:tempList)
 				columns.add((ColumnElement) tc);
 			collectColumns(columns,pt);
 		}
@@ -187,7 +189,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Override
 	public String getGeneratedSQL(Dataset dataset,LinkedList<PrefixTable> prefixTables) {
 		
-		
+		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
 		ids.add(PARENT_ID);
     	
@@ -208,11 +210,6 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
     	
-    	
-    	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
-    	
-    	collectColumns(sortedColumns, finalTable);
-    	
     	String sql=serviceQueryBuilder.getQuery(finalTable);
 		
 		return sql;
@@ -222,6 +219,8 @@ public class DatasetServiceImpl2 implements DatasetService
 	public List<List<ColumnElement>> getData(String sql,
 			LinkedList<PrefixTable> prefixTables,
 			LinkedList<ColumnElement> sortedColumns) {
+		
+		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		List<List<ColumnElement>> data = template.query(sql, (rs, rowNum) -> {
           List<ColumnElement> row = new LinkedList<>();
@@ -252,6 +251,7 @@ public class DatasetServiceImpl2 implements DatasetService
 			LinkedList<PrefixTable> prefixTables,
 			LinkedList<ColumnElement> sortedColumns,
 			LinkedList<ColumnElement> headers) {
+		
 		List<List<ColumnElement>> data=getData(sql, prefixTables, sortedColumns);
 		data.add(0, headers);
 		return data;
@@ -300,11 +300,7 @@ public class DatasetServiceImpl2 implements DatasetService
 		ColumnElement columnElement;
 		for (int i = 0; i < prefixTables.size(); i++) {
 			PrefixTable pt = prefixTables.get(i);
-            ces = new ArrayList<>(pt.getColumns());
-            for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = (ColumnElement) ces.get(j);
-                sortedColumns.add(columnElement);
-            }
+            collectColumns(sortedColumns, pt);
         }
 		
 		return sortedColumns;

@@ -57,6 +57,9 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 	@Autowired
 	private DefaultExcelCellWriter cellWriter;
 	
+	@Autowired
+	private DatasetService datasetService;
+	
 	@Override
 	public String export(Dataset dataset) 
 	{
