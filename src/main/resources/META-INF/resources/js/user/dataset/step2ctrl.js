@@ -9,38 +9,25 @@ angular.module('UserApp')
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
             
-            $scope.loadingElements = 0;
-            // Top checkbox per dataset for select all elements per dataset functionality
-            $scope.allElementsSelected = {};
-            // Index of Elements selection (elementsSelection[subdataset.id][element.id])
-            $scope.elementsSelection = {};
-
+            $scope.aggregateList=['SUM','AVG'];
+            $scope.aggregateOptions=['','Region','Division'];
+            $scope.userSelection=[];
             $window.ORS.AdjustDatasetContents(0);
             
-            $scope.$watch('loadingElements', function(newVal, oldVal) {
-                if (oldVal === 0 && newVal === 1) {
-                    $timeout($window.ORS.AdjustElementTableHeaders, 50);
-                    $window.scrollTo(0, 0);
-                }
-            });
-            
-            var initializeElementIndex = function(subdataset) {
-                var elementsSelection = {};
-                angular.forEach(subdataset.elements, function(subdatasetElement) {
-                    elementsSelection[subdatasetElement.id] = false;
-                });
-                $scope.elementsSelection[subdataset.id] = elementsSelection;
-            };
-            
-            var checkSelectedElements = function(dataset) {
-                angular.forEach(dataset.elements, function(selectedElement) {
-                    if ($scope.allElementsSelected[selectedElement.datasetId]) {
-                        $scope.allElementsSelected[selectedElement.datasetId] = true;
-                        $scope.toggleAllElementsSelection(selectedElement.datasetId);
-                    }
-                    $scope.elementsSelection[selectedElement.datasetId][selectedElement.id] = true;
-                });
-            };
+            $scope.checkAll=function(index,check,dataset){
+            	
+            	var userSelection=$scope.userSelection[index];
+            	if(check)
+    			angular.forEach(dataset.elements,function(element){
+    				userSelection.push({'datasetId':dataset.id,'element':element});
+    			});
+            	else
+            		userSelection=[];
+            			
+            	$scope.userSelection[index]=userSelection;
+            		
+            	
+            }
             
             UserDatasetService.get({}, function(dataset) {
             	
@@ -53,22 +40,33 @@ angular.module('UserApp')
         		}
             	
                 $scope.dataset = dataset;
-                angular.forEach(dataset.subDatasets, function(subdataset) {
-                    $scope.allElementsSelected[subdataset.id] = false;
-                    initializeElementIndex(subdataset);
-                });
+       
                 
-//                if (!dataset.elements || dataset.elements.length === 0) {
-                    angular.forEach(dataset.subDatasets, function(subdataset) {
-                        $scope.toggleAllElementsSelection(subdataset.id);
-                    });
-//                }
-//                else {
-//                    checkSelectedElements(dataset);
-//                }
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
                     $scope.loadingElements = 1;
+                    
+//                    $scope.userSelection[0]=table.datasets[0].elements;
+                    
+                    angular.forEach(table.datasets,function(dataset,index){
+                    	var us=$scope.userSelection[index];
+                    	if(angular.isUndefined(us))
+                		{
+                			us=[];
+                			
+                			angular.forEach(dataset.elements,function(element){
+                				us.push({'datasetId':dataset.id,'element':element});
+                			});
+                			
+                			
+                		}else
+                			angular.forEach(dataset.elements,function(element){
+                				us.push({'datasetId':dataset.id,'element':element});
+                			});
+                    	$scope.userSelection[index]=us;
+                    });
+                    
+                    console.log($scope.userSelection);
                 }, function(response) {
                     $scope.loadingElements = 2;
                     $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
@@ -78,12 +76,7 @@ angular.module('UserApp')
                 $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
             });
             
-            $scope.toggleAllElementsSelection = function(datasetId) {
-                $scope.allElementsSelected[datasetId] = !$scope.allElementsSelected[datasetId];
-                angular.forEach($scope.elementsSelection[datasetId], function(value, elementId, obj) {
-                    $scope.elementsSelection[datasetId][elementId] = $scope.allElementsSelected[datasetId];
-                });
-            };
+  
             
             var saveDataset = function(dataset, saveCallback) {
                 UserDatasetService.save({}, dataset, function(response) {
@@ -107,29 +100,32 @@ angular.module('UserApp')
                 var dataset = $scope.dataset;
                 dataset.elements = [];
                 
-                var elementsSelection = $scope.elementsSelection;
+                var userSelection = $scope.userSelection;
+                var elementsSelection=[];
+                
+                angular.forEach(userSelection,function(selection){
+                	angular.forEach(selection,function(s){
+                		var es=elementsSelection[s.datasetId];
+                		if(angular.isUndefined(es))
+            			{
+                			es={};
+                			es[s.element.id]=s.element;
+            			}else
+            				es[s.element.id]=s.element;
+                		elementsSelection[s.datasetId]=es;
+                	});
+	                	
+                });
+               
                 angular.forEach(dataset.subDatasets, function(subdataset) {
                     angular.forEach(subdataset.elements, function(element) {
                         if (elementsSelection[subdataset.id][element.id]) {
-                            dataset.elements.push(element);
+                            dataset.elements.push(elementsSelection[subdataset.id][element.id]);
                         }
                     });
                 });
                 
             	saveDataset(dataset, function() {
-//            		//temporary
-//            		if(dataset.name==='Specifics Report')
-//        			{
-//            			var temp=[]
-//                		angular.forEach(dataset.elements,function(e,i){
-//                			if(e.visible)
-//                				temp.push(e);
-//                		});
-//                		
-//                		dataset.elements=temp;
-//        			}
-//            		
-//            		//temporary
             		
                 	localStorageService.set('dataset',dataset);
                      $state.go('step3');

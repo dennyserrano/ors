@@ -46,7 +46,7 @@ public @Command class FindDatasetCommand implements ICommand<FindDatasetContext>
 //                .map(de -> new Element(de.getId(), de.getName(), de.getDescription(), de.getMeaning(), head.getId(),de.isVisible(),false))
 //                .collect(Collectors.toList());
 
-        context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), head.getParentDatasetHead(), subDatasets,new ArrayList<Element>()));
+        context.setDataset(new Dataset(head.getId(), head.getName(), head.getDescription(), head.getParentDatasetHead(), subDatasets,new ArrayList<Element>(),false));
         context.createResponse();
     }
 }

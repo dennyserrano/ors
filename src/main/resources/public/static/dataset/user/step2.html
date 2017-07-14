@@ -1,6 +1,6 @@
 <div data-ng-cloak="" data-ng-controller="Step2Ctrl" class="step step2">
   <div class="col-sm-12">
-    <div id="trackerRow" class="row" style="width: 100%;">
+    <div  class="row" style="width: 100%;">
       <div class="col-sm-12">
         <div style="margin-left:7px;" id="tracker">
           <div class="row smpl-step">
@@ -47,52 +47,57 @@
     </div>
     
     <div id="datasetContents" class="row">
+      
       <div data-ng-if="loadingElements === 0" class="col-sm-12">
         <i class="fa fa-spin fa-spinner"></i>
         Loading Elements...
       </div>
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
+      	<div style="display:inline-block;">
+      		Aggregate By:<select data-ng-model="chosenAggregateOption" data-ng-options='x for x in aggregateOptions' data-ng-init="chosenAggregateOption=aggregateOptions[0]" ></select>
+      	</div>
+      	<div data-ng-if="chosenAggregateOption">
+   			<input type='checkbox' data-ng-model='dataset.countIncluded' data-ng-true-value="true" data-ng-false-value="false">Include Count
+   		</div>
         <div id="elements" double-scroll-bar-horizontal="" class="table-responsive">
-          <div id="tableWrapper" class="table-wrapper">
+         
 
-            <table id="elementsTable" class="table table-bordered table-striped table-condensed"
-                   style="font-size: small;" cellpadding="0" cellspacing="0" border="0">
-              <thead class="white-bg">
-                <tr>
-                  <th bindonce data-ng-repeat="subdataset in elementsTable.datasets" colspan="3" bo-text="subdataset.name"></th>
-                </tr>
-                <tr style="background-color: blue; color: #FFF;">
-                  <th bindonce data-ng-repeat-start="subdataset in elementsTable.datasets" style="padding: 5px;">
-                    <input type="checkbox" id="subdataset{{ ::subdataset.id }}"
-                           data-ng-checked="allElementsSelected[subdataset.id]"
-                           data-ng-click="toggleAllElementsSelection(subdataset.id)"/>
-                  </th>
-                  <th>
-                    Element Name
-                  </th>
-                  <th data-ng-repeat-end="">
-                    Definition
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr bindonce data-ng-repeat="idx in elementsTable.elementsIndex">
-                  <td bindonce data-ng-repeat-start="subdataset in elementsTable.datasets"
-                      data-ng-init="element = elementsTable.elements[idx][subdataset.id]">
-                    <input type="checkbox" id="element{{ ::element.id }}" data-ng-if="element"
-                           data-ng-model="elementsSelection[subdataset.id][element.id]"/>
-                  </td>
-                  <td bo-text="element.name" ></td>
-                  <td bo-text="element.description" data-ng-repeat-end=""></td>
-                </tr>
-              </tbody>
-            </table>
-            
-          </div>
-        </div>
-      </div>
-
+         <table  data-ng-style="$index===1?{display:'inline-block'}:{float:'left'}" class="table-bordered" data-ng-repeat="dataset in elementsTable.datasets track by $index">
+           <thead class="white-bg">
+             <tr>
+               <th colspan="4">{{dataset.name}}</th>
+             </tr>
+             <tr style="background-color: blue; color: #FFF;">
+               <th style="padding: 5px;">
+               	<input type="checkbox" data-ng-model="checkAllVar" data-ng-change="checkAll($index,checkAllVar,dataset)" data-ng-init="checkAllVar=true">
+               </th>
+               <th>
+                 Element Name
+               </th>
+               <th>
+                 Definition
+               </th>
+               <th data-ng-if="chosenAggregateOption">
+               	 Aggregate Function
+               </th>
+             </tr>
+           </thead>
+           <tbody>
+				<tr data-ng-repeat="element in elementsTable.elements" data-ng-init="elem=element[dataset.id]">
+					<td data-ng-show="elem">
+						<input type="checkbox" data-checklist-model="userSelection[$parent.$index]" data-checklist-value="{datasetId:dataset.id,element:elem}"/>
+					</td>
+					<td>{{elem.name}}</td>
+					<td>{{elem.description}}</td>
+					<td data-ng-if="elem.aggregatable && chosenAggregateOption && elem">
+						<select data-ng-model="elem.aggregate" data-ng-options="x for x in aggregateList" data-ng-init="elem.aggregate=aggregateList[0]">
+						</select>
+					</td>
+				</tr>
+           </tbody>
+         </table>
+         
       <div data-ng-if="loadingElements === 2" class="col-sm-12">
         <div class="alert alert-danger">
           {{ ::loadingElementsError }}
@@ -116,7 +121,7 @@
         <button type="button" class="btn btn-default" data-ng-click="previous()">
           Previous
         </button>
-        <button id="nextBtn" data-ng-disabled="saving" type="button" class="btn btn-primary" data-ng-click="save()">
+        <button id="nextBtn"  type="button" class="btn btn-primary" data-ng-click="save()">
           Next
         </button>
         <i data-ng-show="saving" class="fa fa-spin fa-spinner"></i>

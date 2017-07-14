@@ -39,10 +39,12 @@ public class Dataset implements Serializable {
 
     private @JsonProperty("filters") List<Filter> filters = new ArrayList<>();
 
+    private boolean countIncluded;
+    
     public Dataset() {}
 
     public Dataset(long id, String name, String description, Long parentDatasetHead) {
-        this(id, name, description, parentDatasetHead, Collections.emptyList(), Collections.emptyList());
+        this(id, name, description, parentDatasetHead, Collections.emptyList(), Collections.emptyList(),false);
     }
 
     @JsonCreator
@@ -51,13 +53,15 @@ public class Dataset implements Serializable {
                    @JsonProperty("description") String description,
                    @JsonProperty("parentDatasetHead") Long parentDatasetHead,
                    @JsonProperty("subDatasets") List<Dataset> subDatasets,
-                   @JsonProperty("elements") List<Element> elements) {
+                   @JsonProperty("elements") List<Element> elements,
+                   @JsonProperty("countIncluded") boolean countIncluded) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.parentDatasetHead = parentDatasetHead;
         this.subDatasets.addAll(subDatasets);
         this.elements.addAll(elements);
+        this.countIncluded=countIncluded;
     }
 
     public long getId() {
@@ -136,7 +140,17 @@ public class Dataset implements Serializable {
         this.filters = filters;
     }
 
-    @Override
+    
+    
+    public boolean isCountIncluded() {
+		return countIncluded;
+	}
+
+	public void setCountIncluded(boolean countIncluded) {
+		this.countIncluded = countIncluded;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Dataset)) {
             return false;

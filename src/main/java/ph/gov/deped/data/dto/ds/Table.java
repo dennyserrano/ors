@@ -22,7 +22,7 @@ public class Table extends Dataset implements Serializable {
     }
 
     public Table(long id, String name, String description, Long parentDatasetHead, int tableId, List<Dataset> subDatasets, List<Element> elements) {
-        super(id, name, description, parentDatasetHead, subDatasets, elements);
+        super(id, name, description, parentDatasetHead, subDatasets, elements,false);
         this.tableId = tableId;
     }
 
