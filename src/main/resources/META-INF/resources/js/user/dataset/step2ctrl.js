@@ -10,7 +10,23 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
             
             $scope.aggregateList=['SUM','AVG'];
-            $scope.aggregateOptions=['','Region','Division'];
+            $scope.aggregateOptions=[
+                                     {
+                                    	 name:null,
+                                    	 elements:null
+                                     },
+                                     {
+                                    	 name:'Region',
+                                    	 elements:[{
+                                    		 id:1
+                                    	 }]
+                                     },
+                                     {
+                                    	 name:'Division',
+                                    	 elements:[{
+                                    		 id:2
+                                    	 }]
+                                     }];
             $scope.userSelection=[];
             $window.ORS.AdjustDatasetContents(0);
             
@@ -102,7 +118,7 @@ angular.module('UserApp')
                 
                 var userSelection = $scope.userSelection;
                 var elementsSelection=[];
-                
+                dataset.aggregateBy=$scope.chosenAggregateOption;
                 angular.forEach(userSelection,function(selection){
                 	angular.forEach(selection,function(s){
                 		var es=elementsSelection[s.datasetId];

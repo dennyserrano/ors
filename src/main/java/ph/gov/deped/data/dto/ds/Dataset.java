@@ -39,12 +39,13 @@ public class Dataset implements Serializable {
 
     private @JsonProperty("filters") List<Filter> filters = new ArrayList<>();
 
-    private boolean countIncluded;
+    @JsonProperty("aggregateBy")
+    private Aggregate aggregateBy;
     
     public Dataset() {}
 
     public Dataset(long id, String name, String description, Long parentDatasetHead) {
-        this(id, name, description, parentDatasetHead, Collections.emptyList(), Collections.emptyList(),false);
+        this(id, name, description, parentDatasetHead, Collections.emptyList(), Collections.emptyList());
     }
 
     @JsonCreator
@@ -53,15 +54,14 @@ public class Dataset implements Serializable {
                    @JsonProperty("description") String description,
                    @JsonProperty("parentDatasetHead") Long parentDatasetHead,
                    @JsonProperty("subDatasets") List<Dataset> subDatasets,
-                   @JsonProperty("elements") List<Element> elements,
-                   @JsonProperty("countIncluded") boolean countIncluded) {
+                   @JsonProperty("elements") List<Element> elements) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.parentDatasetHead = parentDatasetHead;
         this.subDatasets.addAll(subDatasets);
         this.elements.addAll(elements);
-        this.countIncluded=countIncluded;
+        
     }
 
     public long getId() {
@@ -142,12 +142,13 @@ public class Dataset implements Serializable {
 
     
     
-    public boolean isCountIncluded() {
-		return countIncluded;
+
+	public Aggregate getAggregateBy() {
+		return aggregateBy;
 	}
 
-	public void setCountIncluded(boolean countIncluded) {
-		this.countIncluded = countIncluded;
+	public void setAggregateBy(Aggregate aggregateBy) {
+		this.aggregateBy = aggregateBy;
 	}
 
 	@Override

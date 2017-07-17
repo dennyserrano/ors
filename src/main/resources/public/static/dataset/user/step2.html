@@ -55,13 +55,13 @@
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
       	<div style="display:inline-block;">
-      		Aggregate By:<select data-ng-model="chosenAggregateOption" data-ng-options='x for x in aggregateOptions' data-ng-init="chosenAggregateOption=aggregateOptions[0]" ></select>
+      		Aggregate By:<select data-ng-model="chosenAggregateOption" data-ng-options='x as x.name for x in aggregateOptions' data-ng-init="chosenAggregateOption=aggregateOptions[0]"></select>
+      		
       	</div>
-      	<div data-ng-if="chosenAggregateOption">
-   			<input type='checkbox' data-ng-model='dataset.countIncluded' data-ng-true-value="true" data-ng-false-value="false">Include Count
+      	<div data-ng-if="chosenAggregateOption.name!==null">
+   			<input type='checkbox' data-ng-model='dataset.aggregateBy.countIncluded' data-ng-true-value="true" data-ng-false-value="false">Include Count
    		</div>
         <div id="elements" double-scroll-bar-horizontal="" class="table-responsive">
-         
 
          <table  data-ng-style="$index===1?{display:'inline-block'}:{float:'left'}" class="table-bordered" data-ng-repeat="dataset in elementsTable.datasets track by $index">
            <thead class="white-bg">
@@ -78,7 +78,7 @@
                <th>
                  Definition
                </th>
-               <th data-ng-if="chosenAggregateOption">
+               <th data-ng-if="chosenAggregateOption.name!==null">
                	 Aggregate Function
                </th>
              </tr>
@@ -90,7 +90,7 @@
 					</td>
 					<td>{{elem.name}}</td>
 					<td>{{elem.description}}</td>
-					<td data-ng-if="elem.aggregatable && chosenAggregateOption && elem">
+					<td data-ng-if="elem.aggregatable && chosenAggregateOption.name!==null && elem">
 						<select data-ng-model="elem.aggregate" data-ng-options="x for x in aggregateList" data-ng-init="elem.aggregate=aggregateList[0]">
 						</select>
 					</td>
