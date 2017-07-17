@@ -87,12 +87,14 @@
 				<tr data-ng-repeat="element in elementsTable.elements" data-ng-init="elem=element[dataset.id]">
 					<td data-ng-show="elem">
 						<input type="checkbox" data-checklist-model="userSelection[$parent.$index]" data-checklist-value="{datasetId:dataset.id,element:elem}"/>
+						
 					</td>
 					<td>{{elem.name}}</td>
 					<td>{{elem.description}}</td>
 					<td data-ng-if="elem.aggregatable && chosenAggregateOption.name!==null && elem">
-						<select data-ng-model="elem.aggregate" data-ng-options="x for x in aggregateList" data-ng-init="elem.aggregate=aggregateList[0]">
+						<select data-ng-model="userSelection[$parent.$index].element.aggregate" data-ng-options="x for x in aggregateList" data-ng-init="userSelection[$parent.$index].element.aggregate=aggregateList[0]">
 						</select>
+						{{userSelection[$parent.$index]}}
 					</td>
 				</tr>
            </tbody>

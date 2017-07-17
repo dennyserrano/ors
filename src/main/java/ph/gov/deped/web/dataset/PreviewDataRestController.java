@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.data.api.DatasetService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +30,12 @@ public class PreviewDataRestController {
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE })
     public List<List<ColumnElement>> preview(@RequestBody Dataset dataset) {
+    	if(!dataset.getAggregateBy().getElements().isEmpty())
+    	{
+    		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
+    		al.addAll(dataset.getAggregateBy().getElements());
+    		dataset.setElements(al);
+    	}
         return datasetService.getData(dataset, true);
     }
 }
