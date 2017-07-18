@@ -65,7 +65,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Autowired
 	private DatasetRepository datasetRepository;
 	
-	private TableChainer tableChainer=new StarSchemaChainImpl();
+	private TableChainer tableChainer;
 	
 	
 	
@@ -75,17 +75,25 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
 
+		
 		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
-		ids.add(PARENT_ID);
+		
+		ids.remove(PARENT_ID);
+		List<DatasetHead> children;
+		if(!ids.isEmpty())
+			children= datasetRepository.findByIds(ids);
+		else
+			children=new ArrayList<DatasetHead>();
+		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
+    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
+    	forColumnList.add(parent);
+    	forColumnList.addAll(children);
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
     	
-    	List<DatasetHead> children= datasetRepository.findByIds(ids);
-
-    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
-    	
-    	children.remove(parent);
-    	if(ids.size()==0)
-    		throw new RuntimeException("No datasets retrieved out of the given ids");
+//    	if(ids.size()==0)
+//    		throw new RuntimeException("No datasets retrieved out of the given ids");
     	
     	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
     	datasetHeads.add(parent);
@@ -138,6 +146,42 @@ public class DatasetServiceImpl2 implements DatasetService
 		return data;
 	}
 
+	
+	private boolean isParentChosen(List<Dataset> subSets)
+	{
+		for(Dataset d:subSets)
+			if(d.getId()==PARENT_ID)
+				return true;
+		
+		return false;
+	}
+	
+	private Map<DatasetHead,Set<DatasetElement>> selectedColumns(List<DatasetHead> children,List<Element> uiElements)
+	{
+		HashMap<DatasetHead,Set<DatasetElement>> hm=new HashMap<DatasetHead, Set<DatasetElement>>();
+		for(DatasetHead dh:children)
+		{
+			for(DatasetElement de:dh.getDatasetElements())
+				for(Element e:uiElements)
+					if(e.getId()==de.getId())
+					{
+						if(hm.get(dh)==null)
+						{
+							HashSet<DatasetElement> hs=new HashSet<DatasetElement>();
+							hs.add(de);
+							hm.put(dh, hs);
+						}
+						else
+						{
+							hm.get(dh).add(de);
+						}
+						
+					}
+		}
+		
+		return hm;
+	}
+	
 	private void collectColumns(LinkedList<ColumnElement> columns,PrefixTable head)
 	{
 		List<TableColumn> tempList=head.getColumns().stream().sorted().collect(Collectors.toList());
