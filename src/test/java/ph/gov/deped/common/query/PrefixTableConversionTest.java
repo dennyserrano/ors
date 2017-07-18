@@ -2,6 +2,7 @@ package ph.gov.deped.common.query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -38,7 +39,7 @@ import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 public class PrefixTableConversionTest
 {
 	
-	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl();
+	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl(new HashMap<DatasetHead, Set<DatasetElement>>());
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	
 	
