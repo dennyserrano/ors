@@ -71,8 +71,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
 		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
-		log.debug("sql:"+sql);
-		long dataSize= datasetService.getDataSize(sql); //TODO should not queru the entire select..should be count
+		log.debug("sql:"+toCountSql(sql));
+		long dataSize= datasetService.getDataSize(toCountSql(sql)); 
 		log.debug("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
@@ -130,6 +130,13 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		}
 	
 		
+	}
+	
+	private String toCountSql(String sql)
+	{
+		String s=sql.split("FROM")[1];
+		
+		return String.format("SELECT COUNT(*) FROM %s", s);
 	}
 	
 	protected void writeFormatMetadata(String fileName,List<List<ColumnElement>> data) throws FileNotFoundException
