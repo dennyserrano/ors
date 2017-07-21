@@ -38,7 +38,7 @@ public class StarSchemaChainImpl implements TableChainer {
 
 	private PrefixTableBuilder tableBuilder;
 	private String[] MANDATORY_FIELDS;
-	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from"};
+	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from","school_id"};
 	private Map<DatasetHead,Set<DatasetElement>> selectedElements;
 	
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
