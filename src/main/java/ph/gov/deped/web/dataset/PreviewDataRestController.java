@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bits.sql.AggregateTypes;
+
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
@@ -33,7 +35,11 @@ public class PreviewDataRestController {
     	if(!dataset.getAggregateBy().getElements().isEmpty())
     	{
     		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
-    		al.addAll(dataset.getAggregateBy().getElements());
+    		for(Element e:dataset.getAggregateBy().getElements())
+    		{
+    			e.setAggregate(AggregateTypes.GROUP.getAggregate());
+    			al.add(e);
+    		}
     		dataset.setElements(al);
     	}
         return datasetService.getData(dataset, true);

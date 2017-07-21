@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.bits.sql.AggregateTypes;
 import com.bits.sql.FilterType;
 import com.bits.sql.JoinType;
 import com.bits.sql.Operator;
@@ -60,7 +61,8 @@ public class StarSchemaChainImpl implements TableChainer {
 	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements)
 	{
 		tableBuilder=new PrefixTableBuilder();
-		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
+//		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
+		MANDATORY_FIELDS=new String[]{};
 		this.selectedElements=selectedElements;
 	}
 	
@@ -98,7 +100,19 @@ public class StarSchemaChainImpl implements TableChainer {
 		for(DatasetHead child:children)
 		{
 			Set<DatasetElement> s=selectedElements.get(child);
-			s.addAll(joinElementList);
+			for(DatasetElement de:joinElementList) //the reason why this code exist is that contains has a different .equals impl which the essence of finding an element should be by name in this context only
+				{
+					boolean found = false;
+					for(DatasetElement childDE:child.getDatasetElements())
+						if(de.getName().equals(childDE.getName()))
+						{
+							found=true;
+							break;
+						}
+					if(!found)
+						s.add(de);
+				}
+					
 			child.setDatasetElements(s);
 		}
 		
@@ -369,8 +383,12 @@ public class StarSchemaChainImpl implements TableChainer {
 			for(TableColumn tc:pt.getColumns())
 			{
 				ColumnElement ce=(ColumnElement) tc;
-				if(!ce.hasAggregate())
-					set.add(ce);
+				if(ce.hasAggregate())
+					if(ce.getAggregate().equals(AggregateTypes.GROUP))
+						{
+							set.add(ce);
+							ce.setAggregate(null);
+						}
 			}
 		}
 	}

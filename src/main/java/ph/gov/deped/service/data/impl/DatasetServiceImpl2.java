@@ -146,16 +146,6 @@ public class DatasetServiceImpl2 implements DatasetService
 		return data;
 	}
 
-	
-	private boolean isParentChosen(List<Dataset> subSets)
-	{
-		for(Dataset d:subSets)
-			if(d.getId()==PARENT_ID)
-				return true;
-		
-		return false;
-	}
-	
 	private Map<DatasetHead,Set<DatasetElement>> selectedColumns(List<DatasetHead> children,List<Element> uiElements)
 	{
 		HashMap<DatasetHead,Set<DatasetElement>> hm=new HashMap<DatasetHead, Set<DatasetElement>>();
@@ -190,9 +180,9 @@ public class DatasetServiceImpl2 implements DatasetService
 		
 		for(PrefixTable pt:head.getJoinTables().keySet())
 		{
-			tempList=pt.getColumns().stream().sorted().collect(Collectors.toList());
-			for(TableColumn tc:tempList)
-				columns.add((ColumnElement) tc);
+//			tempList=pt.getColumns().stream().sorted().collect(Collectors.toList());
+//			for(TableColumn tc:tempList)
+//				columns.add((ColumnElement) tc);
 			collectColumns(columns,pt);
 		}
 	}
@@ -235,15 +225,19 @@ public class DatasetServiceImpl2 implements DatasetService
 		
 		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
-		ids.add(PARENT_ID);
-    	
-    	List<DatasetHead> children= datasetRepository.findByIds(ids);
-
-    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
-    	
-    	children.remove(parent);
-    	if(ids.size()==0)
-    		throw new RuntimeException("No datasets retrieved out of the given ids");
+		
+		ids.remove(PARENT_ID);
+		List<DatasetHead> children;
+		if(!ids.isEmpty())
+			children= datasetRepository.findByIds(ids);
+		else
+			children=new ArrayList<DatasetHead>();
+		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
+    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
+    	forColumnList.add(parent);
+    	forColumnList.addAll(children);
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
     	
     	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
     	datasetHeads.add(parent);
@@ -272,7 +266,7 @@ public class DatasetServiceImpl2 implements DatasetService
           sortedColumns.forEach(ce -> {
               try {
                   ColumnElement columnElementWithValue = ce.clone(); 
-                  Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                  Serializable value = JdbcTypes.getValue(rs, ce.getColumnName(), ce.getDataType());
                   columnElementWithValue.setValue(value);
                   
                   row.add(columnElementWithValue);
@@ -305,16 +299,21 @@ public class DatasetServiceImpl2 implements DatasetService
 	public LinkedList<PrefixTable> getPrefixTables(Dataset dataset) {
 		
 		LinkedList<PrefixTable> ll=new LinkedList<PrefixTable>();
+		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
-		ids.add(PARENT_ID);
-    	
-    	List<DatasetHead> children= datasetRepository.findByIds(ids);
-
-    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
-    	
-    	children.remove(parent);
-    	if(ids.size()==0)
-    		throw new RuntimeException("No datasets retrieved out of the given ids");
+		
+		ids.remove(PARENT_ID);
+		List<DatasetHead> children;
+		if(!ids.isEmpty())
+			children= datasetRepository.findByIds(ids);
+		else
+			children=new ArrayList<DatasetHead>();
+		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
+    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
+    	forColumnList.add(parent);
+    	forColumnList.addAll(children);
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
     	
     	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
     	datasetHeads.add(parent);

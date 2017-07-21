@@ -8,25 +8,66 @@ angular.module('UserApp')
             $scope.step2 = 'active';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
-            
             $scope.aggregateList=['SUM','AVG'];
-            $scope.aggregateOptions=[
-                                     {
-                                    	 name:null,
-                                    	 elements:null
-                                     },
-                                     {
-                                    	 name:'Region',
-                                    	 elements:[{
-                                    		 id:1
-                                    	 }]
-                                     },
-                                     {
-                                    	 name:'Division',
-                                    	 elements:[{
-                                    		 id:2
-                                    	 }]
-                                     }];
+            $scope.aggregateOptions={
+	                                     
+	                                    	 '0':{
+		                                    	 name:null,
+		                                    	 elements:null
+	                                    	 	 },
+	                                     
+	                                     
+	                                    	 'Region':
+	                                    	 	 {
+			                                    	 name:'Region',
+			                                    	 elements:[{id:281}]
+		                                     	 },
+	                                     
+	                                     
+	                                    	 'Division':
+	                                    	 	{
+	                                    		 name:'Division',
+		                                    	 elements:[{id:285}],
+		                                    	 next:'Region'
+	                                    	 	},
+	                                    	 
+	                                     
+	                                     
+	                                    	 'District':
+	                                    	 	{
+	                                    		 name:'District',
+		                                    	 elements:[{id:286}],
+		                                    	 next:'Division'
+	                                    	 	},
+	                                     
+	                                     
+	                                    	 'Province':
+	                                    	 {
+	                                    		 name:'Province',
+		                                    	 elements:[{id:282}],
+		                                    	 next:'District'
+	                                    	 },
+	                                    	 
+	                                     
+	                                     
+	                                    	 'Municipality':
+	                                    	 {
+	                                    		 name:'Municipality',
+		                                    	 elements:[{id:283}],
+		                                    	 next:'Province'
+	                                    	 },
+	                                    	 
+	                                     
+	                                     
+	                                    	 'Legislative':
+	                                    	 {
+	                                    		 name:'Legislative',
+		                                    	 elements:[{id:284}],
+		                                    	 next:'Municipality'
+	                                    	 }
+	                                    	 
+	                                     
+    								}	
             $scope.userSelection=[];
             $window.ORS.AdjustDatasetContents(0);
             
@@ -71,18 +112,20 @@ angular.module('UserApp')
                 			us=[];
                 			
                 			angular.forEach(dataset.elements,function(element){
-                				us.push({'datasetId':dataset.id,'element':element});
+                				us[element.id]=[];
+                				us[element.id].push(element);
                 			});
                 			
                 			
                 		}else
                 			angular.forEach(dataset.elements,function(element){
-                				us.push({'datasetId':dataset.id,'element':element});
+                				us[element.id]=[];
+                				us[element.id].push(element);
                 			});
                     	$scope.userSelection[index]=us;
                     });
                     
-                    console.log($scope.userSelection);
+                    
                 }, function(response) {
                     $scope.loadingElements = 2;
                     $scope.loadingElementsError = 'Failed to load Elements. [HTTP Status: ' + response.status + '].';
@@ -118,21 +161,45 @@ angular.module('UserApp')
                 
                 var userSelection = $scope.userSelection;
                 var elementsSelection=[];
-                dataset.aggregateBy=$scope.chosenAggregateOption;
-                angular.forEach(userSelection,function(selection){
-                	angular.forEach(selection,function(s){
-                		var es=elementsSelection[s.datasetId];
-                		if(angular.isUndefined(es))
-            			{
-                			es={};
-                			es[s.element.id]=s.element;
-            			}else
-            				es[s.element.id]=s.element;
-                		elementsSelection[s.datasetId]=es;
-                	});
-	                	
+                
+                angular.forEach($scope.userSelection,function(selection){
+                	
+                	for(var key in selection)
+                    {
+                    	var userSelect= selection[key]
+                    	if(angular.isUndefined(userSelect))
+                    		continue;
+                    	
+                    	if(angular.isUndefined(selection[key][0]))
+                    		continue;
+                    	
+                    	userSelect=selection[key][0];
+                    	var datasetLayer=elementsSelection[userSelect.datasetId];
+                    	if(angular.isUndefined(datasetLayer))
+                    	{
+                    		datasetLayer={};
+                    		datasetLayer[userSelect.id]=userSelect;
+                    	}else
+                		{
+                    		datasetLayer[userSelect.id]=userSelect;
+                		}
+                    	
+                    	elementsSelection[userSelect.datasetId]=datasetLayer;
+                    	
+                    }
+                	
+                	
                 });
-               
+                
+                if($scope.chosenAggregateOption.name!==null)
+            	{
+                	
+					var aggregateBy=$scope.chosenAggregateOption;
+					aggregateBy.elements=findAggregates($scope.chosenAggregateOption,$scope.aggregateOptions);
+					delete aggregateBy.next;
+					dataset.aggregateBy=aggregateBy;
+            	}
+                
                 angular.forEach(dataset.subDatasets, function(subdataset) {
                     angular.forEach(subdataset.elements, function(element) {
                         if (elementsSelection[subdataset.id][element.id]) {
@@ -142,13 +209,32 @@ angular.module('UserApp')
                 });
                 
             	saveDataset(dataset, function() {
-            		
                 	localStorageService.set('dataset',dataset);
                      $state.go('step3');
                 });
                 
                 
             };
+            
+            
+            
+            var findAggregates=function(chosenAggregate,aggregateOptions)
+            {
+            	var elements;
+            	if(angular.isDefined(chosenAggregate.next))
+            	{  
+            		var nextAggregate=aggregateOptions[chosenAggregate.next];
+            		elements=findAggregates(nextAggregate,aggregateOptions);
+            		elements=chosenAggregate.elements.concat(elements);
+            		
+            	}
+            	
+            	if(angular.isUndefined(elements))
+            		return chosenAggregate.elements;
+            	else
+            		return elements;
+            }
+            
         }
     ]
 );

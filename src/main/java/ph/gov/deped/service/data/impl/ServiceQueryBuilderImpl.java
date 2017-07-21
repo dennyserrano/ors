@@ -100,7 +100,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			if(ce.getAggregate()==null)
 				fromClauseBuilder=projectionBuilder.select(new Projection(ce.getTablePrefix()!=null?ce.getTablePrefix():pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
 			else
-				fromClauseBuilder=projectionBuilder.select(Projections.column(ce.getAggregate(), ce.getTablePrefix(), ce.getColumnName(),ce.getColumnName()));
+				fromClauseBuilder=projectionBuilder.select(Projections.column(ce.getAggregate(), ce.getTablePrefix(), ce.getColumnName(),ce.getElementName()));
 		}
 		
 		for(PrefixTable nextTable:pt.getJoinTables().keySet())
