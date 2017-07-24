@@ -97,40 +97,40 @@ public class StarSchemaChainImpl implements TableChainer {
 			}
 		
 		
-		for(DatasetHead child:children)
-		{
-			Set<DatasetElement> s=selectedElements.get(child);
-			for(DatasetElement de:joinElementList) //the reason why this code exist is that contains has a different .equals impl which the essence of finding an element should be by name in this context only
-				{
-					boolean found = false;
-					for(DatasetElement childDE:child.getDatasetElements())
-						if(de.getName().equals(childDE.getName()))
-						{
-							found=true;
-							break;
-						}
-					if(!found)
-						s.add(de);
-				}
-					
-			child.setDatasetElements(s);
-		}
+//		for(DatasetHead child:children)
+//		{
+//			Set<DatasetElement> s=selectedElements.get(child);
+//			for(DatasetElement de:joinElementList) //the reason why this code exist is that contains has a different .equals impl which the essence of finding an element should be by name in this context only
+//				{
+//					boolean found = false;
+//					for(DatasetElement childDE:child.getDatasetElements())
+//						if(de.getName().equals(childDE.getName()))
+//						{
+//							found=true;
+//							break;
+//						}
+//					if(!found)
+//						s.add(de);
+//				}
+//					
+//			child.setDatasetElements(s);
+//		}
 		
-		Set<DatasetElement> s= selectedElements.get(parent);
-		if(s!=null)
-		{
-			s.addAll(joinElementList);
-			s.addAll(criteriaList);
-			s.addAll(mandatoryFieldList);
-			parent.setDatasetElements(s);
-		}else
-		{
-			s=new HashSet<DatasetElement>();
-			s.addAll(joinElementList);
-			s.addAll(criteriaList);
-			s.addAll(mandatoryFieldList);
-			parent.setDatasetElements(s);
-		}
+//		Set<DatasetElement> s= selectedElements.get(parent);
+//		if(s!=null)
+//		{
+//			s.addAll(joinElementList);
+//			s.addAll(criteriaList);
+//			s.addAll(mandatoryFieldList);
+//			parent.setDatasetElements(s);
+//		}else
+//		{
+//			s=new HashSet<DatasetElement>();
+//			s.addAll(joinElementList);
+//			s.addAll(criteriaList);
+//			s.addAll(mandatoryFieldList);
+//			parent.setDatasetElements(s);
+//		}
 		
 		
 		PrefixTable parentPT=convertParent(parent);
@@ -207,8 +207,12 @@ public class StarSchemaChainImpl implements TableChainer {
 				continue;
 			
 			Optional<TableColumn> o=parentPT.getColumns().stream().filter(e->((ColumnElement)e).getElementId()==de.getId()).findFirst();
-			parentPT.getColumns().remove(o.get());
+			removeList.add(o.get());
 		}
+		
+		
+		
+		
 		
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)

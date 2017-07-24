@@ -8,7 +8,7 @@ angular.module('UserApp')
             $scope.step2 = 'active';
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
-            $scope.aggregateList=['SUM','AVG'];
+            $scope.aggregateList=['SUM','AVERAGE'];
             $scope.aggregateOptions={
 	                                     
 	                                    	 '0':{
