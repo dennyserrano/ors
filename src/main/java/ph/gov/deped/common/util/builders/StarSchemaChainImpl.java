@@ -210,9 +210,7 @@ public class StarSchemaChainImpl implements TableChainer {
 			removeList.add(o.get());
 		}
 		
-		
-		
-		
+		remove(selectedElements, parentPT, removeList);
 		
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
@@ -240,6 +238,28 @@ public class StarSchemaChainImpl implements TableChainer {
 		parent.getColumns().remove(removeList);
 		for(PrefixTable joinTable:parent.getJoinTables().keySet())
 			remove(removeList,joinTable);
+	}
+	
+	//TODO revise needs to be optimized. searching for each parent and each element. This is an expensive process
+	private void remove(Map<DatasetHead,Set<DatasetElement>> selected,PrefixTable parent,List<TableColumn> removeList)
+	{
+		for(TableColumn tc:parent.getColumns())
+		{
+			boolean isSelected=false;
+			for(Set<DatasetElement> set:selected.values())
+			{
+				ColumnElement ce=(ColumnElement) tc;
+				Optional<DatasetElement> option=set.stream().filter(e->e.getId()==ce.getElementId()).findFirst();
+				isSelected |= option.isPresent();
+			}
+			if(isSelected)
+				continue;
+			else
+				removeList.add(tc);
+		}
+		
+		for(PrefixTable pt:parent.getJoinTables().keySet())
+			remove(selected,pt,removeList);
 	}
 	
 	private PrefixTable convertParent(DatasetHead parent)
