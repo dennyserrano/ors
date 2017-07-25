@@ -219,7 +219,8 @@ public class DatasetServiceImpl2 implements DatasetService
 	public long getDataSize(String sql) {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
-		return template.query(sql, (rs, rowNum)->{return null;}).size();
+		Object o= template.query(sql, (rs, rowNum)->{return rs.getLong("COUNT(*)");}).get(0);
+		return (long) o;
 	}
 
 	@Override
@@ -289,6 +290,7 @@ public class DatasetServiceImpl2 implements DatasetService
 		
 		
 		PrefixTable finalTable=toParentPrefix(dataset);
+
     	
     	LinkedList<PrefixTable> ll=new LinkedList<PrefixTable>();
     	dig(ll,finalTable);
