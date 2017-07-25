@@ -8,6 +8,7 @@ import java.util.Set;
 import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
@@ -68,6 +69,16 @@ public class ConvertUtil
 	{
 		ColumnElement ce=new ColumnElement(fieldName, prefix);
 		return ce;
+	}
+	
+	public static Element toElement(DatasetElement de)
+	{
+		return new Element(de.getId(),
+				de.getName(),
+				de.getDescription(),
+				de.getMeaning(),
+				de.getDatasetHead().getId(),
+				false,false);
 	}
 	
 	

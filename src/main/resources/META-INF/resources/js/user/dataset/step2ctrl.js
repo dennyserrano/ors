@@ -76,7 +76,8 @@ angular.module('UserApp')
             	var userSelection=$scope.userSelection[index];
             	if(check)
     			angular.forEach(dataset.elements,function(element){
-    				userSelection.push({'datasetId':dataset.id,'element':element});
+    				userSelection[element.id]=[];
+    				userSelection[element.id].push(element);
     			});
             	else
             		userSelection=[];
@@ -153,6 +154,15 @@ angular.module('UserApp')
                     $state.go('step1');
                 }
             };
+            
+            $scope.aggregateByChange=function(chosenAggregateBy){
+
+            	var userSelection=$scope.userSelection;
+            	angular.forEach($scope.userSelection,function(datasetContainer){
+            		console.log(datasetContainer.length);
+            	});
+            		
+            }
             
             $scope.save = function() {
                 $scope.saving = true;

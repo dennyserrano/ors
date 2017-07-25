@@ -67,7 +67,9 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private TableChainer tableChainer;
 	
+	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from","school_id"};
 	
+	private static final long[] MANDATORY_IDS=new long[]{266,267,268,281,285};
 	
 	@Autowired @Qualifier(AppMetadata.DS)
 	private DataSource dataSource;
@@ -77,35 +79,7 @@ public class DatasetServiceImpl2 implements DatasetService
 
 		
 		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
-		List<Long> ids=getIds(dataset.getSubDatasets());
-		
-		ids.remove(PARENT_ID);
-		List<DatasetHead> children;
-		if(!ids.isEmpty())
-			children= datasetRepository.findByIds(ids);
-		else
-			children=new ArrayList<DatasetHead>();
-		
-    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
-    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
-    	forColumnList.add(parent);
-    	forColumnList.addAll(children);
-    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
-    	
-//    	if(ids.size()==0)
-//    		throw new RuntimeException("No datasets retrieved out of the given ids");
-    	
-    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
-    	datasetHeads.add(parent);
-    	datasetHeads.addAll(children);
-
-    	
-    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
-    	
-    	setAggregates(dataset.getElements(),hm);
-    	
-    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
-    	
+		PrefixTable finalTable=toParentPrefix(dataset);
     	
     	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
     	
@@ -224,29 +198,8 @@ public class DatasetServiceImpl2 implements DatasetService
 	public String getGeneratedSQL(Dataset dataset,LinkedList<PrefixTable> prefixTables) {
 		
 		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
-		List<Long> ids=getIds(dataset.getSubDatasets());
 		
-		ids.remove(PARENT_ID);
-		List<DatasetHead> children;
-		if(!ids.isEmpty())
-			children= datasetRepository.findByIds(ids);
-		else
-			children=new ArrayList<DatasetHead>();
-		
-    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
-    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
-    	forColumnList.add(parent);
-    	forColumnList.addAll(children);
-    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
-    	
-    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
-    	datasetHeads.add(parent);
-    	datasetHeads.addAll(children);
-    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
-    	
-    	setAggregates(dataset.getElements(),hm);
-    	
-    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
+		PrefixTable finalTable=toParentPrefix(dataset);
     	
     	String sql=serviceQueryBuilder.getQuery(finalTable);
 		
@@ -298,32 +251,10 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Override
 	public LinkedList<PrefixTable> getPrefixTables(Dataset dataset) {
 		
-		LinkedList<PrefixTable> ll=new LinkedList<PrefixTable>();
-		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
-		List<Long> ids=getIds(dataset.getSubDatasets());
 		
-		ids.remove(PARENT_ID);
-		List<DatasetHead> children;
-		if(!ids.isEmpty())
-			children= datasetRepository.findByIds(ids);
-		else
-			children=new ArrayList<DatasetHead>();
-		
-    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
-    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
-    	forColumnList.add(parent);
-    	forColumnList.addAll(children);
-    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
+		PrefixTable finalTable=toParentPrefix(dataset);
     	
-    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
-    	datasetHeads.add(parent);
-    	datasetHeads.addAll(children);
-    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
-    	
-    	setAggregates(dataset.getElements(),hm);
-    	
-    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
-    	
+    	LinkedList<PrefixTable> ll=new LinkedList<PrefixTable>();
     	dig(ll,finalTable);
     	
         return ll;
@@ -374,6 +305,50 @@ public class DatasetServiceImpl2 implements DatasetService
     		return retList;
     	}
     	
+    }
+    
+    private PrefixTable toParentPrefix(Dataset dataset)
+    {
+    	
+		List<Long> ids=getIds(dataset.getSubDatasets());
+		
+		ids.remove(PARENT_ID);
+		List<DatasetHead> children;
+		if(!ids.isEmpty())
+			children= datasetRepository.findByIds(ids);
+		else
+			children=new ArrayList<DatasetHead>();
+		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
+    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
+    	forColumnList.add(parent);
+    	forColumnList.addAll(children);
+    	
+    	
+    	if(dataset.getAggregateBy()==null)
+		{
+			ArrayList<Element> tempList=new ArrayList<Element>(dataset.getElements());
+    		for(DatasetElement de:parent.getDatasetElements())
+    			for(long mandatoryId:MANDATORY_IDS)
+    				{
+    					if(de.getId()==mandatoryId)
+    						tempList.add(ConvertUtil.toElement(de));
+    				}
+    		dataset.setElements(tempList);
+    		
+		}
+    	
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()),JOINING_ELEMENTS);
+    	
+    	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
+    	datasetHeads.add(parent);
+    	datasetHeads.addAll(children);
+    	HashMap<Long,DatasetElement> hm= collectColumns(datasetHeads);
+    	
+    	setAggregates(dataset.getElements(),hm);
+    	
+    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
+    	return finalTable;
     }
 	
 

@@ -38,8 +38,8 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 public class StarSchemaChainImpl implements TableChainer {
 
 	private PrefixTableBuilder tableBuilder;
-	private String[] MANDATORY_FIELDS;
-	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from","school_id"};
+	private long[] MANDATORY_FIELDS;
+	private final String[] JOINING_ELEMENTS;
 	private Map<DatasetHead,Set<DatasetElement>> selectedElements;
 	
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
@@ -58,18 +58,21 @@ public class StarSchemaChainImpl implements TableChainer {
 		CRITERIA.put(18L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(10937L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
 	}
 	
-	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements)
+	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,long[] mandatoryFields)
 	{
 		tableBuilder=new PrefixTableBuilder();
 //		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
-		MANDATORY_FIELDS=new String[]{};
 		this.selectedElements=selectedElements;
+		this.JOINING_ELEMENTS=joinElements;
+		this.MANDATORY_FIELDS=mandatoryFields;
 	}
 	
-	public StarSchemaChainImpl(String[] mandatoryFields)
+	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements)
 	{
 		tableBuilder=new PrefixTableBuilder();
-		MANDATORY_FIELDS=mandatoryFields;
+		this.selectedElements=selectedElements;
+		MANDATORY_FIELDS=new long[]{};
+		JOINING_ELEMENTS=joinElements;
 	}
 	
 	
@@ -82,8 +85,8 @@ public class StarSchemaChainImpl implements TableChainer {
 		
 		for(DatasetElement de:parent.getDatasetElements())
 			{
-				for(String mandatoryName:MANDATORY_FIELDS)
-					if(de.getName().equals(mandatoryName))
+				for(long mandatoryId:MANDATORY_FIELDS)
+					if(de.getId()==mandatoryId)
 						mandatoryFieldList.add(de);
 				
 				for(String joinElement:JOINING_ELEMENTS)
@@ -95,43 +98,6 @@ public class StarSchemaChainImpl implements TableChainer {
 						criteriaList.add(de);
 				
 			}
-		
-		
-//		for(DatasetHead child:children)
-//		{
-//			Set<DatasetElement> s=selectedElements.get(child);
-//			for(DatasetElement de:joinElementList) //the reason why this code exist is that contains has a different .equals impl which the essence of finding an element should be by name in this context only
-//				{
-//					boolean found = false;
-//					for(DatasetElement childDE:child.getDatasetElements())
-//						if(de.getName().equals(childDE.getName()))
-//						{
-//							found=true;
-//							break;
-//						}
-//					if(!found)
-//						s.add(de);
-//				}
-//					
-//			child.setDatasetElements(s);
-//		}
-		
-//		Set<DatasetElement> s= selectedElements.get(parent);
-//		if(s!=null)
-//		{
-//			s.addAll(joinElementList);
-//			s.addAll(criteriaList);
-//			s.addAll(mandatoryFieldList);
-//			parent.setDatasetElements(s);
-//		}else
-//		{
-//			s=new HashSet<DatasetElement>();
-//			s.addAll(joinElementList);
-//			s.addAll(criteriaList);
-//			s.addAll(mandatoryFieldList);
-//			parent.setDatasetElements(s);
-//		}
-		
 		
 		PrefixTable parentPT=convertParent(parent);
 		
@@ -196,12 +162,12 @@ public class StarSchemaChainImpl implements TableChainer {
 		for(DatasetElement de:criteriaList)
 		{
 			boolean isPresent=false;
-			for(DatasetElement mde:mandatoryFieldList)
-			{
-				isPresent=de.getId().longValue()==mde.getId().longValue();
-				if(isPresent)
-					break;
-			}
+			for(Set<DatasetElement> set:selectedElements.values())
+				{
+					isPresent|=set.stream().filter(e->e.getId()==de.getId()).findFirst().isPresent();
+					if(isPresent)
+						break;
+				}
 			
 			if(isPresent)
 				continue;
@@ -210,11 +176,13 @@ public class StarSchemaChainImpl implements TableChainer {
 			removeList.add(o.get());
 		}
 		
-		remove(selectedElements, parentPT, removeList);
+		
 		
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
 			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
+		
+		remove(selectedElements, parentPT, removeList);
 		
 		remove(removeList, parentPT);
 		
@@ -235,7 +203,21 @@ public class StarSchemaChainImpl implements TableChainer {
 	
 	private void remove(List<TableColumn> removeList,PrefixTable parent)
 	{
-		parent.getColumns().remove(removeList);
+		ArrayList<TableColumn> tmpRemove=new ArrayList<TableColumn>();
+		for(TableColumn parentTc:parent.getColumns())
+			{
+				ColumnElement parentCe=(ColumnElement) parentTc;
+				boolean isPresent=removeList.stream().filter(e->{
+					ColumnElement removeCe=(ColumnElement) e;
+					return parentCe.getElementId()==removeCe.getElementId();
+				}).findFirst().isPresent();
+				if(isPresent)
+					tmpRemove.add(parentTc);
+			}
+		
+		parent.getColumns().removeAll(tmpRemove);
+		tmpRemove.clear();
+		
 		for(PrefixTable joinTable:parent.getJoinTables().keySet())
 			remove(removeList,joinTable);
 	}

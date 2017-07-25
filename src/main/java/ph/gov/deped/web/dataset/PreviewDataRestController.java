@@ -32,8 +32,9 @@ public class PreviewDataRestController {
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE })
     public List<List<ColumnElement>> preview(@RequestBody Dataset dataset) {
-    	if(!dataset.getAggregateBy().getElements().isEmpty())
+    	if(dataset.getAggregateBy()!=null)
     	{
+    		
     		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
     		for(Element e:dataset.getAggregateBy().getElements())
     		{
