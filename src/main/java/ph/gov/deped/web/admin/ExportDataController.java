@@ -61,6 +61,9 @@ public class ExportDataController {
 //            exportService.export("", data, ExportType.XLSX);
         	log.info("Exporting::::::");
             filename=exportService.export(ds);
+            
+            if(filename==null)
+            	return;
         }
         catch (Exception ex) {
             log.error("Unable to generate exported data.");
