@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,6 +72,8 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private static final long[] MANDATORY_IDS=new long[]{266,267,268,281,285};
 	
+	private static final String COUNT_DATASET_HEAD_NAME="CountDatasetHead"; // temporary
+	
 	@Autowired @Qualifier(AppMetadata.DS)
 	private DataSource dataSource;
 	
@@ -96,7 +99,14 @@ public class DatasetServiceImpl2 implements DatasetService
             sortedColumns.forEach(ce -> {
                 try {
                     ColumnElement columnElementWithValue = ce.clone(); 
-                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                  //TODO getColumnName has a problem if the field has alias..
+                    Serializable value=null;
+                    try{
+                  	value= JdbcTypes.getValue(rs, ce.getColumnName(), ce.getDataType());  
+                    }catch(Exception ex){}
+                     
+                    if(value==null)
+                  	  value= JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
                     columnElementWithValue.setValue(value);
                     row.add(columnElementWithValue);
                 }
@@ -143,6 +153,18 @@ public class DatasetServiceImpl2 implements DatasetService
 					}
 		}
 		
+		//TODO improve
+		Optional<Element> countAllOption=uiElements.stream().filter(
+				e->{
+					if(e.getAggregate()==null)
+						return false;
+					else
+						return e.getAggregate().equals(AggregateTypes.COUNT_ALL.getAggregate());
+			}).findFirst();
+		
+		if(countAllOption.isPresent())
+			hm.put(new DatasetHead(0L,COUNT_DATASET_HEAD_NAME,0), new HashSet<DatasetElement>(Arrays.asList(ConvertUtil.toDatasetElement(countAllOption.get()))));
+		
 		return hm;
 	}
 	
@@ -177,6 +199,12 @@ public class DatasetServiceImpl2 implements DatasetService
 		for(Element e:elements)
 		{
 			DatasetElement de=elementMap.get(e.getId());
+			
+			//TODO improve
+			if(e.getAggregate()!=null)
+			if(e.getAggregate().equals(AggregateTypes.COUNT_ALL.getAggregate()))
+				continue;
+			
 			if(de==null)
 				throw new RuntimeException("No mapping provided while preparing aggregate");
 			
@@ -219,7 +247,15 @@ public class DatasetServiceImpl2 implements DatasetService
           sortedColumns.forEach(ce -> {
               try {
                   ColumnElement columnElementWithValue = ce.clone(); 
-                  Serializable value = JdbcTypes.getValue(rs, ce.getColumnName(), ce.getDataType());
+                  //TODO getColumnName has a problem if the field has alias..
+                  Serializable value=null;
+                  try{
+                	value= JdbcTypes.getValue(rs, ce.getColumnName(), ce.getDataType());  
+                  }catch(Exception ex){}
+                   
+                  if(value==null)
+                	  value= JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+                  
                   columnElementWithValue.setValue(value);
                   
                   row.add(columnElementWithValue);
@@ -336,6 +372,14 @@ public class DatasetServiceImpl2 implements DatasetService
     				}
     		dataset.setElements(tempList);
     		
+		}else
+		{
+			if(dataset.getAggregateBy().isCountIncluded())
+			{
+				ArrayList<Element> tempList=new ArrayList<Element>(dataset.getElements());
+				tempList.add(ConvertUtil.countAll());
+				dataset.setElements(tempList);
+			}
 		}
     	
     	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()),JOINING_ELEMENTS);

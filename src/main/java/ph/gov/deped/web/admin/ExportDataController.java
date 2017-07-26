@@ -1,5 +1,6 @@
 package ph.gov.deped.web.admin;
 
+import com.bits.sql.AggregateTypes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.xstream.XStream;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportService;
@@ -55,6 +57,19 @@ public class ExportDataController {
 
 //        XStream xs=new XStream();
 //    	xs.toXML(ds, new FileOutputStream("/home/denny/dataset.xml"));
+        
+        //TODO improve
+        if(ds.getAggregateBy()!=null)
+    	{
+    		
+    		ArrayList<Element> al= new ArrayList<Element>(ds.getElements());
+    		for(Element e:ds.getAggregateBy().getElements())
+    		{
+    			e.setAggregate(AggregateTypes.GROUP.getAggregate());
+    			al.add(e);
+    		}
+    		ds.setElements(al);
+    	}
         
         try {
               //datasetService.getData(ds, false);

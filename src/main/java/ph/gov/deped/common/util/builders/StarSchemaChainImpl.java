@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -193,6 +194,14 @@ public class StarSchemaChainImpl implements TableChainer {
 			ColumnElement ce=(ColumnElement) tc;
 			if(ce.getTablePrefix()==null)
 				ce.setTablePrefix(parentPT.getTablePrefix());
+		}
+		
+		
+		for(Entry<DatasetHead, Set<DatasetElement>> countIncludedKey:selectedElements.entrySet())
+		{
+			if(countIncludedKey.getKey().getName().equals("CountDatasetHead"))
+				parentPT.getColumns().add(ConvertUtil.toColumnElement(new ArrayList<>(countIncludedKey.getValue()).get(0)));
+			
 		}
 		
 		parentPT.setWhere(whereBuilder.getWhere());

@@ -155,13 +155,13 @@ angular.module('UserApp')
                 }
             };
             
-            $scope.aggregateByChange=function(chosenAggregateBy){
+            $scope.itemCheckBoxChange=function(parentIndex,elem,indexContainer){
 
-            	var userSelection=$scope.userSelection;
-            	angular.forEach($scope.userSelection,function(datasetContainer){
-            		console.log(datasetContainer.length);
-            	});
-            		
+//            	var userSelection=$scope.userSelection;
+//            	angular.forEach($scope.userSelection,function(datasetContainer){
+//            		console.log(datasetContainer.length);
+//            	});
+//            	delete $scope.userSelection[parentIndex][elem.id][0];
             }
             
             $scope.save = function() {
@@ -169,7 +169,10 @@ angular.module('UserApp')
                 var dataset = $scope.dataset;
                 dataset.elements = [];
                 
-                var userSelection = $scope.userSelection;
+                
+                
+                
+                var userSelection = mapAggregateFunctions($scope.userSelection);
                 var elementsSelection=[];
                 
                 angular.forEach($scope.userSelection,function(selection){
@@ -245,6 +248,27 @@ angular.module('UserApp')
             		return elements;
             }
             
+            
+            var mapAggregateFunctions=function(selections)
+            {
+            	
+            	angular.forEach(selections,function(selection,selectionIndex){
+            		angular.forEach(selection,function(elementArray,elementIndex){
+            			
+            			if(angular.isDefined(elementArray))
+        				{
+            				var element=elementArray[0];
+            				var optionSelectedText=$("#select_aggregate_func"+element.id+" option:selected").text();
+                			if(optionSelectedText=='')
+                				selection[elementIndex][0].aggregate=undefined;
+                			else
+                				selection[elementIndex][0].aggregate=optionSelectedText;
+        				}
+            			
+            		});
+            	});
+            	return selections;
+            }
         }
     ]
 );

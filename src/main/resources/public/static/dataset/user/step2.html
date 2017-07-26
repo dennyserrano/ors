@@ -54,15 +54,12 @@
       </div>
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
-      	<div>
-<!--       		**Select an Aggregate then select field then uncheck aggregate, the aggregate is retained. -->
-      	</div>
       	<div style="display:inline-block;">
-      		Aggregate By:<select data-ng-model="chosenAggregateOption" data-ng-options='v as v.name for (k,v) in aggregateOptions' data-ng-init="chosenAggregateOption=aggregateOptions[0]" data-ng-change="aggregateByChange(chosenAggregateOption)"></select>
-      		{{chosenAggregateOption}}
+      		Aggregate By:<select data-ng-model="chosenAggregateOption" data-ng-options='v as v.name for (k,v) in aggregateOptions' data-ng-init="chosenAggregateOption=aggregateOptions[0]"></select>
+      		
       	</div>
       	<div data-ng-if="chosenAggregateOption.name!==null">
-   			<input type='checkbox' data-ng-model='dataset.aggregateBy.countIncluded' data-ng-true-value="true" data-ng-false-value="false">Include Count
+   			<input type='checkbox' data-ng-model='chosenAggregateOption.countIncluded' data-ng-true-value="true" data-ng-false-value="false">Include Count
    		</div>
         <div id="elements" double-scroll-bar-horizontal="" class="table-responsive">
 
@@ -87,27 +84,27 @@
              </tr>
            </thead>
            <tbody>
-				<tr data-ng-repeat="element in elementsTable.elements" data-ng-init="elem=element[dataset.id];parentIndex=$parent.$index">
+				<tr data-ng-repeat="element in elementsTable.elements" data-ng-init="parentIndex=$parent.$index;elem=element[dataset.id]">
 					<td data-ng-show="elem">
-						<input id='chk{{elem.id}}' type="checkbox" data-checklist-model="userSelection[parentIndex][elem.id]" data-checklist-value="elem"/>
-						{{userSelection[parentIndex][elem.id]}}
+						<input  type="checkbox" data-checklist-model="userSelection[parentIndex][elem.id]" data-checklist-value="elem" data-checklist-change="itemCheckBoxChange(parentIndex,elem,1)"/>
+						
 					</td>
 					<td>{{elem.name}}</td>
 					<td>{{elem.description}}</td>
 					<td data-ng-if="elem.aggregatable && chosenAggregateOption.name!==null">
 						<select 
-						data-ng-model="userSelection[parentIndex][elem.id][0].aggregate" data-ng-options="x for x in aggregateList"
+						id='select_aggregate_func{{elem.id}}'
+						data-ng-model="aggregate" data-ng-options="x for x in aggregateList"
 						data-ng-if="userSelection[parentIndex][elem.id][0]!==undefined"
-						data-ng-init="userSelection[parentIndex][elem.id][0].aggregate=(userSelection[parentIndex][elem.id][0]!==undefined?aggregateList[0]:undefined)">
+						data-ng-init="aggregate=(userSelection[parentIndex][elem.id][0]!==undefined?aggregateList[0]:undefined)">
 						</select>
-<!-- 						{{userSelection[parentIndex][elem.id][0].aggregate}} -->
 					</td>
 					<td data-ng-if="!elem.aggregatable && chosenAggregateOption.name!==null" data-ng-init="elem.aggregate='GROUP'">
 					</td>
 				</tr>
            </tbody>
          </table>
-		{{userSelection}}
+		
       <div data-ng-if="loadingElements === 2" class="col-sm-12">
         <div class="alert alert-danger">
           {{ ::loadingElementsError }}
