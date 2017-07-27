@@ -39,7 +39,7 @@ import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 public class PrefixTableConversionTest
 {
 	
-	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl(new HashMap<DatasetHead, Set<DatasetElement>>(),null);
+	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl(new HashMap<DatasetHead, Set<DatasetElement>>(),null,null);
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	
 	

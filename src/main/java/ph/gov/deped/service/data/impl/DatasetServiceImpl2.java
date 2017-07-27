@@ -347,7 +347,7 @@ public class DatasetServiceImpl2 implements DatasetService
     {
     	
 		List<Long> ids=getIds(dataset.getSubDatasets());
-		
+		ArrayList<Element> orderList=new ArrayList<Element>();
 		ids.remove(PARENT_ID);
 		List<DatasetHead> children;
 		if(!ids.isEmpty())
@@ -376,13 +376,16 @@ public class DatasetServiceImpl2 implements DatasetService
 		{
 			if(dataset.getAggregateBy().isCountIncluded())
 			{
+				orderList.addAll(dataset.getAggregateBy().getElements());
 				ArrayList<Element> tempList=new ArrayList<Element>(dataset.getElements());
 				tempList.add(ConvertUtil.countAll());
 				dataset.setElements(tempList);
-			}
+			}else
+				orderList.addAll(dataset.getAggregateBy().getElements());
+			
 		}
     	
-    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()),JOINING_ELEMENTS);
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()),JOINING_ELEMENTS,orderList);
     	
     	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
     	datasetHeads.add(parent);

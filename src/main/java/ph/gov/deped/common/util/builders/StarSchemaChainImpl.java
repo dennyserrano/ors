@@ -25,7 +25,9 @@ import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.GenericKeyValue;
 import ph.gov.deped.data.dto.KeyValue;
+import ph.gov.deped.data.dto.Order;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCriteria;
@@ -42,7 +44,7 @@ public class StarSchemaChainImpl implements TableChainer {
 	private long[] MANDATORY_FIELDS;
 	private final String[] JOINING_ELEMENTS;
 	private Map<DatasetHead,Set<DatasetElement>> selectedElements;
-	
+	private List<Element> orderList;
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
 	
 	static
@@ -59,21 +61,22 @@ public class StarSchemaChainImpl implements TableChainer {
 		CRITERIA.put(18L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(10937L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
 	}
 	
-	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,long[] mandatoryFields)
-	{
-		tableBuilder=new PrefixTableBuilder();
-//		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
-		this.selectedElements=selectedElements;
-		this.JOINING_ELEMENTS=joinElements;
-		this.MANDATORY_FIELDS=mandatoryFields;
-	}
+//	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,long[] mandatoryFields)
+//	{
+//		tableBuilder=new PrefixTableBuilder();
+////		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
+//		this.selectedElements=selectedElements;
+//		this.JOINING_ELEMENTS=joinElements;
+//		this.MANDATORY_FIELDS=mandatoryFields;
+//	}
 	
-	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements)
+	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,List<Element> orderList)
 	{
 		tableBuilder=new PrefixTableBuilder();
 		this.selectedElements=selectedElements;
 		MANDATORY_FIELDS=new long[]{};
 		JOINING_ELEMENTS=joinElements;
+		this.orderList=orderList;
 	}
 	
 	
@@ -207,6 +210,13 @@ public class StarSchemaChainImpl implements TableChainer {
 		parentPT.setWhere(whereBuilder.getWhere());
 		parentPT=new AggregateAdjuster().adjust(parentPT);
 		
+		List<ColumnElement> finishedOrderList=assignOrder(orderList, parentPT.getGroupBy());
+		if(finishedOrderList.size()!=0)
+		{
+			Order order=new Order("",finishedOrderList); //TODO assign factory for creation of ORder
+			parentPT.setOrder(order);
+		}
+		
 		return parentPT;
 	}
 	
@@ -315,6 +325,16 @@ public class StarSchemaChainImpl implements TableChainer {
 		return list;
 	}
 	
+	private List<ColumnElement> assignOrder(List<Element> orderList,Set<ColumnElement> referenceSet)
+	{
+		ArrayList<ColumnElement> finalList=new ArrayList<ColumnElement>();
+		for(Element e:orderList)
+			for(ColumnElement ce:referenceSet)
+				if(ce.getElementId()==e.getId())
+					finalList.add(ce);
+		
+		return finalList;
+	}
 	class WhereBuilder
 	{
 		private Where where;

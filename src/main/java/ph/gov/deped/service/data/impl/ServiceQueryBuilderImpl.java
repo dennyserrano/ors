@@ -64,21 +64,23 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	@Override
 	public String getQuery(PrefixTable pt) 
 	{
-		
+		//TODO review this is improper
 		FromClauseBuilder fromClauseBuilder=constructSelect(pt);
 		JoinOrWhereClauseBuilder joinOrWhereClauseBuilder=constructFrom(pt,fromClauseBuilder);
 		joinOrWhereClauseBuilder=constructJoins(pt, joinOrWhereClauseBuilder);
 		CriteriaChainBuilder chainBuilder=constructWhere(pt.getWhere(), joinOrWhereClauseBuilder);
-		
+		SqlBuilder sb=null;
 		if(chainBuilder==null)
 			return joinOrWhereClauseBuilder.build().toString();
 			
-		SqlBuilder sb= constructGroupBy(chainBuilder,pt.getGroupBy());
+		OrderByClauseBuilder orderByBuilder= constructGroupBy(chainBuilder,pt.getGroupBy());
 		
-		if(sb!=null)
-			return sb.build().toString();
+		if(orderByBuilder!=null)
+		{
+			sb=constructOrderBy(chainBuilder,orderByBuilder, pt.getOrder());
+		}
 		
-		sb=constructOrderBy((CriteriaChainBuilder) sb, pt.getOrder());
+		
 		
 		if(sb!=null)
 			return sb.build().toString();
@@ -170,7 +172,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			return null;
 	}
 	
-	private SqlBuilder constructGroupBy(CriteriaChainBuilder criteriaChain,Set<ColumnElement> groupByList)
+	private OrderByClauseBuilder constructGroupBy(CriteriaChainBuilder criteriaChain,Set<ColumnElement> groupByList)
 	{
 		OrderByClauseBuilder gbb = null;
 		if(groupByList.size()==0)
@@ -182,14 +184,14 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		return gbb;
 	}
 	
-	private SqlBuilder constructOrderBy(CriteriaChainBuilder criteriaChain,Order order)
+	private SqlBuilder constructOrderBy(CriteriaChainBuilder criteriaChain,OrderByClauseBuilder orderClauseBuilder, Order order)
 	{
 		SqlBuilder obc = null;
 		if(order.getOrderBy().size()==0)
 			return criteriaChain;
 		else
 			for(ColumnElement ce:order.getOrderBy())
-				obc=criteriaChain.orderBy(ce.getTablePrefix(),ce.getColumnName(), true);
+				obc=orderClauseBuilder.orderBy(ce.getTablePrefix(),ce.getColumnName(), true);
 		
 		return obc;
 	}
