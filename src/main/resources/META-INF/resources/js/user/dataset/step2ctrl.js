@@ -208,7 +208,7 @@ angular.module('UserApp')
             	{
                 	
 					var aggregateBy=$scope.chosenAggregateOption;
-					aggregateBy.elements=findAggregates($scope.chosenAggregateOption,$scope.aggregateOptions);
+					aggregateBy.elements=findAggregates($scope.chosenAggregateOption,$scope.aggregateOptions).reverse();
 					delete aggregateBy.next;
 					dataset.aggregateBy=aggregateBy;
             	}
