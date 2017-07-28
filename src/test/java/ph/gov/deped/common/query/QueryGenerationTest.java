@@ -46,7 +46,7 @@ public class QueryGenerationTest
 	@Autowired
 	private DatasetRepository datasetRepo;
 	
-	private TableChainer tableChainer=new StarSchemaChainImpl(new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name","municipality_name","region_name"});
+	private TableChainer tableChainer;//=new StarSchemaChainImpl(new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name","municipality_name","region_name"});
 	@Autowired
 	DatasetService datasetService;
 	

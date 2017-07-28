@@ -71,8 +71,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
 		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
 		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
-		log.debug("sql:"+sql);
-		long dataSize= datasetService.getDataSize(sql); //TODO should not queru the entire select..should be count
+		log.debug("sql:"+toCountSql(sql));
+		long dataSize= datasetService.getDataSize(toCountSql(sql)); 
 		log.debug("datasize:"+dataSize);
 		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
@@ -104,13 +104,16 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			prefixTables.clear();
 			sortedColumns.clear();
 //			headers.clear();
+			if(consolidatorHeaders!=null)
+			{
+				ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(new XlsxExporter(cellWriter,headerStyler,valueCellStyler),consolidatorHeaders.get(0));
+				ed.consolidate(downloadPath,files);
+				System.gc(); //TODO this should not be here..
+				return downloadPath;
+			}
 			
-			ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(new XlsxExporter(cellWriter,headerStyler,valueCellStyler),consolidatorHeaders.get(0));
-			ed.consolidate(downloadPath,files);
 			
-			System.gc(); //TODO this should not be here..
-			
-			return downloadPath;
+			return null;
 			
 		}catch(RuntimeException e)
 		{
@@ -130,6 +133,12 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		}
 	
 		
+	}
+	
+	private String toCountSql(String sql)
+	{
+		String s=sql.split("FROM")[1];
+		return String.format("SELECT COUNT(*) FROM %s", s);
 	}
 	
 	protected void writeFormatMetadata(String fileName,List<List<ColumnElement>> data) throws FileNotFoundException
@@ -156,6 +165,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 	{
 		
 		for(String stringFile:files)
+			if(stringFile!=null)
 				Files.delete(Paths.get(new File(stringFile).getAbsolutePath()));
 		
 	}

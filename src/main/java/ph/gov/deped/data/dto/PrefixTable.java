@@ -106,7 +106,12 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 	
 	public Order getOrder()
 	{
-		return order==null?new Order("",new HashSet<ColumnElement>()):order;
+		return order==null?new Order("",new ArrayList<ColumnElement>()):order;
+	}
+	
+	public void setOrder(Order order)
+	{
+		this.order=order;
 	}
 	
     public void addJoin(PrefixTable prefixTable, JoinProperty join)
