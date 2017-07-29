@@ -42,6 +42,9 @@ public class Dataset implements Serializable {
     @JsonProperty("aggregateBy")
     private Aggregate aggregateBy;
     
+    @JsonProperty("filteredBy")
+    private Aggregate filteredBy;
+    
     public Dataset() {}
 
     public Dataset(long id, String name, String description, Long parentDatasetHead) {
@@ -140,8 +143,13 @@ public class Dataset implements Serializable {
         this.filters = filters;
     }
 
-    
-    
+	public Aggregate getFilteredBy() {
+		return filteredBy;
+	}
+
+	public void setFilteredBy(Aggregate filteredBy) {
+		this.filteredBy = filteredBy;
+	}
 
 	public Aggregate getAggregateBy() {
 		return aggregateBy;

@@ -59,6 +59,10 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         filterValueMap.put("8:school_id", () -> new ArrayList<>(asList(new KeyValue("", ""))));
         filterValueMap.put("8:school_classification_id", ()->new ArrayList<>());
         filterValueMap.put("8:coc_id", ()->new ArrayList<>());
+        filterValueMap.put("8:district_id", ()->new ArrayList<>());
+        filterValueMap.put("8:province_id", ()->new ArrayList<>());
+        filterValueMap.put("8:municipality_id", ()->new ArrayList<>());
+        filterValueMap.put("8:legislative_id", ()->new ArrayList<>());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {

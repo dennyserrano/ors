@@ -1,6 +1,5 @@
 <div data-ng-cloak="" data-ng-controller="Step3Ctrl" class="step step3">
 	<div class="col-sm-12">
-
 		<div id="trackerRow" class="row" style="width: 100%;">
 			<div class="col-sm-12">
 				<div style="margin-left: 7px;" id="tracker">
@@ -80,7 +79,7 @@
 					<div data-ng-show="loadingFilters === 1"
 						class="well form-horizontal">
 						
-						<filter-directive criteria='availableCriteria' chosen-items='filters' data-ng-if='isRawCriteriaDefined()'></filter-directive>
+						<filter-directive criteria='availableCriteria' chosen-items='filters' chosen-filter="chosenFilter" data-ng-if='isRawCriteriaDefined()'></filter-directive>
 
 					<div data-ng-if="loadingFilters === 2" class="alert alert-danger">
 						{{ ::loadingFiltersError }}</div>

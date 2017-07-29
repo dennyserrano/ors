@@ -4,7 +4,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 
 	function link(scope, element, attrs) 
 	{
-		var ordinal=['sp_region','sp_division','sp_schoolType','sp_sector','sp_subsector','sp_level','sp_sublevel','sp_sy_from','sp_schoolName'];
+		var ordinal=['sp_region','sp_division','sp_district','sp_province','sp_municipality','sp_legislative','sp_schoolType','sp_sector','sp_subsector','sp_level','sp_sublevel','sp_sy_from','sp_schoolName'];
+		var showHideRef=['Region',"Division","District","Province","Municipality","Legislative"];
 		var _data=
 			[
 				{
@@ -179,6 +180,38 @@ angular.module('UserApp').directive('filterDirective',[function(){
 				
 				
 			},
+			
+			showHideFilters:function(chosenFilter,filterContainer,ordinal)
+			{
+				var involvedFilters=[];
+				for(var x=0,go=false;x<ordinal.length;x++)
+				{
+					var order=ordinal[x];
+					if(order==chosenFilter)
+					{
+						go=true;
+						continue;
+					}
+					
+					if(go)
+					involvedFilters.push(order);
+					
+				}
+			
+				
+				angular.forEach(filterContainer.data,function(data){
+					data.show=true;
+				});
+				
+				
+				for(x=0;x<involvedFilters.length;x++)
+				{
+					var involveFilter=involvedFilters[x];
+					var data=filterContainer.find("sp_"+involveFilter.toLowerCase());
+					data.show=false;
+				}
+				
+			},
 			mapToFilter: function(criterion, filter)
 			{
 				var commonFields=getCommonFields();
@@ -262,6 +295,7 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		filterContainer.data=angular.copy(_data);
 		
 		CriteriaUtility.populateData(filterContainer,scope.criteria);
+		CriteriaUtility.showHideFilters(scope.chosenFilter,filterContainer,showHideRef);
 		filterContainer.arrange(ordinal);
 		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		
@@ -354,7 +388,8 @@ angular.module('UserApp').directive('filterDirective',[function(){
 		scope:
 		{
 			criteria:'=',
-			chosenItems:'='
+			chosenItems:'=',
+			chosenFilter:'='
 		},
 		controller:control
 	

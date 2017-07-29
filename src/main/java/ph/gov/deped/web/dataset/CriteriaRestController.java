@@ -27,7 +27,8 @@ public class CriteriaRestController {
 
     @RequestMapping(value = "/{headId}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE })
     public List<Criterion> getCriteria(@PathVariable("headId") long headId) {
-        return criteriaService.findDatasetHeadCriteria(headId);
+        List<Criterion> l= criteriaService.findDatasetHeadCriteria(headId);
+        return l;
     }
     
     @RequestMapping(value = "/school", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })

@@ -176,5 +176,29 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
                     return new KeyValue(id, String.format("(%s) %s", id, name));
                 });
     }
+
+	@Override
+	public List<KeyValue> getDistrict() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<KeyValue> getProvince() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<KeyValue> getMunicipality() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<KeyValue> getLegislative() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

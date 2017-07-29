@@ -9,13 +9,8 @@ angular.module('UserApp')
             $scope.step3 = 'disabled';
             $scope.step4 = 'disabled';
             $scope.aggregateList=['SUM','AVERAGE'];
+            
             $scope.aggregateOptions={
-	                                     
-	                                    	 '0':{
-		                                    	 name:null,
-		                                    	 elements:null
-	                                    	 	 },
-	                                     
 	                                     
 	                                    	 'Region':
 	                                    	 	 {
@@ -98,7 +93,8 @@ angular.module('UserApp')
         		}
             	
                 $scope.dataset = dataset;
-       
+                delete $scope.dataset.aggregateBy;
+                delete $scope.dataset.filteredBy;
                 
                 ElementService.query({}, function(table) { // table: ElementsTable
                     $scope.elementsTable = table;
@@ -209,8 +205,17 @@ angular.module('UserApp')
                 	
 					var aggregateBy=$scope.chosenAggregateOption;
 					aggregateBy.elements=findAggregates($scope.chosenAggregateOption,$scope.aggregateOptions).reverse();
+					
+					
 					delete aggregateBy.next;
-					dataset.aggregateBy=aggregateBy;
+					
+					if($scope.showSchool)
+					{
+						delete aggregateBy.countIncluded;
+						dataset.filteredBy=aggregateBy;
+					}
+					else
+						dataset.aggregateBy=aggregateBy;
             	}
                 
                 angular.forEach(dataset.subDatasets, function(subdataset) {
