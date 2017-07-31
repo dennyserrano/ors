@@ -104,13 +104,16 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			prefixTables.clear();
 			sortedColumns.clear();
 //			headers.clear();
+			if(consolidatorHeaders!=null)
+			{
+				ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(new XlsxExporter(cellWriter,headerStyler,valueCellStyler),consolidatorHeaders.get(0));
+				ed.consolidate(downloadPath,files);
+				System.gc(); //TODO this should not be here..
+				return downloadPath;
+			}
 			
-			ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(new XlsxExporter(cellWriter,headerStyler,valueCellStyler),consolidatorHeaders.get(0));
-			ed.consolidate(downloadPath,files);
 			
-			System.gc(); //TODO this should not be here..
-			
-			return downloadPath;
+			return null;
 			
 		}catch(RuntimeException e)
 		{
@@ -135,7 +138,6 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 	private String toCountSql(String sql)
 	{
 		String s=sql.split("FROM")[1];
-		
 		return String.format("SELECT COUNT(*) FROM %s", s);
 	}
 	

@@ -227,7 +227,8 @@ public class DatasetServiceImpl2 implements DatasetService
 	public long getDataSize(String sql) {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
-		return template.query(sql, (rs, rowNum)->{return null;}).size();
+		Object o= template.query(sql, (rs, rowNum)->{return rs.getLong("COUNT(*)");}).get(0);
+		return (long) o;
 	}
 
 	@Override
@@ -235,13 +236,19 @@ public class DatasetServiceImpl2 implements DatasetService
 		
 		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
-		ids.add(PARENT_ID);
-    	
-    	List<DatasetHead> children= datasetRepository.findByIds(ids);
-
-    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
-    	
-    	children.remove(parent);
+		
+		ids.remove(PARENT_ID);
+		List<DatasetHead> children;
+		if(!ids.isEmpty())
+			children= datasetRepository.findByIds(ids);
+		else
+			children=new ArrayList<DatasetHead>();
+		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
+    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
+    	forColumnList.add(parent);
+    	forColumnList.addAll(children);
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
     	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
     	
@@ -305,14 +312,21 @@ public class DatasetServiceImpl2 implements DatasetService
 	public LinkedList<PrefixTable> getPrefixTables(Dataset dataset) {
 		
 		LinkedList<PrefixTable> ll=new LinkedList<PrefixTable>();
+		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
 		List<Long> ids=getIds(dataset.getSubDatasets());
-		ids.add(PARENT_ID);
-    	
-    	List<DatasetHead> children= datasetRepository.findByIds(ids);
-
-    	DatasetHead parent=children.stream().filter(e->e.getId().intValue()==PARENT_ID).findFirst().get();
-    	
-    	children.remove(parent);
+		
+		ids.remove(PARENT_ID);
+		List<DatasetHead> children;
+		if(!ids.isEmpty())
+			children= datasetRepository.findByIds(ids);
+		else
+			children=new ArrayList<DatasetHead>();
+		
+    	DatasetHead parent=datasetRepository.findByIds(Arrays.asList(PARENT_ID)).get(0);
+    	ArrayList<DatasetHead> forColumnList=new ArrayList<>();
+    	forColumnList.add(parent);
+    	forColumnList.addAll(children);
+    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()));
     	if(ids.size()==0)
     		throw new RuntimeException("No datasets retrieved out of the given ids");
     	
