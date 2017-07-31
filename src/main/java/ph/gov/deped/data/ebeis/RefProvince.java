@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ej
  */
 @Entity
-@Table(name = "ref_province", catalog = "sisdb", schema = "", uniqueConstraints = {
+@Table(name = "ref_province", catalog = "orsdb", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nscb_code"})})
 @XmlRootElement
 @NamedQueries({

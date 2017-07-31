@@ -9,6 +9,7 @@ package ph.gov.deped.data.ebeis;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,9 +17,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,9 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ej
  */
 @Entity
-@Table(name = "ref_office", catalog = "sisdb", schema = "", uniqueConstraints = {
+@Table(name = "ref_office", catalog = "orsdb", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"office_type", "office_code"})})
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RefOffice.findAll", query = "SELECT r FROM RefOffice r")})
 public class RefOffice implements Serializable {
@@ -73,8 +77,8 @@ public class RefOffice implements Serializable {
     private String officeDescription;
     @Column(name = "office_code", length = 9)
     private String officeCode;
-    @Column(name = "ref_region_id")
-    private Short refRegionId;
+    @Column
+    private Integer refRegionId;
     @Column(name = "office_head_name", length = 100)
     private String officeHeadName;
     @Column(name = "office_head_position", length = 100)
@@ -128,6 +132,7 @@ public class RefOffice implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisionId")
     private List<LearningOutcomesScoresDivision> learningOutcomesScoresDivisionList;
 
+    
     public RefOffice() {
     }
 
@@ -256,15 +261,17 @@ public class RefOffice implements Serializable {
         this.officeCode = officeCode;
     }
 
-    public Short getRefRegionId() {
-        return refRegionId;
-    }
+    
 
-    public void setRefRegionId(Short refRegionId) {
-        this.refRegionId = refRegionId;
-    }
+    public Integer getRefRegionId() {
+		return refRegionId;
+	}
 
-    public String getOfficeHeadName() {
+	public void setRefRegionId(Integer refRegionId) {
+		this.refRegionId = refRegionId;
+	}
+
+	public String getOfficeHeadName() {
         return officeHeadName;
     }
 

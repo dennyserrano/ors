@@ -8,16 +8,20 @@ package ph.gov.deped.data.ebeis;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,11 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ej
  */
 @Entity
-@Table(name = "ref_region", catalog = "sisdb", schema = "", uniqueConstraints = {
+@Table(name = "ref_region", catalog = "orsdb", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"region_name"}),
     @UniqueConstraint(columnNames = {"short_name"}),
     @UniqueConstraint(columnNames = {"nscb_code"})})
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RefRegion.findAll", query = "SELECT r FROM RefRegion r")})
 public class RefRegion implements Serializable {
@@ -41,7 +45,7 @@ public class RefRegion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Short id;
+    private Integer id;
     private Short rank;
     @Basic(optional = false)
     @Column(name = "short_name", nullable = false, length = 12)
@@ -59,33 +63,39 @@ public class RefRegion implements Serializable {
     @OneToMany(mappedBy = "regionId")
     private List<SchoolProfileHistory> schoolProfileHistoryList;
 
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id",referencedColumnName="refRegionId",insertable=false,updatable=false)
+    private RefOffice refOffice;
+    
     public RefRegion() {
     }
 
-    public RefRegion(Short id) {
-        this.id = id;
-    }
+//    public RefRegion(Short id) {
+//        this.id = id;
+//    }
+//
+//    public RefRegion(Short id, String shortName, String regionName, String nscbCode) {
+//        this.id = id;
+//        this.shortName = shortName;
+//        this.regionName = regionName;
+//        this.nscbCode = nscbCode;
+//    }
 
-    public RefRegion(Short id, String shortName, String regionName, String nscbCode) {
-        this.id = id;
-        this.shortName = shortName;
-        this.regionName = regionName;
-        this.nscbCode = nscbCode;
-    }
-
-    public Short getId() {
-        return id;
-    }
-
-    public void setId(Short id) {
-        this.id = id;
-    }
+   
 
     public Short getRank() {
         return rank;
     }
 
-    public void setRank(Short rank) {
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setRank(Short rank) {
         this.rank = rank;
     }
 
@@ -139,7 +149,8 @@ public class RefRegion implements Serializable {
         this.schoolProfileHistoryList = schoolProfileHistoryList;
     }
 
-    @Override
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);

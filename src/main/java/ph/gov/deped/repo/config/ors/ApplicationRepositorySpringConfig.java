@@ -20,6 +20,8 @@ import ph.gov.deped.repo.jpa.api.BaseJpaRepositoryFactoryBean;
                 @ComponentScan.Filter(value = Repository.class, type = FilterType.ANNOTATION)
         }
 )
+
+
 @EnableJpaRepositories(
         basePackages = {AppMetadata.REPO_PACKAGE},
         includeFilters = {

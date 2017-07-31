@@ -37,11 +37,6 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
             new KeyValue("2003", "2003 - 2004"),
             new KeyValue("2002", "2002 - 2003")
     ));
-    
-    private static final List<KeyValue> GENERAL_CURRICULAR_OFFERINGS = new ArrayList<>(Arrays.asList(
-            new KeyValue("433", "Elementary"),
-            new KeyValue("434", "Secondary")
-    ));
 
     private static final List<KeyValue> SCHOOL_TYPES = new ArrayList<>(Arrays.asList(
             new KeyValue("", "All"),
@@ -179,7 +174,8 @@ class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
 	@Override
 	public List<KeyValue> getDistrict() {
-		// TODO Auto-generated method stub
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		StringBuffer sql = new StringBuffer(filterSettings.getDistrictSql());
 		return null;
 	}
 
