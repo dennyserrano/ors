@@ -437,7 +437,8 @@ COMMIT;
 
 INSERT INTO `orsdb`.`personnel_teaching`
 (
-
+`sy_from`,
+`school_id`,
 `t1_detailed_male`,
 `t1_detailed_female`,
 `t1_total_detailed`,
