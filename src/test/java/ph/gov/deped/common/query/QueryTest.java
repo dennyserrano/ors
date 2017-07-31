@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.ebeis.RefOffice;
+import ph.gov.deped.repo.jpa.ors.ds.RefMunicipalityRepository;
 import ph.gov.deped.repo.jpa.ors.ds.RefOfficeRepository;
 import ph.gov.deped.repo.jpa.ors.ds.RefProvinceRepository;
 
@@ -22,13 +23,12 @@ public class QueryTest
 	@Autowired
 	RefOfficeRepository repo;
 	
+	@Autowired
+	RefMunicipalityRepository repoMunicipality;
+	
 	@Test
 	public void test()
 	{
-		RefOffice o=new RefOffice();
-		o.setOfficeType((short)191);
-		System.out.println(repo.findByOfficeTypeAndParentOffice((short)193, 870).size());
-		
-		
+		repoMunicipality.listBy((short)129, provinceId)
 	}
 }

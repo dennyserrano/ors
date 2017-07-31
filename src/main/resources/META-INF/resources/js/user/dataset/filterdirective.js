@@ -5,7 +5,18 @@ angular.module('UserApp').directive('filterDirective',[function(){
 	function link(scope, element, attrs) 
 	{
 		var ordinal=['sp_region','sp_division','sp_district','sp_province','sp_municipality','sp_legislative','sp_schoolType','sp_sector','sp_subsector','sp_level','sp_sublevel','sp_sy_from','sp_schoolName'];
-		var showHideRef=['Region',"Division","District","Province","Municipality","Legislative"];
+		var showHideRef={
+						'Region':{
+									'Division':{
+												'District':null
+											  },
+								    'Province':{
+								    			'Municipality':null,
+								    			'Legislative':null
+								    }
+								}
+						
+						};
 		var _data=
 			[
 				{
