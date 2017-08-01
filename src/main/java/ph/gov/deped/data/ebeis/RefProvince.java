@@ -67,6 +67,9 @@ public class RefProvince implements Serializable {
     @OneToMany(mappedBy = "provinceId")
     private List<SchoolProfileHistory> schoolProfileHistoryList;
 
+    @OneToMany(mappedBy="refProvinceId")
+    private List<RefLegislative> refLegislativeList;
+    
     public RefProvince() {
     }
 
@@ -136,7 +139,18 @@ public class RefProvince implements Serializable {
         this.createdAt = createdAt;
     }
 
-    @XmlTransient
+    
+    
+    
+    public List<RefLegislative> getRefLegislativeList() {
+		return refLegislativeList;
+	}
+
+	public void setRefLegislativeList(List<RefLegislative> refLegislativeList) {
+		this.refLegislativeList = refLegislativeList;
+	}
+
+	@XmlTransient
     public List<RefMunicipalityHistory> getRefMunicipalityHistoryList() {
         return refMunicipalityHistoryList;
     }

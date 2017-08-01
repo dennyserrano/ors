@@ -1,5 +1,7 @@
 package ph.gov.deped.common.query;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.config.TestAppConfig;
+import ph.gov.deped.data.ebeis.RefLegislative;
+import ph.gov.deped.data.ebeis.RefMunicipality;
 import ph.gov.deped.data.ebeis.RefOffice;
+import ph.gov.deped.repo.jpa.ors.ds.RefLegislativeRepository;
 import ph.gov.deped.repo.jpa.ors.ds.RefMunicipalityRepository;
 import ph.gov.deped.repo.jpa.ors.ds.RefOfficeRepository;
 import ph.gov.deped.repo.jpa.ors.ds.RefProvinceRepository;
@@ -26,9 +31,16 @@ public class QueryTest
 	@Autowired
 	RefMunicipalityRepository repoMunicipality;
 	
+	@Autowired
+	RefLegislativeRepository repoLegis;
+	
+	@Autowired
+	RefOfficeRepository repoOffice;
+	
 	@Test
 	public void test()
 	{
-		repoMunicipality.listBy((short)129, provinceId)
+//		List<RefLegislative> l=repoOffice.findByOfficeTypeAndParentOfficeAndRefRegionId(officeType, parentOffice, regionId)
+//		System.out.println(l.size());
 	}
 }

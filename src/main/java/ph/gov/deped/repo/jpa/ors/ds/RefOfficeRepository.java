@@ -10,5 +10,5 @@ import ph.gov.deped.data.ebeis.RefOffice;
 @Repository
 @RepositoryDefinition(domainClass = RefOffice.class, idClass = Short.class)
 public interface RefOfficeRepository {
-	public List<RefOffice> findByOfficeTypeAndParentOffice(short officeType, int parentOffice);
+	public List<RefOffice> findByOfficeTypeAndParentOfficeAndRefRegionId(short officeType, int parentOffice,int regionId);
 }

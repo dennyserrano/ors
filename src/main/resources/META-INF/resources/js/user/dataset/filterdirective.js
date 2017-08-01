@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('UserApp').directive('filterDirective',[function(){
+angular.module('UserApp').directive('filterDirective',['CriteriaService',function(CriteriaService){
 
 	function link(scope, element, attrs) 
 	{
@@ -31,6 +31,26 @@ angular.module('UserApp').directive('filterDirective',[function(){
 						container.dataset=[];
 						container.dataset=selectedOption.slice();
 				
+					}
+				},
+				{
+					filterName:'sp_division',
+					dataset:[],
+					onClick:function(chosenItems,currentIndex)
+					{				                 			
+						var container=filterContainer.find('sp_region');
+						var option=chosenItems[0];
+						var regionOption=option.selectedOptions[0].key;
+						
+						var divisionOption=chosenItems[currentIndex].selectedOptions[0].key;
+						var districtContainer=filterContainer.find('sp_district');
+						districtContainer.dataset=[];
+						
+						console.log(divisionOption.key);
+						CriteriaService.listDistricts({regionId:regionOption,divisionId:divisionOption},function(list){
+							console.log(list);
+							districtContainer.dataset=list;
+						});
 					}
 				},
 				{
@@ -118,6 +138,10 @@ angular.module('UserApp').directive('filterDirective',[function(){
 									for(var x=0;x<this.data.length;x++)
 									{
 										var item=this.data[x];
+										
+										if(angular.isUndefined(item))
+											continue;
+										
 										if(item.filterName===filterName)
 											return item;
 									}

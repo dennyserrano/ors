@@ -16,10 +16,10 @@ import ph.gov.deped.data.ebeis.RefOffice;
 public interface RefMunicipalityRepository {
 
 	
-	@Query("from RefProvince rp "
-		 + "left join rp.refMunicipalityList "
-		 + "where refRegionId=1? and "
-		 + "refProvinceId=2?")
+	@Query("select rp from RefProvince rp "
+		 + "join fetch rp.refMunicipalityList rm "
+		 + "where rp.refRegionId=?1 and "
+		 + "rm.refProvinceId.id=?2")
 	public List<RefMunicipality> listBy(short regionId,short provinceId);
 	
 }

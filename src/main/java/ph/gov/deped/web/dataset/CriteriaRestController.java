@@ -40,4 +40,31 @@ public class CriteriaRestController {
                 });
         return criteriaService.searchSchools(map);
     }
+    
+    @RequestMapping(value = "/districts", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<KeyValue> listDistricts(@RequestParam("regionId") long regionId, @RequestParam("divisionId") long divisionId)
+    {
+    	List<KeyValue> l= criteriaService.findDistricts(divisionId, regionId);
+    	return l;
+    }
+    
+    @RequestMapping(value = "/provinces", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<KeyValue> listProvinces(@RequestBody long regionId)
+    {
+    	return criteriaService.findProvinces(regionId);
+
+    }
+    
+    @RequestMapping(value = "/municipalities", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<KeyValue> listMunicipalities(@RequestBody long provinceId,@RequestBody long regionId)
+    {
+    	return criteriaService.findMunicipalities(provinceId, regionId);
+    }
+    
+    @RequestMapping(value = "/legislatives", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<KeyValue> listLegislatives(@RequestBody long provinceId,@RequestBody long regionId)
+    {
+    	return criteriaService.findLegislatives(provinceId, regionId);
+    }
+    
 }
