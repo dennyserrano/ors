@@ -67,7 +67,7 @@ public class RefProvince implements Serializable {
     @OneToMany(mappedBy = "provinceId")
     private List<SchoolProfileHistory> schoolProfileHistoryList;
 
-    @OneToMany(mappedBy="refProvinceId")
+    @OneToMany(mappedBy="refProvince")
     private List<RefLegislative> refLegislativeList;
     
     public RefProvince() {

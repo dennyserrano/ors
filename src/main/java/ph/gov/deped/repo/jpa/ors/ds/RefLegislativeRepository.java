@@ -16,7 +16,7 @@ public interface RefLegislativeRepository {
 			 + "join fetch rl.refProvince rp "
 			 + "join fetch rl.districtLabel "
 			 + "where rp.refRegionId=?1 and "
-			 + "rl.refProvinceId=?2")
+			 + "rl.refProvince.id=?2")
 	public List<RefLegislative> listBy(short regionId,short provinceId);
 	
 }

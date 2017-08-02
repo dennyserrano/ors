@@ -42,8 +42,6 @@ public class RefLegislative implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Short id;
-    @Column(name = "ref_province_id")
-    private Short refProvinceId;
     @ManyToOne
     private RefProvince refProvince;
     
@@ -79,16 +77,6 @@ public class RefLegislative implements Serializable {
     public void setId(Short id) {
         this.id = id;
     }
-
-    public Short getRefProvinceId() {
-        return refProvinceId;
-    }
-
-    public void setRefProvinceId(Short refProvinceId) {
-        this.refProvinceId = refProvinceId;
-    }
-
-    
 
     public RefProvince getRefProvince() {
 		return refProvince;
