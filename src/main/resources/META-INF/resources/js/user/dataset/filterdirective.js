@@ -17,6 +17,8 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 								}
 						
 						};
+		var ordinalReference=['Region','Division','District','Province','Municipality','Legislative'];
+		
 		var _data=
 			[
 				{
@@ -254,24 +256,29 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 				
 			},
 			
-			showHideFilters:function(chosenFilter,filterContainer,ordinal)
+			showHideFilters:function(chosenFilter,filterContainer,hierarchyRef,ordinalReference)
 			{
 				var involvedFilters=[];
-				for(var x=0,go=false;x<ordinal.length;x++)
-				{
-					var order=ordinal[x];
-					if(order==chosenFilter)
-					{
-						go=true;
-						continue;
-					}
+				var ordinalRef=ordinalReference;
+				var res=findHierarchy(chosenFilter,hierarchyRef);
+			    var recursiveHierarchyPath=res.path;
+				recursiveHierarchyPath.push(chosenFilter);
+				for(var x=0;x<ordinalReference.length;x++)
+				{	
+					var present=false;
+					var left=ordinalReference[x];
+					for(var y=0;y<recursiveHierarchyPath.length;y++)
+						{
+							var right=recursiveHierarchyPath[y];
+							if(left==right)
+								present=true;
+						}	
 					
-					if(go)
-					involvedFilters.push(order);
-					
+					if(!present)
+						involvedFilters.push(left);
 				}
+
 			
-				
 				angular.forEach(filterContainer.data,function(data){
 					data.show=true;
 				});
@@ -368,7 +375,7 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 		filterContainer.data=angular.copy(_data);
 		
 		CriteriaUtility.populateData(filterContainer,scope.criteria);
-		CriteriaUtility.showHideFilters(scope.chosenFilter,filterContainer,showHideRef);
+		CriteriaUtility.showHideFilters(scope.chosenFilter,filterContainer,showHideRef,ordinalReference);
 		filterContainer.arrange(ordinal);
 		bind(CriteriaUtility,filterContainer,scope.criteria,scope.chosenItems);
 		
@@ -393,6 +400,46 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 		
 	};
 	
+	
+	var findHierarchy=function(searchStr,ordinal) 
+	{
+	  
+	   var data={found:false,path:[]}; 
+
+	   for(var key in ordinal)
+	    {
+	      var nextKey=ordinal[key];    
+	      if(nextKey!==null)  
+	       {
+	         
+	          if(key==searchStr)
+	            {
+	              data.found=true; 
+	              return data;
+	            }
+	           data=findHierarchy(searchStr,nextKey);    
+	          
+	          
+	          if(data.found) 
+	           {
+	            data.path.push(key);
+	            return data;
+	           }
+	       }
+	      else //if last child
+	        if(key==searchStr)
+	          {
+	            
+	            data.found=true;
+	            return data;
+	          }
+	      
+	      
+	    }
+	     return data;
+	    
+	} 
+
 	
 	function toChosenItem(option,filterContainerData)
 	{
