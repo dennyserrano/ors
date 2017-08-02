@@ -50,7 +50,7 @@ public class ExportDataController {
     private ExportService exportService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public synchronized void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
+    public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
     	
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
         String filename=null;
