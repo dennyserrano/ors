@@ -12,8 +12,8 @@ import ph.gov.deped.data.ebeis.RefLegislative;
 @RepositoryDefinition(domainClass = RefLegislative.class, idClass = Short.class)
 public interface RefLegislativeRepository {
 	
-	@Query("select rp from RefProvince rp "
-			 + "join fetch rp.refLegislativeList rl "
+	@Query("select rl from RefLegislative rl "
+			 + "join fetch rl.refProvince rp "
 			 + "join fetch rl.districtLabel "
 			 + "where rp.refRegionId=?1 and "
 			 + "rl.refProvinceId=?2")

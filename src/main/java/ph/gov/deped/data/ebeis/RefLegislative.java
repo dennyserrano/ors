@@ -44,8 +44,9 @@ public class RefLegislative implements Serializable {
     private Short id;
     @Column(name = "ref_province_id")
     private Short refProvinceId;
-    @Column(name = "ref_municipality_id")
-    private Integer refMunicipalityId;
+    @ManyToOne
+    private RefProvince refProvince;
+    
     @Column(name = "district_no")
     private Short districtNo;
     @Column(name = "date_established")
@@ -87,15 +88,17 @@ public class RefLegislative implements Serializable {
         this.refProvinceId = refProvinceId;
     }
 
-    public Integer getRefMunicipalityId() {
-        return refMunicipalityId;
-    }
+    
 
-    public void setRefMunicipalityId(Integer refMunicipalityId) {
-        this.refMunicipalityId = refMunicipalityId;
-    }
+    public RefProvince getRefProvince() {
+		return refProvince;
+	}
 
-    public Short getDistrictNo() {
+	public void setRefProvince(RefProvince refProvince) {
+		this.refProvince = refProvince;
+	}
+
+	public Short getDistrictNo() {
         return districtNo;
     }
 

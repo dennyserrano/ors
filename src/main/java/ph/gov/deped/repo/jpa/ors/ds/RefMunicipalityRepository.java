@@ -16,8 +16,8 @@ import ph.gov.deped.data.ebeis.RefOffice;
 public interface RefMunicipalityRepository {
 
 	
-	@Query("select rp from RefProvince rp "
-		 + "join fetch rp.refMunicipalityList rm "
+	@Query("select rm from RefMunicipality rm "
+		 + "join fetch rm.refProvinceId rp "
 		 + "where rp.refRegionId=?1 and "
 		 + "rm.refProvinceId.id=?2")
 	public List<RefMunicipality> listBy(short regionId,short provinceId);

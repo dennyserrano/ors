@@ -24,12 +24,26 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 					dataset:[],
 					onClick:function(chosenItems,currentIndex)
 					{				                 			
-						var container=filterContainer.find('sp_division');
-						var option=chosenItems[currentIndex];
-						var selectedOption=option.selectedOptions[0].childKeyValues;
+						var divisionContainer=filterContainer.find('sp_division');
+						var provinceContainer=filterContainer.find('sp_province');
 						
-						container.dataset=[];
-						container.dataset=selectedOption.slice();
+						
+						if(divisionContainer.show)
+						{
+							var option=chosenItems[currentIndex]; //region fetches division already when the page loads..it has a different impl from the other hierarchy.
+							var selectedOption=option.selectedOptions[0].childKeyValues;
+							divisionContainer.dataset=[];
+							divisionContainer.dataset=selectedOption.slice();
+						}
+						
+						if(provinceContainer.show)
+						{
+							var option=chosenItems[currentIndex];
+							var selectedRegionKey=option.selectedOptions[0].key;
+							CriteriaService.listProvinces({regionId:selectedRegionKey},function(list){
+								provinceContainer.dataset=list;
+							});
+						}
 				
 					}
 				},
@@ -38,19 +52,43 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 					dataset:[],
 					onClick:function(chosenItems,currentIndex)
 					{				                 			
-						var container=filterContainer.find('sp_region');
 						var option=chosenItems[0];
-						var regionOption=option.selectedOptions[0].key;
+						var choseRegion=option.selectedOptions[0].key;
 						
-						var divisionOption=chosenItems[currentIndex].selectedOptions[0].key;
+						var chosenDivision=chosenItems[currentIndex].selectedOptions[0].key;
 						var districtContainer=filterContainer.find('sp_district');
 						districtContainer.dataset=[];
 						
-						console.log(divisionOption.key);
-						CriteriaService.listDistricts({regionId:regionOption,divisionId:divisionOption},function(list){
-							console.log(list);
+						CriteriaService.listDistricts({regionId:choseRegion,divisionId:chosenDivision},function(list){
 							districtContainer.dataset=list;
 						});
+					}
+				},
+				{
+					filterName:'sp_province',
+					dataset:[],
+					onClick:function(chosenItems,currentIndex)
+					{				                 			
+						var municipalityContainer=filterContainer.find('sp_municipality');
+						var legislativeContainer=filterContainer.find('sp_legislative');
+						
+						var regionOption=chosenItems[0].selectedOptions[0].key; //region chosenItem
+						var provinceOption=chosenItems[currentIndex].selectedOptions[0].key; //province chosenItem
+						
+						if(municipalityContainer.show)
+						{
+							CriteriaService.listMunicipalities({regionId:regionOption,provinceId:provinceOption},function(list){
+								municipalityContainer.dataset=list;
+							});
+						}
+						
+						if(legislativeContainer.show)
+						{
+							CriteriaService.listLegislatives({regionId:regionOption,provinceId:provinceOption},function(list){
+								legislativeContainer.dataset=list;
+							});
+						}
+						
 					}
 				},
 				{

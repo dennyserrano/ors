@@ -49,20 +49,20 @@ public class CriteriaRestController {
     }
     
     @RequestMapping(value = "/provinces", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public List<KeyValue> listProvinces(@RequestBody long regionId)
+    public List<KeyValue> listProvinces(@RequestParam("regionId") long regionId)
     {
     	return criteriaService.findProvinces(regionId);
 
     }
     
     @RequestMapping(value = "/municipalities", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public List<KeyValue> listMunicipalities(@RequestBody long provinceId,@RequestBody long regionId)
+    public List<KeyValue> listMunicipalities(@RequestParam("provinceId") long provinceId,@RequestParam("regionId") long regionId)
     {
     	return criteriaService.findMunicipalities(provinceId, regionId);
     }
     
     @RequestMapping(value = "/legislatives", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public List<KeyValue> listLegislatives(@RequestBody long provinceId,@RequestBody long regionId)
+    public List<KeyValue> listLegislatives(@RequestParam("provinceId") long provinceId,@RequestParam("regionId") long regionId)
     {
     	return criteriaService.findLegislatives(provinceId, regionId);
     }
