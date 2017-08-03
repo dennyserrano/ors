@@ -45,7 +45,50 @@ public class FilterSettings implements Serializable {
     
     private String generalCurricularOfferingSeco;
     
-    public String getGeneralCurricularOfferingElem() {
+    private String districtSql;
+    
+    private String provinceSql;
+    
+    private String municipalitySql;
+    
+    private String legislativeSql;
+    
+    
+    
+    
+    public String getDistrictSql() {
+		return districtSql;
+	}
+
+	public void setDistrictSql(String districtSql) {
+		this.districtSql = districtSql;
+	}
+
+	public String getProvinceSql() {
+		return provinceSql;
+	}
+
+	public void setProvinceSql(String provinceSql) {
+		this.provinceSql = provinceSql;
+	}
+
+	public String getMunicipalitySql() {
+		return municipalitySql;
+	}
+
+	public void setMunicipalitySql(String municipalitySql) {
+		this.municipalitySql = municipalitySql;
+	}
+
+	public String getLegislativeSql() {
+		return legislativeSql;
+	}
+
+	public void setLegislativeSql(String legislativeSql) {
+		this.legislativeSql = legislativeSql;
+	}
+
+	public String getGeneralCurricularOfferingElem() {
 		return generalCurricularOfferingElem;
 	}
 

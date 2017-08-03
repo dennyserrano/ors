@@ -9,10 +9,12 @@ package ph.gov.deped.data.ebeis;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,16 +26,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  *
  * @author ej
  */
 @Entity
-@Table(name = "ref_municipality", catalog = "sisdb", schema = "", uniqueConstraints = {
+@Table(name = "ref_municipality", catalog = "orsdb", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nscb_code"})})
 @XmlRootElement
 @NamedQueries({
@@ -54,7 +58,9 @@ public class RefMunicipality implements Serializable {
     @Basic(optional = false)
     @Column(name = "district_no", nullable = false)
     private short districtNo;
+    @Transient
     private Short incomeClass;
+    @Transient
     private Short cityClass;
     @Column(name = "URP")
     private Short urp;
@@ -79,7 +85,7 @@ public class RefMunicipality implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "refMunicipalityId")
     private List<School> schoolList;
     @JoinColumn(name = "ref_legislative_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     private RefLegislative refLegislativeId;
     @JoinColumn(name = "ref_province_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)

@@ -4,19 +4,33 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.bits.sql.FilterType;
+import com.bits.sql.Operator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.config.FilterSettings;
 import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.ds.Criterion;
 import ph.gov.deped.data.dto.ds.Filter;
+import ph.gov.deped.data.ebeis.RefLegislative;
+import ph.gov.deped.data.ebeis.RefMunicipality;
+import ph.gov.deped.data.ebeis.RefOffice;
+import ph.gov.deped.data.ebeis.RefProvince;
 import ph.gov.deped.data.ors.ds.DatasetCriteria;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.CriteriaRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
+import ph.gov.deped.repo.jpa.ors.ds.RefLegislativeRepository;
+import ph.gov.deped.repo.jpa.ors.ds.RefMunicipalityRepository;
+import ph.gov.deped.repo.jpa.ors.ds.RefOfficeRepository;
+import ph.gov.deped.repo.jpa.ors.ds.RefProvinceRepository;
 import ph.gov.deped.service.data.api.CriteriaService;
 
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
@@ -35,6 +49,19 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
     
     private FilterSettings filterSettings;
 
+    @Autowired
+    private RefOfficeRepository refOfficeRepository;
+    
+    @Autowired
+    private RefProvinceRepository refProvinceRepository;
+    
+    @Autowired
+    private RefMunicipalityRepository refMunicipalityRepository;
+    
+    @Autowired
+    private RefLegislativeRepository refLegislativeRepository;
+    
+    
     public @Autowired void setDatasetRepository(DatasetRepository datasetRepository) {
         this.datasetRepository = datasetRepository;
     }
@@ -59,6 +86,10 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         filterValueMap.put("8:school_id", () -> new ArrayList<>(asList(new KeyValue("", ""))));
         filterValueMap.put("8:school_classification_id", ()->new ArrayList<>());
         filterValueMap.put("8:coc_id", ()->new ArrayList<>());
+        filterValueMap.put("8:district_id", ()->new ArrayList<>());
+        filterValueMap.put("8:province_id", ()->new ArrayList<>());
+        filterValueMap.put("8:municipality_id", ()->new ArrayList<>());
+        filterValueMap.put("8:legislative_id", ()->new ArrayList<>());
     }
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {
@@ -96,4 +127,44 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
                 .filter(f -> f.getCriterion() == filterId)
                 .findFirst();
     }
+
+    
+    
+
+	@Override
+	public List<KeyValue> findProvinces(long regionId) {
+		
+		List<RefProvince> l=refProvinceRepository.findByRefRegionId((short)regionId);
+		return l.stream().map(e->{
+			return new KeyValue(e.getId().toString(), e.getProvinceName());
+		}).collect(Collectors.toList());
+		
+	}
+
+	@Override
+	public List<KeyValue> findMunicipalities(long provinceId, long regionId) {
+		
+		List<RefMunicipality> l=refMunicipalityRepository.listBy((short)regionId, (short)provinceId);
+		return l.stream().map(e->{
+			return new KeyValue(e.getId().toString(), e.getMunicipalityName());
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<KeyValue> findLegislatives(long provinceId, long regionId) {
+		
+		List<RefLegislative> l=refLegislativeRepository.listBy((short)regionId, (short)provinceId);
+		return l.stream().map(e->{
+			return new KeyValue(e.getId().toString(), e.getDistrictLabel().getDescription());
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<KeyValue> findDistricts(long divisionId, long regionId) {
+		List<RefOffice> l=refOfficeRepository.findByOfficeTypeAndParentOfficeAndRefRegionId((short)193, (short)divisionId, (short)regionId);
+		
+		return l.stream().map(e->{
+			return new KeyValue(e.getId().toString(), e.getOfficeName());
+		}).collect(Collectors.toList());
+	}
 }

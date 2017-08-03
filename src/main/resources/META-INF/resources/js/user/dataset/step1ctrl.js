@@ -32,6 +32,7 @@ angular.module('UserApp')
                     else {
                         $scope.dataset = dataset;
                         delete $scope.dataset.aggregateBy;
+                        delete $scope.dataset.filteredBy;
                         $('#side-menu').metisMenu();
 
                     }
