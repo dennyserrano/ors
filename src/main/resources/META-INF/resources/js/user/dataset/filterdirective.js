@@ -42,6 +42,7 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 						{
 							var option=chosenItems[currentIndex];
 							var selectedRegionKey=option.selectedOptions[0].key;
+							if(selectedRegionKey!=="")
 							CriteriaService.listProvinces({regionId:selectedRegionKey},function(list){
 								provinceContainer.dataset=list;
 							});
@@ -61,6 +62,7 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 						var districtContainer=filterContainer.find('sp_district');
 						districtContainer.dataset=[];
 						
+						if(angular.isDefined(choseRegion) && angular.isDefined(chosenDivision))
 						CriteriaService.listDistricts({regionId:choseRegion,divisionId:chosenDivision},function(list){
 							districtContainer.dataset=list;
 						});
@@ -75,10 +77,13 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 						var legislativeContainer=filterContainer.find('sp_legislative');
 						
 						var regionOption=chosenItems[0].selectedOptions[0].key; //region chosenItem
+						
+						if(angular.isDefined(chosenItems[currentIndex].selectedOptions[0]))
 						var provinceOption=chosenItems[currentIndex].selectedOptions[0].key; //province chosenItem
 						
 						if(municipalityContainer.show)
 						{
+							if(angular.isDefined(regionOption) && angular.isDefined(provinceOption))
 							CriteriaService.listMunicipalities({regionId:regionOption,provinceId:provinceOption},function(list){
 								municipalityContainer.dataset=list;
 							});
@@ -86,6 +91,7 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 						
 						if(legislativeContainer.show)
 						{
+							if(angular.isDefined(regionOption) && angular.isDefined(provinceOption))
 							CriteriaService.listLegislatives({regionId:regionOption,provinceId:provinceOption},function(list){
 								legislativeContainer.dataset=list;
 							});

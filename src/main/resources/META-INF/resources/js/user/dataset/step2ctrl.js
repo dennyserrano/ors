@@ -15,7 +15,8 @@ angular.module('UserApp')
 	                                    	 'Region':
 	                                    	 	 {
 			                                    	 name:'Region',
-			                                    	 elements:[{id:281}]
+			                                    	 elements:[{id:281}],
+			                                    	 order:1
 		                                     	 },
 	                                     
 	                                     
@@ -23,7 +24,8 @@ angular.module('UserApp')
 	                                    	 	{
 	                                    		 name:'Division',
 		                                    	 elements:[{id:285}],
-		                                    	 next:'Region'
+		                                    	 next:'Region',
+		                                    	 order:2
 	                                    	 	},
 	                                    	 
 	                                     
@@ -32,7 +34,8 @@ angular.module('UserApp')
 	                                    	 	{
 	                                    		 name:'District',
 		                                    	 elements:[{id:286}],
-		                                    	 next:'Division'
+		                                    	 next:'Division',
+		                                    	 order:3
 	                                    	 	},
 	                                     
 	                                     
@@ -40,7 +43,8 @@ angular.module('UserApp')
 	                                    	 {
 	                                    		 name:'Province',
 		                                    	 elements:[{id:282}],
-		                                    	 next:'District'
+		                                    	 next:'District',
+		                                    	 order:4
 	                                    	 },
 	                                    	 
 	                                     
@@ -49,7 +53,8 @@ angular.module('UserApp')
 	                                    	 {
 	                                    		 name:'Municipality',
 		                                    	 elements:[{id:283}],
-		                                    	 next:'Province'
+		                                    	 next:'Province',
+		                                    	 order:5
 	                                    	 },
 	                                    	 
 	                                     
@@ -58,7 +63,8 @@ angular.module('UserApp')
 	                                    	 {
 	                                    		 name:'Legislative',
 		                                    	 elements:[{id:284}],
-		                                    	 next:'Municipality'
+		                                    	 next:'Municipality',
+		                                    	 order:6
 	                                    	 }
 	                                    	 
 	                                     
