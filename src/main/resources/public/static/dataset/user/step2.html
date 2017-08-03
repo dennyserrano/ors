@@ -54,14 +54,15 @@
       </div>
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
-      	<div style="display:inline-block;">
-      		Aggregate By:<select data-ng-model="chosenAggregateOption" data-ng-options="v as v.name for (k,v) in aggregateOptions" data-ng-init="chosenAggregateOption=aggregateOptions['Region']"></select>
+      	<div>
+      		<input type='checkbox' id="chkaggregateOptionChk" data-ng-model="aggregateOptionChk"> Aggregate By
       	</div>
       	<div style="display:inline-block;">
-      		<input type='checkbox' id="chkShowSchool" data-ng-model="showSchool" data-ng-init="showSchool=true;">
-      		<label for="chkShowSchool">Show School</label>
+	      	<label for="aggregateOptionId" data-ng-if="!aggregateOptionChk">Pre-Defined Filter:</label>
+	      	<label for="aggregateOptionId" data-ng-if="aggregateOptionChk">Aggregate Filter:</label>
+	      	<select id='aggregateOptionId' data-ng-model="chosenAggregateOption" data-ng-options="v as v.name for (k,v) in aggregateOptions" data-ng-init="chosenAggregateOption=aggregateOptions['Region']"></select>
       	</div>
-      	<div style="display:inline-block;" data-ng-if="chosenAggregateOption.name!==null && !showSchool">
+      	<div style="display:inline-block;" data-ng-if="chosenAggregateOption.name!==null && aggregateOptionChk">
    			<input type='checkbox' id="chkIncludeCount" data-ng-model='chosenAggregateOption.countIncluded'>
    			<label for="chkIncludeCount">Include Count</label>{{countIncluded}}
    		</div>
@@ -83,7 +84,7 @@
                <th>
                  Definition
                </th>
-               <th data-ng-if="!showSchool">
+               <th data-ng-if="aggregateOptionChk">
                	 Aggregate Function
                </th>
              </tr>
@@ -96,7 +97,7 @@
 					</td>
 					<td>{{elem.name}}</td>
 					<td>{{elem.description}}</td>
-					<td data-ng-if="elem.aggregatable && !showSchool">
+					<td data-ng-if="elem.aggregatable && aggregateOptionChk">
 						<select 
 						id='select_aggregate_func{{elem.id}}'
 						data-ng-model="aggregate" data-ng-options="x for x in aggregateList"
