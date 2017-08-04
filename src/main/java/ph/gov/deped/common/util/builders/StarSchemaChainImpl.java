@@ -59,6 +59,10 @@ public class StarSchemaChainImpl implements TableChainer {
 		CRITERIA.put(16L, new DatasetCriteria(14L,null,FilterType.VALUE,new DatasetElement(267L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
 		CRITERIA.put(17L, new DatasetCriteria(15L,null,FilterType.VALUES,new DatasetElement(10936L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
 		CRITERIA.put(18L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(10937L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
+		CRITERIA.put(19L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11237L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(22L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11238L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(23L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11236L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(24L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11239L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
 	}
 	
 //	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,long[] mandatoryFields)

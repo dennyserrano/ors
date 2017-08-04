@@ -15,17 +15,14 @@ angular.module('UserApp')
 	                                    	 'Region':
 	                                    	 	 {
 			                                    	 name:'Region',
-			                                    	 elements:[{id:281}],
-			                                    	 order:1
+			                                    	 elements:[{id:281}]
 		                                     	 },
 	                                     
 	                                     
 	                                    	 'Division':
 	                                    	 	{
 	                                    		 name:'Division',
-		                                    	 elements:[{id:285}],
-		                                    	 next:'Region',
-		                                    	 order:2
+		                                    	 elements:[{id:285}]
 	                                    	 	},
 	                                    	 
 	                                     
@@ -33,9 +30,7 @@ angular.module('UserApp')
 	                                    	 'District':
 	                                    	 	{
 	                                    		 name:'District',
-		                                    	 elements:[{id:286}],
-		                                    	 next:'Division',
-		                                    	 order:3
+		                                    	 elements:[{id:286}]
 	                                    	 	},
 	                                     
 	                                     
@@ -43,8 +38,7 @@ angular.module('UserApp')
 	                                    	 {
 	                                    		 name:'Province',
 		                                    	 elements:[{id:282}],
-		                                    	 next:'District',
-		                                    	 order:4
+		                                    	 next:'District'
 	                                    	 },
 	                                    	 
 	                                     
@@ -53,8 +47,7 @@ angular.module('UserApp')
 	                                    	 {
 	                                    		 name:'Municipality',
 		                                    	 elements:[{id:283}],
-		                                    	 next:'Province',
-		                                    	 order:5
+		                                    	 next:'Province'
 	                                    	 },
 	                                    	 
 	                                     
@@ -63,8 +56,7 @@ angular.module('UserApp')
 	                                    	 {
 	                                    		 name:'Legislative',
 		                                    	 elements:[{id:284}],
-		                                    	 next:'Municipality',
-		                                    	 order:6
+		                                    	 next:'Municipality'
 	                                    	 }
 	                                    	 
 	                                     
@@ -215,7 +207,7 @@ angular.module('UserApp')
 					
 					delete aggregateBy.next;
 					
-					if($scope.showSchool)
+					if(!$scope.aggregateOptionChk)
 					{
 						delete aggregateBy.countIncluded;
 						dataset.filteredBy=aggregateBy;

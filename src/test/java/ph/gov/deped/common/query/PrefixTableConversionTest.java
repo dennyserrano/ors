@@ -44,7 +44,7 @@ public class PrefixTableConversionTest
 	
 	
 	//check if transformation of prefix table is intact
-//	@Test
+	@Test
 	public void a()
 	{
 		PrefixTable pt=tableBuilder.chain(getRootTable(), Arrays.asList(getNsbiTableOneTableJoin()), new ArrayList<>());

@@ -55,11 +55,11 @@
 
       <div data-ng-show="loadingElements === 1" class="col-sm-12">
       	<div>
-      		<input type='checkbox' id="chkaggregateOptionChk" data-ng-model="aggregateOptionChk"> Aggregate By
+      		<input type='checkbox' id="chkaggregateOptionChk" data-ng-model="aggregateOptionChk"> Aggregate
       	</div>
       	<div style="display:inline-block;">
-	      	<label for="aggregateOptionId" data-ng-if="!aggregateOptionChk">Pre-Defined Filter:</label>
-	      	<label for="aggregateOptionId" data-ng-if="aggregateOptionChk">Aggregate Filter:</label>
+	      	<label for="aggregateOptionId" data-ng-if="!aggregateOptionChk">Pre-Filter Condition:</label>
+	      	<label for="aggregateOptionId" data-ng-if="aggregateOptionChk">By:</label>
 	      	<select id='aggregateOptionId' data-ng-model="chosenAggregateOption" data-ng-options="v as v.name for (k,v) in aggregateOptions | orderBy:'order'" data-ng-init="chosenAggregateOption=aggregateOptions['Region']"></select>
       	</div>
       	<div style="display:inline-block;" data-ng-if="chosenAggregateOption.name!==null && aggregateOptionChk">
