@@ -22,7 +22,8 @@ angular.module('UserApp')
 	                                    	 'Division':
 	                                    	 	{
 	                                    		 name:'Division',
-		                                    	 elements:[{id:285}]
+		                                    	 elements:[{id:285}],
+		                                    	 next:"Region"
 	                                    	 	},
 	                                    	 
 	                                     
@@ -30,7 +31,8 @@ angular.module('UserApp')
 	                                    	 'District':
 	                                    	 	{
 	                                    		 name:'District',
-		                                    	 elements:[{id:286}]
+		                                    	 elements:[{id:286}],
+		                                    	 next:'Division'
 	                                    	 	},
 	                                     
 	                                     
@@ -62,7 +64,7 @@ angular.module('UserApp')
 	                                     
     								}	
             $scope.userSelection=[];
-            $window.ORS.AdjustDatasetContents(0);
+//            $window.ORS.AdjustDatasetContents(0);
             
             $scope.checkAll=function(index,check,dataset){
             	

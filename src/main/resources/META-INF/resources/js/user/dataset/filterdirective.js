@@ -28,7 +28,13 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 					{				                 			
 						var divisionContainer=filterContainer.find('sp_division');
 						var provinceContainer=filterContainer.find('sp_province');
+						var municipalityContainer=filterContainer.find('sp_municipality');
+						var legislativeContainer=filterContainer.find('sp_legislative');
 						
+						divisionContainer.dataset=[];
+						provinceContainer.dataset=[];
+						municipalityContainer.dataset=[];
+						legislativeContainer.dataset=[];
 						
 						if(divisionContainer.show)
 						{
@@ -50,7 +56,7 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 				
 					}
 				},
-				{
+				{      	
 					filterName:'sp_division',
 					dataset:[],
 					onClick:function(chosenItems,currentIndex)
@@ -81,6 +87,8 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 						if(angular.isDefined(chosenItems[currentIndex].selectedOptions[0]))
 						var provinceOption=chosenItems[currentIndex].selectedOptions[0].key; //province chosenItem
 						
+						municipalityContainer.dataset=[];
+						legislativeContainer.dataset=[];
 						if(municipalityContainer.show)
 						{
 							if(angular.isDefined(regionOption) && angular.isDefined(provinceOption))
