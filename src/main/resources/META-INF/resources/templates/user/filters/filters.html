@@ -19,10 +19,8 @@
 	<!-- 	</div> -->
 
 
-	<div class="form-group"
-		data-ng-repeat="availableCriterion in getCriteria() track by $index"
-		ng-switch="availableCriterion.inputType" class="form-group">
-		<label class="col-sm-2 control-label" style="padding-right: 10px;" data-ng-if="availableCriterion.show && availableCriterion.label!=='School Name'">
+	<div data-ng-repeat="availableCriterion in getCriteria() track by $index" ng-switch="availableCriterion.inputType" class="form-group" data-ng-if="availableCriterion.show && availableCriterion.label!=='School Name'">
+		<label class="col-sm-2 control-label" style="padding-right: 10px;">
 			{{availableCriterion.label}} </label>
 			
 		<div ng-switch-when='1' class="col-sm-4" data-ng-if="availableCriterion.show">
@@ -35,7 +33,6 @@
 		</div>
 
 		<div ng-switch-when='2' class="col-sm-4" data-ng-init="onInit2(chosenItems,availableCriterion,$parent.$index)" data-ng-if="availableCriterion.show">
-			
 			<div ng-repeat="select in availableCriterion.dataset">
 				<input type="checkbox"
 					checklist-model="chosenItems[$parent.$index].selectedOptions"

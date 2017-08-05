@@ -10,59 +10,63 @@ angular.module('UserApp')
             $scope.step4 = 'disabled';
             $scope.aggregateList=['SUM','AVERAGE'];
             
-            $scope.aggregateOptions={
-	                                     
-	                                    	 'Region':
-	                                    	 	 {
-			                                    	 name:'Region',
-			                                    	 elements:[{id:281}]
-		                                     	 },
-	                                     
-	                                     
-	                                    	 'Division':
-	                                    	 	{
-	                                    		 name:'Division',
-		                                    	 elements:[{id:285}],
-		                                    	 next:"Region"
-	                                    	 	},
-	                                    	 
-	                                     
-	                                     
-	                                    	 'District':
-	                                    	 	{
-	                                    		 name:'District',
-		                                    	 elements:[{id:286}],
-		                                    	 next:'Division'
-	                                    	 	},
-	                                     
-	                                     
-	                                    	 'Province':
-	                                    	 {
-	                                    		 name:'Province',
-		                                    	 elements:[{id:282}],
-		                                    	 next:'District'
-	                                    	 },
-	                                    	 
-	                                     
-	                                     
-	                                    	 'Municipality':
-	                                    	 {
-	                                    		 name:'Municipality',
-		                                    	 elements:[{id:283}],
-		                                    	 next:'Province'
-	                                    	 },
-	                                    	 
-	                                     
-	                                     
-	                                    	 'Legislative':
-	                                    	 {
-	                                    		 name:'Legislative',
-		                                    	 elements:[{id:284}],
-		                                    	 next:'Municipality'
-	                                    	 }
-	                                    	 
-	                                     
-    								}	
+            $scope.aggregateOptions=[{name:'Region'},{name:'Division'},{name:'District'},{name:'Province'},{name:'Municipality'},{name:'Legislative'}];
+            
+            
+            var aggregateOptionsRef={
+                    
+               	 'Region':
+               	 	 {
+                       	 name:'Region',
+                       	 elements:[{id:281}]
+                    	 },
+                
+                
+               	 'Division':
+               	 	{
+               		 name:'Division',
+                   	 elements:[{id:285}],
+                   	 next:"Region"
+               	 	},
+               	 
+                
+                
+               	 'District':
+               	 	{
+               		 name:'District',
+                   	 elements:[{id:286}],
+                   	 next:'Division'
+               	 	},
+                
+                
+               	 'Province':
+               	 {
+               		 name:'Province',
+                   	 elements:[{id:282}],
+                   	 next:'District'
+               	 },
+               	 
+                
+                
+               	 'Municipality':
+               	 {
+               		 name:'Municipality',
+                   	 elements:[{id:283}],
+                   	 next:'Province'
+               	 },
+               	 
+                
+                
+               	 'Legislative':
+               	 {
+               		 name:'Legislative',
+                   	 elements:[{id:284}],
+                   	 next:'Municipality'
+               	 }
+               	 
+                
+			}
+            
             $scope.userSelection=[];
 //            $window.ORS.AdjustDatasetContents(0);
             
@@ -161,7 +165,8 @@ angular.module('UserApp')
             }
             
             $scope.save = function() {
-                $scope.saving = true;
+//                $scope.saving = true;
+            	$("#nextBtn").prop('disabled',true);
                 var dataset = $scope.dataset;
                 dataset.elements = [];
                 
@@ -203,8 +208,8 @@ angular.module('UserApp')
                 if($scope.chosenAggregateOption.name!==null)
             	{
                 	
-					var aggregateBy=$scope.chosenAggregateOption;
-					aggregateBy.elements=findAggregates($scope.chosenAggregateOption,$scope.aggregateOptions).reverse();
+					var aggregateBy=aggregateOptionsRef[$scope.chosenAggregateOption.name];
+					aggregateBy.elements=findAggregates(aggregateBy,aggregateOptionsRef).reverse();
 					
 					
 					delete aggregateBy.next;
