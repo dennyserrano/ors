@@ -70,7 +70,7 @@ public class ApplicationDataSourceSpringConfig implements AppMetadata {
         }
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setMaximumPoolSize(8);
+        ds.setMaximumPoolSize(500);
         ds.setConnectionTestQuery("SELECT 1");
         ds.setDataSource(mysqlDs);
         ds.setPoolName(DS);
