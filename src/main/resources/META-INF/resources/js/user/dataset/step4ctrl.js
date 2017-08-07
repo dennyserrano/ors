@@ -28,11 +28,21 @@ angular.module('UserApp')
                 $timeout($window.ORS.AdjustPreviewTable, 50);
             });
             
-            var previewDataCallback = function(data) {
-                $scope.headers = data[0];
-                data.splice(0, 1); // removes the header
-                $scope.datas = angular.copy(data);
-                $scope.loadingData = 1;
+            var previewDataCallback = function(returnData) {
+            	
+            	if(returnData.code==0)
+        		{
+            		var data=returnData.data;
+            		$scope.loadingDataError="";
+            		$scope.headers = data[0];
+                    data.splice(0, 1); // removes the header
+                    $scope.datas = angular.copy(data);
+                    $scope.loadingData = 1;
+        		}else
+    			{
+        			$scope.loadingDataError=returnData.message;
+    			}
+                
             };
            
           
@@ -46,6 +56,7 @@ angular.module('UserApp')
         		}
                 $scope.dataset = dataset;
                 $scope.datasetJson = angular.toJson(dataset);
+                $scope.loadingDataError="";
                 PreviewDataService.preview(dataset, previewDataCallback);
             }, function(response) {
                 $scope.loadingData = 2;

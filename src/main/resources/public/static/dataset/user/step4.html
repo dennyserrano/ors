@@ -79,8 +79,9 @@
         </div>
       </div>
       
-      <div data-ng-if="loadingData === 2" class="col-sm-12">
-        <div class="alert alert-danger">
+      <div class="col-sm-12" data-ng-if="loadingDataError!==''">
+      	<button type='button' data-target="#errorId" data-toggle="collapse">See Error</button>
+        <div class="collapse alert alert-danger" id="errorId">
           {{ ::loadingDataError }}
         </div>
       </div>

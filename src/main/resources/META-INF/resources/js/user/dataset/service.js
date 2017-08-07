@@ -122,8 +122,7 @@ angular.module('UserApp')
         function($resource) {
             return $resource('/preview', {}, {
                 'preview': {
-                    method: 'POST',
-                    isArray: true
+                    method: 'POST'
                 }
             })
         }

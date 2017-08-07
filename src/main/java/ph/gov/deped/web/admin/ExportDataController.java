@@ -10,9 +10,12 @@ import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
@@ -23,6 +26,7 @@ import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportService;
 import ph.gov.deped.service.data.api.ExportType;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -39,6 +43,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/export")
+@ControllerAdvice
 public class ExportDataController {
     
     private static final Logger log = LogManager.getLogger(ExportDataController.class);
@@ -49,6 +54,10 @@ public class ExportDataController {
     @Qualifier("BulkExcelExportServiceImpl")
     private ExportService exportService;
 
+    @ExceptionHandler(RuntimeException.class)
+    public String handle(HttpServletRequest req, Exception ex){
+    	return "user/error";
+    }
     @RequestMapping(method = RequestMethod.POST)
     public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
     	
@@ -102,7 +111,7 @@ public class ExportDataController {
             os.flush();
         }
         
-        
+//        throw new RuntimeException("hahah");
         
     }
 }
