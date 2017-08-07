@@ -54,7 +54,7 @@ public class ExportDataController {
     @Qualifier("BulkExcelExportServiceImpl")
     private ExportService exportService;
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Exception.class)
     public String handle(HttpServletRequest req, Exception ex){
     	return "user/error";
     }
@@ -111,7 +111,6 @@ public class ExportDataController {
             os.flush();
         }
         
-//        throw new RuntimeException("hahah");
         
     }
 }

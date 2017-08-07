@@ -79,6 +79,7 @@ angular.module('UserApp')
             $scope.step1=function(){
             	$state.go('step1');
             }
+       
         }
     ]
 );
