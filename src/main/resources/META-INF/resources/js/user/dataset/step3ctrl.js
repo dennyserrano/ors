@@ -28,15 +28,24 @@ angular.module('UserApp')
             var generalCurOfferingFilterId=12;
             var sectorSubChecklistFilterId=17;
             var gcoSubChecklistFilterId=18;
+            var districtChecklistFilterId=19;
+            var provinceChecklistFilterId=22;
+            var municipalityChecklistFilterId=23;
+            var legislativeChecklistFilterId=24;
+            
             var sectorFilterId=11;
             var availableCriteria = [];
             var hasSchoolProfileSelected = false;
             var divisionCriterion;
-            
+            var provinceCriterion;
+            var municipalityCriterion;
+            var legislativeCriterion;
             var sectorCriterion;
             var sectorSubChecklistCriterion;
             var gcoSubChecklistCriterion;
             var curricularOfferCriterion;
+            var districtCriterion;
+            
             
             var criteriaIteratorCallback = function(c) {
                 availableCriteria.push(c);
@@ -92,6 +101,31 @@ angular.module('UserApp')
                 }
             };
             
+            var districtFilter = function(criterion) {
+                if (criterion.filterId === districtChecklistFilterId) {
+                	districtCriterion = criterion;
+                }
+            };
+            
+            var provinceFilter = function(criterion) {
+                if (criterion.filterId === provinceChecklistFilterId) {
+                	provinceCriterion = criterion;
+                }
+            };
+            
+            var municipalityFilter = function(criterion) {
+                if (criterion.filterId === municipalityChecklistFilterId) {
+                	municipalityCriterion = criterion;
+                }
+            };
+            
+            var legislativeFilter = function(criterion) {
+                if (criterion.filterId === legislativeChecklistFilterId) {
+                	legislativeCriterion = criterion;
+                }
+            };
+            
+            
             var criteriaServiceCallback = function(criteria) {
             	angular.forEach(criteria,function(e,i){
             		availableCriteria.push(e);
@@ -121,6 +155,7 @@ angular.module('UserApp')
             	
                 $scope.dataset = dataset || {};
                 $scope.filters = dataset.filters || [];
+                $scope.chosenFilter=dataset.filteredBy?dataset.filteredBy.name:dataset.aggregateBy.name;
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
                         hasSchoolProfileSelected = true;

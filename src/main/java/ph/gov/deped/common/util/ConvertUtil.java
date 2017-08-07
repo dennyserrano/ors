@@ -5,15 +5,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.bits.sql.AggregateTypes;
+
 import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
+import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 public class ConvertUtil 
 {
@@ -68,6 +72,34 @@ public class ConvertUtil
 	{
 		ColumnElement ce=new ColumnElement(fieldName, prefix);
 		return ce;
+	}
+	
+	public static Element toElement(DatasetElement de)
+	{
+		return new Element(de.getId(),
+				de.getName(),
+				de.getDescription(),
+				de.getMeaning(),
+				de.getDatasetHead().getId(),
+				false,false);
+	}
+	
+	public static Element countAll()
+	{
+		Element e= new Element(0,"*","","",0,false,true);
+		e.setAggregate(AggregateTypes.COUNT_ALL.getAggregate());
+		return e;
+	}
+	
+	public static DatasetElement toDatasetElement(Element e)
+	{
+		DatasetElement de=new DatasetElement();
+		de.setId(e.getId());
+		de.setAggregate(AggregateTypes.valueOf(e.getAggregate()));
+		de.setColumnMetaData(new ColumnMetadata(0, "*", "bigint", false, 0, 0L, false));
+		de.setDatasetHead(new DatasetHead(0L, "", 0));
+		de.setName("count");
+		return de;
 	}
 	
 	

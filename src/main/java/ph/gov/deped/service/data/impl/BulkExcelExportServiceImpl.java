@@ -165,6 +165,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 	{
 		
 		for(String stringFile:files)
+			if(stringFile!=null)
 				Files.delete(Paths.get(new File(stringFile).getAbsolutePath()));
 		
 	}

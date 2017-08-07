@@ -39,6 +39,12 @@ public class Dataset implements Serializable {
 
     private @JsonProperty("filters") List<Filter> filters = new ArrayList<>();
 
+    @JsonProperty("aggregateBy")
+    private Aggregate aggregateBy;
+    
+    @JsonProperty("filteredBy")
+    private Aggregate filteredBy;
+    
     public Dataset() {}
 
     public Dataset(long id, String name, String description, Long parentDatasetHead) {
@@ -58,6 +64,7 @@ public class Dataset implements Serializable {
         this.parentDatasetHead = parentDatasetHead;
         this.subDatasets.addAll(subDatasets);
         this.elements.addAll(elements);
+        
     }
 
     public long getId() {
@@ -136,7 +143,23 @@ public class Dataset implements Serializable {
         this.filters = filters;
     }
 
-    @Override
+	public Aggregate getFilteredBy() {
+		return filteredBy;
+	}
+
+	public void setFilteredBy(Aggregate filteredBy) {
+		this.filteredBy = filteredBy;
+	}
+
+	public Aggregate getAggregateBy() {
+		return aggregateBy;
+	}
+
+	public void setAggregateBy(Aggregate aggregateBy) {
+		this.aggregateBy = aggregateBy;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Dataset)) {
             return false;

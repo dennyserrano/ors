@@ -59,12 +59,38 @@ angular.module('UserApp')
     .factory('CriteriaService', ['$resource', '$cacheFactory',
         function($resource, $cacheFactory) {
             return $resource('/criteria/:headId', {
-                headId: '@id'
+                headId: '@id',
+                regionId:'@regionId',
+                divisionId:'@divisionId'
             }, {
                 get: {
                     method: 'GET',
                     isArray: true,
                     cache: $cacheFactory('criteria')
+                },
+                listDistricts:{
+                	method:'GET',
+                	isArray:true,
+                	url:'/criteria/districts',
+                	params:{regionId:1,divisionId:1}
+                },
+                listProvinces:{
+                	method:'GET',
+                	isArray:true,
+                	url:'/criteria/provinces',
+                	params:{regionId:1}
+                },
+                listLegislatives:{
+                	method:'GET',
+                	isArray:true,
+                	url:'/criteria/legislatives',
+                	params:{regionId:1,provinceId:1}
+                },
+                listMunicipalities:{
+                	method:'GET',
+                	isArray:true,
+                	url:'/criteria/municipalities',
+                	params:{regionId:1,provinceId:1}
                 }
             })
         }

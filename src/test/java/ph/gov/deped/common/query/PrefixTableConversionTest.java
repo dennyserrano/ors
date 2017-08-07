@@ -39,12 +39,12 @@ import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 public class PrefixTableConversionTest
 {
 	
-	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl(new HashMap<DatasetHead, Set<DatasetElement>>());
+	static StarSchemaChainImpl tableBuilder=new StarSchemaChainImpl(new HashMap<DatasetHead, Set<DatasetElement>>(),null,null);
 	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	
 	
 	//check if transformation of prefix table is intact
-//	@Test
+	@Test
 	public void a()
 	{
 		PrefixTable pt=tableBuilder.chain(getRootTable(), Arrays.asList(getNsbiTableOneTableJoin()), new ArrayList<>());

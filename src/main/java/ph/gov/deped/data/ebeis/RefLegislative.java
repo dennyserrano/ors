@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ej
  */
 @Entity
-@Table(name = "ref_legislative", catalog = "sisdb", schema = "")
+@Table(name = "ref_legislative", catalog = "orsdb", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RefLegislative.findAll", query = "SELECT r FROM RefLegislative r")})
@@ -42,10 +42,9 @@ public class RefLegislative implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Short id;
-    @Column(name = "ref_province_id")
-    private Short refProvinceId;
-    @Column(name = "ref_municipality_id")
-    private Integer refMunicipalityId;
+    @ManyToOne
+    private RefProvince refProvince;
+    
     @Column(name = "district_no")
     private Short districtNo;
     @Column(name = "date_established")
@@ -79,23 +78,15 @@ public class RefLegislative implements Serializable {
         this.id = id;
     }
 
-    public Short getRefProvinceId() {
-        return refProvinceId;
-    }
+    public RefProvince getRefProvince() {
+		return refProvince;
+	}
 
-    public void setRefProvinceId(Short refProvinceId) {
-        this.refProvinceId = refProvinceId;
-    }
+	public void setRefProvince(RefProvince refProvince) {
+		this.refProvince = refProvince;
+	}
 
-    public Integer getRefMunicipalityId() {
-        return refMunicipalityId;
-    }
-
-    public void setRefMunicipalityId(Integer refMunicipalityId) {
-        this.refMunicipalityId = refMunicipalityId;
-    }
-
-    public Short getDistrictNo() {
+	public Short getDistrictNo() {
         return districtNo;
     }
 

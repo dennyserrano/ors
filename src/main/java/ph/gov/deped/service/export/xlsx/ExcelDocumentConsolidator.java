@@ -59,7 +59,7 @@ public class ExcelDocumentConsolidator
 		if(workbookExporter==null)
 			throw new RuntimeException("No appender set");
 		
-		Workbook wb=new SXSSFWorkbook(100);
+		SXSSFWorkbook wb=new SXSSFWorkbook(100);
 		
 		for(int x=0;x<fileNames.length;x++)
 		{
@@ -74,6 +74,7 @@ public class ExcelDocumentConsolidator
 		FileOutputStream fos=new FileOutputStream(fileOutputName);
 		wb.write(fos);
 		fos.close();
+		wb.dispose();
 		System.gc();
 		
 	}

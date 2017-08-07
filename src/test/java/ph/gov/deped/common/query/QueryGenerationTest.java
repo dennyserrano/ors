@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bits.sql.AggregateTypes;
+import com.bits.sql.JdbcTypes;
 import com.thoughtworks.xstream.XStream;
 
 import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
@@ -22,6 +24,7 @@ import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Aggregate;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
@@ -46,12 +49,14 @@ public class QueryGenerationTest
 	@Autowired
 	private DatasetRepository datasetRepo;
 	
-	private TableChainer tableChainer=new StarSchemaChainImpl(new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name","municipality_name","region_name"});
+	private TableChainer tableChainer=null;//new StarSchemaChainImpl();
 	@Autowired
 	DatasetService datasetService;
 	
 	@Autowired
 	MetadataService metadataService;
+	
+	public static final String[] aggregateOptions=new String[]{"Region","Division","District","Province","Municipality","Legislative"};
 	
 	//check root table if correct
 	//using all the filters available
@@ -225,10 +230,125 @@ public class QueryGenerationTest
 		}
 	}
 	
+	//aggregations check
+	@Test
+	public void f()
+	{
+		XStream xs=new XStream();
+		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
+		List<DatasetHead> children= datasetRepo.findAll();
+		for(DatasetHead child:children)
+		{
+			
+			for(String aggregate:aggregateOptions)
+			{
+				Aggregate aggObj=getAggregate(aggregate);
+				List<DatasetHead> al=datasetRepo.findByIds(Arrays.asList(child.getId()));
+				if(al.size()==0)
+					continue;
+				
+				if(!al.get(0).isVisible())
+					continue;
+				
+				if(al.get(0).getParentDatasetHead()==null)
+					continue;
+				
+				if(al.get(0).getParentDatasetHead()==0)
+					continue;
+				
+				child=al.get(0);
+				Dataset sub=new Dataset();
+				sub.setId(child.getId());
+				ArrayList<Element> elementCol=new ArrayList<Element>();
+				elementCol.addAll(aggObj.getElements());
+				for(DatasetElement de:child.getDatasetElements())
+					{
+					
+						if(JdbcTypes.isNumeric(de.getColumnMetaData().getDataType()))
+						{
+							de.setAggregate(AggregateTypes.SUM);
+							elementCol.add(toElement(de));
+						}else if(JdbcTypes.isStringType(de.getColumnMetaData().getDataType()))
+						{
+							de.setAggregate(AggregateTypes.GROUP);
+							elementCol.add(toElement(de));
+							aggObj.getElements().add(toElement(de));
+						}
+					}
+				
+				
+				ds.setElements(elementCol);
+				ds.setSubDatasets(Arrays.asList(sub));
+				ds.setAggregateBy(aggObj);
+				
+			}
+			
+			try
+			{
+				datasetService.getData(ds, true);
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	
+	private Aggregate getAggregate(String aggregateName)
+	{
+		Aggregate a=new Aggregate();
+		a.setElements(new ArrayList<Element>());
+		if(aggregateName.equals("Region"))
+			a.getElements().add(new Element(281, "", null, "", 0L, false, true));
+		else if(aggregateName.equals("Division"))
+		{
+			a.getElements().add(new Element(281, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(285, "", null, "", 0L, false, true));
+		}
+		else if(aggregateName.equals("District"))
+		{
+			a.getElements().add(new Element(281, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(285, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(286, "", null, "", 0L, false, true));
+		}
+		else if(aggregateName.equals("Province"))
+		{
+			a.getElements().add(new Element(281, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(285, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(286, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(282, "", null, "", 0L, false, true));
+		}
+		else if(aggregateName.equals("Municipality"))
+		{
+			a.getElements().add(new Element(281, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(285, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(286, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(282, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(283, "", null, "", 0L, false, true));
+		}
+		else if(aggregateName.equals("Legislative"))
+		{
+			a.getElements().add(new Element(281, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(285, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(286, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(282, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(283, "", null, "", 0L, false, true));
+			a.getElements().add(new Element(284, "", null, "", 0L, false, true));
+		}
+		a.setCountIncluded(true);
+		
+		
+		for(Element e:a.getElements())
+			e.setAggregate(AggregateTypes.GROUP.getAggregate());
+		return a;
+	}
 	
 	private Element toElement(DatasetElement de)
 	{
-		return new Element(de.getId(), de.getName(), "", "", de.getDatasetHead().getId(), false, false);
+		Element e=new Element(de.getId(), de.getName(), "", "", de.getDatasetHead().getId(), false, true);
+		e.setAggregate(de.getAggregate()==null?null:de.getAggregate().getAggregate());
+		return e;
 	}
 //	DatasetHead parent=datasetRepo.findByIds(Arrays.asList(8L)).get(0);
 //	List<DatasetHead> children=datasetRepo.findByIds(Arrays.asList(childrenDH.getId()));

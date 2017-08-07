@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.bits.sql.AggregateTypes;
 import com.bits.sql.FilterType;
 import com.bits.sql.JoinType;
 import com.bits.sql.Operator;
@@ -23,7 +25,9 @@ import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.GenericKeyValue;
 import ph.gov.deped.data.dto.KeyValue;
+import ph.gov.deped.data.dto.Order;
 import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCriteria;
@@ -37,10 +41,10 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 public class StarSchemaChainImpl implements TableChainer {
 
 	private PrefixTableBuilder tableBuilder;
-	private String[] MANDATORY_FIELDS;
-	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from","school_id"};
+	private long[] MANDATORY_FIELDS;
+	private final String[] JOINING_ELEMENTS;
 	private Map<DatasetHead,Set<DatasetElement>> selectedElements;
-	
+	private List<Element> orderList;
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
 	
 	static
@@ -55,19 +59,28 @@ public class StarSchemaChainImpl implements TableChainer {
 		CRITERIA.put(16L, new DatasetCriteria(14L,null,FilterType.VALUE,new DatasetElement(267L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
 		CRITERIA.put(17L, new DatasetCriteria(15L,null,FilterType.VALUES,new DatasetElement(10936L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
 		CRITERIA.put(18L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(10937L),new Operator() {public String get() {return null;}public String getName() {return "IN";}},false,""));
+		CRITERIA.put(19L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11237L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(22L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11238L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(23L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11236L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
+		CRITERIA.put(24L, new DatasetCriteria(16L,null,FilterType.VALUES,new DatasetElement(11239L),new Operator() {public String get() {return null;}public String getName() {return "EQ";}},false,""));
 	}
 	
-	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements)
+//	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,long[] mandatoryFields)
+//	{
+//		tableBuilder=new PrefixTableBuilder();
+////		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
+//		this.selectedElements=selectedElements;
+//		this.JOINING_ELEMENTS=joinElements;
+//		this.MANDATORY_FIELDS=mandatoryFields;
+//	}
+	
+	public StarSchemaChainImpl(Map<DatasetHead,Set<DatasetElement>> selectedElements,String[] joinElements,List<Element> orderList)
 	{
 		tableBuilder=new PrefixTableBuilder();
-		MANDATORY_FIELDS=new String[]{"sy_from","region_shortname","division_name","school_id","school_name","region_short_name"};
 		this.selectedElements=selectedElements;
-	}
-	
-	public StarSchemaChainImpl(String[] mandatoryFields)
-	{
-		tableBuilder=new PrefixTableBuilder();
-		MANDATORY_FIELDS=mandatoryFields;
+		MANDATORY_FIELDS=new long[]{};
+		JOINING_ELEMENTS=joinElements;
+		this.orderList=orderList;
 	}
 	
 	
@@ -80,8 +93,8 @@ public class StarSchemaChainImpl implements TableChainer {
 		
 		for(DatasetElement de:parent.getDatasetElements())
 			{
-				for(String mandatoryName:MANDATORY_FIELDS)
-					if(de.getName().equals(mandatoryName))
+				for(long mandatoryId:MANDATORY_FIELDS)
+					if(de.getId()==mandatoryId)
 						mandatoryFieldList.add(de);
 				
 				for(String joinElement:JOINING_ELEMENTS)
@@ -93,31 +106,6 @@ public class StarSchemaChainImpl implements TableChainer {
 						criteriaList.add(de);
 				
 			}
-		
-		
-		for(DatasetHead child:children)
-		{
-			Set<DatasetElement> s=selectedElements.get(child);
-			s.addAll(joinElementList);
-			child.setDatasetElements(s);
-		}
-		
-		Set<DatasetElement> s= selectedElements.get(parent);
-		if(s!=null)
-		{
-			s.addAll(joinElementList);
-			s.addAll(criteriaList);
-			s.addAll(mandatoryFieldList);
-			parent.setDatasetElements(s);
-		}else
-		{
-			s=new HashSet<DatasetElement>();
-			s.addAll(joinElementList);
-			s.addAll(criteriaList);
-			s.addAll(mandatoryFieldList);
-			parent.setDatasetElements(s);
-		}
-		
 		
 		PrefixTable parentPT=convertParent(parent);
 		
@@ -182,23 +170,27 @@ public class StarSchemaChainImpl implements TableChainer {
 		for(DatasetElement de:criteriaList)
 		{
 			boolean isPresent=false;
-			for(DatasetElement mde:mandatoryFieldList)
-			{
-				isPresent=de.getId().longValue()==mde.getId().longValue();
-				if(isPresent)
-					break;
-			}
+			for(Set<DatasetElement> set:selectedElements.values())
+				{
+					isPresent|=set.stream().filter(e->e.getId()==de.getId()).findFirst().isPresent();
+					if(isPresent)
+						break;
+				}
 			
 			if(isPresent)
 				continue;
 			
 			Optional<TableColumn> o=parentPT.getColumns().stream().filter(e->((ColumnElement)e).getElementId()==de.getId()).findFirst();
-			parentPT.getColumns().remove(o.get());
+			removeList.add(o.get());
 		}
+		
+		
 		
 		//joining of children
 		for(GenericKeyValue<PrefixTable, JoinPropertyManualBuilder> gkv:childConvertedList)
 			parentPT.addJoin(gkv.getKey(), gkv.getValue().build());
+		
+		remove(selectedElements, parentPT, removeList);
 		
 		remove(removeList, parentPT);
 		
@@ -211,17 +203,68 @@ public class StarSchemaChainImpl implements TableChainer {
 				ce.setTablePrefix(parentPT.getTablePrefix());
 		}
 		
+		
+		for(Entry<DatasetHead, Set<DatasetElement>> countIncludedKey:selectedElements.entrySet())
+		{
+			if(countIncludedKey.getKey().getName().equals("CountDatasetHead"))
+				parentPT.getColumns().add(ConvertUtil.toColumnElement(new ArrayList<>(countIncludedKey.getValue()).get(0)));
+			
+		}
+		
 		parentPT.setWhere(whereBuilder.getWhere());
 		parentPT=new AggregateAdjuster().adjust(parentPT);
+		
+		List<ColumnElement> finishedOrderList=assignOrder(orderList, parentPT.getGroupBy());
+		if(finishedOrderList.size()!=0)
+		{
+			Order order=new Order("",finishedOrderList); //TODO assign factory for creation of ORder
+			parentPT.setOrder(order);
+		}
 		
 		return parentPT;
 	}
 	
 	private void remove(List<TableColumn> removeList,PrefixTable parent)
 	{
-		parent.getColumns().remove(removeList);
+		ArrayList<TableColumn> tmpRemove=new ArrayList<TableColumn>();
+		for(TableColumn parentTc:parent.getColumns())
+			{
+				ColumnElement parentCe=(ColumnElement) parentTc;
+				boolean isPresent=removeList.stream().filter(e->{
+					ColumnElement removeCe=(ColumnElement) e;
+					return parentCe.getElementId()==removeCe.getElementId();
+				}).findFirst().isPresent();
+				if(isPresent)
+					tmpRemove.add(parentTc);
+			}
+		
+		parent.getColumns().removeAll(tmpRemove);
+		tmpRemove.clear();
+		
 		for(PrefixTable joinTable:parent.getJoinTables().keySet())
 			remove(removeList,joinTable);
+	}
+	
+	//TODO revise needs to be optimized. searching for each parent and each element. This is an expensive process
+	private void remove(Map<DatasetHead,Set<DatasetElement>> selected,PrefixTable parent,List<TableColumn> removeList)
+	{
+		for(TableColumn tc:parent.getColumns())
+		{
+			boolean isSelected=false;
+			for(Set<DatasetElement> set:selected.values())
+			{
+				ColumnElement ce=(ColumnElement) tc;
+				Optional<DatasetElement> option=set.stream().filter(e->e.getId()==ce.getElementId()).findFirst();
+				isSelected |= option.isPresent();
+			}
+			if(isSelected)
+				continue;
+			else
+				removeList.add(tc);
+		}
+		
+		for(PrefixTable pt:parent.getJoinTables().keySet())
+			remove(selected,pt,removeList);
 	}
 	
 	private PrefixTable convertParent(DatasetHead parent)
@@ -286,6 +329,16 @@ public class StarSchemaChainImpl implements TableChainer {
 		return list;
 	}
 	
+	private List<ColumnElement> assignOrder(List<Element> orderList,Set<ColumnElement> referenceSet)
+	{
+		ArrayList<ColumnElement> finalList=new ArrayList<ColumnElement>();
+		for(Element e:orderList)
+			for(ColumnElement ce:referenceSet)
+				if(ce.getElementId()==e.getId())
+					finalList.add(ce);
+		
+		return finalList;
+	}
 	class WhereBuilder
 	{
 		private Where where;
@@ -369,8 +422,12 @@ public class StarSchemaChainImpl implements TableChainer {
 			for(TableColumn tc:pt.getColumns())
 			{
 				ColumnElement ce=(ColumnElement) tc;
-				if(!ce.hasAggregate())
-					set.add(ce);
+				if(ce.hasAggregate())
+					if(ce.getAggregate().equals(AggregateTypes.GROUP))
+						{
+							set.add(ce);
+							ce.setAggregate(null);
+						}
 			}
 		}
 	}

@@ -14,4 +14,12 @@ public interface CriteriaService {
     List<Criterion> findDatasetHeadCriteria(long headId);
 
     List<KeyValue> searchSchools(Map<Long, String> filters);
+    
+    List<KeyValue> findDistricts(long divisionId,long regionId);
+    
+    List<KeyValue> findProvinces(long regionId);
+    
+    List<KeyValue> findMunicipalities(long provinceId,long regionId);
+    
+    List<KeyValue> findLegislatives(long provinceId,long regionId);
 }
