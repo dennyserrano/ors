@@ -70,7 +70,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from","school_id"};
 	
-	private static final long[] MANDATORY_IDS=new long[]{266,267,268,281,285};
+	private static final long[] MANDATORY_IDS=new long[]{266,267,268,281,285,286,282,283,284};
 	
 	private static final String COUNT_DATASET_HEAD_NAME="CountDatasetHead"; // temporary
 	
