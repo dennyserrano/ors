@@ -220,7 +220,10 @@ angular.module('UserApp')
 						dataset.filteredBy=aggregateBy;
 					}
 					else
+					{
 						dataset.aggregateBy=aggregateBy;
+						dataset.aggregateBy.countIncluded=$scope.aggregateOptionChk;
+					}
             	}
                 
                 angular.forEach(dataset.subDatasets, function(subdataset) {

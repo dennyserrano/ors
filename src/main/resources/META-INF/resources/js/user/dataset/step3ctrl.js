@@ -154,7 +154,7 @@ angular.module('UserApp')
         		}
             	
                 $scope.dataset = dataset || {};
-                $scope.filters = dataset.filters || [];
+                $scope.filters = [];
                 $scope.chosenFilter=dataset.filteredBy?dataset.filteredBy.name:dataset.aggregateBy.name;
                 angular.forEach($scope.dataset.subDatasets, function(selectedDataset) {
                     if (selectedDataset.id === schoolProfileDatasetId) {
