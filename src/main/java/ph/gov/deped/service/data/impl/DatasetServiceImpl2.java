@@ -345,7 +345,7 @@ public class DatasetServiceImpl2 implements DatasetService
 			PrefixTable pt = prefixTables.get(i);
             collectColumns(sortedColumns, pt);
         }
-		
+		arrangeWithMandatories(sortedColumns, MANDATORY_IDS); //by reference column which is bad
 		return sortedColumns;
 	}
 
