@@ -87,6 +87,7 @@ public class DatasetServiceImpl2 implements DatasetService
     	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
     	
     	collectColumns(sortedColumns, finalTable);
+    	arrangeWithMandatories(sortedColumns, MANDATORY_IDS); //by reference column which is bad
     	
     	String sql=serviceQueryBuilder.getQuery(finalTable);
     	sql=new StringBuilder(sql).append(" LIMIT 20").toString();
@@ -130,6 +131,16 @@ public class DatasetServiceImpl2 implements DatasetService
 		return data;
 	}
 
+	private void arrangeWithMandatories(LinkedList<ColumnElement> sortedColumns,long[] mandatoryIds)
+	{
+		List<ColumnElement> l= findMandatories(sortedColumns, mandatoryIds);
+		sortedColumns.removeAll(l);
+		if(l.size()!=0)
+			for(ColumnElement ce:l)
+				sortedColumns.push(ce);
+		
+	}
+	
 	private Map<DatasetHead,Set<DatasetElement>> selectedColumns(List<DatasetHead> children,List<Element> uiElements)
 	{
 		HashMap<DatasetHead,Set<DatasetElement>> hm=new HashMap<DatasetHead, Set<DatasetElement>>();
@@ -175,12 +186,32 @@ public class DatasetServiceImpl2 implements DatasetService
 			columns.add((ColumnElement) tc);
 		
 		for(PrefixTable pt:head.getJoinTables().keySet())
-		{
-//			tempList=pt.getColumns().stream().sorted().collect(Collectors.toList());
-//			for(TableColumn tc:tempList)
-//				columns.add((ColumnElement) tc);
 			collectColumns(columns,pt);
+		
+	}
+	
+	//TODO improve
+	private List<ColumnElement> findMandatories(List<ColumnElement> sortedColumns,long[] mandatoryFieldIds)
+	{
+		ArrayList<ColumnElement> al=new ArrayList<ColumnElement>();
+		
+		long[] tempIds=new long[mandatoryFieldIds.length];
+		
+		for(int x=mandatoryFieldIds.length-1,y=0;x>=0;x--,y++)
+			tempIds[y]=mandatoryFieldIds[x];
+		
+		
+		for(long id:tempIds)
+		{
+			for(ColumnElement ce:sortedColumns)
+			{
+				if(ce.getElementId()==id)
+					al.add(ce);
+			}
 		}
+			
+		
+		return al;
 	}
 	
 	private HashMap<Long,DatasetElement> collectColumns(List<DatasetHead> heads)
