@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -86,8 +88,13 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
     	
+    	
     	collectColumns(sortedColumns, finalTable);
     	arrangeWithMandatories(sortedColumns, MANDATORY_IDS); //by reference column which is bad
+    	
+    	TreeSet<TableColumn> ts=new TreeSet<>();
+    	sortedColumns.forEach(e->ts.add(e));
+    	finalTable.setColumns(ts);
     	
     	String sql=serviceQueryBuilder.getQuery(finalTable);
     	sql=new StringBuilder(sql).append(" LIMIT 20").toString();
@@ -135,6 +142,13 @@ public class DatasetServiceImpl2 implements DatasetService
 	{
 		List<ColumnElement> l= findMandatories(sortedColumns, mandatoryIds);
 		sortedColumns.removeAll(l);
+		sortedColumns.parallelStream().sorted(new Comparator<ColumnElement>() {
+
+			@Override
+			public int compare(ColumnElement o1, ColumnElement o2) {
+				return new Long(o1.getElementId()).compareTo(o2.getElementId());
+			}
+		});
 		if(l.size()!=0)
 			for(ColumnElement ce:l)
 				sortedColumns.push(ce);
