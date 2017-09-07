@@ -27,6 +27,8 @@ public class JoinBuilderDatasetImpl implements JoinBuilder {
 	public List<GenericKeyValue<PrefixTable, JoinProperty>> build() 
 	{
 		HashMap<Long,GenericKeyValue<PrefixTable,JoinProperty>> hm=new HashMap<>();
+		
+		// Duplicate group?
 		for(DatasetElement de:child.getDatasetElements())
 		{
 			if(de.getDatasetCorrelationGroup()!=null)

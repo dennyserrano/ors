@@ -19,7 +19,7 @@ import java.util.List;
 /**
 * Created by PSY on 2014/10/15.
 */
-public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Serializable, TableColumn,Aggregatable {
+public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Serializable, TableColumn,Aggregatable,ColumnExpression {
 
     private static final long serialVersionUID = -8460528631378807133L;
 
@@ -56,6 +56,12 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
     	this.elementName=fieldName;
     }
     
+    public ColumnElement(String fieldName,String alias,String prefix)
+    {
+    	this.tablePrefix=prefix;
+    	this.columnName=fieldName;
+    	this.elementName=alias;
+    }
 	public ColumnElement(DatasetElement element, ColumnMetadata column) {
         this.elementId = element.getId();
         this.columnId = column.getColumnId();
@@ -80,6 +86,11 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
         this.precision = column.getMax();
         this.aggregate=AggregateTypes.valueOf(aggregate);
     }
+	
+	public ColumnElement()
+	{
+		
+	}
 	
     // Copy Constructor: used for cloning this object
     private ColumnElement(long elementId, int columnId, String elementName, String columnName, String elementDescription,
@@ -237,5 +248,11 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 		this.aggregate=aggregate;
 		isAggregate=aggregate!=null;
 			
+	}
+
+	@Override
+	public String express() {
+		
+		return columnName;
 	}
 }

@@ -26,6 +26,9 @@ public class JoinBuilderDatasetElementImpl implements JoinBuilder {
 	
 	@Override
 	public List<GenericKeyValue<PrefixTable, JoinProperty>> build() {
+		
+		if(de.getDatasetCorrelationGroup()==null)
+			return new ArrayList<GenericKeyValue<PrefixTable,JoinProperty>>();
 		PrefixTable pt=groupBuilder.build(parent.getId(), de.getDatasetCorrelationGroup());
 		ArrayList<GenericKeyValue<PrefixTable, JoinProperty>> al=new ArrayList<>();
 		for(Entry<PrefixTable, JoinProperty> es:pt.getJoinTables().entrySet())

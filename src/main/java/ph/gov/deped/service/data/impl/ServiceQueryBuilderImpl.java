@@ -166,6 +166,8 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	
 	private CriteriaChainBuilder constructWhere(Where where,JoinOrWhereClauseBuilder whereBuilder)
 	{
+		if(where==null)
+			return null;
 		if(where.getOperational()!=null)
 			return dig(where.getOperational(),whereBuilder.where(where.getTablePrefix(),where.getFieldName()));
 		else

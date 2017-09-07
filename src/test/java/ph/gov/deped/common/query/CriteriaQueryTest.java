@@ -3,6 +3,8 @@ package ph.gov.deped.common.query;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -24,6 +26,8 @@ import ph.gov.deped.common.util.builders.JoinInfo;
 import ph.gov.deped.common.util.builders.JoinInfoBuilder;
 import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
+import ph.gov.deped.common.util.builders2.impl.DatasetSourceImpl;
+import ph.gov.deped.common.util.builders2.interfaces.PrefixTableBuilder;
 import ph.gov.deped.config.ApplicationSpringConfig;
 import ph.gov.deped.config.TestAppConfig;
 import ph.gov.deped.data.dto.ColumnElement;
@@ -37,6 +41,7 @@ import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.repo.jpa.ors.ds.CriteriaRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.DatasetService;
+import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 import ph.gov.deped.service.export.ExporterSpringConfig;
 import ph.gov.deped.service.meta.api.MetadataService;
 
@@ -85,38 +90,19 @@ public class CriteriaQueryTest
 		System.out.println();
 	}
 	
+	@Test
 	public void t()
 	{
+		XStream xs=new XStream();
+		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
+		List<DatasetHead> l=dr.findByIds(Arrays.asList(8L,1002L));
 		
-//		JoinOperator op1=new JoinOperator();
-//		JoinInfo ji1= new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
-//		op1.setJoinInfo(ji1);
-////		JoinProperty jp1=new JoinProperty(JoinType.LEFT_JOIN,ji1);
-//		
-//		
-//		JoinOperator op2=new JoinOperator();
-//		JoinInfo ji2=new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
-//		op2.setJoinInfo(ji2);
-//		ji1.setNext(op2);
-//		
-//		
-//		JoinOperator op3=new JoinOperator();
-//		JoinInfo ji3=new JoinInfoBuilder().build(new ColumnElement(null, null), new ColumnElement(null, null));
-//		op3.setJoinInfo(ji3);
-//		
-//		ji2.setNext(op3);
-		
-		
-		
-		
-		
-//		PrefixTable pt=new PrefixTable(null,null,null);
-		
-		
-		
-		
-		
-//		pt.setJoinColumns(new ArrayList<>());
-//		pt.getJoinColumns().add(new JoinInfo<>());
+		HashMap<Long,DatasetHead> hm=new HashMap<Long, DatasetHead>();
+		for(DatasetHead dh:l)
+			hm.put(dh.getId(), dh);
+		ds.setId(8L);
+		PrefixTableBuilder ptb=new DatasetSourceImpl(ds, hm);
+		PrefixTable pt=(PrefixTable) ptb.build();
+		System.out.println(new ServiceQueryBuilderImpl().getQuery(pt));
 	}
 }
