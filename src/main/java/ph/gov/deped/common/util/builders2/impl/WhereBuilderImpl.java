@@ -25,7 +25,6 @@ public class WhereBuilderImpl implements WhereBuilder{
 	public Where build() {
 		
 		where.where(fieldName, prefix);
-		
 		return null;
 	}
 	
