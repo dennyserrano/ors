@@ -15,12 +15,16 @@ import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class JoinBuilderDatasetImpl implements JoinBuilder {
 
-	private DatasetHead parent;
-	private DatasetHead child;
-	protected JoinBuilderDatasetImpl(DatasetHead dh1,DatasetHead dh2)
+	protected DatasetHead parent;
+	protected DatasetHead child;
+	protected String leftPrefix;
+	protected String rightPrefix;
+	protected JoinBuilderDatasetImpl(String leftPrefix,DatasetHead dh1,String rightPrefix, DatasetHead dh2)
 	{
 		parent=dh1;
 		child=dh2;
+		this.leftPrefix=leftPrefix;
+		this.rightPrefix=rightPrefix;
 	}
 
 	@Override

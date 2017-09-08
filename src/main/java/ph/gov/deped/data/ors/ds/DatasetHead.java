@@ -90,6 +90,7 @@ public class DatasetHead extends BaseJpaEntity<Long> implements Serializable, Co
         this.name = name;
         this.description = description;
         this.ownerId = ownerId;
+        this.ranking=0;
     }
 
     public Long getId() {

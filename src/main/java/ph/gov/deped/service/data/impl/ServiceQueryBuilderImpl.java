@@ -106,7 +106,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		}
 		
 		for(PrefixTable nextTable:pt.getJoinTables().keySet())
-			constructSelect(nextTable);
+			fromClauseBuilder=constructSelect(nextTable);
 		
 		return fromClauseBuilder;
 		

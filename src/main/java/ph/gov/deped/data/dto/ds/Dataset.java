@@ -3,10 +3,13 @@ package ph.gov.deped.data.dto.ds;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import ph.gov.deped.data.ors.ds.DatasetHead;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,6 +47,8 @@ public class Dataset implements Serializable {
     
     @JsonProperty("filteredBy")
     private Aggregate filteredBy;
+
+    private DatasetHead datasetHead;
     
     public Dataset() {}
 
@@ -84,7 +89,8 @@ public class Dataset implements Serializable {
     }
 
     public List<Element> getElements() {
-        return Collections.unmodifiableList(this.elements);
+//        return Collections.unmodifiableList(this.elements);
+    	return this.elements;
     }
 
     public int getSubDatasetsCount() {
@@ -157,6 +163,16 @@ public class Dataset implements Serializable {
 
 	public void setAggregateBy(Aggregate aggregateBy) {
 		this.aggregateBy = aggregateBy;
+	}
+
+	
+	
+	public DatasetHead getDatasetHead() {
+		return datasetHead;
+	}
+
+	public void setDatasetHead(DatasetHead datasetHead) {
+		this.datasetHead = datasetHead;
 	}
 
 	@Override

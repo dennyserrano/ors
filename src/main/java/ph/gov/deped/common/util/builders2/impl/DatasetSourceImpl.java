@@ -1,6 +1,7 @@
 package ph.gov.deped.common.util.builders2.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,37 +77,46 @@ public class DatasetSourceImpl implements PrefixTableBuilder<Dataset, Element, F
 	public PrefixTable build() {
 		
 		
-		DatasetHead parentDH=getFromRef(dataset.getId());
-		ArrayList<DatasetHead> childrenDH=new ArrayList<DatasetHead>();
-		
-		for(Dataset subDataset:dataset.getSubDatasets())
-			childrenDH.add(getFromRef(subDataset.getId()));
-		
-		
-		PrefixTable parentPT=ConvertUtil.toPrefixTable(parentDH);
+		Dataset parentDataset=map(dataset, mapRef);
+		ArrayList<Element> parentElementList=new ArrayList<>(parentDataset.getElements());
+		parentDataset.getElements().clear();
+		PrefixTable parentPT=ConvertUtil.toPrefixTable(parentDataset.getDatasetHead());
 		parentPT.getColumns().clear();
-		parentPT.setTablePrefix("sp");
-		for(DatasetElement de:parentDH.getDatasetElements())
-		{
-			JoinBuilder jb= JoinBuilderFactory.get(de);
-			List<GenericKeyValue<PrefixTable, JoinProperty>> l= jb.build();
-			
-			for(GenericKeyValue<PrefixTable, JoinProperty> gk:l)
-			{
-				parentPT.addColumn(new ColumnElement(de.getColumnMetaData().getColumnName(),getPrefix(gk)));
-				parentPT.addJoin(gk.getKey(), gk.getValue());
-			}
-			
-			parentPT.addColumn(new ColumnElement(de.getColumnMetaData().getColumnName(),parentPT.getTablePrefix()));
-		}
+		if(alias==null)
+			parentPT.setTablePrefix(parentPT.getTableName());
+		else
+			parentPT.setTablePrefix(alias);
 		
-		for(DatasetHead child:childrenDH)
-		{
-			JoinBuilder jb=JoinBuilderFactory.get(parentDH, child);
-			List<GenericKeyValue<PrefixTable, JoinProperty>> l= jb.build();
-			for(GenericKeyValue<PrefixTable, JoinProperty> gk:l)
-			parentPT.addJoin(gk.getKey(), gk.getValue());
-		}
+		
+		
+		
+		
+//		for(Element e:parentElementList)
+//		{
+//			JoinBuilder jb=JoinBuilderFactory.get(e,e.getDatasetElement().getName());
+//			List<GenericKeyValue<PrefixTable, JoinProperty>> gvList=jb.build();
+//			for(GenericKeyValue<PrefixTable, JoinProperty> gv:gvList)
+//			{
+//				parentPT.addJoin(gv.getKey(), gv.getValue());
+//				parentPT.addColumn(new ColumnElement(e.getDatasetElement().getColumnMetaData().getColumnName(),e.getDatasetElement().getName(),getPrefix(gv)));
+//			}
+//			
+//		}
+//		
+//		
+//		for(Dataset child:parentDataset.getSubDatasets())
+//		{
+//			JoinBuilder jb=JoinBuilderFactory.interim(parentPT.getTablePrefix(),parentDataset,child.getDatasetHead().getTableMetaData().getTableName(),child);
+//			List<GenericKeyValue<PrefixTable, JoinProperty>> gvList=jb.build();
+//			for(GenericKeyValue<PrefixTable, JoinProperty> gv:gvList)
+//			{
+//				parentPT.addJoin(gv.getKey(), gv.getValue());
+//				for(Element e:child.getElements())
+//					gv.getKey().addColumn(new ColumnElement(e.getDatasetElement().getColumnMetaData().getColumnName(),e.getDatasetElement().getName(),child.getDatasetHead().getTableMetaData().getTableName()));
+//			}
+//		}
+		
+		
 		return parentPT;
 	}
 
@@ -126,9 +136,59 @@ public class DatasetSourceImpl implements PrefixTableBuilder<Dataset, Element, F
 	{
 		DatasetHead dh=mapRef.get(id);
 		if(dh==null)
-			throw new RuntimeException();
+			throw new RuntimeException(); //establish a more specific error return
 		
 		return dh;
 	}
+	
+	private Map<Long,DatasetElement> generateDatasetElementMap()
+	{
+		HashMap<Long,DatasetElement> hm=new HashMap<Long, DatasetElement>();
+		for(DatasetHead dh:mapRef.values())
+			for(DatasetElement de:dh.getDatasetElements())
+				hm.put(de.getId(), de);
+		
+		return hm;
+	}
+	
+	private Dataset map(Dataset parent,Map<Long,DatasetHead> mapRef)
+	{
+		parent.setDatasetHead(getFromRef(parent.getId()));
+		
+		HashMap<Long,Dataset> hm=new HashMap<>();
+		hm.put(parent.getId(),parent);
+		for(Dataset child:parent.getSubDatasets())
+			{
+				child.setElements(new ArrayList<Element>());
+				hm.put(child.getId(), child);
+			}
+		
+		Map<Long,DatasetElement> datasetElementMap=generateDatasetElementMap();
+		ArrayList<Element> parentElements=new ArrayList<Element>();
+		parentElements.addAll(parent.getElements());
+		parent.setElements(new ArrayList<Element>());
+		
+		for(Element e:parentElements)
+		{
+			DatasetElement elem=datasetElementMap.get(e.getId());
+			Dataset ds=hm.get(elem.getDatasetHead().getId());
+			ds.getElements().add(e);
+		}
+		
+		for(Element e:parent.getElements())
+			e.setDatasetElement(datasetElementMap.get(e.getId()));
+		
+		
+		for(Dataset childDS:parent.getSubDatasets())
+		{
+			childDS.setDatasetHead(getFromRef(childDS.getId()));
+			for(Element e:childDS.getElements())
+				e.setDatasetElement(datasetElementMap.get(e.getId()));
+		}
+		
+		return parent;
+		
+	}
+	
 	
 }

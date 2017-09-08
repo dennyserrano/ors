@@ -11,10 +11,12 @@ public class ColumnBuilderFactory {
 
 	public static ColumnBuilder get(Element e,String prefix)
 	{
+		
+		
 		if(e.getAggregate()==null)
-			return new DatasetElementColumnBuilder(prefix, null);
+			return new DatasetElementColumnBuilder(prefix, e.getDatasetElement());
 		else
-			return new AggregateColumnBuilder(AggregateTypes.valueOf(e.getAggregate()), null, prefix);
+			return new AggregateColumnBuilder(AggregateTypes.valueOf(e.getAggregate()), e.getDatasetElement(), prefix);
 	}
 	
 }

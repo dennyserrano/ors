@@ -2,10 +2,13 @@ package ph.gov.deped.data.dto.ds;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import ph.gov.deped.data.ors.ds.DatasetElement;
 
 import java.io.Serializable;
 
@@ -31,6 +34,8 @@ public class Element implements Serializable {
     private final boolean aggregatable;
     
     private String aggregate;
+    
+    private DatasetElement datasetElement;
     
     @JsonCreator
     public Element(@JsonProperty("id") long id, @JsonProperty("name") String name,
@@ -105,6 +110,16 @@ public class Element implements Serializable {
     
     public boolean isVisible() {
 		return visible;
+	}
+
+    
+    
+	public DatasetElement getDatasetElement() {
+		return datasetElement;
+	}
+
+	public void setDatasetElement(DatasetElement datasetElement) {
+		this.datasetElement = datasetElement;
 	}
 
 	@Override

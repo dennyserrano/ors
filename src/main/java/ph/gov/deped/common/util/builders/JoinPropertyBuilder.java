@@ -64,7 +64,7 @@ public class JoinPropertyBuilder
 			return null;
 	}
 	
-	protected class JoinPropertyManualBuilder
+	public class JoinPropertyManualBuilder
 	{
 		
 		private JoinProperty jp;
