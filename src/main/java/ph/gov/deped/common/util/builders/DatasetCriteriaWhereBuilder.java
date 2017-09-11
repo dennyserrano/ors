@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.bits.sql.FilterType;
 import com.bits.sql.Operator;
 
+import ph.gov.deped.common.util.builders2.interfaces.FilterComparator;
+import ph.gov.deped.common.util.builders2.interfaces.FilterConjunctor;
 import ph.gov.deped.common.util.builders2.interfaces.FilterWhere;
 import ph.gov.deped.common.util.builders2.interfaces.WhereBuilder;
 import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.ors.ds.DatasetCriteria;
 import ph.gov.deped.data.ors.ds.DatasetElement;
+import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 
@@ -21,6 +25,7 @@ public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 	private static final Map<Long,DatasetCriteria> CRITERIA; //this should be placed in a property file and not in a table
 	private FilterWhere filterWhere;
 	private List<Filter> filters;
+	private Map<Long,DatasetHead> mapRef;
 	static
 	{	
 		CRITERIA=new HashMap<Long, DatasetCriteria>();
@@ -40,9 +45,10 @@ public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 	}
 	
 	
-	public DatasetCriteriaWhereBuilder(FilterWhere whereBuilder){
+	public DatasetCriteriaWhereBuilder(FilterWhere whereBuilder,Map<Long,DatasetHead> mapRef){
 		filters=new ArrayList<Filter>();
 		this.filterWhere=whereBuilder;
+		this.mapRef=mapRef;
 	}
 	
 	public void addAll(List<Filter> f)
@@ -54,17 +60,51 @@ public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 	public Where build() {
 		
 		
-		List<DatasetCriteria> l=new ArrayList<DatasetCriteria>();
+		HashMap<DatasetCriteria,Filter> map=new HashMap<DatasetCriteria,Filter>();
 		
 		for(Filter f:filters)
-			l.add(CRITERIA.get(f.getCriterion()));
+		{
+			
+			if(f.getSelectedOptions().get(0).getKey().equals(""))
+				continue;
+			
+			DatasetCriteria dc= CRITERIA.get(f.getCriterion());
+			
+			DatasetElement leftElement=find(dc.getLeftElement().getId(),mapRef);
+			
+			if(leftElement==null)
+				throw new RuntimeException("Unable to find a criteria out of a given reference");
+			
+			dc.setLeftElement(leftElement);
+			map.put(dc, f);
+		}
 		
-		
-		DatasetCriteria first= l.get(0);
-		
-//		filterWhere.where(first.get, fieldName)
+		FilterComparator fc=null;
+		FilterConjunctor fcj=null;
+		for(Entry<DatasetCriteria, Filter> es:map.entrySet())
+		{
+			if(fc==null)
+			{
+				fcj=filterWhere.where("", es.getKey().getLeftElement().getName()).eq(es.getValue().getSelectedOptions().get(0).getKey());
+				continue;
+			}
+			//Filter type?
+			fcj.and("", es.getKey().getLeftElement().getName()).eq(es.getValue().getSelectedOptions().get(0).getKey());
+			
+			
+		}
 		
 		return null;
 	}
 
+	
+	private DatasetElement find(long id,Map<Long,DatasetHead> mapRef)
+	{
+		for(DatasetHead dh:mapRef.values())
+			for(DatasetElement de:dh.getDatasetElements())
+				if(id==de.getId())
+					return de;
+		return null;
+	}
+	
 }
