@@ -36,6 +36,7 @@ import ph.gov.deped.data.Conjunctive;
 import ph.gov.deped.data.Operational;
 import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.ColumnExpression;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
 import ph.gov.deped.data.dto.KeyValue;
@@ -95,14 +96,15 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 	private FromClauseBuilder constructSelect(PrefixTable pt)
 	{
 		FromClauseBuilder fromClauseBuilder = null;
-		for(TableColumn tc:pt.getColumns())
+		for(ColumnExpression tc:pt.getColumns())
 		{
-			ColumnElement ce=(ColumnElement)tc;
 			
-			if(ce.getAggregate()==null)
-				fromClauseBuilder=projectionBuilder.select(new Projection(ce.getTablePrefix()!=null?ce.getTablePrefix():pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
-			else
-				fromClauseBuilder=projectionBuilder.select(Projections.column(ce.getAggregate(), ce.getTablePrefix(), ce.getColumnName(),ce.getElementName()));
+//			if(ce.getAggregate()==null)
+//				fromClauseBuilder=projectionBuilder.select(new Projection(ce.getTablePrefix()!=null?ce.getTablePrefix():pt.getTablePrefix(), ce.getColumnName(), ce.getElementName()));
+//			else
+//				fromClauseBuilder=projectionBuilder.select(Projections.column(ce.getAggregate(), ce.getTablePrefix(), ce.getColumnName(),ce.getElementName()));
+			
+			fromClauseBuilder=projectionBuilder.select(Projections.column(tc.express()));
 		}
 		
 		for(PrefixTable nextTable:pt.getJoinTables().keySet())

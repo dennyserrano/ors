@@ -186,7 +186,7 @@ public class DatasetServiceImpl implements DatasetService {
         List<TableColumn> ces;
         for (int i = 0; i < prefixTables.size(); i++) {
             PrefixTable pt = prefixTables.get(i);
-            ces = new ArrayList<>(pt.getColumns());
+            ces = null;//new ArrayList<>(pt.getColumns());
             log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
             for (int j = 0; j < pt.getColumns().size(); j++) {
                 columnElement = (ColumnElement) ces.get(j);
@@ -267,9 +267,10 @@ public class DatasetServiceImpl implements DatasetService {
 
         List<Filter> filters = dataset.getFilters();
         Filter filter = null;
-        Optional<TableColumn> optionalSchoolYearElement = schoolProfilePrefixTable.getColumns().parallelStream()
-                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
-                .findFirst();
+        Optional<TableColumn> optionalSchoolYearElement = null;
+//        		schoolProfilePrefixTable.getColumns().parallelStream()
+//                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
+//                .findFirst();
         ColumnElement schoolYearElement;
         if (optionalSchoolYearElement.isPresent()) {
             schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
@@ -476,9 +477,10 @@ public class DatasetServiceImpl implements DatasetService {
     private void lookupMandatoryElements(PrefixTable prefixTable, Set<String> mandatoryElements) {
         long datasetId = prefixTable.getDatasetId();
         // remove mandatory elements first
-        Set<TableColumn> userSelectedNonMandatoryFields = prefixTable.getColumns().stream()
-                .filter(ce -> !mandatoryElements.contains(((ColumnElement)ce).getElementName()))
-                .collect(toCollection(LinkedHashSet::new));
+        Set<TableColumn> userSelectedNonMandatoryFields = null;
+//        		prefixTable.getColumns().stream()
+//                .filter(ce -> !mandatoryElements.contains(((ColumnElement)ce).getElementName()))
+//                .collect(toCollection(LinkedHashSet::new));
         // lookup mandatory elements
         Set<TableColumn> mandatoryFields = mandatoryElements.stream()
                 .map(elementName -> elementRepository.findByDatasetHeadIdAndName(datasetId, elementName))
@@ -494,7 +496,7 @@ public class DatasetServiceImpl implements DatasetService {
         uniqueElements.addAll(userSelectedNonMandatoryFields);
         // replace the list of column elements under this prefixed table.
         prefixTable.getColumns().clear();
-        uniqueElements.forEach(prefixTable::addColumn);
+//        uniqueElements.forEach(prefixTable::addColumn);
     }
 
     private void lookupPrefixes(Map<Integer, String> tablePrefixMap, List<PrefixTable> localPrefixTables) {
@@ -634,7 +636,7 @@ public class DatasetServiceImpl implements DatasetService {
         List<TableColumn> ces;
         for (int i = 0; i < prefixTables.size(); i++) {
             PrefixTable pt = prefixTables.get(i);
-            ces = new ArrayList<>(pt.getColumns());
+            ces = null;//new ArrayList<>(pt.getColumns());
             log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
             for (int j = 0; j < pt.getColumns().size(); j++) {
                 columnElement = (ColumnElement) ces.get(j);
@@ -714,9 +716,10 @@ public class DatasetServiceImpl implements DatasetService {
 
         List<Filter> filters = dataset.getFilters();
         Filter filter = null;
-        Optional<TableColumn> optionalSchoolYearElement = schoolProfilePrefixTable.getColumns().parallelStream()
-                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
-                .findFirst();
+        Optional<TableColumn> optionalSchoolYearElement = null;
+//        		schoolProfilePrefixTable.getColumns().parallelStream()
+//                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
+//                .findFirst();
         ColumnElement schoolYearElement;
         if (optionalSchoolYearElement.isPresent()) {
             schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
@@ -824,7 +827,7 @@ public class DatasetServiceImpl implements DatasetService {
 		ColumnElement columnElement;
 		for (int i = 0; i < prefixTables.size(); i++) {
 			PrefixTable pt = prefixTables.get(i);
-            ces = new ArrayList<>(pt.getColumns());
+            ces = null;//new ArrayList<>(pt.getColumns());
             for (int j = 0; j < pt.getColumns().size(); j++) {
                 columnElement = (ColumnElement) ces.get(j);
                 sortedColumns.add(columnElement);

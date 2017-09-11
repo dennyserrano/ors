@@ -3,37 +3,81 @@ package ph.gov.deped.common.util.builders2.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import ph.gov.deped.common.util.builders2.interfaces.FilterComparator;
+import ph.gov.deped.common.util.builders2.interfaces.FilterConjunctor;
+import ph.gov.deped.common.util.builders2.interfaces.FilterWhere;
 import ph.gov.deped.common.util.builders2.interfaces.WhereBuilder;
+import ph.gov.deped.data.Conjunctive;
+import ph.gov.deped.data.Operational;
 import ph.gov.deped.data.Where;
 import ph.gov.deped.data.dto.ds.Filter;
 
-public class WhereBuilderImpl implements WhereBuilder{
+public class WhereBuilderImpl implements FilterConjunctor,FilterComparator,FilterWhere{
 
 	private Where where;
-	private List<Filter> filters;
-	private String prefix;
-	private String fieldName;
-	public WhereBuilderImpl(String prefix,String fieldName)
+	private Operational opt;
+	private Conjunctive conj;
+	public WhereBuilderImpl()
 	{
 		where=new Where();
-		filters=new ArrayList<Filter>();
-		this.fieldName=fieldName;
-		this.prefix=prefix;
 	}
 	
 	@Override
 	public Where build() {
 		
-		where.where(fieldName, prefix);
+		return where;
+	}
+
+
+	@Override
+	public FilterConjunctor eq(Object obj) {
+		conj=opt.eq(obj.toString());
+		return this;
+	}
+
+	@Override
+	public FilterConjunctor ne(Object obj) {
+		conj=opt.notEq(obj.toString());
+		return this;
+	}
+
+	@Override
+	public FilterConjunctor ge(Object obj) {
+		
 		return null;
 	}
-	
-	public WhereBuilder add(Filter filter)
-	{
-		filters.add(filter);
-		return this;
-		
-	}
-	
 
+	@Override
+	public FilterConjunctor le(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FilterComparator and(String prefix,String fieldName) {
+		opt=conj.and(prefix, fieldName);
+		return this;
+	}
+
+	@Override
+	public FilterComparator or(String prefix,String fieldName) {
+		opt=conj.or(fieldName);
+		return this;
+	}
+
+
+	@Override
+	public FilterComparator where(String prefix,String fieldName) {
+		opt=where.where(fieldName, prefix);
+		return this;
+	}
+
+	@Override
+	public FilterConjunctor in(List list) {
+		conj=opt.in(list);
+		
+		return this;
+	}
+
+	
 }

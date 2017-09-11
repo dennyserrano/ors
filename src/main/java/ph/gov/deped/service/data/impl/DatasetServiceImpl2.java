@@ -37,12 +37,22 @@ import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
 import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 import ph.gov.deped.common.util.builders.TableChainer;
+import ph.gov.deped.common.util.builders2.impl.DatasetSourceImpl;
+import ph.gov.deped.common.util.builders2.impl.WhereBuilderImpl;
+import ph.gov.deped.common.util.builders2.interfaces.FilterComparator;
+import ph.gov.deped.common.util.builders2.interfaces.FilterConjunctor;
+import ph.gov.deped.common.util.builders2.interfaces.FilterWhere;
+import ph.gov.deped.common.util.builders2.interfaces.PrefixTableBuilder;
+import ph.gov.deped.common.util.builders2.interfaces.WhereBuilder;
+import ph.gov.deped.data.Where;
 //import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 //import ph.gov.deped.common.util.builders.TableChainer;
 import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
@@ -82,62 +92,91 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Override
 	public List<List<ColumnElement>> getData(Dataset dataset,boolean previewOnly) {
 
-		
+		dataset.setId(8L);
 		ServiceQueryBuilder serviceQueryBuilder=new ServiceQueryBuilderImpl();
-		PrefixTable finalTable=toParentPrefix(dataset);
-    	
-    	LinkedList<ColumnElement> sortedColumns=new LinkedList<>();
-    	
-    	
-    	collectColumns(sortedColumns, finalTable);
-    	arrangeWithMandatories(sortedColumns, MANDATORY_IDS); //by reference column which is bad
-    	
-    	TreeSet<TableColumn> ts=new TreeSet<>();
-    	sortedColumns.forEach(e->ts.add(e));
-    	finalTable.setColumns(ts);
-    	
-    	String sql=serviceQueryBuilder.getQuery(finalTable);
-    	sql=new StringBuilder(sql).append(" LIMIT 20").toString();
-    	log.debug("Generated SQL [{}]", sql);
-    	
-    	
-    	JdbcTemplate template = new JdbcTemplate(dataSource);
-    	List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
-            List<ColumnElement> row = new LinkedList<>();
-            sortedColumns.forEach(ce -> {
-                try {
-                    ColumnElement columnElementWithValue = ce.clone(); 
-                  //TODO getColumnName has a problem if the field has alias..
-                    Serializable value=null;
-                    try{
-                  	value= JdbcTypes.getValue(rs, ce.getColumnName(), ce.getDataType());  
-                    }catch(Exception ex){}
-                     
-                    if(value==null)
-                  	  value= JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
-                    columnElementWithValue.setValue(value);
-                    row.add(columnElementWithValue);
-                }
-                catch (SQLException ex) {
-                    log.catching(ex);
-                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
-                }
-            });
-            return row;
-        });
-        
-        LinkedList<ColumnElement> headers = sortedColumns.stream()
-                .map(ColumnElement::clone) // copy the original user selected column elements
-                .map(ce -> {
-                    ce.setValue(ce.getElementName()); // set the value as the element description
-                    return ce;
-                })
-                .collect(toCollection(LinkedList::new));
-        data.add(0, headers);
-    	
-		return data;
+		
+		ArrayList<Long> ids=toList(dataset);
+		
+		List<DatasetHead> l=datasetRepository.findByIds(ids);
+		
+    	PrefixTableBuilder ptb=new DatasetSourceImpl(dataset, toMap(l));
+    	ptb.where(toWhere(dataset.getFilters()));
+    	System.out.println(serviceQueryBuilder.getQuery((PrefixTable) ptb.build()));
+		return new ArrayList<List<ColumnElement>>();
 	}
 
+	
+	
+	private Where toWhere(List<Filter> filters)
+	{
+		FilterBuilder fb=new FilterBuilder();
+		for(Filter f:filters)
+		{
+			fb.add(f);
+		}
+		return fb.build();
+	}
+	
+	class FilterBuilder
+	{
+		FilterWhere fw;
+		FilterComparator fc;
+		FilterConjunctor fcj;
+		public FilterBuilder()
+		{
+			fw=new WhereBuilderImpl();
+			
+		}
+		
+		public FilterBuilder add(Filter f)
+		{
+			if(fc==null)
+			{
+				KeyValue kv1=f.getSelectedOptions().get(0);
+				fc=fw.where("", kv1.getKey());
+				fcj=fc.eq(kv1.getValue());
+				f.getSelectedOptions().remove(kv1);
+				for(KeyValue kv:f.getSelectedOptions())
+				{
+					fc=fcj.and("", kv.getKey());
+					fcj=fc.eq(kv.getValue());
+				}
+			}else
+				for(KeyValue kv:f.getSelectedOptions())
+				{
+					fc=fcj.and("", kv.getKey());
+					fcj=fc.eq(kv.getValue());
+				}
+			
+			return this;
+		}
+		
+		public Where build()
+		{
+			return fcj.build();
+		}
+		
+	}
+	
+	private ArrayList<Long> toList(Dataset dataset)
+	{
+		ArrayList<Long> al=new ArrayList<Long>();
+		
+		al.add(dataset.getId());
+		
+		
+		for(Dataset subDataset:dataset.getSubDatasets())
+			al.add(subDataset.getId());
+		return al;
+	}
+	
+	private HashMap<Long,DatasetHead> toMap(List<DatasetHead> l)
+	{
+		HashMap<Long,DatasetHead> hm=new HashMap<Long, DatasetHead>();
+		for(DatasetHead dh:l)
+			hm.put(dh.getId(), dh);
+		return hm;
+	}
 	private void arrangeWithMandatories(LinkedList<ColumnElement> sortedColumns,long[] mandatoryIds)
 	{
 		List<ColumnElement> l= findMandatories(sortedColumns, mandatoryIds);
@@ -195,7 +234,7 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private void collectColumns(LinkedList<ColumnElement> columns,PrefixTable head)
 	{
-		List<TableColumn> tempList=head.getColumns().stream().sorted().collect(Collectors.toList());
+		List<TableColumn> tempList=null;//head.getColumns().stream().sorted().collect(Collectors.toList());
 		for(TableColumn tc:tempList)
 			columns.add((ColumnElement) tc);
 		

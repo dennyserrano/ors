@@ -1,5 +1,7 @@
 package ph.gov.deped.common.util.builders2.impl;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ColumnExpression;
 import ph.gov.deped.data.ors.ds.DatasetElement;
@@ -7,9 +9,9 @@ import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 public class NestableColumnElement extends ColumnElement implements ColumnExpression{
 
-	private ColumnElement innerColumnElement;
+	private ColumnExpression innerColumnElement;
 	private String alias;
-	public NestableColumnElement(String alias,ColumnElement ce)
+	public NestableColumnElement(String alias,ColumnExpression ce)
 	{
 		this.alias=alias;
 		innerColumnElement=ce;
@@ -21,4 +23,22 @@ public class NestableColumnElement extends ColumnElement implements ColumnExpres
 		return String.format("(%s) as %s", innerColumnElement.express(),alias);
 	}
 
+	
+	@Override
+	public boolean equals(Object o) {
+		 if (o == null || !(o instanceof NestableColumnElement)) {
+	            return false;
+	        }
+		 NestableColumnElement rhs = (NestableColumnElement) o;
+	        return new EqualsBuilder()
+	                .append(this.alias, rhs.alias)
+	                .isEquals();
+	}
+
+	public ColumnExpression getInnerColumnElement() {
+		return innerColumnElement;
+	}
+	
+	
+	
 }

@@ -27,6 +27,8 @@ import ph.gov.deped.common.util.builders.JoinInfoBuilder;
 import ph.gov.deped.common.util.builders.JoinProperty;
 import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
 import ph.gov.deped.common.util.builders2.impl.DatasetSourceImpl;
+import ph.gov.deped.common.util.builders2.impl.FilterWhereBuilderFactory;
+import ph.gov.deped.common.util.builders2.interfaces.FilterWhere;
 import ph.gov.deped.common.util.builders2.interfaces.PrefixTableBuilder;
 import ph.gov.deped.config.ApplicationSpringConfig;
 import ph.gov.deped.config.TestAppConfig;
@@ -34,6 +36,7 @@ import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.JoinOperator;
 import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.ors.ds.DatasetCriteria;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
@@ -66,6 +69,8 @@ public class CriteriaQueryTest
 	
 	@Autowired
 	CriteriaRepository cr;
+	
+	
 	@Test
 	@Ignore
 	public void test() throws JsonParseException, JsonMappingException, IOException
@@ -95,14 +100,24 @@ public class CriteriaQueryTest
 	{
 		XStream xs=new XStream();
 		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
-		List<DatasetHead> l=dr.findByIds(Arrays.asList(8L,1002L));
-		
-		HashMap<Long,DatasetHead> hm=new HashMap<Long, DatasetHead>();
-		for(DatasetHead dh:l)
-			hm.put(dh.getId(), dh);
-		ds.setId(8L);
-		PrefixTableBuilder ptb=new DatasetSourceImpl(ds, hm);
-		PrefixTable pt=(PrefixTable) ptb.build();
-		System.out.println(new ServiceQueryBuilderImpl().getQuery(pt));
+		List<DatasetCriteria> dc=cr.findByDatasetHeadId(8L);
+		System.out.println();
+//		List<DatasetHead> l=dr.findByIds(Arrays.asList(8L,1002L));
+//		
+//		HashMap<Long,DatasetHead> hm=new HashMap<Long, DatasetHead>();
+//		for(DatasetHead dh:l)
+//			hm.put(dh.getId(), dh);
+//		ds.setId(8L);
+//		
+//		
+//		
+////		for(Element de:ds.getElements())
+////			de.setAggregate("SUM");	
+//				
+//		PrefixTableBuilder ptb=new DatasetSourceImpl(ds, hm); 
+////		ptb.addSpecialColumn(new Element(1L,"count(*)","","",1L,false,false));
+////		ptb.where(FilterWhereBuilderFactory.get().where("a", "denny").eq("1").build());
+//		PrefixTable pt=(PrefixTable) ptb.build();
+//		System.out.println(new ServiceQueryBuilderImpl().getQuery(pt));
 	}
 }

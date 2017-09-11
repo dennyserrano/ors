@@ -77,7 +77,7 @@ public class PrefixTableBuilder
 	private PrefixTable localBuild(DatasetHead dh,String alias)
 	{
 		PrefixTable pt= ConvertUtil.toPrefixTable(dh);
-		ArrayList<TableColumn> al=new ArrayList<>(pt.getColumns());
+		ArrayList<TableColumn> al=null;//new ArrayList<>(pt.getColumns());
 		Map<DatasetCorrelationGroup, List<DatasetElement>> colElementGroupResult=mergeColElementGroup(dh.getDatasetElements());
 		TableWrapper tw;
 		for(Entry<DatasetCorrelationGroup, List<DatasetElement>> es:colElementGroupResult.entrySet())
@@ -113,7 +113,7 @@ public class PrefixTableBuilder
 			if(ce.getTablePrefix()==null)
 				ce.setTablePrefix(pt.getTablePrefix());
 		});
-		pt.setColumns(new HashSet<TableColumn>(al));
+//		pt.setColumns(new HashSet<TableColumn>(al));
 		return pt;
 	}
 	

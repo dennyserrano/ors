@@ -7,20 +7,26 @@ import ph.gov.deped.data.dto.ColumnExpression;
 import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
-public class AggregateColumn extends ColumnElement implements ColumnExpression {
+public class AggregateColumn implements ColumnExpression {
 
 	private String aggregate;
-	private ColumnElement ce;
+	private ColumnElement columnElement;
 	public AggregateColumn(String aggregate,ColumnElement ce) {
 		
+		this.columnElement=ce;
 		this.aggregate=aggregate;
-		this.ce=ce;
 	}
 
 	@Override
 	public String express() {
 		
-		return String.format("%s(%s)", aggregate,ce.express());
+		return String.format("%s(%s)", aggregate,columnElement.express());
 	}
+
+	public ColumnElement getColumnElement() {
+		return columnElement;
+	}
+	
+	
 
 }

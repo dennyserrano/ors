@@ -180,7 +180,7 @@ public class StarSchemaChainImpl implements TableChainer {
 			if(isPresent)
 				continue;
 			
-			Optional<TableColumn> o=parentPT.getColumns().stream().filter(e->((ColumnElement)e).getElementId()==de.getId()).findFirst();
+			Optional<TableColumn> o=null;//parentPT.getColumns().stream().filter(e->((ColumnElement)e).getElementId()==de.getId()).findFirst();
 			removeList.add(o.get());
 		}
 		
@@ -196,12 +196,12 @@ public class StarSchemaChainImpl implements TableChainer {
 		
 		childConvertedList.clear();
 		
-		for(TableColumn tc:parentPT.getColumns())
-		{
-			ColumnElement ce=(ColumnElement) tc;
-			if(ce.getTablePrefix()==null)
-				ce.setTablePrefix(parentPT.getTablePrefix());
-		}
+//		for(TableColumn tc:parentPT.getColumns())
+//		{
+//			ColumnElement ce=(ColumnElement) tc;
+//			if(ce.getTablePrefix()==null)
+//				ce.setTablePrefix(parentPT.getTablePrefix());
+//		}
 		
 		
 		for(Entry<DatasetHead, Set<DatasetElement>> countIncludedKey:selectedElements.entrySet())
@@ -227,16 +227,16 @@ public class StarSchemaChainImpl implements TableChainer {
 	private void remove(List<TableColumn> removeList,PrefixTable parent)
 	{
 		ArrayList<TableColumn> tmpRemove=new ArrayList<TableColumn>();
-		for(TableColumn parentTc:parent.getColumns())
-			{
-				ColumnElement parentCe=(ColumnElement) parentTc;
-				boolean isPresent=removeList.stream().filter(e->{
-					ColumnElement removeCe=(ColumnElement) e;
-					return parentCe.getElementId()==removeCe.getElementId();
-				}).findFirst().isPresent();
-				if(isPresent)
-					tmpRemove.add(parentTc);
-			}
+//		for(TableColumn parentTc:parent.getColumns())
+//			{
+//				ColumnElement parentCe=(ColumnElement) parentTc;
+//				boolean isPresent=removeList.stream().filter(e->{
+//					ColumnElement removeCe=(ColumnElement) e;
+//					return parentCe.getElementId()==removeCe.getElementId();
+//				}).findFirst().isPresent();
+//				if(isPresent)
+//					tmpRemove.add(parentTc);
+//			}
 		
 		parent.getColumns().removeAll(tmpRemove);
 		tmpRemove.clear();
@@ -248,20 +248,20 @@ public class StarSchemaChainImpl implements TableChainer {
 	//TODO revise needs to be optimized. searching for each parent and each element. This is an expensive process
 	private void remove(Map<DatasetHead,Set<DatasetElement>> selected,PrefixTable parent,List<TableColumn> removeList)
 	{
-		for(TableColumn tc:parent.getColumns())
-		{
-			boolean isSelected=false;
-			for(Set<DatasetElement> set:selected.values())
-			{
-				ColumnElement ce=(ColumnElement) tc;
-				Optional<DatasetElement> option=set.stream().filter(e->e.getId()==ce.getElementId()).findFirst();
-				isSelected |= option.isPresent();
-			}
-			if(isSelected)
-				continue;
-			else
-				removeList.add(tc);
-		}
+//		for(TableColumn tc:parent.getColumns())
+//		{
+//			boolean isSelected=false;
+//			for(Set<DatasetElement> set:selected.values())
+//			{
+//				ColumnElement ce=(ColumnElement) tc;
+//				Optional<DatasetElement> option=set.stream().filter(e->e.getId()==ce.getElementId()).findFirst();
+//				isSelected |= option.isPresent();
+//			}
+//			if(isSelected)
+//				continue;
+//			else
+//				removeList.add(tc);
+//		}
 		
 		for(PrefixTable pt:parent.getJoinTables().keySet())
 			remove(selected,pt,removeList);
@@ -270,12 +270,12 @@ public class StarSchemaChainImpl implements TableChainer {
 	private PrefixTable convertParent(DatasetHead parent)
 	{
 		PrefixTable parentPT=tableBuilder.build(parent,"sp");
-		for(TableColumn tc:parentPT.getColumns())
-		{
-			ColumnElement ce=(ColumnElement)tc;
-			if(ce.getTablePrefix()==null)
-				ce.setTablePrefix(parentPT.getTablePrefix());
-		}
+//		for(TableColumn tc:parentPT.getColumns())
+//		{
+//			ColumnElement ce=(ColumnElement)tc;
+//			if(ce.getTablePrefix()==null)
+//				ce.setTablePrefix(parentPT.getTablePrefix());
+//		}
 			
 		
 		return parentPT;
@@ -301,16 +301,16 @@ public class StarSchemaChainImpl implements TableChainer {
 			for(PrefixTable dh:prefixTables)
 			{
 				boolean childFound = false;
-				for(TableColumn tc:dh.getColumns())
-				{
-					ColumnElement ce=(ColumnElement) tc;
-					if(ce.getElementId()==criteria.getLeftElement().getId().longValue())
-					{
-						hm.put(ce.getElementId(), ce);
-						childFound=true;
-						break;
-					}
-				}
+//				for(TableColumn tc:dh.getColumns())
+//				{
+//					ColumnElement ce=(ColumnElement) tc;
+//					if(ce.getElementId()==criteria.getLeftElement().getId().longValue())
+//					{
+//						hm.put(ce.getElementId(), ce);
+//						childFound=true;
+//						break;
+//					}
+//				}
 				
 				if(childFound)
 					break;
@@ -404,12 +404,12 @@ public class StarSchemaChainImpl implements TableChainer {
 		
 		private boolean hasAggregate(PrefixTable pt)
 		{
-			for(TableColumn tc:pt.getColumns())
-			{
-				ColumnElement ce=(ColumnElement) tc;
-				if(ce.hasAggregate())
-					return true;
-			}
+//			for(TableColumn tc:pt.getColumns())
+//			{
+//				ColumnElement ce=(ColumnElement) tc;
+//				if(ce.hasAggregate())
+//					return true;
+//			}
 			boolean isAggregate=false;
 			for(PrefixTable nextPt:pt.getJoinTables().keySet())
 				isAggregate |=hasAggregate(nextPt);
@@ -419,16 +419,16 @@ public class StarSchemaChainImpl implements TableChainer {
 		
 		private void digForGroupBy(Set<ColumnElement> set,PrefixTable pt)
 		{
-			for(TableColumn tc:pt.getColumns())
-			{
-				ColumnElement ce=(ColumnElement) tc;
-				if(ce.hasAggregate())
-					if(ce.getAggregate().equals(AggregateTypes.GROUP))
-						{
-							set.add(ce);
-							ce.setAggregate(null);
-						}
-			}
+//			for(TableColumn tc:pt.getColumns())
+//			{
+//				ColumnElement ce=(ColumnElement) tc;
+//				if(ce.hasAggregate())
+//					if(ce.getAggregate().equals(AggregateTypes.GROUP))
+//						{
+//							set.add(ce);
+//							ce.setAggregate(null);
+//						}
+//			}
 		}
 	}
 	

@@ -18,6 +18,8 @@ public interface CriteriaRepository extends BaseJpaRepository<DatasetCriteria, L
 
     List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
     
+    List<DatasetCriteria> findByDatasetHeadId(long datasetHeadId);
+    
     List<DatasetCriteria> findByDatasetHeadAndVisible(DatasetHead datasetHead, boolean visible);
 
     List<DatasetCriteria> findByLeftElement(DatasetElement leftElement);

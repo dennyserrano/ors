@@ -44,7 +44,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
     private int ranking;
 
-    private Set<TableColumn> columns = new LinkedHashSet<>();
+    private Set<ColumnExpression> columns = new LinkedHashSet<>();
     
     //PrefixTable - the table to be joined. Becomes one (this table) to many.
     //JoinProperty - defines how the join table be joined to this table (i.e inner join, left join etc)
@@ -88,7 +88,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 	public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, Set<ColumnElement> elements) {
     	
         this(datasetHead,tableMetadata);
-        this.columns=new HashSet<TableColumn>(elements);
+//        this.columns=new HashSet<TableColumn>(elements);
     }
 	
 	public PrefixTable(DatasetHead datasetHead,Order order, TableMetadata tableMetadata, ColumnElement... columnElements) {
@@ -100,7 +100,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 	public PrefixTable(DatasetHead datasetHead, TableMetadata tableMetadata, Set<ColumnElement> elements,Order order) {
     	
         this(datasetHead,tableMetadata);
-        this.columns=new HashSet<TableColumn>(elements);
+//        this.columns=new HashSet<TableColumn>(elements);
         this.order=order;
     }
 	
@@ -161,11 +161,11 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         return ranking;
     }
     
-    public void setColumns(Set<TableColumn> columns) {
-		this.columns = columns;
-	}
-
-	public Set<TableColumn> getColumns() {
+//    public void setColumns(Set<TableColumn> columns) {
+//		this.columns = columns;
+//	}
+//
+	public Set<ColumnExpression> getColumns() {
         return columns;
     }
 
@@ -177,7 +177,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         this.columns.add(ce);
     }
 
-    public void addColumn(TableColumn c)
+    public void addColumn(ColumnExpression c)
     {
     	this.columns.add(c);
     }
