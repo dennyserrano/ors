@@ -98,11 +98,18 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 		{
 			JoinBuilder jb=JoinBuilderFactory.get(e,e.getDatasetElement().getName());
 			List<GenericKeyValue<PrefixTable, JoinProperty>> gvList=jb.build();
-			for(GenericKeyValue<PrefixTable, JoinProperty> gv:gvList)
+			if(gvList.size()!=0)
 			{
-				parentPT.addJoin(gv.getKey(), gv.getValue());
-				parentPT.addColumn(ColumnBuilderFactory.get(e, getPrefix(gv)).build());
-			}
+				for(GenericKeyValue<PrefixTable, JoinProperty> gv:gvList)
+				{
+					parentPT.addJoin(gv.getKey(), gv.getValue());
+					parentPT.addColumn(ColumnBuilderFactory.get(e, getPrefix(gv)).build());
+				}
+			}else
+				parentPT.addColumn(ColumnBuilderFactory.get(e, getAlias(parentPT)).build());
+			
+			
+			
 			
 		}
 		
@@ -119,7 +126,8 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 			}
 		}
 		DatasetCriteriaWhereBuilder wb=new DatasetCriteriaWhereBuilder(new WhereBuilderImpl(), mapRef,getAlias(parentPT));
-		wb.addAll(filters);
+
+		wb.addAll(getFilters());
 		parentPT.setWhere(wb.build());
 		parentPT.setGroupBy(getGroupBy(new HashSet<ColumnElement>(), parentPT));
 		
@@ -222,6 +230,14 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 			getGroupBy(hs, childPT);
 		
 		return hs;
+	}
+	
+	private List<Filter> getFilters()
+	{
+		if(filters==null)
+			return new ArrayList<Filter>();
+		else
+			return filters;
 	}
 	
 }

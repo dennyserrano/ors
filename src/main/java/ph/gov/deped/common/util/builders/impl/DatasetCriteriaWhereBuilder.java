@@ -65,6 +65,9 @@ public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 		
 		HashMap<DatasetCriteria,Filter> map=new HashMap<DatasetCriteria,Filter>();
 		
+		if(filters.size()==0)
+			return null;
+		
 		for(Filter f:filters)
 		{
 			

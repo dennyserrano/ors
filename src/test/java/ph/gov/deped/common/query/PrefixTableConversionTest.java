@@ -9,16 +9,21 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.DatasetSourceImpl;
 import ph.gov.deped.common.util.builders.impl.JoinProperty;
 import ph.gov.deped.common.util.builders.impl.JoinPropertyBuilder;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
+import ph.gov.deped.common.util.builders.interfaces.PrefixTableBuilder;
 import ph.gov.deped.config.TestAppConfig;
+import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
@@ -41,36 +46,51 @@ public class PrefixTableConversionTest
 //	static ServiceQueryBuilder sqb=new ServiceQueryBuilderImpl();
 	
 	
-	//check if transformation of prefix table is intact
+	//simple
 	@Test
+//	@Ignore
 	public void a()
 	{
-//		PrefixTable pt=tableBuilder.chain(getRootTable(), Arrays.asList(getNsbiTableOneTableJoin()), new ArrayList<>());
-//		String referenceString="SELECT "
-//				+ "school_prof_history.school_id AS 'school_id', "
-//				+ "t2.col1 AS 'col1', t1.col2 AS 'col2', "
-//				+ "t1.col3 AS 'col3' "
-//				+ "FROM school_prof_history AS sp "
-//				+ "LEFT JOIN nsbi_spec AS t1 ON sp.sy_from = t1.sy_from "
-//				+ "LEFT JOIN table2 AS t2 ON t1.c1 = t2.c2";
-//		System.out.println(sqb.getQuery(pt));
-//		System.out.println(referenceString);
-//		Assert.assertEquals(referenceString, sqb.getQuery(pt));
+		
+		Dataset d=new DatasetBuilder(1).child().create(1).create(2).create(3).build();
+		
+		HashMap<Long,DatasetHead> mapRef=new HashMap<>();
+		mapRef.put(1L, new DatasetHeadBuilder().create(1,"A", "tableA")
+				.create(1, "colA", "fieldA")
+				.create(2, "colB", "fieldB")
+				.create(3, "colC", "fieldC").build());
+		
+		
+		PrefixTableBuilder ptb=new DatasetSourceImpl(d, mapRef);
+		ptb.setAlias("sp");
+		String res=new ServiceQueryBuilderImpl().getQuery(ptb.build());
+		System.out.println(res);
+		Assert.assertEquals("SELECT sp.fieldA, sp.fieldB, sp.fieldC FROM tableA AS sp",res);
 	}
 	
 	
+	
+	//with join. B table has elements A has none.
 	@Test
 	public void b()
 	{
-		String referenceString="SELECT "
-				+ "school_prof_history.school_id AS 'school_id', "
-				+ "t2.col1 AS 'col1', t1.col2 AS 'col2', "
-				+ "t1.col3 AS 'col3' "
-				+ "FROM school_prof_history AS sp "
-				+ "LEFT JOIN nsbi_spec AS t1 ON sp.sy_from = t1.sy_from "
-				+ "LEFT JOIN table2 AS t2 ON t1.c1 = t2.c2";
-//		PrefixTable pt=tableBuilder.chain(getRootTable(), Arrays.asList(getNsbiTableOneTableJoin()), new ArrayList<>());
-//		Assert.assertEquals(referenceString, sqb.getQuery(pt));
+		
+		Dataset d=new DatasetBuilder(1).addSubDataset(new DatasetBuilder(2).build()).child().create(1).create(2).build();
+		
+		HashMap<Long,DatasetHead> mapRef=new HashMap<>();
+		mapRef.put(1L, new DatasetHeadBuilder().create(1,"A", "tableA")
+				.create(3, "colA1", "fieldA1")
+				.create(4, "colB1", "fieldB1")
+				.create(5, "colC1", "fieldC1").build());
+		mapRef.put(2L, new DatasetHeadBuilder().create(2,"B", "tableB")
+				.create(1, "colA2", "fieldA2")
+				.create(2, "colB2", "fieldB2").build());
+		
+		PrefixTableBuilder ptb=new DatasetSourceImpl(d, mapRef);
+		ptb.setAlias("sp");
+		String res=new ServiceQueryBuilderImpl().getQuery(ptb.build());
+		System.out.println(res);
+		Assert.assertEquals("SELECT tableB.fieldA2, tableB.fieldB2 FROM tableA AS sp LEFT JOIN tableB AS tableB ON sp.school_id = tableB.school_id AND sp.sy_from = tableB.sy_from",res);
 	}
 	
 	private static DatasetHead getNsbiTableTwoTableJoin()
@@ -305,6 +325,117 @@ public class PrefixTableConversionTest
 			return pb;
 		}
 		
+	}
+	
+	class DatasetBuilder
+	{
+		ElementBuilder eb;
+		Dataset d;
+		public DatasetBuilder(long id) {
+			d=new Dataset();
+			d.setElements(new ArrayList<Element>());
+			d.setId(id);
+			eb=new ElementBuilder(d);
+		}
+		
+		public ElementBuilder child()
+		{
+			return eb;
+		}
+		
+		public Dataset build()
+		{
+			return d;
+		}
+		
+		public DatasetBuilder addSubDataset(Dataset d)
+		{
+			this.d.getSubDatasets().add(d);
+			return this;
+		}
+	}
+	
+	class ElementBuilder
+	{
+		private Dataset parent;
+		public ElementBuilder(Dataset parent)
+		{
+			this.parent=parent;
+		}
+		
+		public ElementBuilder create(long id)
+		{
+			parent.getElements().add(localCreate(id));
+			return this;
+		}
+		
+		private Element localCreate(long id)
+		{
+			Element e=new Element(id,"","","",1,false,false);
+			return e;
+		}
+		
+		private Element localCreate(long id,String aggregate)
+		{
+			Element e=localCreate(id);
+			e.setAggregate(aggregate);
+			return e;
+		}
+		
+		public ElementBuilder createAggregate(long id,String aggregate)
+		{
+			parent.getElements().add(localCreate(id,aggregate));
+			return this;
+		}
+		public Dataset build()
+		{
+			return parent;
+		}
+	}
+	
+	class DatasetElementBuilder
+	{
+		private DatasetHead dh;
+		DatasetElementBuilder(DatasetHead parent)
+		{
+			dh=parent;
+			dh.setDatasetElements(new HashSet<DatasetElement>());
+		}
+		public DatasetElementBuilder create(long id,String alias,String fieldName)
+		{
+			dh.getDatasetElements().add(localCreate(id, alias, fieldName,dh));
+			return this;
+		}
+		
+		private DatasetElement localCreate(long id,String alias,String fieldName,DatasetHead parent)
+		{
+			DatasetElement e= new DatasetElement(id);
+			e.setName(alias);
+			e.setColumnMetaData(new ColumnMetadata(0, fieldName, "", false, 0, 0L, false));
+			e.setDatasetHead(parent);
+			return e;
+		}
+		
+		public DatasetHead build()
+		{
+			return dh;
+		}
+		
+	}
+	
+	class DatasetHeadBuilder
+	{
+		DatasetElementBuilder deb;
+
+		public DatasetElementBuilder create(long datasetId,String name,String tableName)
+		{
+			DatasetHead dh= new DatasetHead(datasetId, name, 0);
+			dh.setTableMetaData(new TableMetadata(1,1, "", tableName, "", ""));
+			dh.setParentDatasetHead(1L);
+			dh.setRanking(1);
+			deb=new DatasetElementBuilder(dh);
+			return deb;
+		}
 	}
 	
 }

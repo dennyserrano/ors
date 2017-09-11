@@ -85,7 +85,8 @@ public class Dataset implements Serializable {
     }
 
     public List<Dataset> getSubDatasets() {
-        return Collections.unmodifiableList(this.subDatasets);
+//        return Collections.unmodifiableList(this.subDatasets);
+    	return this.subDatasets;
     }
 
     public List<Element> getElements() {
