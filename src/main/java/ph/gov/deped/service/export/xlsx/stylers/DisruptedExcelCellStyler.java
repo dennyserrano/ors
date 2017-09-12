@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.service.export.xlsx.FormattedElement;
 import ph.gov.deped.service.export.xlsx.XlsxCellStyleEvent;
 import ph.gov.deped.service.export.xlsx.stylers.interfaces.ColumnElementExcelHeaderCellStyler;

@@ -7,11 +7,10 @@ import java.util.Set;
 
 import com.bits.sql.AggregateTypes;
 
-import ph.gov.deped.common.util.builders.JoinInfo;
-import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.JoinInfo;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
@@ -45,9 +44,9 @@ public class ConvertUtil
 	public static ColumnElement toColumnElement(DatasetElement de)
 	{
 		ColumnElement ce= new ColumnElement(de, de.getColumnMetaData());
-		Aggregatable a=de;
-		Aggregatable b=ce;
-		b.setAggregate(a.getAggregate());
+//		Aggregatable a=de;
+//		Aggregatable b=ce;
+//		b.setAggregate(a.getAggregate());
 //		ce.setTablePrefix("a");
 		return ce;
 	}
@@ -55,9 +54,9 @@ public class ConvertUtil
 	public static ColumnElement toColumnElement(DatasetElement de,String tablePrefix)
 	{
 		ColumnElement ce= new ColumnElement(de, de.getColumnMetaData());
-		Aggregatable a=de;
-		Aggregatable b=ce;
-		b.setAggregate(a.getAggregate());
+//		Aggregatable a=de;
+//		Aggregatable b=ce;
+//		b.setAggregate(a.getAggregate());
 		ce.setTablePrefix(tablePrefix);
 		return ce;
 	}

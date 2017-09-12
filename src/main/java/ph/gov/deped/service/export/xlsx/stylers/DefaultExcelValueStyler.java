@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.export.xlsx.CellFormat;
 import ph.gov.deped.service.export.xlsx.ElementFormatter;

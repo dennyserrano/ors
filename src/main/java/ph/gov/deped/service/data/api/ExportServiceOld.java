@@ -1,6 +1,6 @@
 package ph.gov.deped.service.data.api;
 
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package ph.gov.deped.data.dto;
 
-import ph.gov.deped.common.util.builders.JoinInfo;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.JoinInfo;
 
 public class JoinOperator 
 {

@@ -26,8 +26,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.thoughtworks.xstream.XStream;
 
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.config.ApplicationSpringConfig;
-import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportService;

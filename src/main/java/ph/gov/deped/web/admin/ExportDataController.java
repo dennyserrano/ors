@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.data.api.DatasetService;

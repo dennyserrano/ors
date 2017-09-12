@@ -1,6 +1,6 @@
 package ph.gov.deped.service.data.api;
 
-import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 
 public interface ServiceQueryBuilder
 {

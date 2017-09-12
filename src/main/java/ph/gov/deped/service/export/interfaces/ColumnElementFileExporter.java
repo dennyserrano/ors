@@ -1,6 +1,6 @@
 package ph.gov.deped.service.export.interfaces;
 
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

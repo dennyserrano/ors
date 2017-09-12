@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ph.gov.deped.common.AppMetadata;
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.KeyValue;
-import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.*;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.data.ors.meta.TableMetadata;
@@ -141,226 +140,226 @@ public class DatasetServiceImpl implements DatasetService {
     	
     	
     	
-        List<DatasetElement> elements = dataset.getElements().stream()
-                .map(Element::getId)
-                .map(elementRepository::findOne)
-                .collect(toList());
-
-        Map<DatasetHead, List<DatasetElement>> map = new HashMap<>();
-        elements.forEach(element -> {
-            DatasetHead datasetHead = element.getDatasetHead();
-            if (!map.containsKey(datasetHead)) {
-                map.put(datasetHead, new LinkedList<>());
-            }
-            map.get(datasetHead).add(element);
-        });
-        Map<Integer, String> tablePrefixMap = new HashMap<>();
-        LinkedList<PrefixTable> prefixTables = map.entrySet().stream()
-                .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
-                .map(entry -> {
-                    PrefixTable p = new PrefixTable(entry.getKey(), tableMetadataRepository.findOne(entry.getKey().getTableId()));
-                    entry.getValue().forEach(element -> {
-                        ColumnMetadata cm = columnMetadataRepository.findOne(element.getColumnId());
-                        ColumnElement ce = new ColumnElement(element, cm);
-                        p.addColumn(ce);
-                    });
-                    return p;
-                })
-                .collect(toCollection(LinkedList::new));
-
-        lookupMandatoryDatasets(prefixTables);
-        
-        // load school profile if not present
-        PrefixTable schoolProfilePrefixTable = null;
-        for (PrefixTable prefixTable : prefixTables) {
-            if (prefixTable.getDatasetId() == SCHOOL_PROFILE_DATASET_ID) {
-                schoolProfilePrefixTable = prefixTable;
-                break;
-            }
-        }
-        lookupPrefixes(tablePrefixMap, prefixTables);
-        ProjectionBuilder projectionBuilder = read();
-        LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
-        FromClauseBuilder fromClauseBuilder = null;
-        ColumnElement columnElement;
-        List<TableColumn> ces;
-        for (int i = 0; i < prefixTables.size(); i++) {
-            PrefixTable pt = prefixTables.get(i);
-            ces = null;//new ArrayList<>(pt.getColumns());
-            log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
-            for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = (ColumnElement) ces.get(j);
-                sortedColumns.add(columnElement);
-                log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
-                fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
-            }
-        }
-        PrefixTable prefixTable = schoolProfilePrefixTable;
-        JoinOrWhereClauseBuilder join = null;
-        if (prefixTables.size() == 1) { // TODO Investigate if this is still possible since School Profile is always required.
-            join = fromClauseBuilder.from(prefixTable.getTableName());
-        }
-        else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
-        		
-        	
-	        	
-	            ArrayList<PrefixTable> originalPrefixTable=new ArrayList<>(prefixTables);
-		    	PrefixTable nsbiSpecificTable=null;
-		    	
-		    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
-		    	
-		    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
-		    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
-		    	
-		    	if(!nsbiPrefixTables.isEmpty())
-		    		prefixTables.removeAll(nsbiPrefixTables);
-        	
-        		PrefixTable leftTable = prefixTable;
-                PrefixTable rightTable;
-                DatasetCorrelation correlation;
-                List<DatasetCorrelationDtl> correlationDetails;
-                Iterator<DatasetCorrelationDtl> iterator;
-                DatasetCorrelationDtl correlationDtl;
-                OnClauseBuilder onClauseBuilder;
-                ColumnMetadata leftColumn;
-                ColumnMetadata rightColumn;
-                join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
-                for (int i = 1; i < prefixTables.size(); i++) {
-                    rightTable = prefixTables.get(i);
-                    correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
-                    switch (correlation.getJoinType()) {
-                        case LEFT_JOIN:
-                            onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                            break;
-                        case INNER_JOIN:
-                            onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                            break;
-                        default: // Cross Join
-                            onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                    }
-                    correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
-                    iterator = correlationDetails.iterator();
-                    do {
-                        correlationDtl = iterator.next();
-                        leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
-                        rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
-                        join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
-                                .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
-                    }
-                    while (iterator.hasNext());
-                }
-        	
-                
-                if(nsbiSpecificTable!=null)
-                {
-                	prefixTables.clear();
-                	prefixTables.add(nsbiSpecificTable);
-                	prefixTables.addAll(nsbiPrefixTables);
-                	nsbiJoin(prefixTables, join, fromClauseBuilder);
-                	prefixTables.clear();
-                	prefixTables.addAll(originalPrefixTable);
-                	originalPrefixTable.clear();
-//                	prefixTables.removeAll(nsbiPrefixTables);
-                }
-            
-        }
-
-        List<Filter> filters = dataset.getFilters();
-        Filter filter = null;
-        Optional<TableColumn> optionalSchoolYearElement = null;
-//        		schoolProfilePrefixTable.getColumns().parallelStream()
-//                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
-//                .findFirst();
-        ColumnElement schoolYearElement;
-        if (optionalSchoolYearElement.isPresent()) {
-            schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
-        }
-        else {
-            DatasetElement schoolYearDatasetElement = elementRepository.findByDatasetHeadIdAndName(schoolProfilePrefixTable.getDatasetId(), SCHOOL_YEAR);
-            schoolProfilePrefixTable.addColumn(
-                    schoolYearElement = new ColumnElement(schoolYearDatasetElement, columnMetadataRepository.findOne(schoolYearDatasetElement.getColumnId()))
-            );
-        }
-        for (Iterator<Filter> iterator = filters.iterator(); iterator.hasNext(); ) { // lookup and remove school year element
-            filter = iterator.next();
-            if (filter.getElement() == schoolYearElement.getElementId()) {
-                iterator.remove();
-                break;
-            }
-        }
-        if (filter == null) { // school year filter not included from the user selection of filters
-            filter = lookupSchoolFilter(schoolProfilePrefixTable, schoolYearElement.getElementId());
-        }
-        // set school year filter first before the other filters
-        CriteriaFilterBuilder criteriaFilterBuilder = join.where(schoolProfilePrefixTable.getTablePrefix(), schoolYearElement.getColumnName());
-        CriteriaChainBuilder criteriaChainBuilder;
-        if (filter.getSelectedOptions() == null || filter.getSelectedOptions().isEmpty()) {
-            criteriaChainBuilder = criteriaFilterBuilder.eq(getCurrentYear());
-        }
-        else {
-            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOptions().get(0).getKey())));
-        }
-        filters.forEach(f -> {
-            DatasetCriteria criterion = criteriaRepository.findOne(f.getCriterion());
-            DatasetElement datasetElement = criterion.getLeftElement();
-            ColumnMetadata columnMetadata = columnMetadataRepository.findOne(datasetElement.getColumnId());
-            String tablePrefix = tablePrefixMap.get(columnMetadata.getTableId());
-            String dataType = columnMetadata.getDataType();
-            FilterType filterType = criterion.getFilterType();
-            switch (filterType) {
-                case VALUES:
-                    multipleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
-                    break;
-                default:
-                    singleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
-            }
-        });
-
-        Map<Long, List<String>> orderMap = lookupOrderElements();
-
-        orderMap.entrySet().forEach(e -> {
-            PrefixTable pt = prefixTables.stream()
-                    .filter(table -> e.getKey().equals(table.getDatasetId()))
-                    .findFirst().get();
-            e.getValue().forEach(name -> {
-                DatasetElement orderElement = elementRepository.findByDatasetHeadIdAndName(pt.getDatasetId(), name);
-                ColumnMetadata orderColumn = columnMetadataRepository.findOne(orderElement.getColumnId());
-                criteriaChainBuilder.orderBy(pt.getTablePrefix(), orderColumn.getColumnName(), true);
-            });
-        });
-
-        StringBuilder sql = criteriaChainBuilder.build();
-        if (previewOnly) { // hack solution to limit returned rows if preview data requested.
-            sql.append(" LIMIT 20");
-        }
-        log.debug("Generated SQL [{}]", sql);
-        JdbcTemplate template = new JdbcTemplate(dataSource);
-        List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
-            List<ColumnElement> row = new LinkedList<>();
-            sortedColumns.forEach(ce -> {
-                try {
-                    ColumnElement columnElementWithValue = ce.clone(); 
-                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
-                    columnElementWithValue.setValue(value);
-                    row.add(columnElementWithValue);
-                }
-                catch (SQLException ex) {
-                    log.catching(ex);
-                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
-                }
-            });
-            return row;
-        });
-        
-        LinkedList<ColumnElement> headers = sortedColumns.stream()
-                .map(ColumnElement::clone) // copy the original user selected column elements
-                .map(ce -> {
-                    ce.setValue(ce.getElementName()); // set the value as the element description
-                    return ce;
-                })
-                .collect(toCollection(LinkedList::new));
-        data.add(0, headers);
-        return data;
+//        List<DatasetElement> elements = dataset.getElements().stream()
+//                .map(Element::getId)
+//                .map(elementRepository::findOne)
+//                .collect(toList());
+//
+//        Map<DatasetHead, List<DatasetElement>> map = new HashMap<>();
+//        elements.forEach(element -> {
+//            DatasetHead datasetHead = element.getDatasetHead();
+//            if (!map.containsKey(datasetHead)) {
+//                map.put(datasetHead, new LinkedList<>());
+//            }
+//            map.get(datasetHead).add(element);
+//        });
+//        Map<Integer, String> tablePrefixMap = new HashMap<>();
+//        LinkedList<PrefixTable> prefixTables = map.entrySet().stream()
+//                .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
+//                .map(entry -> {
+//                    PrefixTable p = new PrefixTable(entry.getKey(), tableMetadataRepository.findOne(entry.getKey().getTableId()));
+//                    entry.getValue().forEach(element -> {
+//                        ColumnMetadata cm = columnMetadataRepository.findOne(element.getColumnId());
+//                        ColumnElement ce = new ColumnElement(element, cm);
+//                        p.addColumn(ce);
+//                    });
+//                    return p;
+//                })
+//                .collect(toCollection(LinkedList::new));
+//
+//        lookupMandatoryDatasets(prefixTables);
+//        
+//        // load school profile if not present
+//        PrefixTable schoolProfilePrefixTable = null;
+//        for (PrefixTable prefixTable : prefixTables) {
+//            if (prefixTable.getDatasetId() == SCHOOL_PROFILE_DATASET_ID) {
+//                schoolProfilePrefixTable = prefixTable;
+//                break;
+//            }
+//        }
+//        lookupPrefixes(tablePrefixMap, prefixTables);
+//        ProjectionBuilder projectionBuilder = read();
+//        LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
+//        FromClauseBuilder fromClauseBuilder = null;
+//        ColumnElement columnElement;
+//        List<TableColumn> ces;
+//        for (int i = 0; i < prefixTables.size(); i++) {
+//            PrefixTable pt = prefixTables.get(i);
+//            ces = null;//new ArrayList<>(pt.getColumns());
+//            log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
+//            for (int j = 0; j < pt.getColumns().size(); j++) {
+//                columnElement = (ColumnElement) ces.get(j);
+//                sortedColumns.add(columnElement);
+//                log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
+//                fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
+//            }
+//        }
+//        PrefixTable prefixTable = schoolProfilePrefixTable;
+//        JoinOrWhereClauseBuilder join = null;
+//        if (prefixTables.size() == 1) { // TODO Investigate if this is still possible since School Profile is always required.
+//            join = fromClauseBuilder.from(prefixTable.getTableName());
+//        }
+//        else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
+//        		
+//        	
+//	        	
+//	            ArrayList<PrefixTable> originalPrefixTable=new ArrayList<>(prefixTables);
+//		    	PrefixTable nsbiSpecificTable=null;
+//		    	
+//		    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
+//		    	
+//		    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
+//		    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
+//		    	
+//		    	if(!nsbiPrefixTables.isEmpty())
+//		    		prefixTables.removeAll(nsbiPrefixTables);
+//        	
+//        		PrefixTable leftTable = prefixTable;
+//                PrefixTable rightTable;
+//                DatasetCorrelation correlation;
+//                List<DatasetCorrelationDtl> correlationDetails;
+//                Iterator<DatasetCorrelationDtl> iterator;
+//                DatasetCorrelationDtl correlationDtl;
+//                OnClauseBuilder onClauseBuilder;
+//                ColumnMetadata leftColumn;
+//                ColumnMetadata rightColumn;
+//                join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
+//                for (int i = 1; i < prefixTables.size(); i++) {
+//                    rightTable = prefixTables.get(i);
+//                    correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
+//                    switch (correlation.getJoinType()) {
+//                        case LEFT_JOIN:
+//                            onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+//                            break;
+//                        case INNER_JOIN:
+//                            onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+//                            break;
+//                        default: // Cross Join
+//                            onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+//                    }
+//                    correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
+//                    iterator = correlationDetails.iterator();
+//                    do {
+//                        correlationDtl = iterator.next();
+//                        leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
+//                        rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
+//                        join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
+//                                .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
+//                    }
+//                    while (iterator.hasNext());
+//                }
+//        	
+//                
+//                if(nsbiSpecificTable!=null)
+//                {
+//                	prefixTables.clear();
+//                	prefixTables.add(nsbiSpecificTable);
+//                	prefixTables.addAll(nsbiPrefixTables);
+//                	nsbiJoin(prefixTables, join, fromClauseBuilder);
+//                	prefixTables.clear();
+//                	prefixTables.addAll(originalPrefixTable);
+//                	originalPrefixTable.clear();
+////                	prefixTables.removeAll(nsbiPrefixTables);
+//                }
+//            
+//        }
+//
+//        List<Filter> filters = dataset.getFilters();
+//        Filter filter = null;
+//        Optional<TableColumn> optionalSchoolYearElement = null;
+////        		schoolProfilePrefixTable.getColumns().parallelStream()
+////                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
+////                .findFirst();
+//        ColumnElement schoolYearElement;
+//        if (optionalSchoolYearElement.isPresent()) {
+//            schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
+//        }
+//        else {
+//            DatasetElement schoolYearDatasetElement = elementRepository.findByDatasetHeadIdAndName(schoolProfilePrefixTable.getDatasetId(), SCHOOL_YEAR);
+//            schoolProfilePrefixTable.addColumn(
+//                    schoolYearElement = new ColumnElement(schoolYearDatasetElement, columnMetadataRepository.findOne(schoolYearDatasetElement.getColumnId()))
+//            );
+//        }
+//        for (Iterator<Filter> iterator = filters.iterator(); iterator.hasNext(); ) { // lookup and remove school year element
+//            filter = iterator.next();
+//            if (filter.getElement() == schoolYearElement.getElementId()) {
+//                iterator.remove();
+//                break;
+//            }
+//        }
+//        if (filter == null) { // school year filter not included from the user selection of filters
+//            filter = lookupSchoolFilter(schoolProfilePrefixTable, schoolYearElement.getElementId());
+//        }
+//        // set school year filter first before the other filters
+//        CriteriaFilterBuilder criteriaFilterBuilder = join.where(schoolProfilePrefixTable.getTablePrefix(), schoolYearElement.getColumnName());
+//        CriteriaChainBuilder criteriaChainBuilder;
+//        if (filter.getSelectedOptions() == null || filter.getSelectedOptions().isEmpty()) {
+//            criteriaChainBuilder = criteriaFilterBuilder.eq(getCurrentYear());
+//        }
+//        else {
+//            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOptions().get(0).getKey())));
+//        }
+//        filters.forEach(f -> {
+//            DatasetCriteria criterion = criteriaRepository.findOne(f.getCriterion());
+//            DatasetElement datasetElement = criterion.getLeftElement();
+//            ColumnMetadata columnMetadata = columnMetadataRepository.findOne(datasetElement.getColumnId());
+//            String tablePrefix = tablePrefixMap.get(columnMetadata.getTableId());
+//            String dataType = columnMetadata.getDataType();
+//            FilterType filterType = criterion.getFilterType();
+//            switch (filterType) {
+//                case VALUES:
+//                    multipleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
+//                    break;
+//                default:
+//                    singleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
+//            }
+//        });
+//
+//        Map<Long, List<String>> orderMap = lookupOrderElements();
+//
+//        orderMap.entrySet().forEach(e -> {
+//            PrefixTable pt = prefixTables.stream()
+//                    .filter(table -> e.getKey().equals(table.getDatasetId()))
+//                    .findFirst().get();
+//            e.getValue().forEach(name -> {
+//                DatasetElement orderElement = elementRepository.findByDatasetHeadIdAndName(pt.getDatasetId(), name);
+//                ColumnMetadata orderColumn = columnMetadataRepository.findOne(orderElement.getColumnId());
+//                criteriaChainBuilder.orderBy(pt.getTablePrefix(), orderColumn.getColumnName(), true);
+//            });
+//        });
+//
+//        StringBuilder sql = criteriaChainBuilder.build();
+//        if (previewOnly) { // hack solution to limit returned rows if preview data requested.
+//            sql.append(" LIMIT 20");
+//        }
+//        log.debug("Generated SQL [{}]", sql);
+//        JdbcTemplate template = new JdbcTemplate(dataSource);
+//        List<List<ColumnElement>> data = template.query(sql.toString(), (rs, rowNum) -> {
+//            List<ColumnElement> row = new LinkedList<>();
+//            sortedColumns.forEach(ce -> {
+//                try {
+//                    ColumnElement columnElementWithValue = ce.clone(); 
+//                    Serializable value = JdbcTypes.getValue(rs, ce.getElementName(), ce.getDataType());
+//                    columnElementWithValue.setValue(value);
+//                    row.add(columnElementWithValue);
+//                }
+//                catch (SQLException ex) {
+//                    log.catching(ex);
+//                    throw log.throwing(new RuntimeException(format("SQL Error while getting value of element [%s].", ce.getElementName()), ex));
+//                }
+//            });
+//            return row;
+//        });
+//        
+//        LinkedList<ColumnElement> headers = sortedColumns.stream()
+//                .map(ColumnElement::clone) // copy the original user selected column elements
+//                .map(ce -> {
+//                    ce.setValue(ce.getElementName()); // set the value as the element description
+//                    return ce;
+//                })
+//                .collect(toCollection(LinkedList::new));
+//        data.add(0, headers);
+        return null;
     }
 
     private void multipleValueFilter(DatasetCriteria criterion, Filter filter, CriteriaFilterBuilder criteriaFilterBuilder,
@@ -475,27 +474,27 @@ public class DatasetServiceImpl implements DatasetService {
     }
     
     private void lookupMandatoryElements(PrefixTable prefixTable, Set<String> mandatoryElements) {
-        long datasetId = prefixTable.getDatasetId();
-        // remove mandatory elements first
-        Set<TableColumn> userSelectedNonMandatoryFields = null;
-//        		prefixTable.getColumns().stream()
-//                .filter(ce -> !mandatoryElements.contains(((ColumnElement)ce).getElementName()))
+//        long datasetId = prefixTable.getDatasetId();
+//        // remove mandatory elements first
+//        Set<TableColumn> userSelectedNonMandatoryFields = null;
+////        		prefixTable.getColumns().stream()
+////                .filter(ce -> !mandatoryElements.contains(((ColumnElement)ce).getElementName()))
+////                .collect(toCollection(LinkedHashSet::new));
+//        // lookup mandatory elements
+//        Set<TableColumn> mandatoryFields = mandatoryElements.stream()
+//                .map(elementName -> elementRepository.findByDatasetHeadIdAndName(datasetId, elementName))
+//                .filter(element -> element != null)
+//                .map(element ->
+//                {
+//                return	new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId()));
+//                }
+//                )
 //                .collect(toCollection(LinkedHashSet::new));
-        // lookup mandatory elements
-        Set<TableColumn> mandatoryFields = mandatoryElements.stream()
-                .map(elementName -> elementRepository.findByDatasetHeadIdAndName(datasetId, elementName))
-                .filter(element -> element != null)
-                .map(element ->
-                {
-                return	new ColumnElement(element, columnMetadataRepository.findOne(element.getColumnId()));
-                }
-                )
-                .collect(toCollection(LinkedHashSet::new));
-        // combine mandatory elements and user selected elements
-        Set<TableColumn> uniqueElements = new LinkedHashSet<>(mandatoryFields);
-        uniqueElements.addAll(userSelectedNonMandatoryFields);
-        // replace the list of column elements under this prefixed table.
-        prefixTable.getColumns().clear();
+//        // combine mandatory elements and user selected elements
+//        Set<TableColumn> uniqueElements = new LinkedHashSet<>(mandatoryFields);
+//        uniqueElements.addAll(userSelectedNonMandatoryFields);
+//         replace the list of column elements under this prefixed table.
+//        prefixTable.getColumns().clear();
 //        uniqueElements.forEach(prefixTable::addColumn);
     }
 
@@ -603,187 +602,187 @@ public class DatasetServiceImpl implements DatasetService {
 
 	private String getLocalGeneratedSQL(Dataset dataset,LinkedList<PrefixTable> argumentPrefixTables)
 	{
-		List<DatasetElement> elements = dataset.getElements().stream()
-                .map(Element::getId)
-                .map(elementRepository::findOne)
-                .collect(toList());
-
-        Map<DatasetHead, List<DatasetElement>> map = new HashMap<>();
-        elements.forEach(element -> {
-            DatasetHead datasetHead = element.getDatasetHead();
-            if (!map.containsKey(datasetHead)) {
-                map.put(datasetHead, new LinkedList<>());
-            }
-            map.get(datasetHead).add(element);
-        });
-        Map<Integer, String> tablePrefixMap = new HashMap<>();
-        LinkedList<PrefixTable> prefixTables = argumentPrefixTables;
-
-        
-        
-        // load school profile if not present
-        PrefixTable schoolProfilePrefixTable = null;
-        for (PrefixTable prefixTable : prefixTables) {
-            if (prefixTable.getDatasetId() == SCHOOL_PROFILE_DATASET_ID) {
-                schoolProfilePrefixTable = prefixTable;
-                break;
-            }
-        }
-        lookupPrefixes(tablePrefixMap, prefixTables);
-        ProjectionBuilder projectionBuilder = read();
-        FromClauseBuilder fromClauseBuilder = null;
-        ColumnElement columnElement;
-        List<TableColumn> ces;
-        for (int i = 0; i < prefixTables.size(); i++) {
-            PrefixTable pt = prefixTables.get(i);
-            ces = null;//new ArrayList<>(pt.getColumns());
-            log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
-            for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = (ColumnElement) ces.get(j);
-                log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
-                fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
-            }
-        }
-        PrefixTable prefixTable = schoolProfilePrefixTable;
-        JoinOrWhereClauseBuilder join;
-        if (prefixTables.size() == 1) { // TODO Investigate if this is still possible since School Profile is always required.
-            join = fromClauseBuilder.from(prefixTable.getTableName());
-        }
-        else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
-        	
-        	
-        	  ArrayList<PrefixTable> originalPrefixTable=new ArrayList<>(prefixTables);
-		    	PrefixTable nsbiSpecificTable=null;
-		    	
-		    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
-		    	
-		    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
-		    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
-		    	
-		    	if(!nsbiPrefixTables.isEmpty())
-		    		prefixTables.removeAll(nsbiPrefixTables);
-      	
-      		PrefixTable leftTable = prefixTable;
-              PrefixTable rightTable;
-              DatasetCorrelation correlation;
-              List<DatasetCorrelationDtl> correlationDetails;
-              Iterator<DatasetCorrelationDtl> iterator;
-              DatasetCorrelationDtl correlationDtl;
-              OnClauseBuilder onClauseBuilder;
-              ColumnMetadata leftColumn;
-              ColumnMetadata rightColumn;
-              join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
-              for (int i = 1; i < prefixTables.size(); i++) {
-                  rightTable = prefixTables.get(i);
-                  correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
-                  switch (correlation.getJoinType()) {
-                      case LEFT_JOIN:
-                          onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                          break;
-                      case INNER_JOIN:
-                          onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                          break;
-                      default: // Cross Join
-                          onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
-                  }
-                  correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
-                  iterator = correlationDetails.iterator();
-                  do {
-                      correlationDtl = iterator.next();
-                      leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
-                      rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
-                      join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
-                              .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
-                  }
-                  while (iterator.hasNext());
-              }
-      	
-              
-              if(nsbiSpecificTable!=null)
-              {
-              	prefixTables.clear();
-              	prefixTables.add(nsbiSpecificTable);
-              	prefixTables.addAll(nsbiPrefixTables);
-              	nsbiJoin(prefixTables, join, fromClauseBuilder);
-              	prefixTables.clear();
-              	prefixTables.addAll(originalPrefixTable);
-              	originalPrefixTable.clear();
-//              	prefixTables.removeAll(nsbiPrefixTables);
-              }
-            
-            
-        }
-
-        List<Filter> filters = dataset.getFilters();
-        Filter filter = null;
-        Optional<TableColumn> optionalSchoolYearElement = null;
-//        		schoolProfilePrefixTable.getColumns().parallelStream()
-//                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
-//                .findFirst();
-        ColumnElement schoolYearElement;
-        if (optionalSchoolYearElement.isPresent()) {
-            schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
-        }
-        else {
-            DatasetElement schoolYearDatasetElement = elementRepository.findByDatasetHeadIdAndName(schoolProfilePrefixTable.getDatasetId(), SCHOOL_YEAR);
-
-            schoolProfilePrefixTable.addColumn(
-                    schoolYearElement = new ColumnElement(schoolYearDatasetElement, columnMetadataRepository.findOne(schoolYearDatasetElement.getColumnId()))
-            );
-        }
-        for (Iterator<Filter> iterator = filters.iterator(); iterator.hasNext(); ) { // lookup and remove school year element
-            filter = iterator.next();
-            if (filter.getElement() == schoolYearElement.getElementId()) {
-                iterator.remove();
-                break;
-            }
-        }
-        if (filter == null) { // school year filter not included from the user selection of filters
-            filter = lookupSchoolFilter(schoolProfilePrefixTable, schoolYearElement.getElementId());
-        }
-        // set school year filter first before the other filters
-        CriteriaFilterBuilder criteriaFilterBuilder = join.where(schoolProfilePrefixTable.getTablePrefix(), schoolYearElement.getColumnName());
-        CriteriaChainBuilder criteriaChainBuilder;
-        if (filter.getSelectedOptions() == null || filter.getSelectedOptions().isEmpty()) {
-            criteriaChainBuilder = criteriaFilterBuilder.eq(getCurrentYear());
-        }
-        else {
-            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOptions().get(0).getKey())));
-        }
-        filters.forEach(f -> {
-            DatasetCriteria criterion = criteriaRepository.findOne(f.getCriterion());
-            DatasetElement datasetElement = criterion.getLeftElement();
-            ColumnMetadata columnMetadata = columnMetadataRepository.findOne(datasetElement.getColumnId());
-            String tablePrefix = tablePrefixMap.get(columnMetadata.getTableId());
-            String dataType = columnMetadata.getDataType();
-            FilterType filterType = criterion.getFilterType();
-            switch (filterType) {
-                case VALUES:
-                    multipleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
-                    break;
-                default:
-                    singleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
-            }
-        });
-
-        Map<Long, List<String>> orderMap = lookupOrderElements();
-        orderMap.entrySet().forEach(e -> {
-            PrefixTable pt = prefixTables.stream()
-                    .filter(table -> e.getKey().equals(table.getDatasetId()))
-                    .findFirst().get();
-            e.getValue().forEach(name -> {
-                DatasetElement orderElement = elementRepository.findByDatasetHeadIdAndName(pt.getDatasetId(), name);
-                ColumnMetadata orderColumn = columnMetadataRepository.findOne(orderElement.getColumnId());
-                criteriaChainBuilder.orderBy(pt.getTablePrefix(), orderColumn.getColumnName(), true);
-            });
-        });
-
-        StringBuilder sql = criteriaChainBuilder.build();
-//        if (previewOnly) { // hack solution to limit returned rows if preview data requested.
-//            sql.append(" LIMIT 20");
+//		List<DatasetElement> elements = dataset.getElements().stream()
+//                .map(Element::getId)
+//                .map(elementRepository::findOne)
+//                .collect(toList());
+//
+//        Map<DatasetHead, List<DatasetElement>> map = new HashMap<>();
+//        elements.forEach(element -> {
+//            DatasetHead datasetHead = element.getDatasetHead();
+//            if (!map.containsKey(datasetHead)) {
+//                map.put(datasetHead, new LinkedList<>());
+//            }
+//            map.get(datasetHead).add(element);
+//        });
+//        Map<Integer, String> tablePrefixMap = new HashMap<>();
+//        LinkedList<PrefixTable> prefixTables = argumentPrefixTables;
+//
+//        
+//        
+//        // load school profile if not present
+//        PrefixTable schoolProfilePrefixTable = null;
+//        for (PrefixTable prefixTable : prefixTables) {
+//            if (prefixTable.getDatasetId() == SCHOOL_PROFILE_DATASET_ID) {
+//                schoolProfilePrefixTable = prefixTable;
+//                break;
+//            }
 //        }
+//        lookupPrefixes(tablePrefixMap, prefixTables);
+//        ProjectionBuilder projectionBuilder = read();
+//        FromClauseBuilder fromClauseBuilder = null;
+//        ColumnElement columnElement;
+//        List<TableColumn> ces;
+//        for (int i = 0; i < prefixTables.size(); i++) {
+//            PrefixTable pt = prefixTables.get(i);
+//            ces = null;//new ArrayList<>(pt.getColumns());
+//            log.trace("Sorting Dataset Head: [{}]", pt.getDatasetName());
+//            for (int j = 0; j < pt.getColumns().size(); j++) {
+//                columnElement = (ColumnElement) ces.get(j);
+//                log.trace("Column and Element [{}] added to sortedColumns.", columnElement.getElementName());
+//                fromClauseBuilder = projectionBuilder.select(new Projection(pt.getTablePrefix(), columnElement.getColumnName(), columnElement.getElementName()));
+//            }
+//        }
+//        PrefixTable prefixTable = schoolProfilePrefixTable;
+//        JoinOrWhereClauseBuilder join;
+//        if (prefixTables.size() == 1) { // TODO Investigate if this is still possible since School Profile is always required.
+//            join = fromClauseBuilder.from(prefixTable.getTableName());
+//        }
+//        else { // prefixTables.size() > 1; prefixTables.size() == 0 is invalid.
+//        	
+//        	
+//        	  ArrayList<PrefixTable> originalPrefixTable=new ArrayList<>(prefixTables);
+//		    	PrefixTable nsbiSpecificTable=null;
+//		    	
+//		    	List<PrefixTable> nsbiPrefixTables=getNsbiTables(prefixTables);
+//		    	
+//		    	List<PrefixTable> specificTempHeadList=prefixTables.parallelStream().filter(e->e.getDatasetName().equals(NSBI_REPORT_NAME)).collect(Collectors.toList());
+//		    	nsbiSpecificTable= specificTempHeadList.isEmpty()?null:specificTempHeadList.get(0);
+//		    	
+//		    	if(!nsbiPrefixTables.isEmpty())
+//		    		prefixTables.removeAll(nsbiPrefixTables);
+//      	
+//      		PrefixTable leftTable = prefixTable;
+//              PrefixTable rightTable;
+//              DatasetCorrelation correlation;
+//              List<DatasetCorrelationDtl> correlationDetails;
+//              Iterator<DatasetCorrelationDtl> iterator;
+//              DatasetCorrelationDtl correlationDtl;
+//              OnClauseBuilder onClauseBuilder;
+//              ColumnMetadata leftColumn;
+//              ColumnMetadata rightColumn;
+//              join = fromClauseBuilder.from(leftTable.getTableName(), leftTable.getTablePrefix());
+//              for (int i = 1; i < prefixTables.size(); i++) {
+//                  rightTable = prefixTables.get(i);
+//                  correlation = correlationRepository.findByLeftDatasetIdAndRightDatasetId(leftTable.getDatasetId(), rightTable.getDatasetId());
+//                  switch (correlation.getJoinType()) {
+//                      case LEFT_JOIN:
+//                          onClauseBuilder = join.leftJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+//                          break;
+//                      case INNER_JOIN:
+//                          onClauseBuilder = join.innerJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+//                          break;
+//                      default: // Cross Join
+//                          onClauseBuilder = join.crossJoin(rightTable.getTableName(), rightTable.getTablePrefix());
+//                  }
+//                  correlationDetails = correlationDtlRepository.findByDatasetCorrelation(correlation);
+//                  iterator = correlationDetails.iterator();
+//                  do {
+//                      correlationDtl = iterator.next();
+//                      leftColumn = columnMetadataRepository.findOne(correlationDtl.getLeftElement().getColumnId());
+//                      rightColumn = columnMetadataRepository.findOne(correlationDtl.getRightElement().getColumnId());
+//                      join = onClauseBuilder.on(leftTable.getTablePrefix(), leftColumn.getColumnName())
+//                              .eq(rightTable.getTablePrefix(), rightColumn.getColumnName());
+//                  }
+//                  while (iterator.hasNext());
+//              }
+//      	
+//              
+//              if(nsbiSpecificTable!=null)
+//              {
+//              	prefixTables.clear();
+//              	prefixTables.add(nsbiSpecificTable);
+//              	prefixTables.addAll(nsbiPrefixTables);
+//              	nsbiJoin(prefixTables, join, fromClauseBuilder);
+//              	prefixTables.clear();
+//              	prefixTables.addAll(originalPrefixTable);
+//              	originalPrefixTable.clear();
+////              	prefixTables.removeAll(nsbiPrefixTables);
+//              }
+//            
+//            
+//        }
+//
+//        List<Filter> filters = dataset.getFilters();
+//        Filter filter = null;
+//        Optional<TableColumn> optionalSchoolYearElement = null;
+////        		schoolProfilePrefixTable.getColumns().parallelStream()
+////                .filter(ce -> ((ColumnElement)ce).getElementName().equals(SCHOOL_YEAR)) // find school year element
+////                .findFirst();
+//        ColumnElement schoolYearElement;
+//        if (optionalSchoolYearElement.isPresent()) {
+//            schoolYearElement = (ColumnElement) optionalSchoolYearElement.get();
+//        }
+//        else {
+//            DatasetElement schoolYearDatasetElement = elementRepository.findByDatasetHeadIdAndName(schoolProfilePrefixTable.getDatasetId(), SCHOOL_YEAR);
+//
+//            schoolProfilePrefixTable.addColumn(
+//                    schoolYearElement = new ColumnElement(schoolYearDatasetElement, columnMetadataRepository.findOne(schoolYearDatasetElement.getColumnId()))
+//            );
+//        }
+//        for (Iterator<Filter> iterator = filters.iterator(); iterator.hasNext(); ) { // lookup and remove school year element
+//            filter = iterator.next();
+//            if (filter.getElement() == schoolYearElement.getElementId()) {
+//                iterator.remove();
+//                break;
+//            }
+//        }
+//        if (filter == null) { // school year filter not included from the user selection of filters
+//            filter = lookupSchoolFilter(schoolProfilePrefixTable, schoolYearElement.getElementId());
+//        }
+//        // set school year filter first before the other filters
+//        CriteriaFilterBuilder criteriaFilterBuilder = join.where(schoolProfilePrefixTable.getTablePrefix(), schoolYearElement.getColumnName());
+//        CriteriaChainBuilder criteriaChainBuilder;
+//        if (filter.getSelectedOptions() == null || filter.getSelectedOptions().isEmpty()) {
+//            criteriaChainBuilder = criteriaFilterBuilder.eq(getCurrentYear());
+//        }
+//        else {
+//            criteriaChainBuilder = criteriaFilterBuilder.eq(Integer.parseInt(String.valueOf(filter.getSelectedOptions().get(0).getKey())));
+//        }
+//        filters.forEach(f -> {
+//            DatasetCriteria criterion = criteriaRepository.findOne(f.getCriterion());
+//            DatasetElement datasetElement = criterion.getLeftElement();
+//            ColumnMetadata columnMetadata = columnMetadataRepository.findOne(datasetElement.getColumnId());
+//            String tablePrefix = tablePrefixMap.get(columnMetadata.getTableId());
+//            String dataType = columnMetadata.getDataType();
+//            FilterType filterType = criterion.getFilterType();
+//            switch (filterType) {
+//                case VALUES:
+//                    multipleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
+//                    break;
+//                default:
+//                    singleValueFilter(criterion, f, criteriaFilterBuilder, criteriaChainBuilder, columnMetadata, tablePrefix, dataType);
+//            }
+//        });
+//
+//        Map<Long, List<String>> orderMap = lookupOrderElements();
+//        orderMap.entrySet().forEach(e -> {
+//            PrefixTable pt = prefixTables.stream()
+//                    .filter(table -> e.getKey().equals(table.getDatasetId()))
+//                    .findFirst().get();
+//            e.getValue().forEach(name -> {
+//                DatasetElement orderElement = elementRepository.findByDatasetHeadIdAndName(pt.getDatasetId(), name);
+//                ColumnMetadata orderColumn = columnMetadataRepository.findOne(orderElement.getColumnId());
+//                criteriaChainBuilder.orderBy(pt.getTablePrefix(), orderColumn.getColumnName(), true);
+//            });
+//        });
+//
+//        StringBuilder sql = criteriaChainBuilder.build();
+////        if (previewOnly) { // hack solution to limit returned rows if preview data requested.
+////            sql.append(" LIMIT 20");
+////        }
         
-        return sql.toString();
+        return "";
 	}
 
 	@Override
@@ -822,19 +821,19 @@ public class DatasetServiceImpl implements DatasetService {
 	@Override
 	public LinkedList<ColumnElement> getSortedColumns(LinkedList<PrefixTable> prefixTables) 
 	{
-		LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
-		List<TableColumn> ces;
-		ColumnElement columnElement;
-		for (int i = 0; i < prefixTables.size(); i++) {
-			PrefixTable pt = prefixTables.get(i);
-            ces = null;//new ArrayList<>(pt.getColumns());
-            for (int j = 0; j < pt.getColumns().size(); j++) {
-                columnElement = (ColumnElement) ces.get(j);
-                sortedColumns.add(columnElement);
-            }
-        }
+//		LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
+//		List<TableColumn> ces;
+//		ColumnElement columnElement;
+//		for (int i = 0; i < prefixTables.size(); i++) {
+//			PrefixTable pt = prefixTables.get(i);
+//            ces = null;//new ArrayList<>(pt.getColumns());
+//            for (int j = 0; j < pt.getColumns().size(); j++) {
+//                columnElement = (ColumnElement) ces.get(j);
+//                sortedColumns.add(columnElement);
+//            }
+//        }
 		
-		return sortedColumns;
+		return null;
 	}
 
 	@Override

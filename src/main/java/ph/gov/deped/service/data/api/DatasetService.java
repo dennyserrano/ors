@@ -1,7 +1,7 @@
 package ph.gov.deped.service.data.api;
 
-import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.dto.PrefixTable;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 
 import java.io.Serializable;

@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import com.bits.sql.AggregateTypes;
 
 import ph.gov.deped.data.BaseJpaEntity;
-import ph.gov.deped.data.dto.interfaces.Aggregatable;
 import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 import javax.persistence.Basic;
@@ -34,7 +33,7 @@ import java.util.Set;
 @Entity
 @Cacheable("DatasetElements")
 @javax.persistence.Cacheable
-public class DatasetElement extends BaseJpaEntity<Long> implements Serializable,Aggregatable {
+public class DatasetElement extends BaseJpaEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 5690000895468705426L;
 
@@ -234,17 +233,6 @@ public class DatasetElement extends BaseJpaEntity<Long> implements Serializable,
 		return false;
 	}
 
-	@Override
-	public boolean hasAggregate() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public AggregateTypes getAggregate() {
-		// TODO Auto-generated method stub
-		return aggregate;
-	}
 
 
 }

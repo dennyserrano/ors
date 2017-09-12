@@ -34,27 +34,22 @@ import com.bits.sql.JdbcTypes;
 
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.util.ConvertUtil;
-import ph.gov.deped.common.util.builders.PrefixTableMapBuilder;
-import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
-import ph.gov.deped.common.util.builders.TableChainer;
-import ph.gov.deped.common.util.builders2.impl.DatasetSourceImpl;
-import ph.gov.deped.common.util.builders2.impl.WhereBuilderImpl;
-import ph.gov.deped.common.util.builders2.interfaces.FilterComparator;
-import ph.gov.deped.common.util.builders2.interfaces.FilterConjunctor;
-import ph.gov.deped.common.util.builders2.interfaces.FilterWhere;
-import ph.gov.deped.common.util.builders2.interfaces.PrefixTableBuilder;
-import ph.gov.deped.common.util.builders2.interfaces.WhereBuilder;
-import ph.gov.deped.data.Where;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.DatasetSourceImpl;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
+import ph.gov.deped.common.util.builders.impl.Where;
+import ph.gov.deped.common.util.builders.impl.WhereBuilderImpl;
+import ph.gov.deped.common.util.builders.interfaces.FilterComparator;
+import ph.gov.deped.common.util.builders.interfaces.FilterConjunctor;
+import ph.gov.deped.common.util.builders.interfaces.FilterWhere;
+import ph.gov.deped.common.util.builders.interfaces.PrefixTableBuilder;
+import ph.gov.deped.common.util.builders.interfaces.WhereBuilder;
 //import ph.gov.deped.common.util.builders.StarSchemaChainImpl;
 //import ph.gov.deped.common.util.builders.TableChainer;
-import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.KeyValue;
-import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.dto.interfaces.Aggregatable;
-import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
 import ph.gov.deped.data.ors.ds.DatasetElement;
@@ -78,7 +73,6 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Autowired
 	private DatasetRepository datasetRepository;
 	
-	private TableChainer tableChainer;
 	
 	private static final String[] JOINING_ELEMENTS=new String[]{"sy_from","school_id"};
 	
@@ -100,7 +94,7 @@ public class DatasetServiceImpl2 implements DatasetService
 		List<DatasetHead> l=datasetRepository.findByIds(ids);
 		
     	PrefixTableBuilder ptb=new DatasetSourceImpl(dataset, toMap(l));
-    	ptb.where(toWhere(dataset.getFilters()));
+    	//ptb.where(toWhere(dataset.getFilters()));
     	System.out.println(serviceQueryBuilder.getQuery((PrefixTable) ptb.build()));
 		return new ArrayList<List<ColumnElement>>();
 	}
@@ -234,12 +228,12 @@ public class DatasetServiceImpl2 implements DatasetService
 	
 	private void collectColumns(LinkedList<ColumnElement> columns,PrefixTable head)
 	{
-		List<TableColumn> tempList=null;//head.getColumns().stream().sorted().collect(Collectors.toList());
-		for(TableColumn tc:tempList)
-			columns.add((ColumnElement) tc);
-		
-		for(PrefixTable pt:head.getJoinTables().keySet())
-			collectColumns(columns,pt);
+//		List<TableColumn> tempList=null;//head.getColumns().stream().sorted().collect(Collectors.toList());
+//		for(TableColumn tc:tempList)
+//			columns.add((ColumnElement) tc);
+//		
+//		for(PrefixTable pt:head.getJoinTables().keySet())
+//			collectColumns(columns,pt);
 		
 	}
 	
@@ -292,9 +286,9 @@ public class DatasetServiceImpl2 implements DatasetService
 			if(de==null)
 				throw new RuntimeException("No mapping provided while preparing aggregate");
 			
-			Aggregatable aggregatableDatasetElement=de;
-			if(e.getAggregate()!=null)
-				aggregatableDatasetElement.setAggregate(AggregateTypes.valueOf(e.getAggregate()));
+//			Aggregatable aggregatableDatasetElement=de;
+//			if(e.getAggregate()!=null)
+//				aggregatableDatasetElement.setAggregate(AggregateTypes.valueOf(e.getAggregate()));
 			
 		}
 	}
@@ -392,14 +386,14 @@ public class DatasetServiceImpl2 implements DatasetService
 	@Override
 	public LinkedList<ColumnElement> getSortedColumns(LinkedList<PrefixTable> prefixTables) {
 		LinkedList<ColumnElement> sortedColumns = new LinkedList<>();
-		List<TableColumn> ces;
-		ColumnElement columnElement;
-		for (int i = 0; i < prefixTables.size(); i++) {
-			PrefixTable pt = prefixTables.get(i);
-            collectColumns(sortedColumns, pt);
-        }
-		arrangeWithMandatories(sortedColumns, MANDATORY_IDS); //by reference column which is bad
-		return sortedColumns;
+//		List<TableColumn> ces;
+//		ColumnElement columnElement;
+//		for (int i = 0; i < prefixTables.size(); i++) {
+//			PrefixTable pt = prefixTables.get(i);
+//            collectColumns(sortedColumns, pt);
+//        }
+//		arrangeWithMandatories(sortedColumns, MANDATORY_IDS); //by reference column which is bad
+		return null;
 	}
 
 	@Override
@@ -471,7 +465,7 @@ public class DatasetServiceImpl2 implements DatasetService
 			
 		}
     	
-    	tableChainer=new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()),JOINING_ELEMENTS,orderList);
+//    	tableChainer=null;//new StarSchemaChainImpl(selectedColumns(forColumnList, dataset.getElements()),JOINING_ELEMENTS,orderList);
     	
     	ArrayList<DatasetHead> datasetHeads=new ArrayList<DatasetHead>();
     	datasetHeads.add(parent);
@@ -480,7 +474,7 @@ public class DatasetServiceImpl2 implements DatasetService
     	
     	setAggregates(dataset.getElements(),hm);
     	
-    	PrefixTable finalTable=tableChainer.chain(parent, children, dataset.getFilters());
+    	PrefixTable finalTable=null;//tableChainer.chain(parent, children, dataset.getFilters());
     	return finalTable;
     }
 	

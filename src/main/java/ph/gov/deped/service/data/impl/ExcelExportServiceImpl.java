@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.config.OrsSettings;
-import ph.gov.deped.data.dto.ColumnElement;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportService;

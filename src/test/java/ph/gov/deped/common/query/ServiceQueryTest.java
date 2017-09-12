@@ -2,13 +2,13 @@ package ph.gov.deped.common.query;
 
 import java.util.HashSet;
 
-import ph.gov.deped.common.util.builders.JoinInfo;
-import ph.gov.deped.common.util.builders.JoinProperty;
-import ph.gov.deped.common.util.builders.JoinPropertyBuilder;
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.JoinInfo;
+import ph.gov.deped.common.util.builders.impl.JoinProperty;
+import ph.gov.deped.common.util.builders.impl.JoinPropertyBuilder;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
-import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;

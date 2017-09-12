@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.ExportType;
 import ph.gov.deped.service.export.interfaces.ColumnElementFileExporter;

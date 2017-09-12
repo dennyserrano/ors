@@ -1,5 +1,6 @@
 package ph.gov.deped.service.data.impl;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,21 +30,19 @@ import static com.bits.sql.JdbcTypes.getValueMapper;
 import static com.bits.sql.JdbcTypes.isNumeric;
 import static com.bits.sql.QueryBuilders.read;
 import static java.util.stream.Collectors.toList;
-import ph.gov.deped.common.util.builders.JoinInfo;
-import ph.gov.deped.common.util.builders.JoinProperty;
-import ph.gov.deped.common.util.builders.JoinPropertyBuilder;
-import ph.gov.deped.data.Conjunctive;
-import ph.gov.deped.data.Operational;
-import ph.gov.deped.data.Where;
-import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.dto.ColumnExpression;
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnExpression;
+import ph.gov.deped.common.util.builders.impl.Conjunctive;
+import ph.gov.deped.common.util.builders.impl.JoinInfo;
+import ph.gov.deped.common.util.builders.impl.JoinProperty;
+import ph.gov.deped.common.util.builders.impl.JoinPropertyBuilder;
+import ph.gov.deped.common.util.builders.impl.Operational;
+import ph.gov.deped.common.util.builders.impl.Order;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
+import ph.gov.deped.common.util.builders.impl.Where;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
 import ph.gov.deped.data.dto.KeyValue;
-import ph.gov.deped.data.dto.Order;
-import ph.gov.deped.data.dto.PrefixTable;
-import ph.gov.deped.data.dto.interfaces.Aggregatable;
-import ph.gov.deped.data.dto.interfaces.TableColumn;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
@@ -200,6 +199,7 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 		return obc;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private CriteriaChainBuilder dig(Operational op,CriteriaFilterBuilder filterBuilder)
 	{
 		if(op.getConjunctive()!=null)
@@ -208,23 +208,24 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			if(op.getOperator().equals(Operational.EQUALS))
 			{
 				
-				chainBuilder=filterBuilder.eq(Long.parseLong(op.getValues().get(0).getKey().toString()));
+				chainBuilder=filterBuilder.eq((String) op.getValues().get(0));
 				dig(op.getConjunctive(),chainBuilder);
 			}else if(op.getOperator().equals(Operational.IN))
 			{
-				List<ValueExpression> values = op.getValues().stream()
+				List<ValueExpression> values =(List<ValueExpression>) op.getValues().stream()
 		                .map(k->{
-		                	String dataType=k.getValue();
+		                	String dataType=k.getClass().getSimpleName().toLowerCase();
 		                	if (isNumeric(dataType)) {
 		                        SqlValueMapper<Number> mapper = getValueMapper(dataType);
-		                        return number(mapper.apply(k.getKey()));
+		                        return number(mapper.apply((Serializable) k));
 		                    }
 		                    else { // String based
 		                        SqlValueMapper<String> mapper = getValueMapper(dataType);
-		                        return string(mapper.apply(k.getKey()));
+		                        return string(mapper.apply((Serializable) k));
 		                    }
 		                })
 		                .collect(toList());
+			
 				if(values.size()!=0)
 					chainBuilder=filterBuilder.in(values.toArray(new ValueExpression[values.size()]));
 				
@@ -244,5 +245,6 @@ public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {
 			}
 		
 	}
+
 	
 }

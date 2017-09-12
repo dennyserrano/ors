@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 
 import com.thoughtworks.xstream.XStream;
 
+import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.config.OrsSettings;
-import ph.gov.deped.data.dto.ColumnElement;
-import ph.gov.deped.data.dto.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.repo.jpa.ors.FormattingRepository;
 import ph.gov.deped.service.data.api.DatasetService;
