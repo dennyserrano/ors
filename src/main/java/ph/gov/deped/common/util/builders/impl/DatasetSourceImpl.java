@@ -24,6 +24,7 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 
 //mapRef is a reference conversion from Dataset to DatasetHead. a dataset could get via id to get its DatasetHead counterpart.
+//note that Dataset is the parent and contains all the elements that the user chose. the subdatasets is just a tag on what are the tables involved in the join.
 
 public class DatasetSourceImpl implements PrefixTableBuilder {
 
