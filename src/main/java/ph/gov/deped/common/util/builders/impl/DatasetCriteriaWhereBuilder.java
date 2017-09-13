@@ -70,7 +70,8 @@ public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 		
 		for(Filter f:filters)
 		{
-			
+			if(f.getSelectedOptions().size()==0)
+				continue;
 			if(f.getSelectedOptions().get(0).getKey().equals(""))
 				continue;
 			
