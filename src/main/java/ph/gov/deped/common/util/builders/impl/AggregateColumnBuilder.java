@@ -8,10 +8,12 @@ import ph.gov.deped.data.ors.ds.DatasetElement;
 public class AggregateColumnBuilder extends DatasetElementColumnBuilder {
 
 	private AggregateTypes aggregate;
-	public AggregateColumnBuilder(AggregateTypes aggregate,DatasetElement de,String prefix)
+	private String alias;
+	public AggregateColumnBuilder(AggregateTypes aggregate,DatasetElement de,String prefix,String alias)
 	{
 		super(prefix,de);
 		this.aggregate=aggregate;
+		this.alias=alias;
 		
 	}
 	
@@ -19,7 +21,9 @@ public class AggregateColumnBuilder extends DatasetElementColumnBuilder {
 	@Override
 	public ColumnExpression build() {
 		
-		return new NestableColumnElement(getAlias(),new AggregateColumn(aggregate.getAggregate(),new ColumnElement(getFieldName(), getPrefix())));
+		return new NestableColumnElement(alias,
+												new AggregateColumn(aggregate.getAggregate(),new ColumnElement(getFieldName(), getPrefix()))
+										);
 	}
 
 }

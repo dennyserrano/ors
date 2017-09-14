@@ -11,6 +11,7 @@ import ph.gov.deped.common.util.builders.impl.DatasetSourceImpl;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.common.util.builders.interfaces.PrefixTableBuilder;
 import ph.gov.deped.data.dto.ds.Dataset;
+import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.TableService;
@@ -39,8 +40,14 @@ public class TableServiceImpl implements TableService {
 		for(DatasetHead dh:datasetHeads)
 			hm.put(dh.getId(), dh);
 		
+		
+		
 		prefixTableBuilder=new DatasetSourceImpl(ds, hm);
 		prefixTableBuilder.where(ds.getFilters());
+		
+		if(ds.getAggregateBy()!=null)
+			if(ds.getAggregateBy().isCountIncluded())
+				prefixTableBuilder.addSpecialColumn(new Element(0, "count(*)", "", "", 0L, false, false));
 		
 		return prefixTableBuilder.build();
 	}

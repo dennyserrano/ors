@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bits.sql.AggregateTypes;
 
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnExpression;
+import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.TableService;
 import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
+import ph.gov.deped.service.data.impl.SqlToData;
 import ph.gov.deped.web.entity.ReturnEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by PSY on 2014/09/29.
@@ -37,6 +41,9 @@ public class PreviewDataRestController {
     @Autowired
     private TableService tableService;
     
+    @Autowired
+    private SqlToData std;
+    
     public @Autowired void setDatasetService(DatasetService datasetService) {
         this.datasetService = datasetService;
     }
@@ -48,19 +55,24 @@ public class PreviewDataRestController {
     	try
     	{
     		dataset.setId(8L); //school prof history
-    		if(dataset.getAggregateBy()!=null)
-        	{
-        		
-        		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
-        		for(Element e:dataset.getAggregateBy().getElements())
-        		{
-        			e.setAggregate(AggregateTypes.GROUP.getAggregate());
-        			al.add(e);
-        		}
-        		dataset.setElements(al);
-        	}
-    		System.out.println("NEW:"+new ServiceQueryBuilderImpl().getQuery(tableService.generateTable(dataset)));
-            return new ReturnEntity<List<List<ColumnElement>>>("success", 0, datasetService.getData(dataset, true));
+//    		if(dataset.getAggregateBy()!=null)
+//        	{
+//        		
+//        		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
+//        		for(Element e:dataset.getAggregateBy().getElements())
+//        		{
+//        			e.setAggregate(AggregateTypes.GROUP.getAggregate());
+//        			al.add(e);
+//        		}
+//        		dataset.setElements(al);
+//        	}
+    		PrefixTable pt=tableService.generateTable(dataset);
+    		String sql=new ServiceQueryBuilderImpl().getQuery(pt);
+    		System.out.println("SQL:"+sql);
+    		sql=sql.concat(" LIMIT 20 ");
+    		List collected=collect(new ArrayList<ColumnExpression>(),pt);
+    		List l=std.get(sql,collected);
+            return new ReturnEntity<List<List<ColumnElement>>>("success", 0, l);
     	}
     	catch(Exception e)
     	{
@@ -69,4 +81,15 @@ public class PreviewDataRestController {
     	
     	
     }
+    
+    private List<ColumnExpression> collect(List<ColumnExpression> l,PrefixTable pt)
+	{
+		for(ColumnExpression ce:pt.getColumns())
+			l.add(ce);
+		
+		for(PrefixTable subPT:pt.getJoinTables().keySet())
+			collect(l,subPT);
+		
+		return l;
+	}
 }

@@ -37,6 +37,8 @@ public class NestableColumnElement extends ColumnElement implements ColumnExpres
 		return innerColumnElement;
 	}
 	
-	
+	public String alias() {
+		return alias;
+	}
 	
 }
