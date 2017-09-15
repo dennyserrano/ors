@@ -52,8 +52,8 @@ public class PreviewDataRestController {
     public ReturnEntity<List<List<ColumnElement>>> preview(@RequestBody Dataset dataset) {
     	
   
-    	try
-    	{
+//    	try
+//    	{
     		dataset.setId(8L); //school prof history
 //    		if(dataset.getAggregateBy()!=null)
 //        	{
@@ -73,11 +73,11 @@ public class PreviewDataRestController {
     		List collected=collect(new ArrayList<ColumnExpression>(),pt);
     		List l=std.get(sql,collected);
             return new ReturnEntity<List<List<ColumnElement>>>("success", 0, l);
-    	}
-    	catch(Exception e)
-    	{
-    		return new ReturnEntity<List<List<ColumnElement>>>(e.getMessage(), 1, null);
-    	}
+//    	}
+//    	catch(Exception e)
+//    	{
+//    		return new ReturnEntity<List<List<ColumnElement>>>(e.getMessage(), 1, null);
+//    	}
     	
     	
     }

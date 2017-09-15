@@ -24,7 +24,9 @@ public class DatasetElementColumnBuilder implements ColumnBuilder {
 	@Override
 	public ColumnExpression build() {
 		
-		return new ColumnElement(getFieldName(),getAlias(),getPrefix());
+		ColumnElement ce= new ColumnElement(getFieldName(),getAlias(),getPrefix());
+		ce.setDataType(element.getColumnMetaData().getDataType());
+		return ce;
 	}
 
 	protected String getAlias()

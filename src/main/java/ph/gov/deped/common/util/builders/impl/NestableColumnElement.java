@@ -13,6 +13,7 @@ public class NestableColumnElement extends ColumnElement implements ColumnExpres
 	{
 		this.alias=alias;
 		innerColumnElement=ce;
+		this.setDataType(innerColumnElement.dataType());
 	}
 	
 	@Override

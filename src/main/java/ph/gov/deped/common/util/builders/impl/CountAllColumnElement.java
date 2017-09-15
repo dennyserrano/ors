@@ -21,4 +21,12 @@ public class CountAllColumnElement implements ColumnExpression {
 		return alias;
 	}
 
+	@Override
+	public String dataType() {
+		// TODO Auto-generated method stub
+		return "bigint";
+	}
+	
+	
+
 }

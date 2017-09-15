@@ -31,6 +31,12 @@ public class AggregateColumn implements ColumnExpression {
 	public String alias() {
 		return alias;
 	}
+
+	@Override
+	public String dataType() {
+		// TODO Auto-generated method stub
+		return columnElement.dataType();
+	}
 	
 	
 

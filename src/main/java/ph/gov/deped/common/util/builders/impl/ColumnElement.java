@@ -248,6 +248,16 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 	public void setElementName(String elementName) {
 		this.elementName = elementName;
 	}
+
+	@Override
+	public String dataType() {
+		// TODO Auto-generated method stub
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
 	
 	
 	

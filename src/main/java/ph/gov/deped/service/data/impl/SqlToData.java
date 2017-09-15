@@ -40,7 +40,7 @@ public class SqlToData {
                   //TODO getColumnName has a problem if the field has alias..
                   Serializable value=null;
                 	try {
-						value= JdbcTypes.getValue(rs, ce.alias(), ce.alias().getClass().getSimpleName().toLowerCase());
+						value= JdbcTypes.getValue(rs, ce.alias(), ce.dataType());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
