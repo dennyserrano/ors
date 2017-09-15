@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.thoughtworks.xstream.XStream;
 
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
+import ph.gov.deped.common.util.builders.impl.ColumnExpression;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.config.OrsSettings;
 import ph.gov.deped.data.dto.ds.Dataset;
@@ -31,6 +32,7 @@ import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ExportBulkService;
 import ph.gov.deped.service.data.api.ExportServiceOld;
 import ph.gov.deped.service.data.api.ExportType;
+import ph.gov.deped.service.data.api.TableService;
 import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
 import ph.gov.deped.service.export.xlsx.DefaultExcelCellWriter;
 import ph.gov.deped.service.export.xlsx.ExcelDocumentConsolidator;
@@ -60,6 +62,12 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 	@Autowired
 	private DatasetService datasetService;
 	
+	@Autowired
+	private TableService tableService;
+	
+	@Autowired
+	private SqlToData std;
+	
 	@Override
 	public String export(Dataset dataset) 
 	{
@@ -68,13 +76,14 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		String baseTempPath = orsSettings.getTmpDir() + File.separator;
 		String downloadPath = orsSettings.getWorkingDir() + File.separator + filename;
 		int chunksize=orsSettings.getChunkSize();
-		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
-		LinkedList<ColumnElement> sortedColumns= datasetService.getSortedColumns(prefixTables);
-		String sql= datasetService.getGeneratedSQL(dataset, prefixTables);
+//		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
+		PrefixTable table=tableService.generateTable(dataset);
+
+		String sql= new ServiceQueryBuilderImpl().getQuery(table);
+		List<ColumnExpression> sortedColumns= collect(new ArrayList<ColumnExpression>(), table);
 		log.debug("sql:"+toCountSql(sql));
 		long dataSize= datasetService.getDataSize(toCountSql(sql)); 
 		log.debug("datasize:"+dataSize);
-		LinkedList<ColumnElement> headers= datasetService.getHeaders(sortedColumns);
 		
 		String[] sqlRanges=generateRanges(sql,dataSize,chunksize);
 		log.debug("ranges:"+sqlRanges.length);
@@ -90,7 +99,8 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 			{
 				System.out.println("generating:"+sqlRanges[x]);
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + exportType.getExtension();
-				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
+//				List<List<ColumnElement>> data=datasetService.getData(sqlRanges[x], prefixTables, sortedColumns,headers);
+				List<List<ColumnElement>> data=std.get(sqlRanges[x], sortedColumns);
 				localExporter.export(tmpFile,data);
 				if(x==0)
 				{
@@ -101,7 +111,7 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 				files[x]=tmpFile;
 			}
 			
-			prefixTables.clear();
+//			prefixTables.clear();
 			sortedColumns.clear();
 //			headers.clear();
 			if(consolidatorHeaders!=null)
@@ -133,6 +143,17 @@ public class BulkExcelExportServiceImpl extends ExcelExportServiceImpl
 		}
 	
 		
+	}
+	
+	private List<ColumnExpression> collect(List<ColumnExpression> l,PrefixTable pt)
+	{
+		for(ColumnExpression ce:pt.getColumns())
+			l.add(ce);
+		
+		for(PrefixTable subPT:pt.getJoinTables().keySet())
+			collect(l,subPT);
+		
+		return l;
 	}
 	
 	private String toCountSql(String sql)

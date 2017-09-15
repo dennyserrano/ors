@@ -62,6 +62,7 @@ public class ExportDataController {
     public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
     	
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
+        ds.setId(8L);
         String filename=null;
         
         try {

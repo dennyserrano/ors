@@ -47,7 +47,7 @@ public class SqlToData {
 					}  
                 	ColumnElement ce1=new ColumnElement();
                 	ce1.setValue(value);
-                   
+                   ce1.setDataType(ce.dataType());
                   
                   row.add(ce1);
           });
@@ -60,6 +60,7 @@ public class SqlToData {
 			{
 				ColumnElement ce=new ColumnElement();
 				ce.setValue(col.alias());
+				ce.setDataType(col.dataType());
 				headers.add(ce);
 			}
 		data.add(0, headers);
