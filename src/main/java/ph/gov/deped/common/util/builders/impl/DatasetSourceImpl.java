@@ -128,12 +128,26 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 			JoinBuilder jb=JoinBuilderFactory.interim(parentPT.getTablePrefix(),parentDataset,child.getDatasetHead().getTableMetaData().getTableName(),child); //joins statically by school_id and sy_from
 			List<GenericKeyValue<PrefixTable, JoinProperty>> gvList=jb.build();
 			for(GenericKeyValue<PrefixTable, JoinProperty> gv:gvList)
-			{
 				parentPT.addJoin(gv.getKey(), gv.getValue());
-				for(Element e:child.getElements())
-					gv.getKey().addColumn(ColumnBuilderFactory.get(e, child.getDatasetHead().getTableMetaData().getTableName()).build());
+			
+			for(Element e:child.getElements())
+			{
+				jb=JoinBuilderFactory.get(e,e.getDatasetElement().getName());
+				gvList=jb.build();
+				if(gvList.size()!=0)
+				{
+					for(GenericKeyValue<PrefixTable, JoinProperty> gv:gvList)
+					{
+						parentPT.addJoin(gv.getKey(), gv.getValue());
+						parentPT.addColumn(ColumnBuilderFactory.get(e, getPrefix(gv)).build());
+					}
+				}else
+					parentPT.addColumn(ColumnBuilderFactory.get(e, child.getDatasetHead().getTableMetaData().getTableName()).build());
 			}
+			
 		}
+		
+		
 		DatasetCriteriaWhereBuilder wb=new DatasetCriteriaWhereBuilder(new WhereBuilderImpl(), mapRef,getAlias(parentPT));
 
 		wb.addAll(getFilters());
@@ -151,6 +165,13 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 		
 	}
 
+	private GenericKeyValue<PrefixTable, JoinProperty> findTableInJoinList(List<GenericKeyValue<PrefixTable, JoinProperty>> list,long id)
+	{
+		for(GenericKeyValue<PrefixTable, JoinProperty> gv:list)
+			if(gv.getKey().getDatasetId()==id)
+				return gv;
+		return null;
+	}
 	private String getAlias(PrefixTable pt)
 	{
 //		if(alias==null)

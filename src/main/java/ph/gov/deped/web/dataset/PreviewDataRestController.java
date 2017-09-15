@@ -52,20 +52,10 @@ public class PreviewDataRestController {
     public ReturnEntity<List<List<ColumnElement>>> preview(@RequestBody Dataset dataset) {
     	
   
-//    	try
-//    	{
+    	try
+    	{
     		dataset.setId(8L); //school prof history
-//    		if(dataset.getAggregateBy()!=null)
-//        	{
-//        		
-//        		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
-//        		for(Element e:dataset.getAggregateBy().getElements())
-//        		{
-//        			e.setAggregate(AggregateTypes.GROUP.getAggregate());
-//        			al.add(e);
-//        		}
-//        		dataset.setElements(al);
-//        	}
+
     		PrefixTable pt=tableService.generateTable(dataset);
     		String sql=new ServiceQueryBuilderImpl().getQuery(pt);
     		System.out.println("SQL:"+sql);
@@ -73,11 +63,11 @@ public class PreviewDataRestController {
     		List collected=collect(new ArrayList<ColumnExpression>(),pt);
     		List l=std.get(sql,collected);
             return new ReturnEntity<List<List<ColumnElement>>>("success", 0, l);
-//    	}
-//    	catch(Exception e)
-//    	{
-//    		return new ReturnEntity<List<List<ColumnElement>>>(e.getMessage(), 1, null);
-//    	}
+    	}
+    	catch(Exception e)
+    	{
+    		return new ReturnEntity<List<List<ColumnElement>>>(e.getMessage(), 1, null);
+    	}
     	
     	
     }
