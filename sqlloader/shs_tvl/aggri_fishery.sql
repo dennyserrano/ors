@@ -1,8 +1,5 @@
 INSERT INTO orsdb.shs_tvl
 (
-g11male_WM,
- g11female_WM,
- g11_TOT_WM,
  g11male_ACPI,
  g11female_ACPI,
  g11_TOT_ACPI,
@@ -150,33 +147,6 @@ g12male_WM,
 
 
 SELECT
- (
-	@totalA:=(SELECT 
-	 IFNULL(SUM(A.male),0)
-	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
-	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
-	WHERE
-	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
-    AND A.report_history_id=rh.id)
-) as g11male_WM,
-(
-	@totalB:=(SELECT 
-	 IFNULL(SUM(A.female),0)
-	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
-	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
-	WHERE
-	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
-    AND A.report_history_id=rh.id)
-) as g11female_WM,
-(
-	@totalA+@totalB
-) as g11_TOT_WM,
 (
 	@totalA:=(SELECT 
 	 IFNULL(SUM(A.male),0)
