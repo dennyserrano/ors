@@ -574,7 +574,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=88
     AND A.report_history_id=rh.id)
 ) as g11male_HBM,
 (
@@ -586,7 +586,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=88
     AND A.report_history_id=rh.id)
 ) as g11female_HBM,
 (
@@ -601,7 +601,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=89
     AND A.report_history_id=rh.id)
 ) as g11male_HFAP,
 (
@@ -613,7 +613,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=89
     AND A.report_history_id=rh.id)
 ) as g11female_HFAP,
 (
@@ -628,7 +628,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=90
     AND A.report_history_id=rh.id)
 ) as g11male_HN,
 (
@@ -640,7 +640,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=90
     AND A.report_history_id=rh.id)
 ) as g11female_HN,
 (
@@ -655,7 +655,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=91
     AND A.report_history_id=rh.id)
 ) as g11male_HWL,
 (
@@ -667,7 +667,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=91
     AND A.report_history_id=rh.id)
 ) as g11female_HWL,
 (
@@ -682,7 +682,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=94
     AND A.report_history_id=rh.id)
 ) as g11male_HK,
 (
@@ -694,7 +694,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=94
     AND A.report_history_id=rh.id)
 ) as g11female_HK,
 (
@@ -709,7 +709,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=109
     AND A.report_history_id=rh.id)
 ) as g11male_LGS,
 (
@@ -721,7 +721,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=109
     AND A.report_history_id=rh.id)
 ) as g11female_LGS,
 (
@@ -736,7 +736,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=154
     AND A.report_history_id=rh.id)
 ) as g11male_TLOR,
 (
@@ -748,7 +748,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=154
     AND A.report_history_id=rh.id)
 ) as g11female_TLOR,
 (
@@ -763,7 +763,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=160
     AND A.report_history_id=rh.id)
 ) as g11male_TPS,
 (
@@ -775,7 +775,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=160
     AND A.report_history_id=rh.id)
 ) as g11female_TPS,
 (
@@ -790,7 +790,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=162
     AND A.report_history_id=rh.id)
 ) as g11male_TS,
 (
@@ -802,7 +802,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=162
     AND A.report_history_id=rh.id)
 ) as g11female_TS,
 (
@@ -817,7 +817,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=165
     AND A.report_history_id=rh.id)
 ) as g11male_WM,
 (
@@ -829,7 +829,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=165
     AND A.report_history_id=rh.id)
 ) as g11female_WM,
 (
@@ -871,7 +871,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=18
     AND A.report_history_id=rh.id)
 ) as g12male_BARB,
 (
@@ -883,7 +883,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=18
     AND A.report_history_id=rh.id)
 ) as g12female_BARB,
 (
@@ -898,7 +898,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=19
     AND A.report_history_id=rh.id)
 ) as g12male_BART,
 (
@@ -910,7 +910,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=19
     AND A.report_history_id=rh.id)
 ) as g12female_BART,
 (
@@ -925,7 +925,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=21
     AND A.report_history_id=rh.id)
 ) as g12male_BNC,
 (
@@ -937,7 +937,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=21
     AND A.report_history_id=rh.id)
 ) as g12female_BNC,
 (
@@ -952,7 +952,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=22
     AND A.report_history_id=rh.id)
 ) as g12male_BNP,
 (
@@ -964,7 +964,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=22
     AND A.report_history_id=rh.id)
 ) as g12female_BNP,
 (
@@ -979,7 +979,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=27
     AND A.report_history_id=rh.id)
 ) as g12male_CGV,
 (
@@ -991,7 +991,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=27
     AND A.report_history_id=rh.id)
 ) as g12female_CGV,
 (
@@ -1006,7 +1006,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=30
     AND A.report_history_id=rh.id)
 ) as g12male_CC,
 (
@@ -1018,7 +1018,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=30
     AND A.report_history_id=rh.id)
 ) as g12female_CC,
 (
@@ -1033,7 +1033,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=38
     AND A.report_history_id=rh.id)
 ) as g12male_COOK,
 (
@@ -1045,7 +1045,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=38
     AND A.report_history_id=rh.id)
 ) as g12female_COOK,
 (
@@ -1060,7 +1060,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=49
     AND A.report_history_id=rh.id)
 ) as g12male_DRESS,
 (
@@ -1072,7 +1072,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=49
     AND A.report_history_id=rh.id)
 ) as g12female_DRESS,
 (
@@ -1087,7 +1087,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=61
     AND A.report_history_id=rh.id)
 ) as g12male_EMS,
 (
@@ -1099,7 +1099,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=61
     AND A.report_history_id=rh.id)
 ) as g12female_EMS,
 (
@@ -1114,7 +1114,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=63
     AND A.report_history_id=rh.id)
 ) as g12male_FD,
 (
@@ -1126,7 +1126,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=63
     AND A.report_history_id=rh.id)
 ) as g12female_FD,
 (
@@ -1141,7 +1141,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=72
     AND A.report_history_id=rh.id)
 ) as g12male_FBS,
 (
@@ -1153,7 +1153,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=72
     AND A.report_history_id=rh.id)
 ) as g12female_FBS,
 (
@@ -1168,7 +1168,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=73
     AND A.report_history_id=rh.id)
 ) as g12male_FOS,
 (
@@ -1180,7 +1180,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=73
     AND A.report_history_id=rh.id)
 ) as g12female_FOS,
 (
@@ -1195,7 +1195,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=86
     AND A.report_history_id=rh.id)
 ) as g12male_HDII,
 (
@@ -1207,7 +1207,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=86
     AND A.report_history_id=rh.id)
 ) as g12female_HDII,
 (
@@ -1222,7 +1222,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=87
     AND A.report_history_id=rh.id)
 ) as g12male_HDIII,
 (
@@ -1234,7 +1234,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=87
     AND A.report_history_id=rh.id)
 ) as g12female_HDIII,
 (
@@ -1249,7 +1249,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=88
     AND A.report_history_id=rh.id)
 ) as g12male_HBM,
 (
@@ -1261,7 +1261,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=88
     AND A.report_history_id=rh.id)
 ) as g12female_HBM,
 (
@@ -1276,7 +1276,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=89
     AND A.report_history_id=rh.id)
 ) as g12male_HFAP,
 (
@@ -1288,7 +1288,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=89
     AND A.report_history_id=rh.id)
 ) as g12female_HFAP,
 (
@@ -1303,7 +1303,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=90
     AND A.report_history_id=rh.id)
 ) as g12male_HN,
 (
@@ -1315,7 +1315,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=90
     AND A.report_history_id=rh.id)
 ) as g12female_HN,
 (
@@ -1330,7 +1330,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=91
     AND A.report_history_id=rh.id)
 ) as g12male_HWL,
 (
@@ -1342,7 +1342,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=91
     AND A.report_history_id=rh.id)
 ) as g12female_HWL,
 (
@@ -1357,7 +1357,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=94
     AND A.report_history_id=rh.id)
 ) as g12male_HK,
 (
@@ -1369,7 +1369,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=94
     AND A.report_history_id=rh.id)
 ) as g12female_HK,
 (
@@ -1384,7 +1384,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=109
     AND A.report_history_id=rh.id)
 ) as g12male_LGS,
 (
@@ -1396,7 +1396,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=109
     AND A.report_history_id=rh.id)
 ) as g12female_LGS,
 (
@@ -1411,7 +1411,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=154
     AND A.report_history_id=rh.id)
 ) as g12male_TLOR,
 (
@@ -1423,7 +1423,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=154
     AND A.report_history_id=rh.id)
 ) as g12female_TLOR,
 (
@@ -1438,7 +1438,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=160
     AND A.report_history_id=rh.id)
 ) as g12male_TPS,
 (
@@ -1450,7 +1450,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=160
     AND A.report_history_id=rh.id)
 ) as g12female_TPS,
 (
@@ -1465,7 +1465,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=162
     AND A.report_history_id=rh.id)
 ) as g12male_TS,
 (
@@ -1477,7 +1477,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=162
     AND A.report_history_id=rh.id)
 ) as g12female_TS,
 (
@@ -1492,7 +1492,7 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=165
     AND A.report_history_id=rh.id)
 ) as g12male_WM,
 (
@@ -1504,14 +1504,12 @@ sph.school_id,
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=165
     AND A.report_history_id=rh.id)
 ) as g12female_WM,
 (
 	@totalA+@totalB
 ) as g12_TOT_WM
-
-
 
 
 

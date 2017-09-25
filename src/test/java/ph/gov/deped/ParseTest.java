@@ -1,454 +1,222 @@
-//package ph.gov.deped;
-//
-//import java.util.ArrayList;
-//
-//import test.Container;
-//
-//public class ParseTest {
-////	public static void main(String[] args) {
-////	
-////	String[][] a=new String[][]{
-////			{"g11male_ATPOE","Grade 11 Male Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-////			{"g11female_ATPOE","Grade 11 Female Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-////			{"g11_TOT_ATPOE","Grade 11 Total Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-////			{"gmale_TOT_ATPOE","Total Male for Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-////			{"gfemale_TOT_ATPOE","Total Female for Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-////			{"TOT_ATPOE","Total Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-////			{"g11male_BARB","Grade 11 Male Barbering (NC II)"},
-////			{"g11female_BARB","Grade 11 Female Barbering (NC II)"},
-////			{"g11_TOT_BARB","Grade 11 Total Barbering (NC II)"},
-////			{"gmale_TOT_BARB","Total Male for Barbering (NC II)"},
-////			{"gfemale_TOT_BARB","Total Female for Barbering (NC II)"},
-////			{"TOT_BARB","Total Barbering (NC II)"},
-////			{"g11male_BART","Grade 11 Male Bartending (NC II)"},
-////			{"g11female_BART","Grade 11 Female Bartending (NC II)"},
-////			{"g11_TOT_BART","Grade 11 Total Bartending (NC II)"},
-////			{"gmale_TOT_BART","Total Male for Bartending (NC II)"},
-////			{"gfemale_TOT_BART","Total Female for Bartending (NC II)"},
-////			{"TOT_BART","Total Bartending (NC II)"},
-////			{"g11male_BNC","Grade 11 Male Beauty/Nail Care (NC II)"},
-////			{"g11female_BNC","Grade 11 Female Beauty/Nail Care (NC II)"},
-////			{"g11_TOT_BNC","Grade 11 Total Beauty/Nail Care (NC II)"},
-////			{"gmale_TOT_BNC","Total Male for Beauty/Nail Care (NC II)"},
-////			{"gfemale_TOT_BNC","Total Female for Beauty/Nail Care (NC II)"},
-////			{"TOT_BNC","Total Beauty/Nail Care (NC II)"},
-////			{"g11male_BNP","Grade 11 Male Bread and Pastry Production (NC II)"},
-////			{"g11female_BNP","Grade 11 Female Bread and Pastry Production (NC II)"},
-////			{"g11_TOT_BNP","Grade 11 Total Bread and Pastry Production (NC II)"},
-////			{"gmale_TOT_BNP","Total Male for Bread and Pastry Production (NC II)"},
-////			{"gfemale_TOT_BNP","Total Female for Bread and Pastry Production (NC II)"},
-////			{"TOT_BNP","Total Bread and Pastry Production (NC II)"},
-////			{"g11male_CGV","Grade 11 Male Caregiving (NC II)"},
-////			{"g11female_CGV","Grade 11 Female Caregiving (NC II)"},
-////			{"g11_TOT_CGV","Grade 11 Total Caregiving (NC II)"},
-////			{"gmale_TOT_CGV","Total Male for Caregiving (NC II)"},
-////			{"gfemale_TOT_CGV","Total Female for Caregiving (NC II)"},
-////			{"TOT_CGV","Total Caregiving (NC II)"},
-////			{"g11male_CC","Grade 11 Male Commercial Cooking (NC III)"},
-////			{"g11female_CC","Grade 11 Female Commercial Cooking (NC III)"},
-////			{"g11_TOT_CC","Grade 11 Total Commercial Cooking (NC III)"},
-////			{"gmale_TOT_CC","Total Male for Commercial Cooking (NC III)"},
-////			{"gfemale_TOT_CC","Total Female for Commercial Cooking (NC III)"},
-////			{"TOT_CC","Total Commercial Cooking (NC III)"},
-////			{"g11male_COOK","Grade 11 Male Cookery (NC II)"},
-////			{"g11female_COOK","Grade 11 Female Cookery (NC II)"},
-////			{"g11_TOT_COOK","Grade 11 Total Cookery (NC II)"},
-////			{"gmale_TOT_COOK","Total Male for Cookery (NC II)"},
-////			{"gfemale_TOT_COOK","Total Female for Cookery (NC II)"},
-////			{"TOT_COOK","Total Cookery (NC II)"},
-////			{"g11male_DRESS","Grade 11 Male Dressmaking (NC II)"},
-////			{"g11female_DRESS","Grade 11 Female Dressmaking (NC II)"},
-////			{"g11_TOT_DRESS","Grade 11 Total Dressmaking (NC II)"},
-////			{"gmale_TOT_DRESS","Total Male for Dressmaking (NC II)"},
-////			{"gfemale_TOT_DRESS","Total Female for Dressmaking (NC II)"},
-////			{"TOT_DRESS","Total Dressmaking (NC II)"},
-////			{"g11male_EMS","Grade 11 Male Events Management Services (NC III)"},
-////			{"g11female_EMS","Grade 11 Female Events Management Services (NC III)"},
-////			{"g11_TOT_EMS","Grade 11 Total Events Management Services (NC III)"},
-////			{"gmale_TOT_EMS","Total Male for Events Management Services (NC III)"},
-////			{"gfemale_TOT_EMS","Total Female for Events Management Services (NC III)"},
-////			{"TOT_EMS","Total Events Management Services (NC III)"},
-////			{"g11male_FD","Grade 11 Male Fashion Design (Apparel) (NC III)"},
-////			{"g11female_FD","Grade 11 Female Fashion Design (Apparel) (NC III)"},
-////			{"g11_TOT_FD","Grade 11 Total Fashion Design (Apparel) (NC III)"},
-////			{"gmale_TOT_FD","Total Male for Fashion Design (Apparel) (NC III)"},
-////			{"gfemale_TOT_FD","Total Female for Fashion Design (Apparel) (NC III)"},
-////			{"TOT_FD","Total Fashion Design (Apparel) (NC III)"},
-////			{"g11male_FBS","Grade 11 Male Food and Beverage Services (NC II)"},
-////			{"g11female_FBS","Grade 11 Female Food and Beverage Services (NC III)"},
-////			{"g11_TOT_FBS","Grade 11 Total Food and Beverage Services (NC III)"},
-////			{"gmale_TOT_FBS","Total Male for Food and Beverage Services (NC II)"},
-////			{"gfemale_TOT_FBS","Total Female for Food and Beverage Services (NC III)"},
-////			{"TOT_FBS","Total Food and Beverage Services (NC III)"},
-////			{"g11male_FOS","Grade 11 Male Front Office Services (NC II)"},
-////			{"g11female_FOS","Grade 11 Female Front Office Services (NC II)"},
-////			{"g11_TOT_FOS","Grade 11 Total Front Office Services (NC II)"},
-////			{"gmale_TOT_FOS","Total Male for Front Office Services (NC II)"},
-////			{"gfemale_TOT_FOS","Total Female for Front Office Services (NC II)"},
-////			{"TOT_FOS","Total Front Office Services (NC II)"},
-////			{"g11male_HDII","Grade 11 Male Hairdressing (NC II)"},
-////			{"g11female_HDII","Grade 11 Female Hairdressing (NC II)"},
-////			{"g11_TOT_HDII","Grade 11 Total Hairdressing (NC II)"},
-////			{"gmale_TOT_HDII","Total Male for Hairdressing (NC II)"},
-////			{"gfemale_TOT_HDII","Total Female for Hairdressing (NC II)"},
-////			{"TOT_HDII","Total Hairdressing (NC II)"},
-////			{"g11male_HDIII","Grade 11 Male Hairdressing (NC III)"},
-////			{"g11female_HDIII","Grade 11 Female Hairdressing (NC III)"},
-////			{"g11_TOT_HDIII","Grade 11 Total Hairdressing (NC III)"},
-////			{"gmale_TOT_HDIII","Total Male for Hairdressing (NC III)"},
-////			{"gfemale_TOT_HDIII","Total Female for Hairdressing (NC III)"},
-////			{"TOT_HDIII","Total Hairdressing (NC III)"},
-////			{"g11male_HBM","Grade 11 Male Handicraft (Basketry/Macrame) (Non-NC)"},
-////			{"g11female_HBM","Grade 11 Female Handicraft (Basketry/Macrame) (Non-NC)"},
-////			{"g11_TOT_HBM","Grade 11 Total Handicraft (Basketry/Macrame) (Non-NC)"},
-////			{"gmale_TOT_HBM","Total Male for Handicraft (Basketry/ Macrame) (Non-NC)"},
-////			{"gfemale_TOT_HBM","Total Female for Handicraft (Basketry/ Macrame) (Non-NC)"},
-////			{"TOT_HBM","Total Handicraft (Basketry/ Macrame) (Non-NC)"},
-////			{"g11male_HFAP","Grade 11 Male Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-////			{"g11female_HFAP","Grade 11 Female Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-////			{"g11_TOT_HFAP","Grade 11 Total Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-////			{"gmale_TOT_HFAP","Total Male for Handicraft (Fashion Accessories/ Paper Craft) (Non-NC)"},
-////			{"gfemale_TOT_HFAP","Total Female for Handicraft (Fashion Accessories/ Paper Craft) (Non-NC)"},
-////			{"TOT_HFAP","Total Handicraft (Fashion Accessories/ Paper Craft) (Non-NC)"},
-////			{"g11male_HN","Grade 11 Male Handicraft (Needlecraft) (Non-NC)"},
-////			{"g11female_HN","Grade 11 Female Handicraft (Needlecraft) (Non-NC)"},
-////			{"g11_TOT_HN","Grade 11 Total Handicraft (Needlecraft) (Non-NC)"},
-////			{"gmale_TOT_HN","Total Male for Handicraft (Needlecraft) (Non-NC)"},
-////			{"gfemale_TOT_HN","Total Female for Handicraft (Needlecraft) (Non-NC)"},
-////			{"TOT_HN","Total Handicraft (Needlecraft) (Non-NC)"},
-////			{"g11male_HWL","Grade 11 Male Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-////			{"g11female_HWL","Grade 11 Female Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-////			{"g11_TOT_HWL","Grade 11 Total Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-////			{"gmale_TOT_HWL","Total Male for Handicraft (Woodcraft/ Leathercraft) (Non-NC)"},
-////			{"gfemale_TOT_HWL","Total Female for Handicraft (Woodcraft/ Leathercraft) (Non-NC)"},
-////			{"TOT_HWL","Total Handicraft (Woodcraft/ Leathercraft) (Non-NC)"},
-////			{"g11male_HK","Grade 11 Male Housekeeping (NC II)"},
-////			{"g11female_HK","Grade 11 Female Housekeeping (NC II)"},
-////			{"g11_TOT_HK","Grade 11 Total Housekeeping (NC II)"},
-////			{"gmale_TOT_HK","Total Male for Housekeeping (NC II)"},
-////			{"gfemale_TOT_HK","Total Female for Housekeeping (NC II)"},
-////			{"TOT_HK","Total Housekeeping (NC II)"},
-////			{"g11male_LGS","Grade 11 Male Local Guiding Services (NC II)"},
-////			{"g11female_LGS","Grade 11 Female Local Guiding Services (NC II)"},
-////			{"g11_TOT_LGS","Grade 11 Total Local Guiding Services (NC II)"},
-////			{"gmale_TOT_LGS","Total Male for Local Guiding Services (NC II)"},
-////			{"gfemale_TOT_LGS","Total Female for Local Guiding Services (NC II)"},
-////			{"TOT_LGS","Total Local Guiding Services (NC II)"},
-////			{"g11male_TLOR","Grade 11 Male Tailoring (NC II)"},
-////			{"g11female_TLOR","Grade 11 Female Tailoring (NC II)"},
-////			{"g11_TOT_TLOR","Grade 11 Total Tailoring (NC II)"},
-////			{"gmale_TOT_TLOR","Total Male for Tailoring (NC II)"},
-////			{"gfemale_TOT_TLOR","Total Female for Tailoring (NC II)"},
-////			{"TOT_TLOR","Total Tailoring (NC II)"},
-////			{"g11male_TPS","Grade 11 Male Tourism Promotion Services (NC II)"},
-////			{"g11female_TPS","Grade 11 Female Tourism Promotion Services (NC II)"},
-////			{"g11_TOT_TPS","Grade 11 Total Tourism Promotion Services (NC II)"},
-////			{"gmale_TOT_TPS","Total Male for Tourism Promotion Services (NC II)"},
-////			{"gfemale_TOT_TPS","Total Female for Tourism Promotion Services (NC II)"},
-////			{"TOT_TPS","Total Tourism Promotion Services (NC II)"},
-////			{"g11male_TS","Grade 11 Male Travel Services (NC II)"},
-////			{"g11female_TS","Grade 11 Female Travel Services (NC II)"},
-////			{"g11_TOT_TS","Grade 11 Total Travel Services (NC II)"},
-////			{"gmale_TOT_TS","Total Male for Travel Services (NC II)"},
-////			{"gfemale_TOT_TS","Total Female for Travel Services (NC II)"},
-////			{"TOT_TS","Total Travel Services (NC II)"},
-////			{"g11male_WM","Grade 11 Male Wellness Massage (NC II)"},
-////			{"g11female_WM","Grade 11 Female Wellness Massage (NC II)"},
-////			{"g11_TOT_WM","Grade 11 Total Wellness Massage (NC II)"},
-////			{"gmale_TOT_WM","Total Male for Wellness Massage (NC II)"},
-////			{"gfemale_TOT_WM","Total Female for Wellness Massage (NC II)"},
-////			{"TOT_WM","Total Wellness Massage (NC II)"},
-////			
-////
-////
-////	};
-////	String strRef="INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key) \n"
-////			+ "VALUES(@table_id,'%s','smallint',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1); \n \n"
-////			+ "INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) \n"
-////			+ "VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','%s','%s','%s',@dataset_head_id,1); \n \n";
-////	
-////	
-////	for(int x=0;x<a.length;x++)
-////	{
-////		String c1=a[x][0];
-////		String c2=a[x][1];
-////		System.out.println(String.format(strRef, c1,c1,c2,c2));
-////	}
-////	
-////}
-//
-////public static void main(String[] args) {
-////	String input="gmale_TOT_ATPOE,gfemale_TOT_ATPOE,TOT_ATPOE,gmale_TOT_BARB,gfemale_TOT_BARB,TOT_BARB,gmale_TOT_BART,gfemale_TOT_BART,TOT_BART,gmale_TOT_BNC,gfemale_TOT_BNC,TOT_BNC,gmale_TOT_BNP,gfemale_TOT_BNP,TOT_BNP,gmale_TOT_CGV,gfemale_TOT_CGV,TOT_CGV,gmale_TOT_CC,gfemale_TOT_CC,TOT_CC,gmale_TOT_COOK,gfemale_TOT_COOK,TOT_COOK,gmale_TOT_DRESS,gfemale_TOT_DRESS,TOT_DRESS,gmale_TOT_EMS,gfemale_TOT_EMS,TOT_EMS,gmale_TOT_FD,gfemale_TOT_FD,TOT_FD,gmale_TOT_FBS,gfemale_TOT_FBS,TOT_FBS,gmale_TOT_FOS,gfemale_TOT_FOS,TOT_FOS,gmale_TOT_HDII,gfemale_TOT_HDII,TOT_HDII,gmale_TOT_HDIII,gfemale_TOT_HDIII,TOT_HDIII,gmale_TOT_HBM,gfemale_TOT_HBM,TOT_HBM,gmale_TOT_HFAP,gfemale_TOT_HFAP,TOT_HFAP,gmale_TOT_HN,gfemale_TOT_HN,TOT_HN,gmale_TOT_HWL,gfemale_TOT_HWL,TOT_HWL,gmale_TOT_HK,gfemale_TOT_HK,TOT_HK,gmale_TOT_LGS,gfemale_TOT_LGS,TOT_LGS,gmale_TOT_TLOR,gfemale_TOT_TLOR,TOT_TLOR,gmale_TOT_TPS,gfemale_TOT_TPS,TOT_TPS,gmale_TOT_TS,gfemale_TOT_TS,TOT_TS,gmale_TOT_WM,gfemale_TOT_WM,TOT_WM";
-////	String input2="Total Male for Attractions and Theme Parks Operations with Ecotourism (NC II),Total Female for Attractions and Theme Parks Operations with Ecotourism (NC II),Total Attractions and Theme Parks Operations with Ecotourism (NC II),Total Male for Barbering (NC II),Total Female for Barbering (NC II),Total Barbering (NC II),Total Male for Bartending (NC II),Total Female for Bartending (NC II),Total Bartending (NC II),Total Male for Beauty/Nail Care (NC II),Total Female for Beauty/Nail Care (NC II),Total Beauty/Nail Care (NC II),Total Male for Bread and Pastry Production (NC II),Total Female for Bread and Pastry Production (NC II),Total Bread and Pastry Production (NC II),Total Male for Caregiving (NC II),Total Female for Caregiving (NC II),Total Caregiving (NC II),Total Male for Commercial Cooking (NC III),Total Female for Commercial Cooking (NC III),Total Commercial Cooking (NC III),Total Male for Cookery (NC II),Total Female for Cookery (NC II),Total Cookery (NC II),Total Male for Dressmaking (NC II),Total Female for Dressmaking (NC II),Total Dressmaking (NC II),Total Male for Events Management Services (NC III),Total Female for Events Management Services (NC III),Total Events Management Services (NC III),Total Male for Fashion Design (Apparel) (NC III),Total Female for Fashion Design (Apparel) (NC III),Total Fashion Design (Apparel) (NC III),Total Male for Food and Beverage Services (NC II),Total Female for Food and Beverage Services (NC III),Total Food and Beverage Services (NC III),Total Male for Front Office Services (NC II),Total Female for Front Office Services (NC II),Total Front Office Services (NC II),Total Male for Hairdressing (NC II),Total Female for Hairdressing (NC II),Total Hairdressing (NC II),Total Male for Hairdressing (NC III),Total Female for Hairdressing (NC III),Total Hairdressing (NC III),Total Male for Handicraft (Basketry/ Macrame) (Non-NC),Total Female for Handicraft (Basketry/ Macrame) (Non-NC),Total Handicraft (Basketry/ Macrame) (Non-NC),Total Male for Handicraft (Fashion Accessories/ Paper Craft) (Non-NC),Total Female for Handicraft (Fashion Accessories/ Paper Craft) (Non-NC),Total Handicraft (Fashion Accessories/ Paper Craft) (Non-NC),Total Male for Handicraft (Needlecraft) (Non-NC),Total Female for Handicraft (Needlecraft) (Non-NC),Total Handicraft (Needlecraft) (Non-NC),Total Male for Handicraft (Woodcraft/ Leathercraft) (Non-NC),Total Female for Handicraft (Woodcraft/ Leathercraft) (Non-NC),Total Handicraft (Woodcraft/ Leathercraft) (Non-NC),Total Male for Housekeeping (NC II),Total Female for Housekeeping (NC II),Total Housekeeping (NC II),Total Male for Local Guiding Services (NC II),Total Female for Local Guiding Services (NC II),Total Local Guiding Services (NC II),Total Male for Tailoring (NC II),Total Female for Tailoring (NC II),Total Tailoring (NC II),Total Male for Tourism Promotion Services (NC II),Total Female for Tourism Promotion Services (NC II),Total Tourism Promotion Services (NC II),Total Male for Travel Services (NC II),Total Female for Travel Services (NC II),Total Travel Services (NC II),Total Male for Wellness Massage (NC II),Total Female for Wellness Massage (NC II),Total Wellness Massage (NC II)";
-////	String[] parse1=input.split(",");
-////	String[] parse2=input2.split(",");
-////	
-////	for(int x=0;x<parse1.length;x++)
-////	{
-////		String p1=parse1[x];
-////		String p2=parse2[x];
-////		String f="{\"%s\",\"%s\"},";
-////		System.out.println(String.format(f, p1,p2));
-////	}
-////	
-////}
-//
-//
+package ph.gov.deped;
+
+import java.util.ArrayList;
+
+
+public class ParseTest {
+	public static void main(String[] args) {
+	
+	String[][] a=new String[][]{
+			{"g11maleNW1","Grade 11 Male Navigational Watch 1"},
+			{"g11femaleNW1","Grade 11 Female Navigational Watch 1"},
+			{"g11_TOTNW1","Grade 11 Total Navigational Watch 1"},
+			{"g12maleNW1","Grade 12 Male Navigational Watch 1"},
+			{"g12femaleNW1","Grade 12 Female Navigational Watch 1"},
+			{"g12_TOTNW1","Grade 12 Total Navigational Watch 1"},
+			{"gmaleNW1","Total Male for Navigational Watch 1"},
+			{"gfemaleNW1","Total Female for Navigational Watch 1"},
+			{"TOT_NW1","Total Navigational Watch 1"},
+			{"g11male_NW2","Grade 11 Male Navigational Watch 2"},
+			{"g11female_NW2","Grade 11 Female Navigational Watch 2"},
+			{"g11_TOT_NW2","Grade 11 Total Navigational Watch 2"},
+			{"g12male_NW2","Grade 12 Male Navigational Watch 2"},
+			{"g12female_NW2","Grade 12 Female Navigational Watch 2"},
+			{"g12_TOT_NW2","Grade 12 Total Navigational Watch 2"},
+			{"gmale_TOT_NW2","Total Male for Navigational Watch 2"},
+			{"gfemale_TOT_NW2","Total Female for Navigational Watch 2"},
+			{"TOT_NW2","Total Navigational Watch 2"},
+			{"g11male_NW3","Grade 11 Male Navigational Watch 3"},
+			{"g11female_NW3","Grade 11 Female Navigational Watch 3"},
+			{"g11_TOT_NW3","Grade 11 Total Navigational Watch 3"},
+			{"g12male_NW3","Grade 12 Male Navigational Watch 3"},
+			{"g12female_NW3","Grade 12 Female Navigational Watch 3"},
+			{"g12_TOT_NW3","Grade 12 Total Navigational Watch 3"},
+			{"gmale_TOT_NW3","Total Male for Navigational Watch 3"},
+			{"gfemale_TOT_NW3","Total Female for Navigational Watch 3"},
+			{"TOT_NW3","Total Navigational Watch 3"},
+			{"g11male_EW1","Grade 11 Male Engine Watch 1"},
+			{"g11female_EW1","Grade 11 Female Engine Watch 1"},
+			{"g11_TOT_EW1","Grade 11 Total Engine Watch 1"},
+			{"g12male_EW1","Grade 12 Male Engine Watch 1"},
+			{"g12female_EW1","Grade 12 Female Engine Watch 1"},
+			{"g12_TOT_EW1","Grade 12 Total Engine Watch 1"},
+			{"gmale_TOT_EW1","Total Male for Engine Watch 1"},
+			{"gfemale_TOT_EW1","Total Female for Engine Watch 1"},
+			{"TOT_EW1","Total Engine Watch 1"},
+			{"g11male_EW2","Grade 11 Male Engine Watch 2"},
+			{"g11female_EW2","Grade 11 Female Engine Watch 2"},
+			{"g11_TOT_EW2","Grade 11 Total Engine Watch 2"},
+			{"g12male_EW2","Grade 12 Male Engine Watch 2"},
+			{"g12female_EW2","Grade 12 Female Engine Watch 2"},
+			{"g12_TOT_EW2","Grade 12 Total Engine Watch 2"},
+			{"gmale_TOT_EW2","Total Male for Engine Watch 2"},
+			{"gfemale_TOT_EW2","Total Female for Engine Watch 2"},
+			{"TOT_EW2","Total Engine Watch 2"},
+			{"g11male_SFTY1","Grade 11 Male Safety 1"},
+			{"g11female_SFTY1","Grade 11 Female Safety 1"},
+			{"g11_TOT_SFTY1","Grade 11 Total Safety 1"},
+			{"g12male_SFTY1","Grade 12 Male Safety 1"},
+			{"g12female_SFTY1","Grade 12 Female Safety 1"},
+			{"g12_TOT_SFTY1","Grade 12 Total Safety 1"},
+			{"gmale_TOT_SFTY1","Total Male for Safety 1"},
+			{"gfemale_TOT_SFTY1","Total Female for Safety 1"},
+			{"TOT_SFTY1","Total Safety 1"},
+			{"g11male_SFTY2","Grade 11 Male Safety 2"},
+			{"g11female_SFTY2","Grade 11 Female Safety 2"},
+			{"g11_TOT_SFTY2","Grade 11 Total Safety 2"},
+			{"g12male_SFTY2","Grade 12 Male Safety 2"},
+			{"g12female_SFTY2","Grade 12 Female Safety 2"},
+			{"g12_TOT_SFTY2","Grade 12 Total Safety 2"},
+			{"gmale_TOT_SFTY2","Total Male for Safety 2"},
+			{"gfemale_TOT_SFTY2","Total Female for Safety 2"},
+			{"TOT_SFTY2","Total Safety 2"},
+			{"g11male_SCS","Grade 11 Male Ship’s Catering Services (NC I)"},
+			{"g11female_SCS","Grade 11 Female Ship’s Catering Services (NC I)"},
+			{"g11_TOT_SCS","Grade 11 Total Ship’s Catering Services (NC I)"},
+			{"g12male_SCS","Grade 12 Male Ship’s Catering Services (NC I)"},
+			{"g12female_SCS","Grade 12 Female Ship’s Catering Services (NC I)"},
+			{"g12_TOT_SCS","Grade 12 Total Ship’s Catering Services (NC I)"},
+			{"gmale_TOT_SCS","Total Male for Ship’s Catering Services (NC I)"},
+			{"gfemale_TOT_SCS","Total Female for Ship’s Catering Services (NC I)"},
+			{"TOT_SCS","Total Ship’s Catering Services (NC I)"}
+			
+	};
+	String strRef="INSERT INTO orsdb.column_metadata(table_id,column_name,data_type,nullable,min,max,date_created,created_by,date_updated,updated_by,primary_key) \n"
+			+ "VALUES(@table_id,'%s','smallint',0,0,11,curdate(),'SYSTEM',curdate(),'SYSTEM',1); \n \n"
+			+ "INSERT INTO orsdb.dataset_element(column_id,alias,function,date_created,created_by,date_updated,updated_by,name,meaning,description,dataset_head_id,visible) \n"
+			+ "VALUES(LAST_INSERT_ID(),NULL,NULL,curdate(),'SYSTEM',curdate(),'SYSTEM','%s','%s','%s',@dataset_head_id,1); \n \n";
+	
+	
+	for(int x=0;x<a.length;x++)
+	{
+		String c1=a[x][0];
+		String c2=a[x][1];
+		System.out.println(String.format(strRef, c1,c1,c2,c2));
+	}
+	
+}
+
 //public static void main(String[] args) {
+//	String input="gmaleNW1,gfemaleNW1,TOT_NW1,gmale_TOT_NW2,gfemale_TOT_NW2,TOT_NW2,gmale_TOT_NW3,gfemale_TOT_NW3,TOT_NW3,gmale_TOT_EW1,gfemale_TOT_EW1,TOT_EW1,gmale_TOT_EW2,gfemale_TOT_EW2,TOT_EW2,gmale_TOT_SFTY1,gfemale_TOT_SFTY1,TOT_SFTY1,gmale_TOT_SFTY2,gfemale_TOT_SFTY2,TOT_SFTY2,gmale_TOT_SCS,gfemale_TOT_SCS,TOT_SCS";
+//	String input2="Total Male for Navigational Watch 1,Total Female for Navigational Watch 1,Total Navigational Watch 1,Total Male for Navigational Watch 2,Total Female for Navigational Watch 2,Total Navigational Watch 2,Total Male for Navigational Watch 3,Total Female for Navigational Watch 3,Total Navigational Watch 3,Total Male for Engine Watch 1,Total Female for Engine Watch 1,Total Engine Watch 1,Total Male for Engine Watch 2,Total Female for Engine Watch 2,Total Engine Watch 2,Total Male for Safety 1,Total Female for Safety 1,Total Safety 1,Total Male for Safety 2,Total Female for Safety 2,Total Safety 2,Total Male for Ship’s Catering Services (NC I),Total Female for Ship’s Catering Services (NC I),Total Ship’s Catering Services (NC I)";
+//	String[] parse1=input.split(",");
+//	String[] parse2=input2.split(",");
 //	
-//	String[][] a=new String[][]{
-//			{"g11male_ATPOE","Grade 11 Male Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"g11female_ATPOE","Grade 11 Female Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"g11_TOT_ATPOE","Grade 11 Total Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"g12male_ATPOE","Grade 12 Male Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"g12female_ATPOE","Grade 12 Female Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"g12_TOT_ATPOE","Grade 12 Total Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"g11male_BARB","Grade 11 Male Barbering (NC II)"},
-//			{"g11female_BARB","Grade 11 Female Barbering (NC II)"},
-//			{"g11_TOT_BARB","Grade 11 Total Barbering (NC II)"},
-//			{"g12male_BARB","Grade 12 Male Barbering (NC II)"},
-//			{"g12female_BARB","Grade 12 Female Barbering (NC II)"},
-//			{"g12_TOT_BARB","Grade 12 Total Barbering (NC II)"},
-//			{"g11male_BART","Grade 11 Male Bartending (NC II)"},
-//			{"g11female_BART","Grade 11 Female Bartending (NC II)"},
-//			{"g11_TOT_BART","Grade 11 Total Bartending (NC II)"},
-//			{"g12male_BART","Grade 12 Male Bartending (NC II)"},
-//			{"g12female_BART","Grade 12 Female Bartending (NC II)"},
-//			{"g12_TOT_BART","Grade 12 Total Bartending (NC II)"},
-//			{"g11male_BNC","Grade 11 Male Beauty/Nail Care (NC II)"},
-//			{"g11female_BNC","Grade 11 Female Beauty/Nail Care (NC II)"},
-//			{"g11_TOT_BNC","Grade 11 Total Beauty/Nail Care (NC II)"},
-//			{"g12male_BNC","Grade 12 Male Beauty/Nail Care (NC II)"},
-//			{"g12female_BNC","Grade 12 Female Beauty/Nail Care (NC II)"},
-//			{"g12_TOT_BNC","Grade 12 Total Beauty/Nail Care (NC II)"},
-//			{"g11male_BNP","Grade 11 Male Bread and Pastry Production (NC II)"},
-//			{"g11female_BNP","Grade 11 Female Bread and Pastry Production (NC II)"},
-//			{"g11_TOT_BNP","Grade 11 Total Bread and Pastry Production (NC II)"},
-//			{"g12male_BNP","Grade 12 Male Bread and Pastry Production (NC II)"},
-//			{"g12female_BNP","Grade 12 Female Bread and Pastry Production (NC II)"},
-//			{"g12_TOT_BNP","Grade 12 Total Bread and Pastry Production (NC II)"},
-//			{"g11male_CGV","Grade 11 Male Caregiving (NC II)"},
-//			{"g11female_CGV","Grade 11 Female Caregiving (NC II)"},
-//			{"g11_TOT_CGV","Grade 11 Total Caregiving (NC II)"},
-//			{"g12male_CGV","Grade 12 Male Caregiving (NC II)"},
-//			{"g12female_CGV","Grade 12 Female Caregiving (NC II)"},
-//			{"g12_TOT_CGV","Grade 12 Total Caregiving (NC II)"},
-//			{"g11male_CC","Grade 11 Male Commercial Cooking (NC III)"},
-//			{"g11female_CC","Grade 11 Female Commercial Cooking (NC III)"},
-//			{"g11_TOT_CC","Grade 11 Total Commercial Cooking (NC III)"},
-//			{"g12male_CC","Grade 12 Male Commercial Cooking (NC III)"},
-//			{"g12female_CC","Grade 12 Female Commercial Cooking (NC III)"},
-//			{"g12_TOT_CC","Grade 12 Total Commercial Cooking (NC III)"},
-//			{"g11male_COOK","Grade 11 Male Cookery (NC II)"},
-//			{"g11female_COOK","Grade 11 Female Cookery (NC II)"},
-//			{"g11_TOT_COOK","Grade 11 Total Cookery (NC II)"},
-//			{"g12male_COOK","Grade 12 Male Cookery (NC II)"},
-//			{"g12female_COOK","Grade 12 Female Cookery (NC II)"},
-//			{"g12_TOT_COOK","Grade 12 Total Cookery (NC II)"},
-//			{"g11male_DRESS","Grade 11 Male Dressmaking (NC II)"},
-//			{"g11female_DRESS","Grade 11 Female Dressmaking (NC II)"},
-//			{"g11_TOT_DRESS","Grade 11 Total Dressmaking (NC II)"},
-//			{"g12male_DRESS","Grade 12 Male Dressmaking (NC II)"},
-//			{"g12female_DRESS","Grade 12 Female Dressmaking (NC II)"},
-//			{"g12_TOT_DRESS","Grade 12 Total Dressmaking (NC II)"},
-//			{"g11male_EMS","Grade 11 Male Events Management Services (NC III)"},
-//			{"g11female_EMS","Grade 11 Female Events Management Services (NC III)"},
-//			{"g11_TOT_EMS","Grade 11 Total Events Management Services (NC III)"},
-//			{"g12male_EMS","Grade 12 Male Events Management Services (NC III)"},
-//			{"g12female_EMS","Grade 12 Female Events Management Services (NC III)"},
-//			{"g12_TOT_EMS","Grade 12 Total Events Management Services (NC III)"},
-//			{"g11male_FD","Grade 11 Male Fashion Design (Apparel) (NC III)"},
-//			{"g11female_FD","Grade 11 Female Fashion Design (Apparel) (NC III)"},
-//			{"g11_TOT_FD","Grade 11 Total Fashion Design (Apparel) (NC III)"},
-//			{"g12male_FD","Grade 12 Male Fashion Design (Apparel) (NC III)"},
-//			{"g12female_FD","Grade 12 Female Fashion Design (Apparel) (NC III)"},
-//			{"g12_TOT_FD","Grade 12 Total Fashion Design (Apparel) (NC III)"},
-//			{"g11male_FBS","Grade 11 Male Food and Beverage Services (NC II)"},
-//			{"g11female_FBS","Grade 11 Female Food and Beverage Services (NC III)"},
-//			{"g11_TOT_FBS","Grade 11 Total Food and Beverage Services (NC III)"},
-//			{"g12male_FBS","Grade 12 Male Food and Beverage Services (NC II)"},
-//			{"g12female_FBS","Grade 12 Female Food and Beverage Services (NC III)"},
-//			{"g12_TOT_FBS","Grade 12 Total Food and Beverage Services (NC III)"},
-//			{"g11male_FOS","Grade 11 Male Front Office Services (NC II)"},
-//			{"g11female_FOS","Grade 11 Female Front Office Services (NC II)"},
-//			{"g11_TOT_FOS","Grade 11 Total Front Office Services (NC II)"},
-//			{"g12male_FOS","Grade 12 Male Front Office Services (NC II)"},
-//			{"g12female_FOS","Grade 12 Female Front Office Services (NC II)"},
-//			{"g12_TOT_FOS","Grade 12 Total Front Office Services (NC II)"},
-//			{"g11male_HDII","Grade 11 Male Hairdressing (NC II)"},
-//			{"g11female_HDII","Grade 11 Female Hairdressing (NC II)"},
-//			{"g11_TOT_HDII","Grade 11 Total Hairdressing (NC II)"},
-//			{"g12male_HDII","Grade 12 Male Hairdressing (NC II)"},
-//			{"g12female_HDII","Grade 12 Female Hairdressing (NC II)"},
-//			{"g12_TOT_HDII","Grade 12 Total Hairdressing (NC II)"},
-//			{"g11male_HDIII","Grade 11 Male Hairdressing (NC III)"},
-//			{"g11female_HDIII","Grade 11 Female Hairdressing (NC III)"},
-//			{"g11_TOT_HDIII","Grade 11 Total Hairdressing (NC III)"},
-//			{"g12male_HDIII","Grade 12 Male Hairdressing (NC III)"},
-//			{"g12female_HDIII","Grade 12 Female Hairdressing (NC III)"},
-//			{"g12_TOT_HDIII","Grade 12 Total Hairdressing (NC III)"},
-//			{"g11male_HBM","Grade 11 Male Handicraft (Basketry/Macrame) (Non-NC)"},
-//			{"g11female_HBM","Grade 11 Female Handicraft (Basketry/Macrame) (Non-NC)"},
-//			{"g11_TOT_HBM","Grade 11 Total Handicraft (Basketry/Macrame) (Non-NC)"},
-//			{"g12male_HBM","Grade 12 Male Handicraft (Basketry/Macrame) (Non-NC)"},
-//			{"g12female_HBM","Grade 12 Female Handicraft (Basketry/Macrame) (Non-NC)"},
-//			{"g12_TOT_HBM","Grade 12 Total Handicraft (Basketry/Macrame) (Non-NC)"},
-//			{"g11male_HFAP","Grade 11 Male Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-//			{"g11female_HFAP","Grade 11 Female Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-//			{"g11_TOT_HFAP","Grade 11 Total Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-//			{"g12male_HFAP","Grade 12 Male Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-//			{"g12female_HFAP","Grade 12 Female Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-//			{"g12_TOT_HFAP","Grade 12 Total Handicraft (Fashion/Accessories Paper Craft) (Non-NC)"},
-//			{"g11male_HN","Grade 11 Male Handicraft (Needlecraft) (Non-NC)"},
-//			{"g11female_HN","Grade 11 Female Handicraft (Needlecraft) (Non-NC)"},
-//			{"g11_TOT_HN","Grade 11 Total Handicraft (Needlecraft) (Non-NC)"},
-//			{"g12male_HN","Grade 12 Male Handicraft (Needlecraft) (Non-NC)"},
-//			{"g12female_HN","Grade 12 Female Handicraft (Needlecraft) (Non-NC)"},
-//			{"g12_TOT_HN","Grade 12 Total Handicraft (Needlecraft) (Non-NC)"},
-//			{"g11male_HWL","Grade 11 Male Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-//			{"g11female_HWL","Grade 11 Female Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-//			{"g11_TOT_HWL","Grade 11 Total Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-//			{"g12male_HWL","Grade 12 Male Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-//			{"g12female_HWL","Grade 12 Female Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-//			{"g12_TOT_HWL","Grade 12 Total Handicraft (Woodcraft/Leathercraft) (Non-NC)"},
-//			{"g11male_HK","Grade 11 Male Housekeeping (NC II)"},
-//			{"g11female_HK","Grade 11 Female Housekeeping (NC II)"},
-//			{"g11_TOT_HK","Grade 11 Total Housekeeping (NC II)"},
-//			{"g12male_HK","Grade 12 Male Housekeeping (NC II)"},
-//			{"g12female_HK","Grade 12 Female Housekeeping (NC II)"},
-//			{"g12_TOT_HK","Grade 12 Total Housekeeping (NC II)"},
-//			{"g11male_LGS","Grade 11 Male Local Guiding Services (NC II)"},
-//			{"g11female_LGS","Grade 11 Female Local Guiding Services (NC II)"},
-//			{"g11_TOT_LGS","Grade 11 Total Local Guiding Services (NC II)"},
-//			{"g12male_LGS","Grade 12 Male Local Guiding Services (NC II)"},
-//			{"g12female_LGS","Grade 12 Female Local Guiding Services (NC II)"},
-//			{"g12_TOT_LGS","Grade 12 Total Local Guiding Services (NC II)"},
-//			{"g11male_TLOR","Grade 11 Male Tailoring (NC II)"},
-//			{"g11female_TLOR","Grade 11 Female Tailoring (NC II)"},
-//			{"g11_TOT_TLOR","Grade 11 Total Tailoring (NC II)"},
-//			{"g12male_TLOR","Grade 12 Male Tailoring (NC II)"},
-//			{"g12female_TLOR","Grade 12 Female Tailoring (NC II)"},
-//			{"g12_TOT_TLOR","Grade 12 Total Tailoring (NC II)"},
-//			{"g11male_TPS","Grade 11 Male Tourism Promotion Services (NC II)"},
-//			{"g11female_TPS","Grade 11 Female Tourism Promotion Services (NC II)"},
-//			{"g11_TOT_TPS","Grade 11 Total Tourism Promotion Services (NC II)"},
-//			{"g12male_TPS","Grade 12 Male Tourism Promotion Services (NC II)"},
-//			{"g12female_TPS","Grade 12 Female Tourism Promotion Services (NC II)"},
-//			{"g12_TOT_TPS","Grade 12 Total Tourism Promotion Services (NC II)"},
-//			{"g11male_TS","Grade 11 Male Travel Services (NC II)"},
-//			{"g11female_TS","Grade 11 Female Travel Services (NC II)"},
-//			{"g11_TOT_TS","Grade 11 Total Travel Services (NC II)"},
-//			{"g12male_TS","Grade 12 Male Travel Services (NC II)"},
-//			{"g12female_TS","Grade 12 Female Travel Services (NC II)"},
-//			{"g12_TOT_TS","Grade 12 Total Travel Services (NC II)"},
-//			{"g11male_WM","Grade 11 Male Wellness Massage (NC II)"},
-//			{"g11female_WM","Grade 11 Female Wellness Massage (NC II)"},
-//			{"g11_TOT_WM","Grade 11 Total Wellness Massage (NC II)"},
-//			{"g12male_WM","Grade 12 Male Wellness Massage (NC II)"},
-//			{"g12female_WM","Grade 12 Female Wellness Massage (NC II)"},
-//			{"g12_TOT_WM","Grade 12 Total Wellness Massage (NC II)"}
-//
-//			
-//
-//	};
-//	
-//	String[][] b=new String[][]{
-//			{"gmale_TOT_ATPOE","Total Male for Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"gfemale_TOT_ATPOE","Total Female for Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"TOT_ATPOE","Total Attractions and Theme Parks Operations with Ecotourism (NC II)"},
-//			{"gmale_TOT_BARB","Total Male for Barbering (NC II)"},
-//			{"gfemale_TOT_BARB","Total Female for Barbering (NC II)"},
-//			{"TOT_BARB","Total Barbering (NC II)"},
-//			{"gmale_TOT_BART","Total Male for Bartending (NC II)"},
-//			{"gfemale_TOT_BART","Total Female for Bartending (NC II)"},
-//			{"TOT_BART","Total Bartending (NC II)"},
-//			{"gmale_TOT_BNC","Total Male for Beauty/Nail Care (NC II)"},
-//			{"gfemale_TOT_BNC","Total Female for Beauty/Nail Care (NC II)"},
-//			{"TOT_BNC","Total Beauty/Nail Care (NC II)"},
-//			{"gmale_TOT_BNP","Total Male for Bread and Pastry Production (NC II)"},
-//			{"gfemale_TOT_BNP","Total Female for Bread and Pastry Production (NC II)"},
-//			{"TOT_BNP","Total Bread and Pastry Production (NC II)"},
-//			{"gmale_TOT_CGV","Total Male for Caregiving (NC II)"},
-//			{"gfemale_TOT_CGV","Total Female for Caregiving (NC II)"},
-//			{"TOT_CGV","Total Caregiving (NC II)"},
-//			{"gmale_TOT_CC","Total Male for Commercial Cooking (NC III)"},
-//			{"gfemale_TOT_CC","Total Female for Commercial Cooking (NC III)"},
-//			{"TOT_CC","Total Commercial Cooking (NC III)"},
-//			{"gmale_TOT_COOK","Total Male for Cookery (NC II)"},
-//			{"gfemale_TOT_COOK","Total Female for Cookery (NC II)"},
-//			{"TOT_COOK","Total Cookery (NC II)"},
-//			{"gmale_TOT_DRESS","Total Male for Dressmaking (NC II)"},
-//			{"gfemale_TOT_DRESS","Total Female for Dressmaking (NC II)"},
-//			{"TOT_DRESS","Total Dressmaking (NC II)"},
-//			{"gmale_TOT_EMS","Total Male for Events Management Services (NC III)"},
-//			{"gfemale_TOT_EMS","Total Female for Events Management Services (NC III)"},
-//			{"TOT_EMS","Total Events Management Services (NC III)"},
-//			{"gmale_TOT_FD","Total Male for Fashion Design (Apparel) (NC III)"},
-//			{"gfemale_TOT_FD","Total Female for Fashion Design (Apparel) (NC III)"},
-//			{"TOT_FD","Total Fashion Design (Apparel) (NC III)"},
-//			{"gmale_TOT_FBS","Total Male for Food and Beverage Services (NC II)"},
-//			{"gfemale_TOT_FBS","Total Female for Food and Beverage Services (NC III)"},
-//			{"TOT_FBS","Total Food and Beverage Services (NC III)"},
-//			{"gmale_TOT_FOS","Total Male for Front Office Services (NC II)"},
-//			{"gfemale_TOT_FOS","Total Female for Front Office Services (NC II)"},
-//			{"TOT_FOS","Total Front Office Services (NC II)"},
-//			{"gmale_TOT_HDII","Total Male for Hairdressing (NC II)"},
-//			{"gfemale_TOT_HDII","Total Female for Hairdressing (NC II)"},
-//			{"TOT_HDII","Total Hairdressing (NC II)"},
-//			{"gmale_TOT_HDIII","Total Male for Hairdressing (NC III)"},
-//			{"gfemale_TOT_HDIII","Total Female for Hairdressing (NC III)"},
-//			{"TOT_HDIII","Total Hairdressing (NC III)"},
-//			{"gmale_TOT_HBM","Total Male for Handicraft (Basketry/ Macrame) (Non-NC)"},
-//			{"gfemale_TOT_HBM","Total Female for Handicraft (Basketry/ Macrame) (Non-NC)"},
-//			{"TOT_HBM","Total Handicraft (Basketry/ Macrame) (Non-NC)"},
-//			{"gmale_TOT_HFAP","Total Male for Handicraft (Fashion Accessories/ Paper Craft) (Non-NC)"},
-//			{"gfemale_TOT_HFAP","Total Female for Handicraft (Fashion Accessories/ Paper Craft) (Non-NC)"},
-//			{"TOT_HFAP","Total Handicraft (Fashion Accessories/ Paper Craft) (Non-NC)"},
-//			{"gmale_TOT_HN","Total Male for Handicraft (Needlecraft) (Non-NC)"},
-//			{"gfemale_TOT_HN","Total Female for Handicraft (Needlecraft) (Non-NC)"},
-//			{"TOT_HN","Total Handicraft (Needlecraft) (Non-NC)"},
-//			{"gmale_TOT_HWL","Total Male for Handicraft (Woodcraft/ Leathercraft) (Non-NC)"},
-//			{"gfemale_TOT_HWL","Total Female for Handicraft (Woodcraft/ Leathercraft) (Non-NC)"},
-//			{"TOT_HWL","Total Handicraft (Woodcraft/ Leathercraft) (Non-NC)"},
-//			{"gmale_TOT_HK","Total Male for Housekeeping (NC II)"},
-//			{"gfemale_TOT_HK","Total Female for Housekeeping (NC II)"},
-//			{"TOT_HK","Total Housekeeping (NC II)"},
-//			{"gmale_TOT_LGS","Total Male for Local Guiding Services (NC II)"},
-//			{"gfemale_TOT_LGS","Total Female for Local Guiding Services (NC II)"},
-//			{"TOT_LGS","Total Local Guiding Services (NC II)"},
-//			{"gmale_TOT_TLOR","Total Male for Tailoring (NC II)"},
-//			{"gfemale_TOT_TLOR","Total Female for Tailoring (NC II)"},
-//			{"TOT_TLOR","Total Tailoring (NC II)"},
-//			{"gmale_TOT_TPS","Total Male for Tourism Promotion Services (NC II)"},
-//			{"gfemale_TOT_TPS","Total Female for Tourism Promotion Services (NC II)"},
-//			{"TOT_TPS","Total Tourism Promotion Services (NC II)"},
-//			{"gmale_TOT_TS","Total Male for Travel Services (NC II)"},
-//			{"gfemale_TOT_TS","Total Female for Travel Services (NC II)"},
-//			{"TOT_TS","Total Travel Services (NC II)"},
-//			{"gmale_TOT_WM","Total Male for Wellness Massage (NC II)"},
-//			{"gfemale_TOT_WM","Total Female for Wellness Massage (NC II)"},
-//			{"TOT_WM","Total Wellness Massage (NC II)"},
-//	};
-//	
-//	ArrayList<Container> container=new ArrayList<Container>();
-//	
-//	for(int x=0,c=1;x<a.length;x++,c++)
+//	for(int x=0;x<parse1.length;x++)
 //	{
-//		if(c%7==0)
-//		{
-//			for(int y=x-6,z=1;z<=3;y++,z++)
-//				container.add(new Container(b[y][0], b[y][1]));
-//			x--;
-//			continue;
-//		}
-//		container.add(new Container(a[x][0], a[x][1]));
-//	}
-//	
-//	for(Container c:container)
-//	{
+//		String p1=parse1[x];
+//		String p2=parse2[x];
 //		String f="{\"%s\",\"%s\"},";
-//		System.out.println(String.format(f, c.left,c.right));
+//		System.out.println(String.format(f, p1,p2));
 //	}
 //	
 //}
-//}
+
+
+//	public static void main(String[] args) {
+//		
+//		String[][] a=new String[][]{
+//				{"g11maleNW1","Grade 11 Male Navigational Watch 1"},
+//				{"g11femaleNW1","Grade 11 Female Navigational Watch 1"},
+//				{"g11_TOTNW1","Grade 11 Total Navigational Watch 1"},
+//				{"g12maleNW1","Grade 12 Male Navigational Watch 1"},
+//				{"g12femaleNW1","Grade 12 Female Navigational Watch 1"},
+//				{"g12_TOTNW1","Grade 12 Total Navigational Watch 1"},
+//				{"g11male_NW2","Grade 11 Male Navigational Watch 2"},
+//				{"g11female_NW2","Grade 11 Female Navigational Watch 2"},
+//				{"g11_TOT_NW2","Grade 11 Total Navigational Watch 2"},
+//				{"g12male_NW2","Grade 12 Male Navigational Watch 2"},
+//				{"g12female_NW2","Grade 12 Female Navigational Watch 2"},
+//				{"g12_TOT_NW2","Grade 12 Total Navigational Watch 2"},
+//				{"g11male_NW3","Grade 11 Male Navigational Watch 3"},
+//				{"g11female_NW3","Grade 11 Female Navigational Watch 3"},
+//				{"g11_TOT_NW3","Grade 11 Total Navigational Watch 3"},
+//				{"g12male_NW3","Grade 12 Male Navigational Watch 3"},
+//				{"g12female_NW3","Grade 12 Female Navigational Watch 3"},
+//				{"g12_TOT_NW3","Grade 12 Total Navigational Watch 3"},
+//				{"g11male_EW1","Grade 11 Male Engine Watch 1"},
+//				{"g11female_EW1","Grade 11 Female Engine Watch 1"},
+//				{"g11_TOT_EW1","Grade 11 Total Engine Watch 1"},
+//				{"g12male_EW1","Grade 12 Male Engine Watch 1"},
+//				{"g12female_EW1","Grade 12 Female Engine Watch 1"},
+//				{"g12_TOT_EW1","Grade 12 Total Engine Watch 1"},
+//				{"g11male_EW2","Grade 11 Male Engine Watch 2"},
+//				{"g11female_EW2","Grade 11 Female Engine Watch 2"},
+//				{"g11_TOT_EW2","Grade 11 Total Engine Watch 2"},
+//				{"g12male_EW2","Grade 12 Male Engine Watch 2"},
+//				{"g12female_EW2","Grade 12 Female Engine Watch 2"},
+//				{"g12_TOT_EW2","Grade 12 Total Engine Watch 2"},
+//				{"g11male_SFTY1","Grade 11 Male Safety 1"},
+//				{"g11female_SFTY1","Grade 11 Female Safety 1"},
+//				{"g11_TOT_SFTY1","Grade 11 Total Safety 1"},
+//				{"g12male_SFTY1","Grade 12 Male Safety 1"},
+//				{"g12female_SFTY1","Grade 12 Female Safety 1"},
+//				{"g12_TOT_SFTY1","Grade 12 Total Safety 1"},
+//				{"g11male_SFTY2","Grade 11 Male Safety 2"},
+//				{"g11female_SFTY2","Grade 11 Female Safety 2"},
+//				{"g11_TOT_SFTY2","Grade 11 Total Safety 2"},
+//				{"g12male_SFTY2","Grade 12 Male Safety 2"},
+//				{"g12female_SFTY2","Grade 12 Female Safety 2"},
+//				{"g12_TOT_SFTY2","Grade 12 Total Safety 2"},
+//				{"g11male_SCS","Grade 11 Male Ship’s Catering Services (NC I)"},
+//				{"g11female_SCS","Grade 11 Female Ship’s Catering Services (NC I)"},
+//				{"g11_TOT_SCS","Grade 11 Total Ship’s Catering Services (NC I)"},
+//				{"g12male_SCS","Grade 12 Male Ship’s Catering Services (NC I)"},
+//				{"g12female_SCS","Grade 12 Female Ship’s Catering Services (NC I)"},
+//				{"g12_TOT_SCS","Grade 12 Total Ship’s Catering Services (NC I)"}
+//				
+//
+//		};
+//		
+//		String[][] b=new String[][]{
+//				
+//				{"gmaleNW1","Total Male for Navigational Watch 1"},
+//				{"gfemaleNW1","Total Female for Navigational Watch 1"},
+//				{"TOT_NW1","Total Navigational Watch 1"},
+//				{"gmale_TOT_NW2","Total Male for Navigational Watch 2"},
+//				{"gfemale_TOT_NW2","Total Female for Navigational Watch 2"},
+//				{"TOT_NW2","Total Navigational Watch 2"},
+//				{"gmale_TOT_NW3","Total Male for Navigational Watch 3"},
+//				{"gfemale_TOT_NW3","Total Female for Navigational Watch 3"},
+//				{"TOT_NW3","Total Navigational Watch 3"},
+//				{"gmale_TOT_EW1","Total Male for Engine Watch 1"},
+//				{"gfemale_TOT_EW1","Total Female for Engine Watch 1"},
+//				{"TOT_EW1","Total Engine Watch 1"},
+//				{"gmale_TOT_EW2","Total Male for Engine Watch 2"},
+//				{"gfemale_TOT_EW2","Total Female for Engine Watch 2"},
+//				{"TOT_EW2","Total Engine Watch 2"},
+//				{"gmale_TOT_SFTY1","Total Male for Safety 1"},
+//				{"gfemale_TOT_SFTY1","Total Female for Safety 1"},
+//				{"TOT_SFTY1","Total Safety 1"},
+//				{"gmale_TOT_SFTY2","Total Male for Safety 2"},
+//				{"gfemale_TOT_SFTY2","Total Female for Safety 2"},
+//				{"TOT_SFTY2","Total Safety 2"},
+//				{"gmale_TOT_SCS","Total Male for Ship’s Catering Services (NC I)"},
+//				{"gfemale_TOT_SCS","Total Female for Ship’s Catering Services (NC I)"},
+//				{"TOT_SCS","Total Ship’s Catering Services (NC I)"}
+//
+//		};
+//		
+//		ArrayList<Container> container=new ArrayList<Container>();
+//		
+//		for(int x=0,c=0,g=1;x<a.length;x++,g++)
+//		{
+//			if(g%7==0)
+//			{
+//				for(int z=c;c<z+3;c++)
+//					container.add(new Container(b[c][0], b[c][1]));
+//				
+//				x--;
+//				continue;
+//			}
+//			container.add(new Container(a[x][0], a[x][1]));
+//		}
+//		
+//		for(Container c:container)
+//		{
+//			String f="{\"%s\",\"%s\"},";
+//			System.out.println(String.format(f, c.left,c.right));
+//		}
+//		
+//	}
+}

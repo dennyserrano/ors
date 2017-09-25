@@ -69,9 +69,6 @@ INSERT INTO orsdb.shs_tvl
  g11male_SO,
  g11female_SO,
  g11_TOT_SO,
-g12male_WM,
- g12female_WM,
- g12_TOT_WM,
  g12male_ACPI,
  g12female_ACPI,
  g12_TOT_ACPI,
@@ -156,7 +153,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=2
     AND A.report_history_id=rh.id)
 ) as g11male_ACPI,
 (
@@ -168,7 +165,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=2
     AND A.report_history_id=rh.id)
 ) as g11female_ACPI,
 (
@@ -183,7 +180,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=3
     AND A.report_history_id=rh.id)
 ) as g11male_ACPII,
 (
@@ -195,7 +192,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=3
     AND A.report_history_id=rh.id)
 ) as g11female_ACPII,
 (
@@ -210,7 +207,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=4
     AND A.report_history_id=rh.id)
 ) as g11male_ACPIII,
 (
@@ -222,7 +219,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=4
     AND A.report_history_id=rh.id)
 ) as g11female_ACPIII,
 (
@@ -237,7 +234,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=5
     AND A.report_history_id=rh.id)
 ) as g11male_AHCM,
 (
@@ -249,7 +246,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=5
     AND A.report_history_id=rh.id)
 ) as g11female_AHCM,
 (
@@ -318,7 +315,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=8
     AND A.report_history_id=rh.id)
 ) as g11male_APS,
 (
@@ -330,7 +327,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=8
     AND A.report_history_id=rh.id)
 ) as g11female_APS,
 (
@@ -345,7 +342,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=12
     AND A.report_history_id=rh.id)
 ) as g11male_AQUA,
 (
@@ -357,7 +354,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=12
     AND A.report_history_id=rh.id)
 ) as g11female_AQUA,
 (
@@ -399,7 +396,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=14
     AND A.report_history_id=rh.id)
 ) as g11male_AIS,
 (
@@ -411,7 +408,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=14
     AND A.report_history_id=rh.id)
 ) as g11female_AIS,
 (
@@ -426,7 +423,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=65
     AND A.report_history_id=rh.id)
 ) as g11male_FC,
 (
@@ -438,7 +435,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=65
     AND A.report_history_id=rh.id)
 ) as g11female_FC,
 (
@@ -453,7 +450,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=67
     AND A.report_history_id=rh.id)
 ) as g11male_FGRM,
 (
@@ -465,7 +462,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=67
     AND A.report_history_id=rh.id)
 ) as g11female_FGRM,
 (
@@ -480,7 +477,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=68
     AND A.report_history_id=rh.id)
 ) as g11male_FPP,
 (
@@ -492,7 +489,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=68
     AND A.report_history_id=rh.id)
 ) as g11female_FPP,
 (
@@ -507,7 +504,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=66
     AND A.report_history_id=rh.id)
 ) as g11male_FWO,
 (
@@ -519,7 +516,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=66
     AND A.report_history_id=rh.id)
 ) as g11female_FWO,
 (
@@ -534,7 +531,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=71
     AND A.report_history_id=rh.id)
 ) as g11male_FP,
 (
@@ -546,7 +543,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=71
     AND A.report_history_id=rh.id)
 ) as g11female_FP,
 (
@@ -561,7 +558,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=93
     AND A.report_history_id=rh.id)
 ) as g11male_HORT,
 (
@@ -573,7 +570,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=93
     AND A.report_history_id=rh.id)
 ) as g11female_HORT,
 (
@@ -588,7 +585,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=105
     AND A.report_history_id=rh.id)
 ) as g11male_LIM,
 (
@@ -600,7 +597,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=105
     AND A.report_history_id=rh.id)
 ) as g11female_LIM,
 (
@@ -615,7 +612,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=121
     AND A.report_history_id=rh.id)
 ) as g11male_OA,
 (
@@ -627,7 +624,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=121
     AND A.report_history_id=rh.id)
 ) as g11female_OA,
 (
@@ -642,7 +639,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=126
     AND A.report_history_id=rh.id)
 ) as g11male_PM,
 (
@@ -654,7 +651,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=126
     AND A.report_history_id=rh.id)
 ) as g11female_PM,
 (
@@ -669,7 +666,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=144
     AND A.report_history_id=rh.id)
 ) as g11male_RMO,
 (
@@ -681,7 +678,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=144
     AND A.report_history_id=rh.id)
 ) as g11female_RMO,
 (
@@ -696,7 +693,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=145
     AND A.report_history_id=rh.id)
 ) as g11male_RP,
 (
@@ -708,7 +705,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=145
     AND A.report_history_id=rh.id)
 ) as g11female_RP,
 (
@@ -723,7 +720,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=146
     AND A.report_history_id=rh.id)
 ) as g11male_RUBPROD,
 (
@@ -735,7 +732,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=146
     AND A.report_history_id=rh.id)
 ) as g11female_RUBPROD,
 (
@@ -750,7 +747,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=150
     AND A.report_history_id=rh.id)
 ) as g11male_SO,
 (
@@ -762,12 +759,13 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=150
     AND A.report_history_id=rh.id)
 ) as g11female_SO,
 (
 	@totalA+@totalB
 ) as g11_TOT_SO,
+
 (
 	@totalA:=(SELECT 
 	 IFNULL(SUM(A.male),0)
@@ -777,34 +775,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
-    AND A.report_history_id=rh.id)
-) as g12male_WM,
-(
-	@totalB:=(SELECT 
-	 IFNULL(SUM(A.female),0)
-	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
-	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
-	WHERE
-	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
-    AND A.report_history_id=rh.id)
-) as g12female_WM,
-(
-	@totalA+@totalB
-) as g12_TOT_WM,
-(
-	@totalA:=(SELECT 
-	 IFNULL(SUM(A.male),0)
-	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
-	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
-	WHERE
-	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=2
     AND A.report_history_id=rh.id)
 ) as g12male_ACPI,
 (
@@ -816,7 +787,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=2
     AND A.report_history_id=rh.id)
 ) as g12female_ACPI,
 (
@@ -831,7 +802,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=3
     AND A.report_history_id=rh.id)
 ) as g12male_ACPII,
 (
@@ -843,7 +814,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=3
     AND A.report_history_id=rh.id)
 ) as g12female_ACPII,
 (
@@ -858,7 +829,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=4
     AND A.report_history_id=rh.id)
 ) as g12male_ACPIII,
 (
@@ -870,7 +841,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=4
     AND A.report_history_id=rh.id)
 ) as g12female_ACPIII,
 (
@@ -885,7 +856,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=5
     AND A.report_history_id=rh.id)
 ) as g12male_AHCM,
 (
@@ -897,7 +868,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=5
     AND A.report_history_id=rh.id)
 ) as g12female_AHCM,
 (
@@ -966,7 +937,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=8
     AND A.report_history_id=rh.id)
 ) as g12male_APS,
 (
@@ -978,7 +949,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=8
     AND A.report_history_id=rh.id)
 ) as g12female_APS,
 (
@@ -993,7 +964,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=12
     AND A.report_history_id=rh.id)
 ) as g12male_AQUA,
 (
@@ -1005,7 +976,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=12
     AND A.report_history_id=rh.id)
 ) as g12female_AQUA,
 (
@@ -1047,7 +1018,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=14
     AND A.report_history_id=rh.id)
 ) as g12male_AIS,
 (
@@ -1059,7 +1030,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=14
     AND A.report_history_id=rh.id)
 ) as g12female_AIS,
 (
@@ -1074,7 +1045,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=65
     AND A.report_history_id=rh.id)
 ) as g12male_FC,
 (
@@ -1086,7 +1057,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=65
     AND A.report_history_id=rh.id)
 ) as g12female_FC,
 (
@@ -1101,7 +1072,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=67
     AND A.report_history_id=rh.id)
 ) as g12male_FGRM,
 (
@@ -1113,7 +1084,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=67
     AND A.report_history_id=rh.id)
 ) as g12female_FGRM,
 (
@@ -1128,7 +1099,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=68
     AND A.report_history_id=rh.id)
 ) as g12male_FPP,
 (
@@ -1140,7 +1111,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=68
     AND A.report_history_id=rh.id)
 ) as g12female_FPP,
 (
@@ -1155,7 +1126,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=66
     AND A.report_history_id=rh.id)
 ) as g12male_FWO,
 (
@@ -1167,7 +1138,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=66
     AND A.report_history_id=rh.id)
 ) as g12female_FWO,
 (
@@ -1182,7 +1153,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=71
     AND A.report_history_id=rh.id)
 ) as g12male_FP,
 (
@@ -1194,7 +1165,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=71
     AND A.report_history_id=rh.id)
 ) as g12female_FP,
 (
@@ -1209,7 +1180,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=93
     AND A.report_history_id=rh.id)
 ) as g12male_HORT,
 (
@@ -1221,7 +1192,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=93
     AND A.report_history_id=rh.id)
 ) as g12female_HORT,
 (
@@ -1236,7 +1207,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=105
     AND A.report_history_id=rh.id)
 ) as g12male_LIM,
 (
@@ -1248,7 +1219,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=105
     AND A.report_history_id=rh.id)
 ) as g12female_LIM,
 (
@@ -1263,7 +1234,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=121
     AND A.report_history_id=rh.id)
 ) as g12male_OA,
 (
@@ -1275,7 +1246,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=121
     AND A.report_history_id=rh.id)
 ) as g12female_OA,
 (
@@ -1290,7 +1261,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=126
     AND A.report_history_id=rh.id)
 ) as g12male_PM,
 (
@@ -1302,7 +1273,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=126
     AND A.report_history_id=rh.id)
 ) as g12female_PM,
 (
@@ -1317,7 +1288,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=144
     AND A.report_history_id=rh.id)
 ) as g12male_RMO,
 (
@@ -1329,7 +1300,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=144
     AND A.report_history_id=rh.id)
 ) as g12female_RMO,
 (
@@ -1344,7 +1315,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=145
     AND A.report_history_id=rh.id)
 ) as g12male_RP,
 (
@@ -1356,7 +1327,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=145
     AND A.report_history_id=rh.id)
 ) as g12female_RP,
 (
@@ -1371,7 +1342,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=146
     AND A.report_history_id=rh.id)
 ) as g12male_RUBPROD,
 (
@@ -1383,7 +1354,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=146
     AND A.report_history_id=rh.id)
 ) as g12female_RUBPROD,
 (
@@ -1398,7 +1369,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=150
     AND A.report_history_id=rh.id)
 ) as g12male_SO,
 (
@@ -1410,13 +1381,12 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=150
     AND A.report_history_id=rh.id)
 ) as g12female_SO,
 (
 	@totalA+@totalB
 ) as g12_TOT_SO
-
 
 
 
