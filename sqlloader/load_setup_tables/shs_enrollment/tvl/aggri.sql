@@ -1,12 +1,12 @@
 
-SET @dataset_parent_id=9025;
-SET @dataset_table_id=1;
+SET @dataset_parent_id=9031;
+SET @dataset_table_id=43;
 -- TABLE METADATA
 
 SET @table_id=@dataset_table_id;
 SET @parent_id=@dataset_parent_id;
-SET @table_column_id=1;
-SET @table_column_syfrom=1;
+SET @table_column_id=9621;
+SET @table_column_syfrom=9622;
 
 INSERT INTO orsdb.dataset_head
 (name,description,owner_id,date_created,created_by,date_updated,updated_by,visible,parent_dataset_head,table_id,ranking)
