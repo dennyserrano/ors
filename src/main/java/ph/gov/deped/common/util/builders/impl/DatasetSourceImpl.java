@@ -70,7 +70,7 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 
 	@Override
 	public void addGroupBy(Element group) {
-		
+		groupBy.add(group);
 	}
 
 	@Override
@@ -143,10 +143,21 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 
 		wb.addAll(getFilters());
 		parentPT.setWhere(wb.build());
-		parentPT.setGroupBy(getGroupBy(new HashSet<ColumnElement>(), parentPT));
+//		parentPT.setGroupBy(getGroupBy(new HashSet<ColumnElement>(), parentPT));
 		
-		
-		
+		//TODO Improve this
+		for(Element e:groupBy)
+			for(ColumnExpression cex:parentPT.getColumns())
+			{
+				if(cex instanceof ColumnElement)
+				{
+					ColumnElement ce=(ColumnElement) cex;
+					if(e.getName().equals(ce.getElementName()))
+						parentPT.getGroupBy().add(ce);
+				}
+				
+			}
+					
 		return parentPT;
 	}
 
@@ -216,6 +227,10 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 		for(Element e:parentElements)
 		{
 			DatasetElement elem=datasetElementMap.get(e.getId());
+			
+			if(e.getName()==null)
+				e.setName(elem.getName());
+			
 			Dataset ds=hm.get(elem.getDatasetHead().getId());
 			ds.getElements().add(e);
 		}

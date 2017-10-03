@@ -39,16 +39,18 @@ public class TableServiceImpl implements TableService {
 	@Override
 	public PrefixTable generateTable(Dataset ds) 
 	{
-		
+		ArrayList<Element> groupByList=new ArrayList<Element>();
 		if(ds.getAggregateBy()!=null)
 		{
-//			ArrayList<Element> al= new ArrayList<Element>(ds.getElements());
-//    		for(Element e:ds.getAggregateBy().getElements())
-//    		{
-//    			e.setAggregate(AggregateTypes.GROUP.getAggregate());
-//    			al.add(e);
-//    		}
-//    		ds.setElements(al);
+			ArrayList<Element> al= new ArrayList<Element>(ds.getElements());
+    		
+    		for(int x=ds.getAggregateBy().getElements().size()-1;x>=0;x--)
+    		{
+    			Element e=ds.getAggregateBy().getElements().get(x);
+    			groupByList.add(e);
+    			al.add(0,e);
+    		}
+    		ds.setElements(al);
 
 		}else
 			ds.getElements().addAll(0, MANDATORY_ELEMENTS);
@@ -71,6 +73,9 @@ public class TableServiceImpl implements TableService {
 		if(ds.getAggregateBy()!=null)
 			if(ds.getAggregateBy().isCountIncluded())
 				prefixTableBuilder.addSpecialColumn(new Element(0, "count(*)", "", "", 0L, false, false));
+		
+		for(Element e:groupByList)
+		prefixTableBuilder.addGroupBy(e);
 		
 		return prefixTableBuilder.build();
 	}
