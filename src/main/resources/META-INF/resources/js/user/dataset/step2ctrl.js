@@ -214,7 +214,7 @@ angular.module('UserApp')
 					
 					delete aggregateBy.next;
 					
-					if(!$scope.chosenAggregateOption.countIncluded)
+					if(!$scope.aggregateOptionChk)
 					{
 						delete aggregateBy.countIncluded;
 						dataset.filteredBy=aggregateBy;

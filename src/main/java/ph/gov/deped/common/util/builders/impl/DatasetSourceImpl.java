@@ -36,14 +36,6 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 	private List<Element> orderBy;
 	private List<Element> specialColumns;
 	
-	private static final long[] MANDATORY_IDS=new long[]{266,267,268,281,285,286,282,283,284};
-	private static final ArrayList<Element> MANDATORY_ELEMENTS;
-	static{
-		MANDATORY_ELEMENTS=new ArrayList<Element>();
-		for(long id:MANDATORY_IDS)
-			MANDATORY_ELEMENTS.add(new Element(id, "", "", "", 0L, false, false));
-	}
-	
 	public DatasetSourceImpl(Dataset dataset, Map<Long,DatasetHead> mapRef)
 	{
 		this.dataset=dataset;
@@ -92,7 +84,6 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 	@Override
 	public PrefixTable build() {
 		
-		dataset.getElements().addAll(0, MANDATORY_ELEMENTS);
 		Dataset parentDataset=map(dataset, mapRef);
 		ArrayList<Element> parentElementList=new ArrayList<>(parentDataset.getElements());
 		parentDataset.getElements().clear();

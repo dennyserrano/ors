@@ -48,6 +48,8 @@ public class PreviewDataRestController {
         this.datasetService = datasetService;
     }
 
+   
+    
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE })
     public ReturnEntity<List<List<ColumnElement>>> preview(@RequestBody Dataset dataset) {
     	
@@ -55,7 +57,8 @@ public class PreviewDataRestController {
     	try
     	{
     		dataset.setId(8L); //school prof history
-
+    		
+    		
     		PrefixTable pt=tableService.generateTable(dataset);
     		String sql=new ServiceQueryBuilderImpl().getQuery(pt);
     		System.out.println("SQL:"+sql);
