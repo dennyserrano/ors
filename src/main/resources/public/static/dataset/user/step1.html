@@ -1,5 +1,24 @@
 <div data-ng-cloak="" data-ng-controller="Step1Ctrl" class="step step1">
 
+
+	<script type="text/ng-template" id="subdatasetTree">
+		
+			 <a href="javascript:void(0);" data-ng-if="subdataset.subDatasetCount > 0" data-ng-click="accordionClick(subdataset,subdataset.id)">
+				{{subdataset.name}}
+	       	 </a>
+	       	 <ul class="nav">
+	              <li data-ng-repeat="subdataset in subdataset.subDatasets" data-ng-include="'subdatasetTree'">
+	              </li>
+				 <label class='target_label' data-ng-if="subdataset.subDatasetCount === 0" style="font-weight: normal;">
+      				<input id="chk{{subdataset.id}}" type="checkbox" checklist-model="selectedDatasets" checklist-value="subdataset" data-ng-checked="datasetSelected(subdataset)"/>
+      				<small id="lbl{{subdataset.id}}">{{ subdataset.name }}</small>
+   				 </label>
+
+	         </ul>
+		 	
+
+	</script>
+
   <div class="col-sm-3 col-xs-12">
     <div  id="sidebar-nav" class="my-scroll nav-side-menu gray-default sidebar navbar-fixed-top fix-top navbar navbar-inverse navbar-collapse" role="navigation">
       <div>
@@ -15,19 +34,15 @@
       
       <div id="sidemenu-container">
         <ul id="side-menu" class="nav datasets list-unstyled ">
-          <li data-ng-repeat="dataset in datasets" data-ng-click="accordionClick(dataset,dataset.id)">
-            <a href="javascript:void(0);">
-              {{ dataset.name }}
-              <span class="fa arrow"></span>
-            </a>
-            <ul class="my-caret nav-second-level list-unstyled lol menu-item" style="padding-left: 10px;">
-              <li data-ng-repeat="subdataset in dataset.subDatasets" >
-			    <label class='target_label' data-ng-if="!subdataset.subDatasets || subdataset.subDatasets.length === 0" style="font-weight: normal;">
-			      <input id="chk{{subdataset.id}}" type="checkbox" checklist-model="selectedDatasets" checklist-value="subdataset" data-ng-checked="datasetSelected(subdataset)"/>
-			      <small id="lbl{{subdataset.id}}">{{ subdataset.name }}</small>
-			    </label>
-              </li>
-            </ul>
+          <li data-ng-repeat="dataset in datasets" >
+	         <a href="javascript:void(0);" data-ng-click="accordionClick(dataset,dataset.id)">
+				{{dataset.name}}
+	       	 </a>
+	       	 <ul class="my-caret nav-second-level list-unstyled lol menu-item" style="padding-left: 10px;">
+	              <li data-ng-repeat="subdataset in dataset.subDatasets" data-ng-include="'subdatasetTree'">
+	              </li>
+	         </ul>
+	       	 
           </li>
         </ul>
       </div>
