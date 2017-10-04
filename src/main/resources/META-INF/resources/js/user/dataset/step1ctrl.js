@@ -43,6 +43,7 @@ angular.module('UserApp')
                 $scope.loadingDatasetsError = 'Failed to load Datasets. [HTTP Status: ' + response.status + ']';
             });
 
+    
             $scope.accordionClick=function(dataset,datasetId){
             	
             	

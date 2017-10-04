@@ -133,7 +133,15 @@ public @Service class MetadataServiceImpl implements MetadataService {
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Dataset> findSubdatasets(long headId)  {
         List<DatasetHead> subdatasets = datasetRepository.findByParentDatasetHead(headId);
         return subdatasets.parallelStream()
-                .map(sd -> findDataset(sd.getId()))
+                .map(sd -> {
+//                	Dataset ds=findDataset(sd.getId());
+                	//TODO improve
+                	Dataset ds=new Dataset();
+                	ds.setName(sd.getName());
+                	ds.setId(sd.getId());
+                	ds.setSubDatasetCount(datasetRepository.countByParentDatasetHead(sd.getId()));
+                	return ds;
+                	})
                 .collect(toList());
     }
 

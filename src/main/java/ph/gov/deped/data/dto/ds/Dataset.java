@@ -29,6 +29,8 @@ public class Dataset implements Serializable {
 
     private String description;
 
+    private long subDatasetCount;
+    
     private List<Dataset> subDatasets = new ArrayList<>();
 
     private List<Element> elements = new ArrayList<>();
@@ -67,7 +69,17 @@ public class Dataset implements Serializable {
         
     }
 
-    public long getId() {
+    
+    
+    public long getSubDatasetCount() {
+		return subDatasetCount;
+	}
+
+	public void setSubDatasetCount(long subDatasetCount) {
+		this.subDatasetCount = subDatasetCount;
+	}
+
+	public long getId() {
         return id;
     }
 

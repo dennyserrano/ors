@@ -47,4 +47,5 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
     		+ " where dh.id in ?1")
     List<DatasetHead> findByIds(List<Long> ids);
     
+    long countByParentDatasetHead(long parentDatasetHead);
 }
