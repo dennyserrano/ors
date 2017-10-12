@@ -27,9 +27,18 @@ public class JoinPropertyBuilder
 
 	public JoinProperty build(DatasetCorrelationGroupDtl groupDetail)
 	{
+		//TODO groupDetail check for children
+		
+		if(groupDetail.getDatasetCorrelation()==null)
+			throw new RuntimeException("Dataset correlation not present");
+		
 		JoinProperty jp=new JoinProperty();
 		DatasetCorrelation dc=groupDetail.getDatasetCorrelation();
 		jp.setJoinType(dc.getJoinType());
+		
+		if(dc.getDetails()==null)
+			throw new RuntimeException("correlation details not present");
+		
 		JoinOperator jo=buildJoinOperator(dc.getLeftTablePrefix(),dc.getRightTablePrefix(), new ArrayList<DatasetCorrelationDtl>(dc.getDetails()), 0);
 		jp.setJoinInfo(jo.getJoinInfo());
 		jp.setJoinType(JoinType.LEFT_JOIN); //for every correlation group detail, there is no way we can determine if what join is used?

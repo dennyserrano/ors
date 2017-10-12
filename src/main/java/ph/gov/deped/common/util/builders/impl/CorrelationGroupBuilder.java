@@ -107,8 +107,8 @@ public class CorrelationGroupBuilder
 				DatasetCorrelation dc=dtl.getDatasetCorrelation();
 				
 				//check if right and left dataset has table mapped?
-				PrefixTable localRightPrefix=ConvertUtil.toPrefixTable(dc.getRightDataset());
-				PrefixTable localLeftPrefix=ConvertUtil.toPrefixTable(dc.getLeftDataset());
+				PrefixTable localRightPrefix=ConvertUtil.toPrefixTableLight(dc.getRightDataset());
+				PrefixTable localLeftPrefix=ConvertUtil.toPrefixTableLight(dc.getLeftDataset());
 				localRightPrefix.setTablePrefix(dc.getRightTablePrefix());
 				localLeftPrefix.setTablePrefix(dc.getLeftTablePrefix());
 				

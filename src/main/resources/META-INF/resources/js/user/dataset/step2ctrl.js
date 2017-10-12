@@ -222,7 +222,7 @@ angular.module('UserApp')
 					else
 					{
 						dataset.aggregateBy=aggregateBy;
-						dataset.aggregateBy.countIncluded=$scope.aggregateOptionChk;
+						dataset.aggregateBy.countIncluded=$scope.chosenAggregateOption.countIncluded;
 					}
             	}
                 

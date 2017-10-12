@@ -16,14 +16,14 @@ import ph.gov.deped.web.OrsHttpSessionListener;
 import reactor.spring.context.RingBufferApplicationEventPublisher;
 
 @Configuration
-//@EnableAutoConfiguration(exclude = {
-//        DataSourceAutoConfiguration.class
-//})
+@EnableAutoConfiguration(exclude = {
+        DataSourceAutoConfiguration.class
+})
 @EnableConfigurationProperties
-//@Import({
-//        //ApplicationSecuritySpringConfig.class,
-//        RootSpringConfig.class
-//})
+@Import({
+        //ApplicationSecuritySpringConfig.class,
+        RootSpringConfig.class
+})
 public class TestAppConfig implements ApplicationContextAware
 {
 	

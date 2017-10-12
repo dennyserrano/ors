@@ -15,4 +15,18 @@ public class CountAllColumnElement implements ColumnExpression {
 		return String.format("COUNT(*) as %s",alias);
 	}
 
+	@Override
+	public String alias() {
+		// TODO Auto-generated method stub
+		return alias;
+	}
+
+	@Override
+	public String dataType() {
+		// TODO Auto-generated method stub
+		return "bigint";
+	}
+	
+	
+
 }

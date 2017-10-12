@@ -21,7 +21,7 @@ public class Element implements Serializable {
 
     private final long id;
 
-    private final String name;
+    private String name;
 
     private final String description;
 
@@ -150,4 +150,10 @@ public class Element implements Serializable {
                 .append("datasetId", datasetId)
                 .toString();
     }
+
+	public void setName(String name) {
+		this.name = name;
+	}
+    
+    
 }

@@ -62,27 +62,10 @@ public class ExportDataController {
     public void export(@RequestParam("dataset") String dataset, HttpSession httpSession, HttpServletResponse response) throws Exception {
     	
         Dataset ds = new ObjectMapper().readValue(dataset, Dataset.class);
+        ds.setId(8L);
         String filename=null;
-
-//        XStream xs=new XStream();
-//    	xs.toXML(ds, new FileOutputStream("/home/denny/dataset.xml"));
-        
-        //TODO improve
-        if(ds.getAggregateBy()!=null)
-    	{
-    		
-    		ArrayList<Element> al= new ArrayList<Element>(ds.getElements());
-    		for(Element e:ds.getAggregateBy().getElements())
-    		{
-    			e.setAggregate(AggregateTypes.GROUP.getAggregate());
-    			al.add(e);
-    		}
-    		ds.setElements(al);
-    	}
         
         try {
-              //datasetService.getData(ds, false);
-//            exportService.export("", data, ExportType.XLSX);
         	log.info("Exporting::::::");
             filename=exportService.export(ds);
             

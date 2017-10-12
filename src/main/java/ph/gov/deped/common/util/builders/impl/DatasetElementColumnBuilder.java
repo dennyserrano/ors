@@ -7,21 +7,31 @@ public class DatasetElementColumnBuilder implements ColumnBuilder {
 
 	private DatasetElement element;
 	private String prefix;
+	private String alias;
 	public DatasetElementColumnBuilder(String prefix,DatasetElement element)
 	{
 		this.element=element;
 		this.prefix=prefix;
 	}
 	
+	public DatasetElementColumnBuilder(String prefix,DatasetElement element,String alias)
+	{
+		this.element=element;
+		this.prefix=prefix;
+		this.alias=alias;
+	}
+	
 	@Override
 	public ColumnExpression build() {
 		
-		return new ColumnElement(getFieldName(),getAlias(),getPrefix());
+		ColumnElement ce= new ColumnElement(getFieldName(),getAlias(),getPrefix());
+		ce.setDataType(element.getColumnMetaData().getDataType());
+		return ce;
 	}
 
 	protected String getAlias()
 	{
-		return element.getName();
+		return alias;
 	}
 	
 	

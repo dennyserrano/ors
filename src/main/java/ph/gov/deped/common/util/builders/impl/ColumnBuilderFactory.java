@@ -15,9 +15,9 @@ public class ColumnBuilderFactory {
 		if(e.getName().equals("count(*)"))
 				return new SpecialColumnBuilder("count");
 		if(e.getAggregate()==null)
-			return new DatasetElementColumnBuilder(prefix, e.getDatasetElement());
+			return new DatasetElementColumnBuilder(prefix, e.getDatasetElement(),e.getDatasetElement().getName());
 		else
-			return new AggregateColumnBuilder(AggregateTypes.valueOf(e.getAggregate()), e.getDatasetElement(), prefix);
+			return new AggregateColumnBuilder(AggregateTypes.valueOf(e.getAggregate()), e.getDatasetElement(), prefix,e.getDatasetElement().getName());
 	}
 	
 }

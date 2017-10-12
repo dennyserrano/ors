@@ -1,5 +1,7 @@
 INSERT INTO orsdb.shs_tvl
 (
+sy_from,
+school_id,
 g11male_ANIM,
  g11female_ANIM,
  g11_TOT_ANIM,
@@ -80,6 +82,8 @@ g12male_ANIM,
 
 
 SELECT
+sph.sy_from,
+sph.school_id,
  (
 	@totalA:=(SELECT 
 	 IFNULL(SUM(A.male),0)
@@ -89,7 +93,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=9
     AND A.report_history_id=rh.id)
 ) as g11male_ANIM,
 (
@@ -101,7 +105,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=9
     AND A.report_history_id=rh.id)
 ) as g11female_ANIM,
 (
@@ -116,7 +120,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=23
     AND A.report_history_id=rh.id)
 ) as g11male_FWS,
 (
@@ -128,7 +132,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=23
     AND A.report_history_id=rh.id)
 ) as g11female_FWS,
 (
@@ -143,7 +147,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=138
     AND A.report_history_id=rh.id)
 ) as g11male_CPNT,
 (
@@ -155,7 +159,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=138
     AND A.report_history_id=rh.id)
 ) as g11female_CPNT,
 (
@@ -170,7 +174,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=139
     AND A.report_history_id=rh.id)
 ) as g11male_CPJV,
 (
@@ -182,7 +186,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=139
     AND A.report_history_id=rh.id)
 ) as g11female_CPJV,
 (
@@ -197,7 +201,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=140
     AND A.report_history_id=rh.id)
 ) as g11male_CPOR,
 (
@@ -209,7 +213,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=140
     AND A.report_history_id=rh.id)
 ) as g11female_CPOR,
 (
@@ -224,7 +228,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=33
     AND A.report_history_id=rh.id)
 ) as g11male_CSS,
 (
@@ -236,7 +240,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=33
     AND A.report_history_id=rh.id)
 ) as g11female_CSS,
 (
@@ -251,7 +255,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=36
     AND A.report_history_id=rh.id)
 ) as g11male_CCS,
 (
@@ -263,7 +267,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=36
     AND A.report_history_id=rh.id)
 ) as g11female_CCS,
 (
@@ -278,7 +282,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=98
     AND A.report_history_id=rh.id)
 ) as g11male_ILLUS,
 (
@@ -290,7 +294,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=98
     AND A.report_history_id=rh.id)
 ) as g11female_ILLUS,
 (
@@ -305,7 +309,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=117
     AND A.report_history_id=rh.id)
 ) as g11male_MT,
 (
@@ -317,7 +321,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=117
     AND A.report_history_id=rh.id)
 ) as g11female_MT,
 (
@@ -332,7 +336,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=155
     AND A.report_history_id=rh.id)
 ) as g11male_TD,
 (
@@ -344,7 +348,7 @@ SELECT
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND C.shs_subjects_id=155
     AND A.report_history_id=rh.id)
 ) as g11female_TD,
 (
@@ -359,7 +363,7 @@ ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 WHERE 
 B.shs_track_id=906 -- TVL code 
 AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND C.shs_subjects_id=156
 AND A.report_history_id=rh.id) 
 ) as g11male_CCPD, 
 ( 
@@ -371,18 +375,12 @@ ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 WHERE 
 B.shs_track_id=906 -- TVL code 
 AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND C.shs_subjects_id=156
 AND A.report_history_id=rh.id) 
 ) as g11female_CCPD, 
 ( 
 @totalA+@totalB 
 ) as g11_TOT_CCPD ,
-
-
-
-
-
-
 (
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
@@ -391,7 +389,7 @@ ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 WHERE 
 B.shs_track_id=906 -- TVL code 
 AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND C.shs_subjects_id=157 
 AND A.report_history_id=rh.id) 
 ) as g11male_FOC, 
 ( 
@@ -403,13 +401,12 @@ ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 WHERE 
 B.shs_track_id=906 -- TVL code 
 AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND C.shs_subjects_id=157
 AND A.report_history_id=rh.id) 
 ) as g11female_FOC, 
 ( 
 @totalA+@totalB 
-) as g11_TOT_FOC ,
-
+) as g11_TOT_FOC,
 (
 	@totalA:=(SELECT 
 	 IFNULL(SUM(A.male),0)
@@ -418,8 +415,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=9
     AND A.report_history_id=rh.id)
 ) as g12male_ANIM,
 (
@@ -430,8 +427,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=9
     AND A.report_history_id=rh.id)
 ) as g12female_ANIM,
 (
@@ -445,8 +442,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=23
     AND A.report_history_id=rh.id)
 ) as g12male_FWS,
 (
@@ -457,8 +454,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=23
     AND A.report_history_id=rh.id)
 ) as g12female_FWS,
 (
@@ -472,7 +469,7 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
+    AND A.grade_level_id=595
     AND C.shs_subjects_id=15
     AND A.report_history_id=rh.id)
 ) as g12male_CPNT,
@@ -484,7 +481,7 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
+    AND A.grade_level_id=595
     AND C.shs_subjects_id=15
     AND A.report_history_id=rh.id)
 ) as g12female_CPNT,
@@ -499,7 +496,7 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
+    AND A.grade_level_id=595
     AND C.shs_subjects_id=15
     AND A.report_history_id=rh.id)
 ) as g12male_CPJV,
@@ -511,7 +508,7 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
+    AND A.grade_level_id=595
     AND C.shs_subjects_id=15
     AND A.report_history_id=rh.id)
 ) as g12female_CPJV,
@@ -526,7 +523,7 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
+    AND A.grade_level_id=595
     AND C.shs_subjects_id=15
     AND A.report_history_id=rh.id)
 ) as g12male_CPOR,
@@ -538,7 +535,7 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
+    AND A.grade_level_id=595
     AND C.shs_subjects_id=15
     AND A.report_history_id=rh.id)
 ) as g12female_CPOR,
@@ -553,8 +550,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=33
     AND A.report_history_id=rh.id)
 ) as g12male_CSS,
 (
@@ -565,8 +562,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=33
     AND A.report_history_id=rh.id)
 ) as g12female_CSS,
 (
@@ -580,8 +577,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=36
     AND A.report_history_id=rh.id)
 ) as g12male_CCS,
 (
@@ -592,8 +589,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=36
     AND A.report_history_id=rh.id)
 ) as g12female_CCS,
 (
@@ -607,8 +604,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=98
     AND A.report_history_id=rh.id)
 ) as g12male_ILLUS,
 (
@@ -619,8 +616,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=98
     AND A.report_history_id=rh.id)
 ) as g12female_ILLUS,
 (
@@ -634,8 +631,8 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=127
     AND A.report_history_id=rh.id)
 ) as g12male_MT,
 (
@@ -646,39 +643,40 @@ AND A.report_history_id=rh.id)
 	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND A.grade_level_id=497
-    AND C.shs_subjects_id=15
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=127
     AND A.report_history_id=rh.id)
 ) as g12female_MT,
 (
 	@totalA+@totalB
 ) as g12_TOT_MT,
 (
-@totalA:=(SELECT 
-IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
-ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
-WHERE 
-B.shs_track_id=906 -- TVL code 
-AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
-AND A.report_history_id=rh.id) 
-) as g12male_TD, 
-( 
-@totalB:=(SELECT 
-IFNULL(SUM(A.female),0) 
-FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
-ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
-WHERE 
-B.shs_track_id=906 -- TVL code 
-AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
-AND A.report_history_id=rh.id) 
-) as g12female_TD, 
-( 
-@totalA+@totalB 
-) as g12_TOT_TD ,
+	@totalA:=(SELECT 
+	 IFNULL(SUM(A.male),0)
+	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
+	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	WHERE
+	B.shs_track_id=906 -- TVL code
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=155
+    AND A.report_history_id=rh.id)
+) as g12male_TD,
+(
+	@totalB:=(SELECT 
+	 IFNULL(SUM(A.female),0)
+	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
+	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	WHERE
+	B.shs_track_id=906 -- TVL code
+    AND A.grade_level_id=595
+    AND C.shs_subjects_id=155
+    AND A.report_history_id=rh.id)
+) as g12female_TD,
+(
+	@totalA+@totalB
+) as g12_TOT_TD,
 
 (
 @totalA:=(SELECT 
@@ -687,8 +685,8 @@ ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
 ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
-AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND A.grade_level_id=595 
+AND C.shs_subjects_id=156
 AND A.report_history_id=rh.id) 
 ) as g12male_CCPD, 
 ( 
@@ -699,19 +697,13 @@ ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
 ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
-AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND A.grade_level_id=595 
+AND C.shs_subjects_id=156
 AND A.report_history_id=rh.id) 
 ) as g12female_CCPD, 
 ( 
 @totalA+@totalB 
 ) as g12_TOT_CCPD ,
-
-
-
-
-
-
 (
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
@@ -719,8 +711,8 @@ ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
 ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
-AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND A.grade_level_id=595 
+AND C.shs_subjects_id=157 
 AND A.report_history_id=rh.id) 
 ) as g12male_FOC, 
 ( 
@@ -731,13 +723,14 @@ ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
 ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
-AND A.grade_level_id=497 
-AND C.shs_subjects_id=15 
+AND A.grade_level_id=595 
+AND C.shs_subjects_id=157
 AND A.report_history_id=rh.id) 
 ) as g12female_FOC, 
 ( 
 @totalA+@totalB 
-) as g12_TOT_FOC 
+) as g12_TOT_FOC
+
 
 
 
@@ -766,13 +759,86 @@ sph.sy_from and rh.report_status >= 297 -- cast( sph.sy_from as unsigned)
    sph.co_gen_class=434 
    -- for senior highschool offering codes 
    and sph.curricular_class_id > 900 
-   and rh.id=1
    GROUP BY sph.SCHOOL_ID
-   ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC;
+   ORDER BY sph.SY_FROM, rr.RANK ASC, sph.SCHOOL_ID ASC
 
 
+ON DUPLICATE KEY UPDATE
+g11male_ANIM=VALUES(g11male_ANIM),
+ g11female_ANIM=VALUES( g11female_ANIM),
+ g11_TOT_ANIM=VALUES( g11_TOT_ANIM),
+ g11male_FWS=VALUES( g11male_FWS),
+ g11female_FWS=VALUES( g11female_FWS),
+ g11_TOT_FWS=VALUES( g11_TOT_FWS),
+ g11male_CPNT=VALUES( g11male_CPNT),
+ g11female_CPNT=VALUES( g11female_CPNT),
+ g11_TOT_CPNT=VALUES( g11_TOT_CPNT),
+ g11male_CPJV=VALUES( g11male_CPJV),
+ g11female_CPJV=VALUES( g11female_CPJV),
+ g11_TOT_CPJV=VALUES( g11_TOT_CPJV),
+ g11male_CPOR=VALUES( g11male_CPOR),
+ g11female_CPOR=VALUES( g11female_CPOR),
+ g11_TOT_CPOR=VALUES( g11_TOT_CPOR),
+ g11male_CSS=VALUES( g11male_CSS),
+ g11female_CSS=VALUES( g11female_CSS),
+ g11_TOT_CSS=VALUES( g11_TOT_CSS),
+ g11male_CCS=VALUES( g11male_CCS),
+ g11female_CCS=VALUES( g11female_CCS),
+ g11_TOT_CCS=VALUES( g11_TOT_CCS),
+ g11male_ILLUS=VALUES( g11male_ILLUS),
+ g11female_ILLUS=VALUES( g11female_ILLUS),
+ g11_TOT_ILLUS=VALUES( g11_TOT_ILLUS),
+ g11male_MT=VALUES( g11male_MT),
+ g11female_MT=VALUES( g11female_MT),
+ g11_TOT_MT=VALUES( g11_TOT_MT),
+ g11male_TD=VALUES( g11male_TD),
+ g11female_TD=VALUES( g11female_TD),
+ g11_TOT_TD =VALUES( g11_TOT_TD ),
+ g11male_CCPD=VALUES( g11male_CCPD),
+ g11female_CCPD=VALUES( g11female_CCPD),
+ g11_TOT_CCPD =VALUES( g11_TOT_CCPD ),
+ g11male_FOC=VALUES( g11male_FOC),
+ g11female_FOC=VALUES( g11female_FOC),
+ g11_TOT_FOC =VALUES( g11_TOT_FOC ),
+ g12male_ANIM=VALUES( g12male_ANIM),
+ g12female_ANIM=VALUES( g12female_ANIM),
+ g12_TOT_ANIM=VALUES( g12_TOT_ANIM),
+ g12male_FWS=VALUES( g12male_FWS),
+ g12female_FWS=VALUES( g12female_FWS),
+ g12_TOT_FWS=VALUES( g12_TOT_FWS),
+ g12male_CPNT=VALUES( g12male_CPNT),
+ g12female_CPNT=VALUES( g12female_CPNT),
+ g12_TOT_CPNT=VALUES( g12_TOT_CPNT),
+ g12male_CPJV=VALUES( g12male_CPJV),
+ g12female_CPJV=VALUES( g12female_CPJV),
+ g12_TOT_CPJV=VALUES( g12_TOT_CPJV),
+ g12male_CPOR=VALUES( g12male_CPOR),
+ g12female_CPOR=VALUES( g12female_CPOR),
+ g12_TOT_CPOR=VALUES( g12_TOT_CPOR),
+ g12male_CSS=VALUES( g12male_CSS),
+ g12female_CSS=VALUES( g12female_CSS),
+ g12_TOT_CSS=VALUES( g12_TOT_CSS),
+ g12male_CCS=VALUES( g12male_CCS),
+ g12female_CCS=VALUES( g12female_CCS),
+ g12_TOT_CCS=VALUES( g12_TOT_CCS),
+ g12male_ILLUS=VALUES( g12male_ILLUS),
+ g12female_ILLUS=VALUES( g12female_ILLUS),
+ g12_TOT_ILLUS=VALUES( g12_TOT_ILLUS),
+ g12male_MT=VALUES( g12male_MT),
+ g12female_MT=VALUES( g12female_MT),
+ g12_TOT_MT=VALUES( g12_TOT_MT),
+ g12male_TD=VALUES( g12male_TD),
+ g12female_TD=VALUES( g12female_TD),
+ g12_TOT_TD=VALUES( g12_TOT_TD),
+ g12male_CCPD=VALUES( g12male_CCPD),
+ g12female_CCPD=VALUES( g12female_CCPD),
+ g12_TOT_CCPD =VALUES( g12_TOT_CCPD ),
+ g12male_FOC=VALUES( g12male_FOC),
+ g12female_FOC=VALUES( g12female_FOC),
+ g12_TOT_FOC =VALUES( g12_TOT_FOC );
 
 
+COMMIT;
 
 
 

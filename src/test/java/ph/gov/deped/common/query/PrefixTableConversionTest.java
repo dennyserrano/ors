@@ -15,6 +15,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bits.sql.AggregateTypes;
+
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.common.util.builders.impl.DatasetSourceImpl;
 import ph.gov.deped.common.util.builders.impl.JoinProperty;
@@ -22,8 +24,10 @@ import ph.gov.deped.common.util.builders.impl.JoinPropertyBuilder;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.common.util.builders.interfaces.PrefixTableBuilder;
 import ph.gov.deped.config.TestAppConfig;
+import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.dto.ds.Filter;
 import ph.gov.deped.data.ors.ds.DatasetCorrelation;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
 import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
@@ -93,92 +97,132 @@ public class PrefixTableConversionTest
 		Assert.assertEquals("SELECT tableB.fieldA2, tableB.fieldB2 FROM tableA AS sp LEFT JOIN tableB AS tableB ON sp.school_id = tableB.school_id AND sp.sy_from = tableB.sy_from",res);
 	}
 	
-	private static DatasetHead getNsbiTableTwoTableJoin()
+	//join table. select a column from child
+	@Test
+	public void c()
 	{
-		DatasetHead dh=buildDh(1l,"nsbi_specifics", "nsbi_spec");
-		DatasetElement de= build("col1","col1");
-		de.setDatasetCorrelationGroup(
-				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
-				.getGroupDetailBuilder()
-				.add( 
-						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-						.set("t1", buildDh(1, "table1", "table1"), "t2", buildDh(2,"table2","table2"))
-						.getDtlBuilder()
-						.add(build("c1", "c1"), build("c2","c2"))
-						.build()
-						.build()
-						)
-				.add(
-						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-						.set("t2", buildDh(2, "table2", "table2"), "t3", buildDh(3,"table3","table3"))
-						.getDtlBuilder()
-						.add(build("c1", "c1"), build("c2","c2"))
-						.build()
-						.build()
-						)
-				.build()
-				.build()
-				);
-		dh.getDatasetElements().add(de);
-		dh.getDatasetElements().add(build("col2","col2"));
-		dh.getDatasetElements().add(build("col3","col3"));
-		return dh;
-	}
-	
-	private static DatasetHead getNsbiTableOneTableJoin()
-	{
-		DatasetHead dh=buildDh(1l,"nsbi_specifics", "nsbi_spec");
-		DatasetElement de= build("col1","col1");
-		de.setDatasetCorrelationGroup(
-				new PrefixTableConversionTest().new DatasetGroupBuilder().setName("group1")
-				.getGroupDetailBuilder()
-				.add( 
-						new PrefixTableConversionTest().new DatasetCorrelationBuilder()
-						.set("t1", buildDh(1, "table1", "table1"), "t2", buildDh(2,"table2","table2"))
-						.getDtlBuilder()
-						.add(build("c1", "c1"), build("c2","c2"))
-						.build()
-						.build()
-						)
-				.build()
-				.build()
-				);
-		dh.getDatasetElements().add(de);
-		dh.getDatasetElements().add(build("col2","col2"));
-		dh.getDatasetElements().add(build("col3","col3"));
-		return dh;
-	}
-	
-	private static DatasetHead getRootTable()
-	{
-		DatasetHead dh=buildDh(8l,"school_prof_history", "school_prof_history");
-		dh.setDatasetElements(new HashSet<DatasetElement>());
-		dh.getDatasetElements().add(build("sy_from", "sy_from"));
-		dh.getDatasetElements().add(build("school_id", "school_id"));
-		return dh;
-	}
-	
-	
-	private static DatasetElement build(String name,String colname)
-	{
-		DatasetElement de= new DatasetElement();
-		de.setId(1L);
-		de.setColumnId(1);
-		de.setName(name);
-		de.setColumnMetaData(new ColumnMetadata(1, colname, "", false, 0, 1L, false));
-		de.setDatasetHead(buildDh(2L,"dummy","tableDummy"));
-		return de;
-	}
-	
-	private static DatasetCorrelationGroupDtl getGroupDtl(DatasetHead left,DatasetHead right,int chainType)
-	{
-		DatasetCorrelationGroupDtl dtl= new DatasetCorrelationGroupDtl();
-		DatasetCorrelation dc= new DatasetCorrelation();
-		dc.setLeftDataset(left);
-		dc.setRightDataset(right);
+		Dataset d=new DatasetBuilder(1).addSubDataset(new DatasetBuilder(2).build())
+										.child().create(3).create(4).create(1).build();
 		
-		return dtl;
+		HashMap<Long,DatasetHead> mapRef=new HashMap<>();
+		mapRef.put(1L, new DatasetHeadBuilder().create(1,"A", "tableA")
+				.create(3, "colA1", "fieldA1")
+				.create(4, "colB1", "fieldB1")
+				.create(5, "colC1", "fieldC1").build());
+		mapRef.put(2L, new DatasetHeadBuilder().create(2,"B", "tableB")
+				.create(1, "colA2", "fieldA2")
+				.create(2, "colB2", "fieldB2").build());
+		
+		PrefixTableBuilder ptb=new DatasetSourceImpl(d, mapRef);
+		ptb.setAlias("sp");
+		String res=new ServiceQueryBuilderImpl().getQuery(ptb.build());
+		System.out.println(res);
+		Assert.assertEquals("SELECT sp.fieldA1, sp.fieldB1, tableB.fieldA2 FROM tableA AS sp LEFT JOIN tableB AS tableB ON sp.school_id = tableB.school_id AND sp.sy_from = tableB.sy_from",res);
 	}
+	
+	@Test
+	public void d()
+	{
+		
+		//308 must be present in DatasetCriteriaWhereBuilder.CRITERIA
+		//8 must be present also as criteria key
+		
+		Dataset d=new DatasetBuilder(1).addSubDataset(new DatasetBuilder(2).build())
+				.child().create(3).create(4).create(1).build();
+		
+		HashMap<Long,DatasetHead> mapRef=new HashMap<>();
+		mapRef.put(1L, new DatasetHeadBuilder().create(1,"A", "tableA")
+		.create(3, "colA1", "fieldA1")
+		.create(4, "colB1", "fieldB1")
+		.create(5, "colC1", "fieldC1")
+		.create(10936, "colD1", "fieldD1").build());
+		mapRef.put(2L, new DatasetHeadBuilder().create(2,"B", "tableB")
+		.create(1, "colA2", "fieldA2")
+		.create(308, "colB2", "fieldB2").build());
+		
+		PrefixTableBuilder ptb=new DatasetSourceImpl(d, mapRef);
+		ptb.setAlias("sp");
+		ptb.where(
+					new FilterBuilder().create(8L, 0L, Arrays.asList(new KeyValue("1", "")))
+										.create(17L, 0L, Arrays.asList(new KeyValue("1",""),new KeyValue("2", ""))).build()
+				);
+		String res=new ServiceQueryBuilderImpl().getQuery(ptb.build());
+		System.out.println(res);
+		Assert.assertEquals("SELECT sp.fieldA1, sp.fieldB1, tableB.fieldA2 FROM tableA AS sp LEFT JOIN tableB AS tableB ON sp.school_id = tableB.school_id AND sp.sy_from = tableB.sy_from WHERE sp.colB2 = '1' AND sp.colD1 IN ('1','2')",res);
+	}
+	
+	//With aggregate and count
+	@Test
+	public void e()
+	{
+		Dataset d=new DatasetBuilder(1).child().create(1,AggregateTypes.SUM.getAggregate()).create(2).create(3).build();
+		
+		HashMap<Long,DatasetHead> mapRef=new HashMap<>();
+		mapRef.put(1L, new DatasetHeadBuilder().create(1,"A", "tableA")
+				.create(1, "colA", "fieldA")
+				.create(2, "colB", "fieldB")
+				.create(3, "colC", "fieldC").build());
+		
+		
+		PrefixTableBuilder ptb=new DatasetSourceImpl(d, mapRef);
+		ptb.addSpecialColumn(new Element(0L, "count(*)", "", "", 0L, false, false));
+		ptb.setAlias("sp");
+		String res=new ServiceQueryBuilderImpl().getQuery(ptb.build());
+		System.out.println(res);
+		Assert.assertEquals("SELECT COUNT(*) as count, (SUM(sp.fieldA)) as colA, sp.fieldB, sp.fieldC FROM tableA AS sp",res);
+	}
+	
+	
+	//with column dependency / with group
+	@Test
+	public void f()
+	{
+		HashMap<Long,DatasetHead> mapRef=new HashMap<>();
+		mapRef.put(1L, new DatasetHeadBuilder().create(1,"A", "tableA")
+				.create(1, "colA", "fieldA",
+							new DatasetGroupBuilder().setName("g1")
+														.getGroupDetailBuilder().add(
+																						new DatasetCorrelationBuilder().set("sp",
+																																new DatasetHeadBuilder().create(1L, "A", "tableA").build(),
+																															"tableZ",
+																																new DatasetHeadBuilder().create(100L, "Z", "tableZ").build()
+																															)
+																																.getDtlBuilder()
+																																			.add(
+																																					SingleDatasetElementBuilder.create(new DatasetHeadBuilder().create(1L, "A", "tableA").build(), 5, "A", "fieldA"),
+																																					SingleDatasetElementBuilder.create(new DatasetHeadBuilder().create(100L, "Z", "tableZ").build(), 5, "Z", "fieldZ")
+																																					).build().build()
+																					)
+																				.add(
+																						
+																						new DatasetCorrelationBuilder().set("tableZ",
+																																new DatasetHeadBuilder().create(100L, "Z", "tableZ").build(),
+																															"tableY",
+																																new DatasetHeadBuilder().create(200L, "Y", "tableY").build()
+																															)
+																																.getDtlBuilder()
+																																			.add(
+																																					SingleDatasetElementBuilder.create(new DatasetHeadBuilder().create(100L, "Z", "tableZ").build(), 5, "Z", "fieldZ"),
+																																					SingleDatasetElementBuilder.create(new DatasetHeadBuilder().create(200L, "Y", "tableY").build(), 5, "Y", "fieldY")
+																																					).build().build()
+																						
+																					 )	
+																					
+																					.build().build()
+						)
+				.create(2, "colB", "fieldB")
+				.create(3, "colC", "fieldC").build());
+		
+		
+		Dataset d=new DatasetBuilder(1).child().create(1).create(2).create(3).build();
+		
+		PrefixTableBuilder ptb=new DatasetSourceImpl(d, mapRef);
+		ptb.setAlias("sp");
+		String res=new ServiceQueryBuilderImpl().getQuery(ptb.build());
+		System.out.println(res);
+		Assert.assertEquals("SELECT tableY.fieldA, sp.fieldB, sp.fieldC FROM tableA AS sp LEFT JOIN tableZ AS tableZ ON sp.fieldA = tableZ.fieldZ LEFT JOIN tableY AS tableY ON tableZ.fieldZ = tableY.fieldY",res);
+	}
+	
 	
 	
 	private static DatasetCorrelationDtl getCorDtl(DatasetElement left,DatasetElement right)
@@ -187,17 +231,6 @@ public class PrefixTableConversionTest
 		dtl1.setLeftElement(left);
 		dtl1.setRightElement(right);
 		return dtl1;
-	}
-	
-	private static DatasetHead buildDh(long datasetId,String name,String tableName)
-	{
-		DatasetHead dh= new DatasetHead(datasetId, name, 0);
-		dh.setDatasetElements(new HashSet<DatasetElement>());
-		dh.setTableMetaData(new TableMetadata(1,1, "", tableName, "", ""));
-		dh.setParentDatasetHead(1L);
-		dh.setRanking(1);
-		
-		return dh;
 	}
 	
 	
@@ -369,6 +402,12 @@ public class PrefixTableConversionTest
 			return this;
 		}
 		
+		public ElementBuilder create(long id,String aggregate)
+		{
+			parent.getElements().add(localCreate(id, aggregate));
+			return this;
+		}
+		
 		private Element localCreate(long id)
 		{
 			Element e=new Element(id,"","","",1,false,false);
@@ -392,6 +431,18 @@ public class PrefixTableConversionTest
 			return parent;
 		}
 	}
+	static class SingleDatasetElementBuilder
+	{
+		public static DatasetElement create(DatasetHead parent,long id,String alias,String fieldName)
+		{
+			DatasetElement e= new DatasetElement(id);
+			e.setName(alias);
+			e.setColumnMetaData(new ColumnMetadata(0, fieldName, "", false, 0, 0L, false));
+			e.setDatasetHead(parent);
+			return e;
+		}
+	}
+	
 	
 	class DatasetElementBuilder
 	{
@@ -400,20 +451,20 @@ public class PrefixTableConversionTest
 		{
 			dh=parent;
 			dh.setDatasetElements(new HashSet<DatasetElement>());
+			
 		}
 		public DatasetElementBuilder create(long id,String alias,String fieldName)
 		{
-			dh.getDatasetElements().add(localCreate(id, alias, fieldName,dh));
+			dh.getDatasetElements().add(SingleDatasetElementBuilder.create(dh,id, alias, fieldName));
 			return this;
 		}
 		
-		private DatasetElement localCreate(long id,String alias,String fieldName,DatasetHead parent)
+		public DatasetElementBuilder create(long id,String alias,String fieldName,DatasetCorrelationGroup group)
 		{
-			DatasetElement e= new DatasetElement(id);
-			e.setName(alias);
-			e.setColumnMetaData(new ColumnMetadata(0, fieldName, "", false, 0, 0L, false));
-			e.setDatasetHead(parent);
-			return e;
+			DatasetElement e=SingleDatasetElementBuilder.create(dh,id, alias, fieldName);
+			e.setDatasetCorrelationGroup(group);
+			dh.getDatasetElements().add(e);
+			return this;
 		}
 		
 		public DatasetHead build()
@@ -436,6 +487,29 @@ public class PrefixTableConversionTest
 			deb=new DatasetElementBuilder(dh);
 			return deb;
 		}
+	}
+	
+	
+	class FilterBuilder
+	{
+		//filter.criterion should be present in DatasetCriteriaWhereBuilder.CRITERIA. 
+		ArrayList<Filter> filters=new ArrayList<Filter>();
+		public FilterBuilder create(long criterion,long element,List<KeyValue> kvList)
+		{
+			filters.add(localCreate(criterion, element, kvList));
+			return this;
+		}
+		
+		public Filter localCreate(long criterion,long element,List<KeyValue> kvList)
+		{
+			return new Filter(criterion, element, kvList);
+		}
+		
+		public List<Filter> build()
+		{
+			return filters;
+		}
+		
 	}
 	
 }

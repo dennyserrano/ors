@@ -41,6 +41,15 @@ public class ConvertUtil
 		return new PrefixTable(dh, dh.getTableMetaData(), columnElementList);
 	}
 	
+	public static PrefixTable toPrefixTableLight(DatasetHead dh)
+	{
+		HashSet<ColumnElement> columnElementList=new HashSet<ColumnElement>();
+		
+//		ColumnElement[] ce=new ColumnElement[columnElementList.size()];
+		
+		return new PrefixTable(dh, dh.getTableMetaData(), columnElementList);
+	}
+	
 	public static ColumnElement toColumnElement(DatasetElement de)
 	{
 		ColumnElement ce= new ColumnElement(de, de.getColumnMetaData());

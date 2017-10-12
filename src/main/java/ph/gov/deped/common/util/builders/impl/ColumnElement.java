@@ -232,9 +232,33 @@ public class ColumnElement implements Comparable<ColumnElement>, Cloneable, Seri
 	@Override
 	public String express() {
 		
-		if(getTablePrefix()!=null && !getTablePrefix().isEmpty())
-			return String.format("%s.%s", getTablePrefix(),getColumnName());
+		if(alias()!=null)
+			return String.format("%s.%s AS %s", getTablePrefix(),getColumnName(),getElementName());
 		else
-			return String.format("%s", getColumnName());
+			return String.format("%s.%s", getTablePrefix(),getColumnName());
+		
 	}
+
+	@Override
+	public String alias() {
+		// TODO Auto-generated method stub
+		return elementName;
+	}
+
+	public void setElementName(String elementName) {
+		this.elementName = elementName;
+	}
+
+	@Override
+	public String dataType() {
+		// TODO Auto-generated method stub
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+	
+	
+	
 }

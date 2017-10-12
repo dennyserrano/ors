@@ -13,6 +13,7 @@ public class NestableColumnElement extends ColumnElement implements ColumnExpres
 	{
 		this.alias=alias;
 		innerColumnElement=ce;
+		this.setDataType(innerColumnElement.dataType());
 	}
 	
 	@Override
@@ -37,6 +38,8 @@ public class NestableColumnElement extends ColumnElement implements ColumnExpres
 		return innerColumnElement;
 	}
 	
-	
+	public String alias() {
+		return alias;
+	}
 	
 }

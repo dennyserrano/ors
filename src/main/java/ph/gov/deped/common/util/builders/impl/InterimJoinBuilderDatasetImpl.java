@@ -27,7 +27,7 @@ public class InterimJoinBuilderDatasetImpl extends
 		PrefixTable pt=new PrefixTable(child,child.getTableMetaData(),new HashSet<>());
 		pt.setTablePrefix(rightPrefix);
 //		l.add(new GenericKeyValue<>(new PrefixTable(parent,parent.getTableMetaData(),new HashSet<>()), new JoinPropertyBuilder().getManualBuilder().add(leftPrefix, "sy_from", rightPrefix, "sy_from").set(JoinType.LEFT_JOIN).build()) );
-		l.add(new GenericKeyValue<>(pt, new JoinPropertyBuilder().getManualBuilder()
+		l.add(0,new GenericKeyValue<>(pt, new JoinPropertyBuilder().getManualBuilder()
 				.add(leftPrefix, "school_id", rightPrefix, "school_id")
 				.add(leftPrefix, "sy_from", rightPrefix, "sy_from")
 				.set(JoinType.LEFT_JOIN).build()) );
