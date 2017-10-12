@@ -62,10 +62,10 @@ public class CriteriaQueryTest
 	@Autowired
 	CriteriaRepository cr;
 	@Test
-	@Ignore
+//	@Ignore
 	public void test() throws JsonParseException, JsonMappingException, IOException
 	{
-		
+		dr.countByParentDatasetHead(8L);
 //		XStream xs=new XStream();
 //		Dataset ds=(Dataset) xs.fromXML(new File("/home/denny/dataset.xml"));
 //		
@@ -81,8 +81,8 @@ public class CriteriaQueryTest
 //		System.out.println();
 		
 //		datasetService.getData(ds, false);
-		DatasetCriteria dc=cr.findOne(8L);
-		System.out.println();
+//		DatasetCriteria dc=cr.findOne(8L);
+//		System.out.println();
 	}
 	
 	public void t()
