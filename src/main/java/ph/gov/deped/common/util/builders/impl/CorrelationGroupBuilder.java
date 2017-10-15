@@ -26,7 +26,7 @@ public class CorrelationGroupBuilder
 		sequence=new ZigZagImpl();
 	}
 
-	public Map<PrefixTable,JoinProperty> build(PrefixTable parentTable,DatasetCorrelationGroup group)
+	public Map<PrefixTable,JoinProperty> build(PrefixTable parentTable,Dataset leftDataset,DatasetCorrelationGroup group)
 	{
 		
 		if(group.getGroupDetails().size()==0)
