@@ -14,6 +14,7 @@ import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.common.util.builders.interfaces.PrefixTableBuilder;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
+import ph.gov.deped.data.ors.ds.DatasetElement;
 import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.TableService;
@@ -63,7 +64,11 @@ public class TableServiceImpl implements TableService {
 		List<DatasetHead> datasetHeads=datasetRepo.findByIds(al);
 		HashMap<Long,DatasetHead> hm=new HashMap<Long, DatasetHead>();
 		for(DatasetHead dh:datasetHeads)
-			hm.put(dh.getId(), dh);
+			{
+				for(DatasetElement de:dh.getDatasetElements())
+					System.out.println();
+				hm.put(dh.getId(), dh);
+			}
 		
 		
 		
