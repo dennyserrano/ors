@@ -38,7 +38,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
 
     private String tableName;
 
-    private int ranking;
+    private Integer ranking;
 
     private Set<ColumnExpression> columns = new LinkedHashSet<>();
     
@@ -153,7 +153,7 @@ public class PrefixTable implements Comparable<PrefixTable>, Serializable {
         return tableName;
     }
 
-    public int getRanking() {
+    public Integer getRanking() {
         return ranking;
     }
     
