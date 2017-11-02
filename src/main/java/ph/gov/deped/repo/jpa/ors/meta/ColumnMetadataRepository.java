@@ -2,7 +2,9 @@ package ph.gov.deped.repo.jpa.ors.meta;
 
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
+
+import com.model.db.ColumnMetadata;
+
 import ph.gov.deped.repo.jpa.api.BaseJpaRepository;
 
 import java.util.List;

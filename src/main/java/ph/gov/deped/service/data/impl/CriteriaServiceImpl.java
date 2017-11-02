@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bits.sql.FilterType;
 import com.bits.sql.Operator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.model.db.DatasetCriteria;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.config.FilterSettings;
@@ -18,8 +20,6 @@ import ph.gov.deped.data.ebeis.RefLegislative;
 import ph.gov.deped.data.ebeis.RefMunicipality;
 import ph.gov.deped.data.ebeis.RefOffice;
 import ph.gov.deped.data.ebeis.RefProvince;
-import ph.gov.deped.data.ors.ds.DatasetCriteria;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.CriteriaRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.repo.jpa.ors.ds.RefLegislativeRepository;

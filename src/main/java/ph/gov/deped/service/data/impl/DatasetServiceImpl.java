@@ -1,6 +1,13 @@
 package ph.gov.deped.service.data.impl;
 
 import com.bits.sql.*;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationDtl;
+import com.model.db.DatasetCriteria;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+import com.model.db.TableMetadata;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,9 +24,6 @@ import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.ors.ds.*;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.repo.jpa.ors.ds.*;
 import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;

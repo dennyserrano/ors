@@ -17,6 +17,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bits.sql.AggregateTypes;
 import com.bits.sql.JdbcTypes;
+import com.model.db.DatasetCorrelationDtl;
+import com.model.db.DatasetCorrelationGroupDtl;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
 import com.thoughtworks.xstream.XStream;
 
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
@@ -26,10 +30,6 @@ import ph.gov.deped.data.dto.ds.Aggregate;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.service.data.api.DatasetService;

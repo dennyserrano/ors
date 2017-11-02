@@ -17,14 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.model.db.ColumnMetadata;
+import com.model.db.TableMetadata;
+
 import ph.gov.deped.common.EbeisMetadata;
 import ph.gov.deped.common.LisMetadata;
 import ph.gov.deped.common.command.Command;
 import ph.gov.deped.common.command.ICommand;
 import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.data.config.DbMappings;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.repo.jpa.ebeis.MetaRepository;
 import ph.gov.deped.service.etl.meta.MetadataHolder;
 import ph.gov.deped.service.etl.meta.MetadataRegistry;

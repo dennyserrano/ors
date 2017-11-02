@@ -2,9 +2,11 @@ package ph.gov.deped.repo.jpa.ors.ds;
 
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
-import ph.gov.deped.data.ors.ds.DatasetCriteria;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
+
+import com.model.db.DatasetCriteria;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.repo.jpa.api.BaseJpaRepository;
 
 import java.util.List;

@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Set;
 
 import com.bits.sql.JoinType;
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationDtl;
+import com.model.db.DatasetCorrelationGroup;
+import com.model.db.DatasetCorrelationGroupDtl;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 
 //joinproperty -> joininfo -> joinoperator - > joininfo -> joinoperator
 public class JoinPropertyBuilder

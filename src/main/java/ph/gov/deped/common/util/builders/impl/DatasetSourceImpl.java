@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.common.util.builders.interfaces.ColumnBuilder;
 import ph.gov.deped.common.util.builders.interfaces.GroupByBuilder;
@@ -20,8 +23,6 @@ import ph.gov.deped.data.dto.GenericKeyValue;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 
 //mapRef is a reference conversion from Dataset to DatasetHead. a dataset could get via id to get its DatasetHead counterpart.
 //note that Dataset is the parent and contains all the elements that the user chose. the subdatasets is just a tag on what are the tables involved in the join.

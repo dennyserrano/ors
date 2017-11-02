@@ -31,6 +31,12 @@ import org.springframework.stereotype.Service;
 
 import com.bits.sql.AggregateTypes;
 import com.bits.sql.JdbcTypes;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationGroup;
+import com.model.db.DatasetCorrelationGroupDtl;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.util.ConvertUtil;
@@ -50,15 +56,9 @@ import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.DatasetService;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 import javax.sql.DataSource;
 

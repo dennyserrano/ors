@@ -1,4 +1,4 @@
-package ph.gov.deped.data.ors.meta;
+package com.model.db;
 
 import com.bits.sql.Operator;
 import org.apache.commons.lang3.builder.EqualsBuilder;

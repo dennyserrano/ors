@@ -23,6 +23,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
+
+import com.model.db.DatabaseMetadata;
+
 import ph.gov.deped.common.DbSettings;
 import ph.gov.deped.common.dw.DbType;
 import ph.gov.deped.common.dw.JobRestartEvent;
@@ -30,7 +33,6 @@ import ph.gov.deped.common.dw.JobStatusChecker;
 import ph.gov.deped.config.EbeisSettings;
 import ph.gov.deped.config.LisSettings;
 import ph.gov.deped.config.OrsSettings;
-import ph.gov.deped.data.ors.meta.DatabaseMetadata;
 import ph.gov.deped.repo.jpa.ors.meta.ColumnMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.DatabaseMetadataRepository;
 import ph.gov.deped.repo.jpa.ors.meta.TableMetadataRepository;

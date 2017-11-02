@@ -8,6 +8,9 @@ import java.util.Map.Entry;
 
 import com.bits.sql.FilterType;
 import com.bits.sql.Operator;
+import com.model.db.DatasetCriteria;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.util.builders.interfaces.FilterComparator;
 import ph.gov.deped.common.util.builders.interfaces.FilterConjunctor;
@@ -16,9 +19,6 @@ import ph.gov.deped.common.util.builders.interfaces.WhereBuilder;
 import ph.gov.deped.data.dto.GenericKeyValue;
 import ph.gov.deped.data.dto.KeyValue;
 import ph.gov.deped.data.dto.ds.Filter;
-import ph.gov.deped.data.ors.ds.DatasetCriteria;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 

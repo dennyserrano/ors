@@ -23,6 +23,13 @@ import com.bits.sql.SqlBuilder;
 import com.bits.sql.SqlValueMapper;
 import com.bits.sql.ValueExpression;
 import com.jayway.jsonpath.Criteria;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationDtl;
+import com.model.db.DatasetCorrelationGroupDtl;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+import com.model.db.TableMetadata;
 
 import static com.bits.sql.Expressions.number;
 import static com.bits.sql.Expressions.string;
@@ -43,13 +50,6 @@ import ph.gov.deped.common.util.builders.impl.Where;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
 import ph.gov.deped.data.dto.KeyValue;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.data.api.ServiceQueryBuilder;
 
 public class ServiceQueryBuilderImpl implements ServiceQueryBuilder {

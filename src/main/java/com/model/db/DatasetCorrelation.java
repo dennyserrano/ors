@@ -1,4 +1,4 @@
-package ph.gov.deped.data.ors.ds;
+package com.model.db;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

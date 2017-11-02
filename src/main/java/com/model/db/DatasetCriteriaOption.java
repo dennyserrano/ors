@@ -1,4 +1,4 @@
-package ph.gov.deped.data.ors.ds;
+package com.model.db;
 
 import ph.gov.deped.data.BaseJpaEntity;
 

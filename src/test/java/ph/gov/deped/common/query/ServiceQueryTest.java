@@ -2,6 +2,14 @@ package ph.gov.deped.common.query;
 
 import java.util.HashSet;
 
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationDtl;
+import com.model.db.DatasetCorrelationGroupDtl;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+import com.model.db.TableMetadata;
+
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.common.util.builders.impl.JoinInfo;
 import ph.gov.deped.common.util.builders.impl.JoinProperty;
@@ -9,13 +17,6 @@ import ph.gov.deped.common.util.builders.impl.JoinPropertyBuilder;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ConditionalOperatorType;
 import ph.gov.deped.data.dto.JoinOperator;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.data.impl.ServiceQueryBuilderImpl;
 
 public class ServiceQueryTest 

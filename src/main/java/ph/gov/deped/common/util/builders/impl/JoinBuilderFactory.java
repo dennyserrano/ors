@@ -1,10 +1,11 @@
 package ph.gov.deped.common.util.builders.impl;
 
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.common.util.builders.interfaces.JoinBuilder;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class JoinBuilderFactory {
 

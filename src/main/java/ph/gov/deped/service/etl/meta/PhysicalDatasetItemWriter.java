@@ -8,16 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.SpringNamingStrategy;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+import com.model.db.TableMetadata;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.dw.DbType;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.security.SecurityContextUtil;
 
 import javax.sql.DataSource;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 

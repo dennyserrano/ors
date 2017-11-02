@@ -1,11 +1,11 @@
 package ph.gov.deped.common.util.builders.impl;
 
 import com.bits.sql.AggregateTypes;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetElement;
 
 import ph.gov.deped.common.util.builders.interfaces.ColumnBuilder;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 public class ColumnBuilderFactory {
 

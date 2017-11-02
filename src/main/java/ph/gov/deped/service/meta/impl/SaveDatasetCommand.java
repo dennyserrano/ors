@@ -2,11 +2,13 @@ package ph.gov.deped.service.meta.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.command.Command;
 import ph.gov.deped.common.command.ICommand;
 import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 

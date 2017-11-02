@@ -6,9 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.bits.sql.AggregateTypes;
-
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetElement;
 
 import java.io.Serializable;
 import java.util.List;

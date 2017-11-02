@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.common.util.builders.interfaces.JoinBuilder;
 import ph.gov.deped.data.dto.GenericKeyValue;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class JoinBuilderDatasetElementImpl implements JoinBuilder {
 

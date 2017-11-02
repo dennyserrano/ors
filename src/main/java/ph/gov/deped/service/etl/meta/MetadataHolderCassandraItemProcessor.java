@@ -14,13 +14,15 @@ import org.springframework.cassandra.core.keyspace.CreateTableSpecification;
 import org.springframework.cassandra.core.keyspace.TableOption;
 
 import ph.gov.deped.common.dw.DbType;
+
 import com.bits.sql.JdbcTypes;
+
 import ph.gov.deped.data.config.CassandraMappings;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 import ph.gov.deped.service.meta.api.MetadataSynchronizationException;
 
 import com.datastax.driver.core.DataType;
+import com.model.db.ColumnMetadata;
+import com.model.db.TableMetadata;
 
 /**
  * Created by ej on 9/10/14.

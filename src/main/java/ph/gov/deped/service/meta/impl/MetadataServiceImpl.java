@@ -13,13 +13,13 @@ import com.bits.sql.FloatValueMapper;
 import com.bits.sql.IntegerValueMapper;
 import com.bits.sql.JdbcType;
 import com.bits.sql.ShortValueMapper;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.AppMetadata;
 import ph.gov.deped.common.command.RequestContext;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.repo.jpa.ors.ds.ElementRepository;
 import ph.gov.deped.service.meta.api.FindAllDatasetsRequest;

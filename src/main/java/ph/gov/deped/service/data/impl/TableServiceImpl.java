@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bits.sql.AggregateTypes;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.util.builders.impl.DatasetSourceImpl;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.common.util.builders.interfaces.PrefixTableBuilder;
 import ph.gov.deped.data.dto.ds.Dataset;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 import ph.gov.deped.repo.jpa.ors.ds.DatasetRepository;
 import ph.gov.deped.service.data.api.TableService;
 

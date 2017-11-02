@@ -1,4 +1,4 @@
-package ph.gov.deped.data.ors.ds;
+package com.model.db;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -7,7 +7,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
 
 import ph.gov.deped.data.BaseJpaEntity;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

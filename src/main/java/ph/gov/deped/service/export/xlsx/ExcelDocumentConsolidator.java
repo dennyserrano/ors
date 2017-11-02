@@ -29,9 +29,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetElement;
+
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
 import ph.gov.deped.service.data.impl.BulkExcelExportServiceImpl;
 import ph.gov.deped.service.export.interfaces.ColumnElementWorkbookAppender;
 import ph.gov.deped.service.export.xlsx.abstracts.AbstractColumnElementExcelExporter;

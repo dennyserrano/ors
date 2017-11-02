@@ -9,9 +9,10 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import ph.gov.deped.common.dw.DbType;
+
 import com.bits.sql.JdbcTypes;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
+import com.model.db.ColumnMetadata;
+import com.model.db.TableMetadata;
 
 public class MetaRepository {
 

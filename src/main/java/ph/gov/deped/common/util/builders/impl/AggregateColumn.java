@@ -1,9 +1,8 @@
 package ph.gov.deped.common.util.builders.impl;
 
 import com.bits.sql.AggregateTypes;
-
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetElement;
 
 public class AggregateColumn implements ColumnExpression {
 

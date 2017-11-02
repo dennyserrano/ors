@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.bits.sql.JoinType;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
+import com.model.db.TableMetadata;
 
 import ph.gov.deped.data.dto.GenericKeyValue;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.data.ors.meta.TableMetadata;
 
 public class InterimJoinBuilderDatasetImpl extends
 		JoinBuilderDatasetImpl {

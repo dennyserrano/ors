@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Set;
 
 import com.bits.sql.AggregateTypes;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationDtl;
+import com.model.db.DatasetCorrelationGroup;
+import com.model.db.DatasetElement;
+import com.model.db.DatasetHead;
 
 import ph.gov.deped.common.util.builders.impl.ColumnElement;
 import ph.gov.deped.common.util.builders.impl.JoinInfo;
 import ph.gov.deped.common.util.builders.impl.PrefixTable;
 import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationDtl;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.ds.DatasetHead;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
 
 public class ConvertUtil 
 {

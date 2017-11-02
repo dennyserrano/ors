@@ -8,12 +8,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 
+import com.model.db.DatasetCorrelation;
+import com.model.db.DatasetCorrelationGroup;
+import com.model.db.DatasetCorrelationGroupDtl;
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.common.util.ConvertUtil;
 import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.data.ors.ds.DatasetCorrelation;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroup;
-import ph.gov.deped.data.ors.ds.DatasetCorrelationGroupDtl;
-import ph.gov.deped.data.ors.ds.DatasetHead;
 
 public class CorrelationGroupBuilder 
 {

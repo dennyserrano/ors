@@ -1,4 +1,4 @@
-package ph.gov.deped.data.ors.ds;
+package com.model.db;
 
 import java.util.List;
 import java.util.Set;

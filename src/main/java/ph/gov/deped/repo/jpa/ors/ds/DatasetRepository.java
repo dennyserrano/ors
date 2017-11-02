@@ -4,7 +4,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
-import ph.gov.deped.data.ors.ds.DatasetHead;
+
+import com.model.db.DatasetHead;
+
 import ph.gov.deped.repo.jpa.api.BaseJpaRepository;
 
 import java.util.List;

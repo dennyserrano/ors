@@ -2,8 +2,8 @@ package ph.gov.deped.common.util.builders.impl;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import ph.gov.deped.data.ors.ds.DatasetElement;
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
+import com.model.db.ColumnMetadata;
+import com.model.db.DatasetElement;
 
 public class NestableColumnElement extends ColumnElement implements ColumnExpression{
 

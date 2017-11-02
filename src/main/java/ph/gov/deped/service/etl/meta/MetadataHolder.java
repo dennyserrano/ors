@@ -1,12 +1,12 @@
 package ph.gov.deped.service.etl.meta;
 
-import ph.gov.deped.data.ors.meta.ColumnMetadata;
-import ph.gov.deped.data.ors.meta.TableMetadata;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.model.db.ColumnMetadata;
+import com.model.db.TableMetadata;
 
 /**
 * Created by ej on 8/14/14.
