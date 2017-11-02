@@ -9,7 +9,7 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     	AND A.grade_level_id=497
@@ -21,7 +21,7 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     	AND A.grade_level_id=497
@@ -33,11 +33,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     	AND A.grade_level_id=595
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as g12male_TOT,
 (
@@ -45,7 +45,7 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     	AND A.grade_level_id=595
@@ -58,11 +58,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ATPOE,
 (
@@ -70,11 +70,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ATPOE,
 (
@@ -85,11 +85,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=18
+    AND D.ref_subject_id=18
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_BARB,
 (
@@ -97,11 +97,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=18
+    AND D.ref_subject_id=18
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_BARB,
 (
@@ -112,11 +112,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=19
+    AND D.ref_subject_id=19
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_BART,
 (
@@ -124,11 +124,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=19
+    AND D.ref_subject_id=19
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_BART,
 (
@@ -139,11 +139,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=21
+    AND D.ref_subject_id=21
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_BNC,
 (
@@ -151,11 +151,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=21
+    AND D.ref_subject_id=21
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_BNC,
 (
@@ -166,11 +166,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=22
+    AND D.ref_subject_id=22
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_BNP,
 (
@@ -178,11 +178,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=22
+    AND D.ref_subject_id=22
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_BNP,
 (
@@ -193,11 +193,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=27
+    AND D.ref_subject_id=27
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CGV,
 (
@@ -205,11 +205,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=27
+    AND D.ref_subject_id=27
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CGV,
 (
@@ -220,11 +220,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=30
+    AND D.ref_subject_id=30
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CC,
 (
@@ -232,11 +232,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=30
+    AND D.ref_subject_id=30
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CC,
 (
@@ -247,11 +247,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=38
+    AND D.ref_subject_id=38
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_COOK,
 (
@@ -259,11 +259,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=38
+    AND D.ref_subject_id=38
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_COOK,
 (
@@ -274,11 +274,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=49
+    AND D.ref_subject_id=49
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_DRESS,
 (
@@ -286,11 +286,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=49
+    AND D.ref_subject_id=49
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_DRESS,
 (
@@ -301,11 +301,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=61
+    AND D.ref_subject_id=61
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_EMS,
 (
@@ -313,11 +313,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=61
+    AND D.ref_subject_id=61
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_EMS,
 (
@@ -328,11 +328,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=63
+    AND D.ref_subject_id=63
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FD,
 (
@@ -340,11 +340,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=63
+    AND D.ref_subject_id=63
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FD,
 (
@@ -355,11 +355,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=72
+    AND D.ref_subject_id=72
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FBS,
 (
@@ -367,11 +367,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=72
+    AND D.ref_subject_id=72
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FBS,
 (
@@ -382,11 +382,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=73
+    AND D.ref_subject_id=73
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FOS,
 (
@@ -394,11 +394,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=73
+    AND D.ref_subject_id=73
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FOS,
 (
@@ -409,11 +409,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=86
+    AND D.ref_subject_id=86
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HDII,
 (
@@ -421,11 +421,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=86
+    AND D.ref_subject_id=86
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HDII,
 (
@@ -436,11 +436,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=87
+    AND D.ref_subject_id=87
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HDIII,
 (
@@ -448,11 +448,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=87
+    AND D.ref_subject_id=87
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HDIII,
 (
@@ -463,11 +463,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=88
+    AND D.ref_subject_id=88
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HBM,
 (
@@ -475,11 +475,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=88
+    AND D.ref_subject_id=88
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HBM,
 (
@@ -490,11 +490,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=89
+    AND D.ref_subject_id=89
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HFAP,
 (
@@ -502,11 +502,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=89
+    AND D.ref_subject_id=89
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HFAP,
 (
@@ -517,11 +517,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=90
+    AND D.ref_subject_id=90
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HN,
 (
@@ -529,11 +529,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=90
+    AND D.ref_subject_id=90
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HN,
 (
@@ -544,11 +544,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=91
+    AND D.ref_subject_id=91
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HWL,
 (
@@ -556,11 +556,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=91
+    AND D.ref_subject_id=91
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HWL,
 (
@@ -571,11 +571,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=94
+    AND D.ref_subject_id=94
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HK,
 (
@@ -583,11 +583,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=94
+    AND D.ref_subject_id=94
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HK,
 (
@@ -598,11 +598,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=109
+    AND D.ref_subject_id=109
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_LGS,
 (
@@ -610,11 +610,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=109
+    AND D.ref_subject_id=109
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_LGS,
 (
@@ -625,11 +625,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=154
+    AND D.ref_subject_id=154
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_TLOR,
 (
@@ -637,11 +637,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=154
+    AND D.ref_subject_id=154
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_TLOR,
 (
@@ -652,11 +652,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=160
+    AND D.ref_subject_id=160
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_TPS,
 (
@@ -664,11 +664,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=160
+    AND D.ref_subject_id=160
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_TPS,
 (
@@ -679,11 +679,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=162
+    AND D.ref_subject_id=162
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_TS,
 (
@@ -691,11 +691,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=162
+    AND D.ref_subject_id=162
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_TS,
 (
@@ -706,11 +706,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=165
+    AND D.ref_subject_id=165
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_WM,
 (
@@ -718,11 +718,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=165
+    AND D.ref_subject_id=165
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_WM,
 (
@@ -733,11 +733,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=2
+    AND D.ref_subject_id=2
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ACPI,
 (
@@ -745,11 +745,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=2
+    AND D.ref_subject_id=2
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ACPI,
 (
@@ -760,11 +760,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=3
+    AND D.ref_subject_id=3
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ACPII,
 (
@@ -772,11 +772,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=3
+    AND D.ref_subject_id=3
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ACPII,
 (
@@ -787,11 +787,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=4
+    AND D.ref_subject_id=4
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ACPIII,
 (
@@ -799,11 +799,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=4
+    AND D.ref_subject_id=4
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ACPIII,
 (
@@ -814,11 +814,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=5
+    AND D.ref_subject_id=5
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_AHCM,
 (
@@ -826,11 +826,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=5
+    AND D.ref_subject_id=5
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_AHCM,
 (
@@ -841,11 +841,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_APPC,
 (
@@ -853,11 +853,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_APPC,
 (
@@ -868,11 +868,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=186
+    AND D.ref_subject_id=186
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_APLR,
 (
@@ -880,11 +880,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=186
+    AND D.ref_subject_id=186
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_APLR,
 (
@@ -895,11 +895,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=8
+    AND D.ref_subject_id=8
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_APS,
 (
@@ -907,11 +907,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=8
+    AND D.ref_subject_id=8
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_APS,
 (
@@ -922,11 +922,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=12
+    AND D.ref_subject_id=12
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_AQUA,
 (
@@ -934,11 +934,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=12
+    AND D.ref_subject_id=12
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_AQUA,
 (
@@ -949,11 +949,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=13
+    AND D.ref_subject_id=13
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_AILR,
 (
@@ -961,11 +961,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=13
+    AND D.ref_subject_id=13
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_AILR,
 (
@@ -976,11 +976,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=14
+    AND D.ref_subject_id=14
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_AIS,
 (
@@ -988,11 +988,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=14
+    AND D.ref_subject_id=14
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_AIS,
 (
@@ -1003,11 +1003,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=65
+    AND D.ref_subject_id=65
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FC,
 (
@@ -1015,11 +1015,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=65
+    AND D.ref_subject_id=65
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FC,
 (
@@ -1030,11 +1030,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=67
+    AND D.ref_subject_id=67
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FGRM,
 (
@@ -1042,11 +1042,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=67
+    AND D.ref_subject_id=67
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FGRM,
 (
@@ -1057,11 +1057,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=68
+    AND D.ref_subject_id=68
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FPP,
 (
@@ -1069,11 +1069,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=68
+    AND D.ref_subject_id=68
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FPP,
 (
@@ -1084,11 +1084,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=66
+    AND D.ref_subject_id=66
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FWO,
 (
@@ -1096,11 +1096,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=66
+    AND D.ref_subject_id=66
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FWO,
 (
@@ -1111,11 +1111,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=71
+    AND D.ref_subject_id=71
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FP,
 (
@@ -1123,11 +1123,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=71
+    AND D.ref_subject_id=71
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FP,
 (
@@ -1138,11 +1138,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=93
+    AND D.ref_subject_id=93
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_HORT,
 (
@@ -1150,11 +1150,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=93
+    AND D.ref_subject_id=93
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_HORT,
 (
@@ -1165,11 +1165,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=105
+    AND D.ref_subject_id=105
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_LIM,
 (
@@ -1177,11 +1177,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=105
+    AND D.ref_subject_id=105
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_LIM,
 (
@@ -1192,11 +1192,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=121
+    AND D.ref_subject_id=121
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_OA,
 (
@@ -1204,11 +1204,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=121
+    AND D.ref_subject_id=121
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_OA,
 (
@@ -1219,11 +1219,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=126
+    AND D.ref_subject_id=126
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_PM,
 (
@@ -1231,11 +1231,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=126
+    AND D.ref_subject_id=126
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_PM,
 (
@@ -1246,11 +1246,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=144
+    AND D.ref_subject_id=144
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_RMO,
 (
@@ -1258,11 +1258,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=144
+    AND D.ref_subject_id=144
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_RMO,
 (
@@ -1273,11 +1273,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=145
+    AND D.ref_subject_id=145
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_RP,
 (
@@ -1285,11 +1285,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=145
+    AND D.ref_subject_id=145
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_RP,
 (
@@ -1300,11 +1300,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=146
+    AND D.ref_subject_id=146
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_RUBPROD,
 (
@@ -1312,11 +1312,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=146
+    AND D.ref_subject_id=146
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_RUBPROD,
 (
@@ -1327,11 +1327,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=150
+    AND D.ref_subject_id=150
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_SO,
 (
@@ -1339,11 +1339,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=150
+    AND D.ref_subject_id=150
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_SO,
 (
@@ -1354,11 +1354,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=16
+    AND D.ref_subject_id=16
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ASI,
 (
@@ -1366,11 +1366,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=16
+    AND D.ref_subject_id=16
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ASI,
 (
@@ -1381,11 +1381,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=17
+    AND D.ref_subject_id=17
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ASII,
 (
@@ -1393,11 +1393,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=17
+    AND D.ref_subject_id=17
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ASII,
 (
@@ -1408,11 +1408,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=28
+    AND D.ref_subject_id=28
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CARTII,
 (
@@ -1420,11 +1420,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=28
+    AND D.ref_subject_id=28
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CARTII,
 (
@@ -1435,11 +1435,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=29
+    AND D.ref_subject_id=29
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CARTIII,
 (
@@ -1447,11 +1447,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=29
+    AND D.ref_subject_id=29
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CARTIII,
 (
@@ -1462,11 +1462,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=34
+    AND D.ref_subject_id=34
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CP,
 (
@@ -1474,11 +1474,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=34
+    AND D.ref_subject_id=34
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CP,
 (
@@ -1489,11 +1489,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=48
+    AND D.ref_subject_id=48
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_DOMRAC,
 (
@@ -1501,11 +1501,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=48
+    AND D.ref_subject_id=48
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_DOMRAC,
 (
@@ -1516,11 +1516,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=56
+    AND D.ref_subject_id=56
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_EIM,
 (
@@ -1528,11 +1528,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=56
+    AND D.ref_subject_id=56
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_EIM,
 (
@@ -1544,11 +1544,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=55
+    AND D.ref_subject_id=55
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_EPDLC,
 (
@@ -1556,11 +1556,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=55
+    AND D.ref_subject_id=55
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_EPDLC,
 (
@@ -1571,11 +1571,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=57
+    AND D.ref_subject_id=57
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_EPAS,
 (
@@ -1583,11 +1583,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=57
+    AND D.ref_subject_id=57
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_EPAS,
 (
@@ -1598,11 +1598,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=77
+    AND D.ref_subject_id=77
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FM,
 (
@@ -1610,11 +1610,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=77
+    AND D.ref_subject_id=77
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FM,
 (
@@ -1625,11 +1625,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=100
+    AND D.ref_subject_id=100
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ICS,
 (
@@ -1637,11 +1637,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=100
+    AND D.ref_subject_id=100
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ICS,
 (
@@ -1652,11 +1652,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=78
+    AND D.ref_subject_id=78
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_GMAW,
 (
@@ -1664,11 +1664,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=78
+    AND D.ref_subject_id=78
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_GMAW,
 (
@@ -1679,11 +1679,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=79
+    AND D.ref_subject_id=79
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_GTAW,
 (
@@ -1691,11 +1691,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=79
+    AND D.ref_subject_id=79
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_GTAW,
 (
@@ -1706,11 +1706,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=110
+    AND D.ref_subject_id=110
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_MACHI,
 (
@@ -1718,11 +1718,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=110
+    AND D.ref_subject_id=110
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_MACHI,
 (
@@ -1733,11 +1733,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=111
+    AND D.ref_subject_id=111
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_MACHII,
 (
@@ -1745,11 +1745,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=111
+    AND D.ref_subject_id=111
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_MACHII,
 (
@@ -1760,11 +1760,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=112
+    AND D.ref_subject_id=112
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_MSN,
 (
@@ -1772,11 +1772,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=112
+    AND D.ref_subject_id=112
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_MSN,
 (
@@ -1787,11 +1787,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=113
+    AND D.ref_subject_id=113
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_MS,
 (
@@ -1799,11 +1799,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=113
+    AND D.ref_subject_id=113
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_MS,
 (
@@ -1814,11 +1814,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=118
+    AND D.ref_subject_id=118
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_SES,
 (
@@ -1826,11 +1826,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=118
+    AND D.ref_subject_id=118
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_SES,
 (
@@ -1841,11 +1841,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=131
+    AND D.ref_subject_id=131
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_PLUMI,
 (
@@ -1853,11 +1853,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=131
+    AND D.ref_subject_id=131
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_PLUMI,
 (
@@ -1868,11 +1868,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=132
+    AND D.ref_subject_id=132
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_PLUMII,
 (
@@ -1880,11 +1880,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=132
+    AND D.ref_subject_id=132
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_PLUMII,
 (
@@ -1895,11 +1895,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=143
+    AND D.ref_subject_id=143
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_PACU,
 (
@@ -1907,11 +1907,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=143
+    AND D.ref_subject_id=143
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_PACU,
 (
@@ -1922,11 +1922,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=148
+    AND D.ref_subject_id=148
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_SMAWI,
 (
@@ -1934,11 +1934,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=148
+    AND D.ref_subject_id=148
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_SMAWI,
 (
@@ -1949,11 +1949,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=149
+    AND D.ref_subject_id=149
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_SMAWII,
 (
@@ -1961,11 +1961,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=149
+    AND D.ref_subject_id=149
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_SMAWII,
 (
@@ -1976,11 +1976,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=159
+    AND D.ref_subject_id=159
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_TILE,
 (
@@ -1988,11 +1988,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=159
+    AND D.ref_subject_id=159
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_TILE,
 (
@@ -2003,11 +2003,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=161
+    AND D.ref_subject_id=161
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_TLIM,
 (
@@ -2015,11 +2015,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=161
+    AND D.ref_subject_id=161
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_TLIM,
 (
@@ -2030,11 +2030,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=9
+    AND D.ref_subject_id=9
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ANIM,
 (
@@ -2042,11 +2042,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=9
+    AND D.ref_subject_id=9
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ANIM,
 (
@@ -2057,11 +2057,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=23
+    AND D.ref_subject_id=23
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_FWS,
 (
@@ -2069,11 +2069,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=23
+    AND D.ref_subject_id=23
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_FWS,
 (
@@ -2084,11 +2084,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=138
+    AND D.ref_subject_id=138
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CPNT,
 (
@@ -2096,11 +2096,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=138
+    AND D.ref_subject_id=138
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CPNT,
 (
@@ -2111,11 +2111,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=139
+    AND D.ref_subject_id=139
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CPJV,
 (
@@ -2123,11 +2123,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=139
+    AND D.ref_subject_id=139
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CPJV,
 (
@@ -2138,11 +2138,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=140
+    AND D.ref_subject_id=140
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CPOR,
 (
@@ -2150,11 +2150,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=140
+    AND D.ref_subject_id=140
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CPOR,
 (
@@ -2165,11 +2165,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=33
+    AND D.ref_subject_id=33
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CSS,
 (
@@ -2177,11 +2177,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=33
+    AND D.ref_subject_id=33
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CSS,
 (
@@ -2192,11 +2192,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=36
+    AND D.ref_subject_id=36
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_CCS,
 (
@@ -2204,11 +2204,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=36
+    AND D.ref_subject_id=36
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_CCS,
 (
@@ -2219,11 +2219,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=98
+    AND D.ref_subject_id=98
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_ILLUS,
 (
@@ -2231,11 +2231,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=98
+    AND D.ref_subject_id=98
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_ILLUS,
 (
@@ -2246,11 +2246,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=117
+    AND D.ref_subject_id=117
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_MT,
 (
@@ -2258,11 +2258,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=117
+    AND D.ref_subject_id=117
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_MT,
 (
@@ -2273,11 +2273,11 @@ SELECT
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=155
+    AND D.ref_subject_id=155
     AND A.report_history_id=rh.id)
 ) as gmale_TOT_TD,
 (
@@ -2285,11 +2285,11 @@ SELECT
 	 IFNULL(SUM(A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     
-    AND C.shs_subjects_id=155
+    AND D.ref_subject_id=155
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT_TD,
 (
@@ -2300,11 +2300,11 @@ SELECT
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=156
+AND D.ref_subject_id=156
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_CCPD, 
 ( 
@@ -2312,11 +2312,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=156 
+AND D.ref_subject_id=156 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_CCPD, 
 ( 
@@ -2332,11 +2332,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=157 
+AND D.ref_subject_id=157 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_FOC, 
 ( 
@@ -2344,11 +2344,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=157 
+AND D.ref_subject_id=157 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_FOC, 
 ( 
@@ -2358,11 +2358,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=166 
+AND D.ref_subject_id=166 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_NW1, 
 ( 
@@ -2370,11 +2370,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=166 
+AND D.ref_subject_id=166 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_NW1, 
 ( 
@@ -2385,11 +2385,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=167 
+AND D.ref_subject_id=167 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_NW2, 
 ( 
@@ -2397,11 +2397,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=167 
+AND D.ref_subject_id=167 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_NW2, 
 ( 
@@ -2412,11 +2412,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=168 
+AND D.ref_subject_id=168 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_NW3, 
 ( 
@@ -2424,11 +2424,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=168 
+AND D.ref_subject_id=168 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_NW3, 
 ( 
@@ -2439,11 +2439,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=169 
+AND D.ref_subject_id=169 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_EW1, 
 ( 
@@ -2451,11 +2451,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=169 
+AND D.ref_subject_id=169 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_EW1, 
 ( 
@@ -2466,11 +2466,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=181 
+AND D.ref_subject_id=181 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_EW2, 
 ( 
@@ -2478,11 +2478,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=181 
+AND D.ref_subject_id=181 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_EW2, 
 ( 
@@ -2493,11 +2493,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=182 
+AND D.ref_subject_id=182 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_SFTY1, 
 ( 
@@ -2505,11 +2505,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=182 
+AND D.ref_subject_id=182 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_SFTY1, 
 ( 
@@ -2520,11 +2520,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=183 
+AND D.ref_subject_id=183 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_SFTY2, 
 ( 
@@ -2532,11 +2532,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=183 
+AND D.ref_subject_id=183 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_SFTY2, 
 ( 
@@ -2547,11 +2547,11 @@ AND A.report_history_id=rh.id)
 @totalA:=(SELECT 
 IFNULL(SUM(A.male),0) FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=184 
+AND D.ref_subject_id=184 
 AND A.report_history_id=rh.id) 
 ) as gmale_TOT_SCS, 
 ( 
@@ -2559,11 +2559,11 @@ AND A.report_history_id=rh.id)
 IFNULL(SUM(A.female),0) 
 FROM ebeisdb.shs_enrolment_summary A INNER JOIN 
 ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN 
-ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id 
+ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id 
 WHERE 
 B.shs_track_id=906 -- TVL code 
  
-AND C.shs_subjects_id=184 
+AND D.ref_subject_id=184 
 AND A.report_history_id=rh.id) 
 ) as gfemale_TOT_SCS, 
 ( 
@@ -2574,10 +2574,10 @@ AND A.report_history_id=rh.id)
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as gmale_TOT,
 (
@@ -2585,10 +2585,10 @@ AND A.report_history_id=rh.id)
 	 IFNULL(SUM(A.male),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
-    AND C.shs_subjects_id=15
+    AND D.ref_subject_id=15
     AND A.report_history_id=rh.id)
 ) as gfemale_TOT,
 (
@@ -2596,7 +2596,7 @@ AND A.report_history_id=rh.id)
 	 IFNULL(SUM(A.male+A.female),0)
 	FROM ebeisdb.shs_enrolment_summary A INNER JOIN
 	ebeisdb.shs_offerings B ON A.shs_offerings_id=B.id INNER JOIN
-	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id
+	ebeisdb.shs_tvl_enrolment_details C ON A.id=C.shs_enrolment_summary_id INNER JOIN ebeisdb.shs_subjects D ON D.id=C.shs_subjects_id
 	WHERE
 	B.shs_track_id=906 -- TVL code
     AND A.report_history_id=rh.id)
