@@ -43,7 +43,7 @@ public class DatasetFilterChain extends BaseJpaEntity<Long> implements Serializa
     private Long parentFilterChain;
 
     @Column(nullable = false, length = 10)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @ManyToOne

@@ -1,6 +1,7 @@
 package com.util.builders.impl;
 
-import ph.gov.deped.common.util.builders.interfaces.FilterWhere;
+import com.util.builders.interfaces.FilterWhere;
+
 
 public class FilterWhereBuilderFactory {
 

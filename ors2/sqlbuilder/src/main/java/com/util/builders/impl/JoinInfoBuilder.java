@@ -1,6 +1,7 @@
 package com.util.builders.impl;
 
-import ph.gov.deped.data.dto.EqualityOperatorType;
+import com.model.support.EqualityOperatorType;
+
 
 public class JoinInfoBuilder 
 {

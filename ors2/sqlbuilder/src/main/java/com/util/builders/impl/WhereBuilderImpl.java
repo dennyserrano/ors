@@ -3,11 +3,10 @@ package com.util.builders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ph.gov.deped.common.util.builders.interfaces.FilterComparator;
-import ph.gov.deped.common.util.builders.interfaces.FilterConjunctor;
-import ph.gov.deped.common.util.builders.interfaces.FilterWhere;
-import ph.gov.deped.common.util.builders.interfaces.WhereBuilder;
-import ph.gov.deped.data.dto.ds.Filter;
+import com.util.builders.interfaces.FilterComparator;
+import com.util.builders.interfaces.FilterConjunctor;
+import com.util.builders.interfaces.FilterWhere;
+
 
 public class WhereBuilderImpl implements FilterConjunctor,FilterComparator,FilterWhere{
 

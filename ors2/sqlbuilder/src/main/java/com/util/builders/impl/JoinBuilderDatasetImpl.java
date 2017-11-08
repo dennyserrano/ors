@@ -7,9 +7,9 @@ import java.util.List;
 import com.model.db.DatasetCorrelationGroup;
 import com.model.db.DatasetElement;
 import com.model.db.DatasetHead;
+import com.model.support.GenericKeyValue;
+import com.util.builders.interfaces.JoinBuilder;
 
-import ph.gov.deped.common.util.builders.interfaces.JoinBuilder;
-import ph.gov.deped.data.dto.GenericKeyValue;
 
 public class JoinBuilderDatasetImpl implements JoinBuilder {
 

@@ -53,7 +53,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     private DatasetElement leftElement;
 
     @Column(length = 10)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @Basic

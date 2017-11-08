@@ -48,6 +48,7 @@
 	<modules>
 		<module>models</module>
 		<module>sqlbuilder</module>
+		<module>repositories</module>
 	</modules>
 
 	<dependencyManagement>
@@ -85,6 +86,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 </project>

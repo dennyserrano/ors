@@ -12,9 +12,9 @@ import com.model.db.DatasetCorrelation;
 import com.model.db.DatasetCorrelationGroup;
 import com.model.db.DatasetCorrelationGroupDtl;
 import com.model.db.DatasetHead;
+import com.model.support.Dataset;
+import com.util.builders.util.ConvertUtil;
 
-import ph.gov.deped.common.util.ConvertUtil;
-import ph.gov.deped.data.dto.ds.Dataset;
 
 public class CorrelationGroupBuilder 
 {

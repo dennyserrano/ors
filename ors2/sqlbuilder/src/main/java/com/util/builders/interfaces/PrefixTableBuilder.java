@@ -2,11 +2,11 @@ package com.util.builders.interfaces;
 
 import java.util.List;
 
-import ph.gov.deped.common.util.builders.impl.PrefixTable;
-import ph.gov.deped.common.util.builders.impl.Where;
-import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.data.dto.ds.Element;
-import ph.gov.deped.data.dto.ds.Filter;
+import com.model.support.Dataset;
+import com.model.support.Element;
+import com.model.support.Filter;
+import com.util.builders.impl.PrefixTable;
+
 
 
 public interface PrefixTableBuilder extends TableBuilder<Dataset, Element, List<Filter>, Element, Element,PrefixTable>

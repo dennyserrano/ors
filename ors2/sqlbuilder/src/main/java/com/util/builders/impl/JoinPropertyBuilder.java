@@ -10,10 +10,9 @@ import com.model.db.DatasetCorrelationDtl;
 import com.model.db.DatasetCorrelationGroup;
 import com.model.db.DatasetCorrelationGroupDtl;
 import com.model.db.DatasetHead;
+import com.model.support.ConditionalOperatorType;
+import com.util.builders.util.ConvertUtil;
 
-import ph.gov.deped.common.util.ConvertUtil;
-import ph.gov.deped.data.dto.ConditionalOperatorType;
-import ph.gov.deped.data.dto.JoinOperator;
 
 //joinproperty -> joininfo -> joinoperator - > joininfo -> joinoperator
 public class JoinPropertyBuilder

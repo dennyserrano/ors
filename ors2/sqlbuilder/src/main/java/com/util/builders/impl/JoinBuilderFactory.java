@@ -2,10 +2,10 @@ package com.util.builders.impl;
 
 import com.model.db.DatasetElement;
 import com.model.db.DatasetHead;
+import com.model.support.Dataset;
+import com.model.support.Element;
+import com.util.builders.interfaces.JoinBuilder;
 
-import ph.gov.deped.common.util.builders.interfaces.JoinBuilder;
-import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.data.dto.ds.Element;
 
 public class JoinBuilderFactory {
 

@@ -35,7 +35,7 @@ public class RelationDtlMetadata extends BaseJpaEntity<Integer> implements Seria
     private Integer leftColumnId;
 
     @Column(nullable = false)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @Column(nullable = false)

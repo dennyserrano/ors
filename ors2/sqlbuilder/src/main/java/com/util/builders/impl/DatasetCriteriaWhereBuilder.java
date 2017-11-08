@@ -11,14 +11,13 @@ import com.bits.sql.Operator;
 import com.model.db.DatasetCriteria;
 import com.model.db.DatasetElement;
 import com.model.db.DatasetHead;
+import com.model.support.Filter;
+import com.model.support.KeyValue;
+import com.util.builders.interfaces.FilterComparator;
+import com.util.builders.interfaces.FilterConjunctor;
+import com.util.builders.interfaces.FilterWhere;
+import com.util.builders.interfaces.WhereBuilder;
 
-import ph.gov.deped.common.util.builders.interfaces.FilterComparator;
-import ph.gov.deped.common.util.builders.interfaces.FilterConjunctor;
-import ph.gov.deped.common.util.builders.interfaces.FilterWhere;
-import ph.gov.deped.common.util.builders.interfaces.WhereBuilder;
-import ph.gov.deped.data.dto.GenericKeyValue;
-import ph.gov.deped.data.dto.KeyValue;
-import ph.gov.deped.data.dto.ds.Filter;
 
 public class DatasetCriteriaWhereBuilder implements WhereBuilder {
 

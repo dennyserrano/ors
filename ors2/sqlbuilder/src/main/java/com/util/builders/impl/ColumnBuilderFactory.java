@@ -1,11 +1,9 @@
 package com.util.builders.impl;
 
 import com.bits.sql.AggregateTypes;
-import com.model.db.ColumnMetadata;
-import com.model.db.DatasetElement;
+import com.model.support.Element;
+import com.util.builders.interfaces.ColumnBuilder;
 
-import ph.gov.deped.common.util.builders.interfaces.ColumnBuilder;
-import ph.gov.deped.data.dto.ds.Element;
 
 public class ColumnBuilderFactory {
 

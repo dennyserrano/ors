@@ -1,8 +1,8 @@
 package com.util.builders.impl;
 
 import com.model.db.DatasetElement;
+import com.util.builders.interfaces.ColumnBuilder;
 
-import ph.gov.deped.common.util.builders.interfaces.ColumnBuilder;
 
 public class DatasetElementColumnBuilder implements ColumnBuilder {
 

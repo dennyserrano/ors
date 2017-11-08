@@ -1,9 +1,8 @@
 package com.util.builders.impl;
 
-import ph.gov.deped.data.dto.EqualityOperatorType;
-import ph.gov.deped.data.dto.JoinOperator;
 
 import com.bits.sql.JoinType;
+import com.model.support.EqualityOperatorType;
 
 public class JoinInfo<L,R>
 {

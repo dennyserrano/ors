@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.bits.sql.JdbcType;
 
-import ph.gov.deped.data.dto.GenericKeyValue;
 
 public class Operational 
 {

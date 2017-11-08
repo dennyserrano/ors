@@ -3,7 +3,6 @@ package com.util.builders.impl;
 import com.bits.sql.AggregateTypes;
 import com.model.db.DatasetElement;
 
-import ph.gov.deped.common.util.builders.interfaces.ColumnBuilder;
 
 public class AggregateColumnBuilder extends DatasetElementColumnBuilder {
 

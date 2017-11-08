@@ -9,8 +9,8 @@ import com.bits.sql.JoinType;
 import com.model.db.DatasetElement;
 import com.model.db.DatasetHead;
 import com.model.db.TableMetadata;
+import com.model.support.GenericKeyValue;
 
-import ph.gov.deped.data.dto.GenericKeyValue;
 
 public class InterimJoinBuilderDatasetImpl extends
 		JoinBuilderDatasetImpl {

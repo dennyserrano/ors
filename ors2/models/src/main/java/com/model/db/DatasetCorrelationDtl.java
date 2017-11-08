@@ -44,7 +44,7 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
     private DatasetElement leftElement;
 
     @Column(nullable = false)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @ManyToOne

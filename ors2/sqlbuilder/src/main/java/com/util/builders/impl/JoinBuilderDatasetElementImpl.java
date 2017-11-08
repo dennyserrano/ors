@@ -6,9 +6,9 @@ import java.util.Map.Entry;
 
 import com.model.db.DatasetElement;
 import com.model.db.DatasetHead;
+import com.model.support.GenericKeyValue;
+import com.util.builders.interfaces.JoinBuilder;
 
-import ph.gov.deped.common.util.builders.interfaces.JoinBuilder;
-import ph.gov.deped.data.dto.GenericKeyValue;
 
 public class JoinBuilderDatasetElementImpl implements JoinBuilder {
 
