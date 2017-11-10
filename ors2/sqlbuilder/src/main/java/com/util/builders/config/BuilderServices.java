@@ -7,10 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
-import com.util.builders.services.HelloService;
 
 @Configuration
-@ComponentScan(basePackages = {"com.util.builders.services"},
+@ComponentScan(basePackages = {"com.util.builders.api"},
         useDefaultFilters = false,
         includeFilters = {
                 @ComponentScan.Filter(value = {Service.class}, type = FilterType.ANNOTATION),

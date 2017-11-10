@@ -11,11 +11,14 @@ import org.springframework.context.annotation.Import;
 	DataSourceConfig.class,
 	CommonRepositorySpringConfig.class,
 	EntityManagerConfig.class,
-	SpringRepositoriesConfig.class
+	SpringRepositoriesConfig.class,
 	
-//	BuilderServices.class
+	BuilderServices.class
 	})
 public class Configuration
 {
-	
+	public Configuration()
+	{
+		System.out.println();
+	}
 }

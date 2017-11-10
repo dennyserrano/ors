@@ -63,11 +63,8 @@ public class TableServiceImpl implements TableService {
 		List<DatasetHead> datasetHeads=datasetRepo.findByIds(al);
 		HashMap<Long,DatasetHead> hm=new HashMap<Long, DatasetHead>();
 		for(DatasetHead dh:datasetHeads)
-			{
-				for(DatasetElement de:dh.getDatasetElements())
-					System.out.println();
 				hm.put(dh.getId(), dh);
-			}
+			
 		
 		
 		

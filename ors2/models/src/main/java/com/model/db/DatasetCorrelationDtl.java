@@ -61,6 +61,7 @@ public class DatasetCorrelationDtl extends BaseJpaEntity<Long> implements Serial
 //        return datasetCorrelation;
 //    }
 
+    
     public Operator getOperator() {
         return operator;
     }
