@@ -47,6 +47,7 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 		
 	}
 	
+	
 	@Override
 	public void addSpecialColumn(Element element) {
 		//TODO what if duplicate?
@@ -226,6 +227,7 @@ public class DatasetSourceImpl implements PrefixTableBuilder {
 			
 			if(e.getName()==null)
 				e.setName(elem.getName());
+			
 			
 			Dataset ds=hm.get(elem.getDatasetHead().getId());
 			ds.getElements().add(e);

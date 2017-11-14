@@ -9,6 +9,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.generate.api.ReportService;
+import com.generate.conf.ReportGenProperties;
 import com.generate.conf.ReportGeneratorConf;
 import com.generate.enums.ExportType;
 
@@ -19,13 +20,17 @@ import com.generate.enums.ExportType;
 })
 public class Test1 {
 
+//	@Autowired
+//	private ReportService rs;
+	
 	@Autowired
-	private ReportService rs;
+	ReportGenProperties p;
 	
 	@Test
 	public void t()
 	{
-		rs.generate("", ExportType.XLSX);
+//		rs.generate("", ExportType.XLSX);
+		System.out.println();
 	}
 	
 }

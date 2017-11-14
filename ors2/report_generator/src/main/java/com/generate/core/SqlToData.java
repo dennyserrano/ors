@@ -65,4 +65,12 @@ public class SqlToData {
 		
 		return data;
 	}
+	
+	public long getDataSize(String sql)
+	{
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		Object o= template.query(sql, (rs, rowNum)->{return rs.getLong("COUNT(*)");}).get(0);
+		return (long) o;
+	}
+	
 }

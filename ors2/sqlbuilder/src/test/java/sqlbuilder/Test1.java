@@ -6,7 +6,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.generate.conf.ReportGeneratorConf;
-import com.generate.props.AppProperties;
 import com.model.db.DatasetCorrelationDtl;
 import com.repo.meta.DatasetRepository;
 import com.util.builders.api.TableService;
@@ -27,8 +26,8 @@ public class Test1 {
 //	@Autowired
 //	private SqlToData std;
 	
-	@Autowired
-	private AppProperties app;
+//	@Autowired
+//	private AppProperties app;
 	
 	@Test
 	public void t1()

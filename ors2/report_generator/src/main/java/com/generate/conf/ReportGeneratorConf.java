@@ -9,9 +9,17 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @EnableConfigurationProperties
-@Import({ReportGenProperties.class,com.generate.conf.Configuration.class})
+@Import({
+	ReportGenProperties.class,
+	ReportComponentConfiguration.class,
+	ReportServicesConfiguration.class,
+	ReportRepositoryConfiguration.class
+	})
 public class ReportGeneratorConf {
 
-	
+	public ReportGeneratorConf()
+	{
+		System.out.println();
+	}
 	
 }

@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.generate.repo.FormattingRepository;
 import com.util.builders.impl.ColumnElement;
@@ -20,6 +21,7 @@ import com.util.builders.impl.ColumnElement;
  * @author ej
  * @since Nov 05, 2014 20:25
  */
+@Service
 public class DefaultExcelValueStyler implements ColumnElementExcelValueCellStyler 
 {
 	@Autowired

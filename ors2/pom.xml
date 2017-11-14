@@ -51,6 +51,7 @@
 		<module>repositories</module>
 		<module>samp</module>
 		<module>report_generator</module>
+		<module>reportconfig</module>
 	</modules>
 
 	<dependencyManagement>

@@ -1,7 +1,8 @@
-package com.util.builders.config;
+package com.reportconfig.conf;
 
 import java.sql.SQLException;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import com.model.conf.DBProperties;
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
-import com.model.conf.DBProperties;;
+
 
 @Configuration
 public class DataSourceConfig {
 
 	
-	@Autowired
+//	@Autowired
 	private DBProperties dbProp;
 	
-	public @Bean @Primary DataSource dataSource() {
+//	public @Bean @Primary DataSource dataSource() {
+	public  DataSource dataSource() {
         MysqlXADataSource mysqlDs = new MysqlXADataSource();
 //        jdbc:mysql://${ors.dbHost}:${ors.dbPort}/${ors.dbName}
         mysqlDs.setURL(String.format("jdbc:mysql://%s:%s/%s", dbProp.getDbHost(),dbProp.getDbPort(),dbProp.getDbName()));
@@ -51,5 +54,15 @@ public class DataSourceConfig {
 
         return mysqlDs;
     }
+
+	public DBProperties getDbProp() {
+		return dbProp;
+	}
+
+	public void setDbProp(DBProperties dbProp) {
+		this.dbProp = dbProp;
+	}
+	
+	
 	
 }

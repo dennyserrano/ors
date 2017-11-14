@@ -34,7 +34,7 @@ import com.util.builders.impl.PrefixTable;
 
 
 @Service
-public class ExcelExportGeneratorImpl implements ReportGenerator
+public class ExcelExportGeneratorImpl implements ReportGenerator<String>
 {
 	
 	public static final String[] deletionExtension={ExportType.XLSX.getExtension(),"xml"};
@@ -44,8 +44,8 @@ public class ExcelExportGeneratorImpl implements ReportGenerator
 	
 	private ColumnElementExcelHeaderCellStyler headerStyler=new DefaultExcelHeaderStyler();
 	
-	
-	private ColumnElementExcelValueCellStyler valueCellStyler=new DefaultExcelValueStyler();
+	@Autowired
+	private ColumnElementExcelValueCellStyler valueCellStyler;
 	
 	
 	private DefaultExcelCellWriter cellWriter=new DefaultExcelCellWriter();
@@ -62,8 +62,8 @@ public class ExcelExportGeneratorImpl implements ReportGenerator
 	@Autowired
 	private SqlToData std;
 	
-	
-	public String export(String sql) 
+	@Override
+	public String export(String sql,List<ColumnExpression> header) 
 	{
 		
 		String filename = randomAlphabetic(8) + "." + ExportType.XLSX.getExtension();
@@ -75,8 +75,8 @@ public class ExcelExportGeneratorImpl implements ReportGenerator
 //
 //		String sql= new ServiceQueryBuilderImpl().getQuery(table);
 //		List<ColumnExpression> sortedColumns= collect(new ArrayList<ColumnExpression>(), table);
-//		log.debug("sql:"+toCountSql(sql));
-		long dataSize= 0;//datasetService.getDataSize(toCountSql(sql)); 
+		System.out.println("sql:"+toCountSql(sql));
+		long dataSize= 2;//std.getDataSize(toCountSql(sql)); 
 		log.debug("datasize:"+dataSize);
 		
 		String[] sqlRanges=generateRanges(sql,dataSize,chunksize);
@@ -93,7 +93,7 @@ public class ExcelExportGeneratorImpl implements ReportGenerator
 			{
 				System.out.println("generating:"+sqlRanges[x]);
 				String tmpFile=baseTempPath+randomAlphabetic(8)+ "." + ExportType.XLSX.getExtension();
-				List<List<ColumnElement>> data=std.get(sqlRanges[x], new ArrayList<>());
+				List<List<ColumnElement>> data=std.get(sqlRanges[x], header);
 				localExporter.export(tmpFile,data);
 				if(x==0)
 				{
