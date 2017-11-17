@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.generate.conf.ReportGeneratorConf;
 import com.model.db.DatasetCorrelationDtl;
 import com.repo.meta.DatasetRepository;
-import com.util.builders.api.TableService;
 import com.util.builders.config.Configuration;
 
 import org.junit.Test;
@@ -20,8 +19,8 @@ import org.junit.Test;
 public class Test1 {
 
 	
-	@Autowired
-	private TableService dr;
+//	@Autowired
+//	private TableService dr;
 	
 //	@Autowired
 //	private SqlToData std;
@@ -32,7 +31,7 @@ public class Test1 {
 	@Test
 	public void t1()
 	{
-		TableService dc;
+//		TableService dc;
 		
 		System.out.println();
 	}

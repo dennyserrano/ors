@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Import;
 
 @EnableAutoConfiguration
 @Import({
-	CommonRepositorySpringConfig.class,
-	EntityManagerConfig.class,
-	SpringRepositoriesConfig.class,
+//	CommonRepositorySpringConfig.class,
+//	EntityManagerConfig.class,
+//	SpringRepositoriesConfig.class,
 	BuilderServices.class
 	})
 public class Configuration
