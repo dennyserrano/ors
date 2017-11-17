@@ -9,6 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource({"classpath:db.properties"})
 public class DBProperties {
 	
+	
+	
 	private String dbHost;;
 	private int dbPort;
 	private String dbName;

@@ -14,11 +14,10 @@ import com.util.builders.impl.ColumnExpression;
 
 @Service
 public class ReportServiceImpl implements ReportService{
-
+	
 	@Autowired
 	private ReportGeneratorFactory factory;
-	
-	
+
 
 	@Override
 	public String generate(String sql, List<ColumnExpression> header,
