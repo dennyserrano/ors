@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import com.model.conf.MetaDBProperties;
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
-import com.model.conf.DBProperties;;
 
 @Configuration
 public class DataSourceConfig {
 
 	
 	@Autowired
-	private DBProperties dbProp;
+	private MetaDBProperties dbProp;
 	
 	public @Bean @Primary DataSource dataSource() {
         MysqlXADataSource mysqlDs = new MysqlXADataSource();

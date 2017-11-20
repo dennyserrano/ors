@@ -11,16 +11,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import com.model.conf.DBProperties;
+import com.model.conf.DBProperty;
+import com.model.conf.MetaDBProperties;
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 
 
 @Configuration
 public class DataSourceConfig {
 
-	
+	public DataSourceConfig()
+	{
+		System.out.println("hello");
+	}
 //	@Autowired
-	private DBProperties dbProp;
+	private DBProperty dbProp;
 	
 //	public @Bean @Primary DataSource dataSource() {
 	public  DataSource dataSource() {
@@ -55,11 +59,8 @@ public class DataSourceConfig {
         return mysqlDs;
     }
 
-	public DBProperties getDbProp() {
-		return dbProp;
-	}
 
-	public void setDbProp(DBProperties dbProp) {
+	public void setDbProp(DBProperty dbProp) {
 		this.dbProp = dbProp;
 	}
 	

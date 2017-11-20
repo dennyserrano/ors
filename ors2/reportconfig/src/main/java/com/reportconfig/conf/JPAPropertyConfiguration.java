@@ -1,20 +1,5 @@
 package com.reportconfig.conf;
 
-import org.hibernate.cache.internal.NoCachingRegionFactory;
-import org.hibernate.context.internal.ThreadLocalSessionContext;
-import org.hibernate.dialect.MySQL5InnoDBDialect;
-import org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform;
-import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.orm.jpa.vendor.Database;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-
-import java.sql.Connection;
-import java.util.Properties;
-
 import static org.hibernate.cfg.AvailableSettings.AUTO_CLOSE_SESSION;
 import static org.hibernate.cfg.AvailableSettings.BATCH_VERSIONED_DATA;
 import static org.hibernate.cfg.AvailableSettings.BYTECODE_PROVIDER;
@@ -41,13 +26,22 @@ import static org.hibernate.jpa.AvailableSettings.SHARED_CACHE_MODE;
 import static org.hibernate.jpa.AvailableSettings.TRANSACTION_TYPE;
 import static org.hibernate.jpa.AvailableSettings.VALIDATION_MODE;
 
-/**
- * Created by ej on 8/5/14.
- */
-@Configuration
-public class CommonRepositorySpringConfig {
+import java.sql.Connection;
+import java.util.Properties;
 
-    public static final String JPA_PROPERTIES_QUALIFIER = "jpaProperties";
+import org.hibernate.cache.internal.NoCachingRegionFactory;
+import org.hibernate.context.internal.ThreadLocalSessionContext;
+import org.hibernate.dialect.MySQL5InnoDBDialect;
+import org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform;
+import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class JPAPropertyConfiguration 
+{
 
     private static final String AUTODETECTION_MODE = "class, hbm";
 
@@ -66,31 +60,13 @@ public class CommonRepositorySpringConfig {
     private static final String TRUE = Boolean.TRUE.toString();
 
     private static final String FALSE = Boolean.FALSE.toString();
-
-    public @Bean HibernateJpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setGenerateDdl(false);
-        jpaVendorAdapter.setDatabase(Database.MYSQL);
-        jpaVendorAdapter.setDatabasePlatform(MySQL5InnoDBDialect.class.getName());
-        jpaVendorAdapter.setShowSql(true);
-        return jpaVendorAdapter;
-    }
-
-//    public @Primary @Bean HibernateExtendedJpaDialect jpaDialect() {
-//        return new HibernateExtendedJpaDialect();
-//    }
-
-    public @Bean HibernatePersistenceProvider persistenceProvider() {
-        return new HibernatePersistenceProvider();
-    }
-
-    @Bean
-//    @Qualifier(JPA_PROPERTIES_QUALIFIER)
+	
+	@Bean
     public Properties jpaProps() {
         Properties props = new Properties();
         props.setProperty(DIALECT, MySQL5InnoDBDialect.class.getName());
         props.setProperty(ISOLATION, String.valueOf(Connection.TRANSACTION_READ_COMMITTED));
-//        props.setProperty(NAMING_STRATEGY, SpringNamingStrategy.class.getName());
+        props.setProperty(NAMING_STRATEGY, SpringNamingStrategy.class.getName());
         props.setProperty(FLUSH_BEFORE_COMPLETION, TRUE);
         props.setProperty(AUTO_CLOSE_SESSION, TRUE);
         props.setProperty(AUTODETECTION, AUTODETECTION_MODE);
@@ -112,12 +88,8 @@ public class CommonRepositorySpringConfig {
         props.setProperty(SHARED_CACHE_MODE, ENABLE_SELECTIVE_SHARED_CACHE_MODE);
         props.setProperty(BYTECODE_PROVIDER, HIBERNATE_BYTECODE_PROVIDER_CGLIB);
         props.setProperty(USE_REFLECTION_OPTIMIZER, TRUE);
-        additionalProperties(props);
-        return props;
-    }
-
-    protected void additionalProperties(Properties props) {
         props.setProperty(TRANSACTION_TYPE, TRANSACTION_TYPE_VALUE);
         props.setProperty(PROVIDER, HibernatePersistenceProvider.class.getName());
+        return props;
     }
 }
