@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
 
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

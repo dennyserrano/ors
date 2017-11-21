@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 
 import com.bits.sql.AggregateTypes;
 
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

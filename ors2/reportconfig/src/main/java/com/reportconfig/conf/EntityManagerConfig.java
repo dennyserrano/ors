@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.persistence.Persistence;
 import javax.sql.DataSource;
 
 import org.hibernate.cache.internal.NoCachingRegionFactory;
@@ -41,6 +42,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -59,18 +61,26 @@ public class EntityManagerConfig {
     private DataSource dataSource;
     
     private @Autowired Properties jpaProperties;
-    
+
+    @Bean("reportconfig_entityManagerFactory") 
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder)
+    {
+    	
+    	Map<String, String> map = new HashMap<>();
+        jpaProperties.stringPropertyNames()
+                .stream()
+                .forEach(s -> map.put(s, jpaProperties.getProperty(s)));
+      return builder
+        .dataSource(dataSource)
+        .packages("com.model")
+        .persistenceUnit("ORS_PU")
+//        .properties(map)
+        .build();
+    }
+
 //    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder)
-//    {
-//      return builder
-//        .dataSource(dataSource)
-//        .packages("com.model")
-//        .persistenceUnit("ORS_PU")
-//        .build();
-//    }
-    
-//	public @Bean @Primary LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//    @Primary 
+//	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 //		
 //		Map<String, String> map = new HashMap<>();
 //        jpaProperties.stringPropertyNames()
@@ -84,16 +94,19 @@ public class EntityManagerConfig {
 //        jpaVendorAdapter.setShowSql(true);
 //		
 //		
-//        LocalContainerEntityManagerFactoryBean emf = null;//emfBuilder.dataSource(dataSource).build();
-////        emf.setJtaDataSource(dataSource);
+//        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+//        emf.setJtaDataSource(dataSource);
 ////        emf.setJpaDialect(new HibernateExtendedJpaDialect());
 //        emf.setJpaVendorAdapter(jpaVendorAdapter);
 //        emf.setPackagesToScan("com.model");
-////        emf.setPersistenceUnitName("ORS_PU");
+//        emf.setPersistenceUnitName("ORS_PU");
 //        emf.setPersistenceProvider(new HibernatePersistenceProvider());
 //        emf.setJpaPropertyMap(map);
+//        
 //        return emf;
 //    }
+//	
+	
 	
     
 }

@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Repository
 @RepositoryDefinition(domainClass = DatasetCorrelation.class, idClass = Long.class)
-public interface CorrelationRepository extends BaseJpaRepository<DatasetCorrelation, Long> {
+public interface CorrelationRepository {//extends BaseJpaRepository<DatasetCorrelation, Long> {
 
     DatasetCorrelation findByLeftDatasetAndRightDataset(DatasetHead leftDataset, DatasetHead rightDataset);
 

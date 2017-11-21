@@ -19,10 +19,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 @Configuration
 public class DataSourceConfig {
 
-	public DataSourceConfig()
-	{
-		System.out.println("hello");
-	}
+	
 //	@Autowired
 	private DBProperty dbProp;
 	

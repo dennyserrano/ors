@@ -11,5 +11,5 @@ import com.repo.base.BaseJpaRepository;
  */
 @Repository
 @RepositoryDefinition(domainClass = DatasetFilterChain.class, idClass = Long.class)
-public interface FilterChainRepository extends BaseJpaRepository<DatasetFilterChain, Long> {
+public interface FilterChainRepository{ //extends BaseJpaRepository<DatasetFilterChain, Long> {
 }

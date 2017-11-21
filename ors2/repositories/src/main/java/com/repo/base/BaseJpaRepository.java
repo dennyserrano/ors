@@ -19,10 +19,10 @@ import java.util.Collection;
 public interface BaseJpaRepository<T extends JpaEntity<ID>, ID extends Serializable>
         extends PagingAndSortingRepository<T, ID>, JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
-    @Modifying
-    T insert(T entity);
+//    @Modifying
+//    T insert(T entity);
 
-    Collection<T> findAllByPage(int pageNum, int countPerPage, Sort.Order order);
+//    Collection<T> findAllByPage(int pageNum, int countPerPage, Sort.Order order);
 
-    boolean hasValue(String property, Serializable value);
+//    boolean hasValue(String property, Serializable value);
 }

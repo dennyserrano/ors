@@ -9,6 +9,7 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 
 import com.model.db.JpaEntity;
+import com.repo.base.BaseJpaRepository;
 
 import javax.persistence.EntityManager;
 
@@ -50,9 +51,9 @@ public class BaseJpaRepositoryFactoryBean<R extends JpaRepository<T, ID>, T exte
 //        protected @Override Object getTargetRepository(RepositoryMetadata metadata) {
 //            return new BaseJpaRepositorySupport<>((Class<T>) metadata.getDomainType(), entityManager);
 //        }
-//
-//        protected @Override Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
-//            return BaseJpaRepository.class;
-//        }
+
+        protected @Override Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
+            return BaseJpaRepository.class;
+        }
     }
 }

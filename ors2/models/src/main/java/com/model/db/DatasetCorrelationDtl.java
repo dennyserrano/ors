@@ -17,7 +17,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
 import org.springframework.cache.annotation.Cacheable;
 
-
 import com.bits.sql.Operator;
 
 /**

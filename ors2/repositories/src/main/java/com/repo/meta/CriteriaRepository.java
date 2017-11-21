@@ -15,17 +15,17 @@ import java.util.List;
  */
 @Repository
 @RepositoryDefinition(domainClass = DatasetCriteria.class, idClass = Long.class)
-public interface CriteriaRepository extends BaseJpaRepository<DatasetCriteria, Long> {//, DefaultCriteriaRepository {
+public interface CriteriaRepository{ //extends BaseJpaRepository<DatasetCriteria, Long> {//, DefaultCriteriaRepository {
 
-    List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
-    
-    List<DatasetCriteria> findByDatasetHeadId(long datasetHeadId);
-    
-    List<DatasetCriteria> findByDatasetHeadAndVisible(DatasetHead datasetHead, boolean visible);
-
-    List<DatasetCriteria> findByLeftElement(DatasetElement leftElement);
-
-    List<DatasetCriteria> findByDatasetHeadAndLeftElement(DatasetHead datsetHead, DatasetElement leftElement);
-
-    List<DatasetCriteria> findByDatasetHeadIdAndLeftElementId(long datasetHeadId, long leftElementId);
+//    List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
+//    
+//    List<DatasetCriteria> findByDatasetHeadId(long datasetHeadId);
+//    
+//    List<DatasetCriteria> findByDatasetHeadAndVisible(DatasetHead datasetHead, boolean visible);
+//
+//    List<DatasetCriteria> findByLeftElement(DatasetElement leftElement);
+//
+//    List<DatasetCriteria> findByDatasetHeadAndLeftElement(DatasetHead datsetHead, DatasetElement leftElement);
+//
+//    List<DatasetCriteria> findByDatasetHeadIdAndLeftElementId(long datasetHeadId, long leftElementId);
 }
