@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@EnableAutoConfiguration(exclude={
-		LiquibaseAutoConfiguration.class,
-		CassandraDataAutoConfiguration.class})
+//@EnableAutoConfiguration(exclude={
+//		LiquibaseAutoConfiguration.class,
+//		CassandraDataAutoConfiguration.class
+//})
 @Import({
 	CentralizedDatasourceReportConfig.class,
 //	EntityManagerConfig.class,

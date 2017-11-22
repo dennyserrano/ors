@@ -29,9 +29,9 @@ public class CentralizedDatasourceReportConfig {
 	@Qualifier("reportconfig_metaDBProperty")
 	private DBProperty metaDataDBProp;
 	
-//	@Autowired
-//	@Qualifier("reportconfig_dataDBProperty")
-//	private DBProperty dataDBProp;
+	@Autowired
+	@Qualifier("reportconfig_dataDBProperty")
+	private DBProperty dataDBProp;
 	
 	@Bean
 	@Primary
@@ -43,14 +43,14 @@ public class CentralizedDatasourceReportConfig {
 		return dsc.dataSource();
 	}
 	
-//	@Bean
-//	@Qualifier("reportconfig_dataDBDataSource")
-//	public DataSource getDataDBSource()
-//	{
-//		
-//		DataSourceConfig dsc= new DataSourceConfig();
-//		dsc.setDbProp(dataDBProp);
-//		return dsc.dataSource();
-//	}
+	@Bean
+	@Qualifier("reportconfig_dataDBDataSource")
+	public DataSource getDataDBSource()
+	{
+		
+		DataSourceConfig dsc= new DataSourceConfig();
+		dsc.setDbProp(dataDBProp);
+		return dsc.dataSource();
+	}
 	
 }

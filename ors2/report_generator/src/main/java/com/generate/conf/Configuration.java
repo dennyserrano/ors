@@ -7,16 +7,16 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties
 @EnableAutoConfiguration
 @Import({
-	PropertySourceConfig.class,
-	DataSourceConfig.class,
+//	PropertySourceConfig.class,
+//	DataSourceConfig.class,
 	ReportServicesConfiguration.class,
 	ReportComponentConfiguration.class,
 	ReportRepositoryConfiguration.class
 	})
 public class Configuration
 {
-	public Configuration()
-	{
-		System.out.println();
-	}
+//	public Configuration()
+//	{
+//		System.out.println();
+//	}
 }
