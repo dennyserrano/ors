@@ -16,9 +16,10 @@ import org.springframework.context.annotation.PropertySource;
 import com.model.conf.DBProperty;
 import com.model.conf.DataDBProperties;
 import com.model.conf.MetaDBProperties;
+import com.reportconfig.enums.ConfigurationConstants;
 
 @Configuration
-@EnableConfigurationProperties
+//@EnableConfigurationProperties
 @Import({
 	MetaDBProperties.class,
 	DataDBProperties.class})
@@ -26,16 +27,16 @@ import com.model.conf.MetaDBProperties;
 public class CentralizedDatasourceReportConfig {
 
 	@Autowired
-	@Qualifier("reportconfig_metaDBProperty")
+	@Qualifier(ConfigurationConstants.METADATA_DB_PROPERTIES_NAME)
 	private DBProperty metaDataDBProp;
 	
 	@Autowired
-	@Qualifier("reportconfig_dataDBProperty")
+	@Qualifier(ConfigurationConstants.DATA_DB_PROPERTIES_NAME)
 	private DBProperty dataDBProp;
 	
 	@Bean
 	@Primary
-	@Qualifier("reportconfig_metaDataDBDataSource")
+	@Qualifier(ConfigurationConstants.METADATA_DB_DATASOURCE)
 	public DataSource getMetaDataSource()
 	{
 		DataSourceConfig dsc= new DataSourceConfig();
@@ -44,7 +45,7 @@ public class CentralizedDatasourceReportConfig {
 	}
 	
 	@Bean
-	@Qualifier("reportconfig_dataDBDataSource")
+	@Qualifier(ConfigurationConstants.DATA_DB_DATASOURCE)
 	public DataSource getDataDBSource()
 	{
 		

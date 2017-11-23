@@ -4,10 +4,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 
-@EnableConfigurationProperties
-@EnableAutoConfiguration
+//@EnableConfigurationProperties
+//@EnableAutoConfiguration
 @Import({
-//	PropertySourceConfig.class,
+	ReportGenProperties.class,
 //	DataSourceConfig.class,
 	ReportServicesConfiguration.class,
 	ReportComponentConfiguration.class,
@@ -15,8 +15,5 @@ import org.springframework.context.annotation.Import;
 	})
 public class Configuration
 {
-//	public Configuration()
-//	{
-//		System.out.println();
-//	}
+	
 }

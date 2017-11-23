@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bits.sql.JdbcTypes;
+import com.generate.enums.ConfigurationConstants;
 import com.util.builders.impl.ColumnElement;
 import com.util.builders.impl.ColumnExpression;
 
@@ -24,6 +25,7 @@ import com.util.builders.impl.ColumnExpression;
 public class SqlToData {
 	
 	@Autowired
+	@Qualifier(ConfigurationConstants.DATA_SOURCE_NAME)
 	private DataSource dataSource;
 	
 	public List<List<ColumnElement>> get(String sql,List<ColumnExpression> columns)

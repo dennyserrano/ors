@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,9 +20,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.generate.api.ReportService;
+import com.generate.enums.ConfigurationConstants;
 import com.generate.enums.ExportType;
 import com.model.support.Dataset;
 import com.reportconfig.conf.CentralizedReportConfiguration;
+import com.samp.Configurations;
 import com.thoughtworks.xstream.XStream;
 import com.util.builders.api.ServiceQueryBuilderImpl;
 import com.util.builders.api.TableService;
@@ -31,19 +34,19 @@ import com.util.builders.impl.PrefixTable;
 
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes=CentralizedReportConfiguration.class)
+@ContextConfiguration(classes=Configurations.class)
 public class Test1 {
 
-//	@Autowired
-//	TableService ts;
+	@Autowired
+	TableService ts;
 ////	
-//	@Autowired
-//	ReportService rs;
+	@Autowired
+	ReportService rs;
 	
 	@Test
 	public void test() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException
 	{
-		
+		System.out.println();
 //		XStream xs=new XStream();
 //		Dataset ds=(Dataset) xs.fromXML(new FileInputStream(new File("/home/denny/dataset.xml")));
 //		ds.setId(8L);

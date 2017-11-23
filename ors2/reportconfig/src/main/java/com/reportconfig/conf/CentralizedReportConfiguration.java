@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import;
 @Import({
 	CentralizedDatasourceReportConfig.class,
 //	EntityManagerConfig.class,
-	SpringRepositoriesConfig.class
+//	CentralizedReportServicesConfiguration.class
 	})
 public class CentralizedReportConfiguration {
 
