@@ -1,9 +1,14 @@
 package com.model.support;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Aggregate {
+public class Aggregate implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean countIncluded;
 	private String name;
 	private List<Element> elements;

@@ -33,9 +33,7 @@ import com.reportconfig.enums.ConfigurationConstants;
 		})
 @Import({
 	CentralizedReportConfiguration.class,
-	CentralizedRepositoriesConfiguration.class,
-	com.generate.conf.Configuration.class,
-	com.util.builders.config.Configuration.class
+	CentralizedRepositoriesConfiguration.class
 })
 public class Configurations {
 	

@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.generate.api.ReportService;
 import com.generate.conf.ReportGenProperties;
-import com.generate.conf.ReportGeneratorConf;
 import com.generate.enums.ExportType;
 
 

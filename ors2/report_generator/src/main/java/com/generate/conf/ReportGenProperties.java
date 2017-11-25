@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-//@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application-generator.properties")
 @ConfigurationProperties(prefix = "generator")
 public class ReportGenProperties {
 

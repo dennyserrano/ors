@@ -24,11 +24,10 @@ import com.model.db.DatasetHead;
 import com.model.support.Dataset;
 import com.repo.meta.DatasetRepository;
 import com.reportconfig.conf.CentralizedDatasourceReportConfig;
-import com.reportconfig.conf.CentralizedReportConfiguration;
 import com.reportconfig.conf.DataSourceConfig;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes=CentralizedReportConfiguration.class)
+//@ContextConfiguration(classes=CentralizedReportConfiguration.class)
 public class Test1 {
 
 	@Autowired
