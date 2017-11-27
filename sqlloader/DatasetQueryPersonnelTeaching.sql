@@ -429,7 +429,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_outside_office,0))  AS qty FROM ebeis
 IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_school,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_detailed_school',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_within_office,0)+IFNULL(pps.detailed_outside_office,0)+IFNULL(pps.detailed_school,0)) AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_detailedto_total',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0)+IFNULL(pps.actual_female,0)+IFNULL(pps.tot_onleave,0)+IFNULL(pps.tot_plantilla_vacant,0)+IFNULL(pps.detailed_within_office,0)+IFNULL(pps.detailed_outside_office,0)+IFNULL(pps.detailed_school,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1total_school_plantilla',
-IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'T1_items_added',
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'T1_items_added'
 FROM ebeisdb.school_profile_history sph
 LEFT JOIN ebeisdb.ref_reports reports on (reports.co_genclass_id=sph.co_gen_class 
  and reports.general_classification_id=sph.general_classification_id 
