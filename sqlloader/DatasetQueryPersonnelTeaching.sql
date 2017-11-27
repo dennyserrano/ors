@@ -29,6 +29,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `mt4_pt_less_200`,
 `mt4_ft_part_ancillary`,
 `mt4_total_teaching_assignment`,
+`mt4_items_added`,
 `mt3_plantilla`,
 `mt3_actual_male`,
 `mt3_actual_female`,
@@ -56,6 +57,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `mt3_pt_less_200`,
 `mt3_ft_part_ancillary`,
 `mt3_total_teaching_assignment`,
+`mt3_items_added`,
 `mt2_plantilla`,
 `mt2_actual_male`,
 `mt2_actual_female`,
@@ -83,6 +85,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `mt2_pt_less_200`,
 `mt2_ft_part_ancillary`,
 `mt2_total_teaching_assignment`,
+`mt2_items_added`,
 `mt1_plantilla`,
 `mt1_actual_male`,
 `mt1_actual_female`,
@@ -110,6 +113,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `mt1_pt_less_200`,
 `mt1_ft_part_ancillary`,
 `mt1_total_teaching_assignment`,
+`mt1_items_added`,
 `mt_plantilla`,
 `mt_actual_male`,
 `mt_actual_female`,
@@ -164,6 +168,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `t3_pt_less_200`,
 `t3_ft_part_ancillary`,
 `t3_total_teaching_assignment`,
+`t3_items_added`,
 `t2_plantilla`,
 `t2_actual_male`,
 `t2_actual_female`,
@@ -191,6 +196,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `t2_pt_less_200`,
 `t2_ft_part_ancillary`,
 `t2_total_teaching_assignment`,
+`t2_items_added`,
 `t1_plantilla`,
 `t1_actual_male`,
 `t1_actual_female`,
@@ -202,7 +208,8 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `t1_detailed_outside`,
 `t1_detailed_school`,
 `t1_detailedto_total`,
-`t1_total_school_plantilla`
+`t1_total_school_plantilla`,
+`t1_items_added`
 )
 
 SELECT 
@@ -235,6 +242,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 131 and pps.report_history_id = rh.id)),0) as 'MT4_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 131 and pps.report_history_id = rh.id)),0) as 'MT4_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 131 and pps.report_history_id = rh.id)),0) as 'MT4_total_teaching_assignment',
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 131 and pps.report_history_id = rh.id)),0) as 'MT4_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'MT3_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'MT3_actual_male',
@@ -263,7 +271,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'MT3_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'MT3_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'MT3_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'MT3_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 15 and pps.report_history_id = rh.id)),0) as 'MT2_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 15 and pps.report_history_id = rh.id)),0) as 'MT2_actual_male',
@@ -292,7 +300,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 15 and pps.report_history_id = rh.id)),0) as 'MT2_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 15 and pps.report_history_id = rh.id)),0) as 'MT2_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 15 and pps.report_history_id = rh.id)),0) as 'MT2_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 15 and pps.report_history_id = rh.id)),0) as 'MT2_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 14 and pps.report_history_id = rh.id)),0) as 'MT1_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 14 and pps.report_history_id = rh.id)),0) as 'MT1_actual_male',
@@ -321,7 +329,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 14 and pps.report_history_id = rh.id)),0) as 'MT1_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 14 and pps.report_history_id = rh.id)),0) as 'MT1_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 14 and pps.report_history_id = rh.id)),0) as 'MT1_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 14 and pps.report_history_id = rh.id)),0) as 'MT1_items_added',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id in (14,15,16,131) and pps.report_history_id = rh.id)),0) as 'MT_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id in (14,15,16,131) and pps.report_history_id = rh.id)),0) as 'MT_actual_male',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_female,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id in (14,15,16,131) and pps.report_history_id = rh.id)),0) as 'MT_actual_female',
@@ -378,7 +386,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 19 and pps.report_history_id = rh.id)),0) as 'T3_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 19 and pps.report_history_id = rh.id)),0) as 'T3_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 19 and pps.report_history_id = rh.id)),0) as 'T3_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 19 and pps.report_history_id = rh.id)),0) as 'T3_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 18 and pps.report_history_id = rh.id)),0) as 'T2_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 18 and pps.report_history_id = rh.id)),0) as 'T2_actual_male',
@@ -407,7 +415,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 18 and pps.report_history_id = rh.id)),0) as 'T2_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 18 and pps.report_history_id = rh.id)),0) as 'T2_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 18 and pps.report_history_id = rh.id)),0) as 'T2_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 18 and pps.report_history_id = rh.id)),0) as 'T2_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_actual_male',
@@ -420,7 +428,8 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_within_office,0))  AS qty FROM ebeisd
 IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_outside_office,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_detailed_outside',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_school,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_detailed_school',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.detailed_within_office,0)+IFNULL(pps.detailed_outside_office,0)+IFNULL(pps.detailed_school,0)) AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1_detailedto_total',
-IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0)+IFNULL(pps.actual_female,0)+IFNULL(pps.tot_onleave,0)+IFNULL(pps.tot_plantilla_vacant,0)+IFNULL(pps.detailed_within_office,0)+IFNULL(pps.detailed_outside_office,0)+IFNULL(pps.detailed_school,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1total_school_plantilla'
+IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0)+IFNULL(pps.actual_female,0)+IFNULL(pps.tot_onleave,0)+IFNULL(pps.tot_plantilla_vacant,0)+IFNULL(pps.detailed_within_office,0)+IFNULL(pps.detailed_outside_office,0)+IFNULL(pps.detailed_school,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 17 and pps.report_history_id = rh.id)),0) as 'T1total_school_plantilla',
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 16 and pps.report_history_id = rh.id)),0) as 'T1_items_added',
 FROM ebeisdb.school_profile_history sph
 LEFT JOIN ebeisdb.ref_reports reports on (reports.co_genclass_id=sph.co_gen_class 
  and reports.general_classification_id=sph.general_classification_id 
@@ -507,6 +516,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `sped5_pt_less_200`,
 `sped5_ft_part_ancillary`,
 `sped5_total_teaching_assignment`,
+`sped5_items_added`
 `sped4_plantilla`,
 `sped4_actual_male`,
 `sped4_actual_female`,
@@ -534,6 +544,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `sped4_pt_less_200`,
 `sped4_ft_part_ancillary`,
 `sped4_total_teaching_assignment`,
+`sped4_items_added`,
 `sped3_plantilla`,
 `sped3_actual_male`,
 `sped3_actual_female`,
@@ -561,6 +572,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `sped3_pt_less_200`,
 `sped3_ft_part_ancillary`,
 `sped3_total_teaching_assignment`,
+`sped3_items_added`,
 `sped2_plantilla`,
 `sped2_actual_male`,
 `sped2_actual_female`,
@@ -588,6 +600,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `sped2_pt_less_200`,
 `sped2_ft_part_ancillary`,
 `sped2_total_teaching_assignment`,
+`sped2_items_added`,
 `sped1_plantilla`,
 `sped1_actual_male`,
 `sped1_actual_female`,
@@ -615,6 +628,7 @@ INSERT INTO `orsdb`.`personnel_teaching`
 `sped1_pt_less_200`,
 `sped1_ft_part_ancillary`,
 `sped1_total_teaching_assignment`,
+`sped1_items_added`,
 `sped_plantilla`,
 `sped_actual_male`,
 `sped_actual_female`,
@@ -719,7 +733,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 72 and pps.report_history_id = rh.id)),0) as 'SPED5_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 72 and pps.report_history_id = rh.id)),0) as 'SPED5_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 72 and pps.report_history_id = rh.id)),0) as 'SPED5_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 72 and pps.report_history_id = rh.id)),0) as 'SPED5_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 71 and pps.report_history_id = rh.id)),0) as 'SPED4_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 71 and pps.report_history_id = rh.id)),0) as 'SPED4_actual_male',
@@ -748,6 +762,8 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 71 and pps.report_history_id = rh.id)),0) as 'SPED4_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 71 and pps.report_history_id = rh.id)),0) as 'SPED4_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 71 and pps.report_history_id = rh.id)),0) as 'SPED4_total_teaching_assignment',
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 71 and pps.report_history_id = rh.id)),0) as 'SPED4_items_added',
+
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 70 and pps.report_history_id = rh.id)),0) as 'SPED3_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 70 and pps.report_history_id = rh.id)),0) as 'SPED3_actual_male',
@@ -776,7 +792,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 70 and pps.report_history_id = rh.id)),0) as 'SPED3_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 70 and pps.report_history_id = rh.id)),0) as 'SPED3_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 70 and pps.report_history_id = rh.id)),0) as 'SPED3_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 70 and pps.report_history_id = rh.id)),0) as 'SPED3_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 69 and pps.report_history_id = rh.id)),0) as 'SPED2_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 69 and pps.report_history_id = rh.id)),0) as 'SPED2_actual_male',
@@ -805,7 +821,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 69 and pps.report_history_id = rh.id)),0) as 'SPED2_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 69 and pps.report_history_id = rh.id)),0) as 'SPED2_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 69 and pps.report_history_id = rh.id)),0) as 'SPED2_total_teaching_assignment',
-
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 69 and pps.report_history_id = rh.id)),0) as 'SPED2_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 68 and pps.report_history_id = rh.id)),0) as 'SPED1_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 68 and pps.report_history_id = rh.id)),0) as 'SPED1_actual_male',
@@ -834,6 +850,7 @@ IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_200_more,0))  AS qty FROM ebeisdb.personnel
 IFNULL(SUM((SELECT SUM(IFNULL(pps.pt_less_200,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 68 and pps.report_history_id = rh.id)),0) as 'SPED1_pt_less_200',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_part_ancillary,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id = 68 and pps.report_history_id = rh.id)),0) as 'SPED1_ft_part_ancillary',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.ft_teaching,0)+IFNULL(pps.ft_ancillary,0)+IFNULL(pps.pt_less_200,0)+IFNULL(pps.pt_200_more,0)+IFNULL(pps.ft_part_ancillary,0))   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 68 and pps.report_history_id = rh.id)),0) as 'SPED1_total_teaching_assignment',
+IFNULL(SUM((SELECT SUM(pps.items_added)   AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id = 68 and pps.report_history_id = rh.id)),0) as 'SPED1_items_added',
 
 IFNULL(SUM((SELECT SUM(IFNULL(pps.tot_plantilla_items,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE pps.position_id in (68,69,70,71,72) and pps.report_history_id = rh.id)),0) as 'SPED_plantilla',
 IFNULL(SUM((SELECT SUM(IFNULL(pps.actual_male,0))  AS qty FROM ebeisdb.personnel_position_summary pps WHERE  pps.position_id in (68,69,70,71,72) and pps.report_history_id = rh.id)),0) as 'SPED_actual_male',
@@ -942,6 +959,7 @@ t1_detailed_male=t1_detailed_male,
  sped5_pt_less_200= sped5_pt_less_200,
  sped5_ft_part_ancillary= sped5_ft_part_ancillary,
  sped5_total_teaching_assignment= sped5_total_teaching_assignment,
+ sped5_items_added=sped5_items_added,
  sped4_plantilla= sped4_plantilla,
  sped4_actual_male= sped4_actual_male,
  sped4_actual_female= sped4_actual_female,
@@ -969,6 +987,7 @@ t1_detailed_male=t1_detailed_male,
  sped4_pt_less_200= sped4_pt_less_200,
  sped4_ft_part_ancillary= sped4_ft_part_ancillary,
  sped4_total_teaching_assignment= sped4_total_teaching_assignment,
+ sped4_items_added=sped4_items_added,
  sped3_plantilla= sped3_plantilla,
  sped3_actual_male= sped3_actual_male,
  sped3_actual_female= sped3_actual_female,
@@ -996,6 +1015,7 @@ t1_detailed_male=t1_detailed_male,
  sped3_pt_less_200= sped3_pt_less_200,
  sped3_ft_part_ancillary= sped3_ft_part_ancillary,
  sped3_total_teaching_assignment= sped3_total_teaching_assignment,
+ sped3_items_added=sped3_items_added,
  sped2_plantilla= sped2_plantilla,
  sped2_actual_male= sped2_actual_male,
  sped2_actual_female= sped2_actual_female,
@@ -1023,6 +1043,7 @@ t1_detailed_male=t1_detailed_male,
  sped2_pt_less_200= sped2_pt_less_200,
  sped2_ft_part_ancillary= sped2_ft_part_ancillary,
  sped2_total_teaching_assignment= sped2_total_teaching_assignment,
+ sped2_items_added=sped2_items_added,
  sped1_plantilla= sped1_plantilla,
  sped1_actual_male= sped1_actual_male,
  sped1_actual_female= sped1_actual_female,
@@ -1050,6 +1071,7 @@ t1_detailed_male=t1_detailed_male,
  sped1_pt_less_200= sped1_pt_less_200,
  sped1_ft_part_ancillary= sped1_ft_part_ancillary,
  sped1_total_teaching_assignment= sped1_total_teaching_assignment,
+ sped1_items_added=sped1_items_added,
  sped_plantilla= sped_plantilla,
  sped_actual_male= sped_actual_male,
  sped_actual_female= sped_actual_female,
