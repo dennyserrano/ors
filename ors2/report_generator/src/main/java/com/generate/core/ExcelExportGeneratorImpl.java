@@ -174,7 +174,8 @@ public class ExcelExportGeneratorImpl implements ReportGenerator<String>
 		
 		for(String stringFile:files)
 			if(stringFile!=null)
-				Files.delete(Paths.get(new File(stringFile).getAbsolutePath()));
+					Files.delete(Paths.get(new File(stringFile).getAbsolutePath()));
+				
 		
 	}
 	

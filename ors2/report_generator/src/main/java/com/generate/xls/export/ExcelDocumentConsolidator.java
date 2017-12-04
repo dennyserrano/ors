@@ -68,6 +68,8 @@ public class ExcelDocumentConsolidator
 			nWb.close();
 			fs.close();
 		}
+		
+		System.out.println("filoutoutput:"+fileOutputName);
 		FileOutputStream fos=new FileOutputStream(fileOutputName);
 		wb.write(fos);
 		fos.close();

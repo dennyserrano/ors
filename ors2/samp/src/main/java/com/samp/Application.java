@@ -9,8 +9,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.web.SpringServletContainerInitializer;
 
-import com.reportconfig.conf.CentralizedReportConfiguration;
-
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer{
 

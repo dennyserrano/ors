@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.generate.conf.ReportGeneratorConf;
+//import com.generate.conf.ReportGeneratorConf;
 import com.generate.conf.ReportRepositoryConfiguration;
 import com.repo.meta.DatasetRepository;
-import com.reportconfig.conf.CentralizedReportConfiguration;
+//import com.reportconfig.conf.CentralizedReportConfiguration;
 import com.reportconfig.conf.CentralizedRepositoriesConfiguration;
 import com.reportconfig.conf.DataSourceConfig;
 import com.reportconfig.enums.ConfigurationConstants;
@@ -32,7 +32,7 @@ import com.reportconfig.enums.ConfigurationConstants;
 		LiquibaseAutoConfiguration.class,
 		})
 @Import({
-	CentralizedReportConfiguration.class,
+//	CentralizedReportConfiguration.class,
 	CentralizedRepositoriesConfiguration.class
 })
 public class Configurations {
