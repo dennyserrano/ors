@@ -2,6 +2,8 @@ package com.reportconfig.conf;
 
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -26,6 +28,9 @@ import com.reportconfig.enums.ConfigurationConstants;
 
 public class CentralizedDatasourceReportConfig {
 
+	
+	public static final Logger log=LogManager.getLogger(CentralizedDatasourceReportConfig.class);
+	
 	@Autowired
 	@Qualifier(ConfigurationConstants.METADATA_DB_PROPERTIES_NAME)
 	private DBProperty metaDataDBProp;
@@ -48,6 +53,12 @@ public class CentralizedDatasourceReportConfig {
 	@Qualifier(ConfigurationConstants.DATA_DB_DATASOURCE)
 	public DataSource getDataDBSource()
 	{
+		log.info("*****************************************");
+		log.info("MetaDB [HOST]:"+metaDataDBProp.getDbHost());
+		log.info("MetaDB [DB NAME]:"+metaDataDBProp.getDbName());
+		log.info("DataDB [HOST]:"+dataDBProp.getDbHost());
+		log.info("DataDB [DB NAME]:"+dataDBProp.getDbName());
+		log.info("*****************************************");
 		
 		DataSourceConfig dsc= new DataSourceConfig();
 		dsc.setDbProp(dataDBProp);
