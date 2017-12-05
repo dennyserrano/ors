@@ -1,17 +1,18 @@
 package com.model.db;
 
 import com.bits.sql.JoinType;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.cache.annotation.Cacheable;
-import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+
 import java.io.Serializable;
 
 /**

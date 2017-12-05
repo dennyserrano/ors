@@ -1,10 +1,11 @@
 package com.model.ui;
 
-import ph.gov.deped.common.dw.DbType;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+
+import com.model.support.DbType;
 
 /**
  * Created by ej on 8/28/14.

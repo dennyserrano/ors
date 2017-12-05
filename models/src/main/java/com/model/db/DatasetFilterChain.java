@@ -6,8 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
 import org.springframework.cache.annotation.Cacheable;
+
 import com.bits.sql.Operator;
-import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import java.io.Serializable;
 
 /**
@@ -44,7 +45,7 @@ public class DatasetFilterChain extends BaseJpaEntity<Long> implements Serializa
     private Long parentFilterChain;
 
     @Column(nullable = false, length = 10)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @ManyToOne

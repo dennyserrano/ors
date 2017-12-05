@@ -6,10 +6,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
 import org.springframework.cache.annotation.Cacheable;
+
 import com.bits.sql.FilterType;
 import com.bits.sql.Operator;
-import ph.gov.deped.data.BaseJpaEntity;
-import ph.gov.deped.data.dto.ds.InputType;
+import com.model.support.InputType;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import java.io.Serializable;
 
 /**
@@ -52,7 +53,7 @@ public class DatasetCriteria extends BaseJpaEntity<Long> implements Serializable
     private DatasetElement leftElement;
 
     @Column(length = 10)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @Basic

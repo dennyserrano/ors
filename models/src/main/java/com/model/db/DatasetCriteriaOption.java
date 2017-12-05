@@ -1,7 +1,5 @@
 package com.model.db;
 
-import ph.gov.deped.data.BaseJpaEntity;
-
 import java.io.Serializable;
 
 /**

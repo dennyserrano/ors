@@ -1,17 +1,18 @@
 package com.model.db;
 
 import com.bits.sql.Operator;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Type;
 import org.springframework.cache.annotation.Cacheable;
-import ph.gov.deped.data.BaseJpaEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import java.io.Serializable;
 
 /**
@@ -36,7 +37,7 @@ public class RelationDtlMetadata extends BaseJpaEntity<Integer> implements Seria
     private Integer leftColumnId;
 
     @Column(nullable = false)
-    @Type(type = "ph.gov.deped.common.OperatorUserType")
+    @Type(type = "com.model.enums.OperatorUserType")
     private Operator operator;
 
     @Column(nullable = false)
