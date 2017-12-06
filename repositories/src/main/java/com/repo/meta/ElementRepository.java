@@ -19,14 +19,14 @@ public interface ElementRepository{ //extends BaseJpaRepository<DatasetElement, 
 
 //    @Override DatasetElement findOne(Long id);
 //
-//    List<DatasetElement> findByDatasetHead(DatasetHead datasetHead);
+    List<DatasetElement> findByDatasetHead(DatasetHead datasetHead);
+    
+    List<DatasetElement> findByDatasetHeadId(Long datasetHeadHd);
 //    
-//    List<DatasetElement> findByDatasetHeadId(Long datasetHeadHd);
-//    
-//    @Query("select de from DatasetElement de "
-//    	 + "join fetch de.columnMetaData "
-//    	 + "where de.datasetHead.id=?1")
-//    List<DatasetElement> findByDatasetId(Long datasetId);
+    @Query("select de from DatasetElement de "
+    	 + "join fetch de.columnMetaData "
+    	 + "where de.datasetHead.id=?1")
+    List<DatasetElement> findByDatasetId(Long datasetId);
 //
 //    DatasetElement findByDatasetHeadAndName(DatasetHead datasetHead, String name);
 //

@@ -19,15 +19,15 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
 
 //    @Override DatasetHead findOne(Long id);
 //
-//    List<DatasetHead> findByVisibleAndOwnerId(boolean visible, int ownerId, Sort sort);
+    List<DatasetHead> findByVisibleAndOwnerId(boolean visible, int ownerId, Sort sort);
 //
-//    List<DatasetHead> findByVisibleAndOwnerIdNot(boolean visible, int ownerId, Sort sort);
+    List<DatasetHead> findByVisibleAndOwnerIdNot(boolean visible, int ownerId, Sort sort);
 //
 //    DatasetHead findByName(String name);
 //
-//    List<DatasetHead> findByParentDatasetHead(Long id);
+    List<DatasetHead> findByParentDatasetHead(Long id);
 //
-//    List<DatasetHead> findByParentDatasetHeadAndVisible(Long id, boolean visible);
+    List<DatasetHead> findByParentDatasetHeadAndVisible(Long id, boolean visible);
 //
     @Query("select distinct dh from DatasetHead dh "
     		+ "join fetch dh.tableMetaData "
@@ -48,5 +48,5 @@ public interface DatasetRepository extends BaseJpaRepository<DatasetHead, Long> 
     		+ " where dh.id in ?1")
     List<DatasetHead> findByIds(List<Long> ids);
 //    
-//    long countByParentDatasetHead(long parentDatasetHead);
+    long countByParentDatasetHead(long parentDatasetHead);
 }

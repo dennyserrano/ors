@@ -19,7 +19,7 @@ import com.repo.meta.DatasetRepository;
 @Configuration
 @EntityScan("com.model")
 @EnableJpaRepositories(
-        basePackages = {"com.repo.meta"},
+        basePackages = {"com.repo"},
         includeFilters = {
                 @ComponentScan.Filter(value = Repository.class, type = FilterType.ANNOTATION)
         }
