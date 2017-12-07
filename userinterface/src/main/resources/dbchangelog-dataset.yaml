@@ -1,0 +1,829 @@
+databaseChangeLog:
+  - preConditions:
+      - dbms:
+          type: mysql
+  - changeSet:
+      id: ds-201408191255
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: owner_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addUniqueConstraint:
+            tableName: dataset_head
+            columnNames: name
+            constraintName: dataset_head_name_unique
+        - rollback:
+            - dropTable:
+                tableName: dataset_head
+  - changeSet:
+      id: ds-201408191304
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_table
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: table_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: prefix
+                  type: varchar(10)
+              - column:
+                  name: derived_from
+                  type: bigint
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addForeignKeyConstraint:
+            constraintName: dataset_head_table_fk
+            baseTableName: dataset_table
+            baseColumnNames: dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - rollback:
+            - dropTable:
+                tableName: dataset_table
+  - changeSet:
+      id: ds-201408191307
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_element
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dataset_table_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: column_id
+                  type: int
+              - column:
+                  name: alias
+                  type: varchar(100)
+              - column:
+                  name: function
+                  type: varchar(100)
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addForeignKeyConstraint:
+            constraintName: dataset_table_element_fk
+            baseTableName: dataset_element
+            baseColumnNames: dataset_table_id
+            referencedTableName: dataset_table
+            referencedColumnNames: id
+        - rollback:
+            - dropTable:
+                tableName: dataset_element
+  - changeSet:
+      id: ds-201408191328
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: filter_type
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_element_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operator
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_value
+                  type: varchar(1000)
+              - column:
+                  name: value_type
+                  type: int
+              - column:
+                  name: right_element_id
+                  type: bigint
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addForeignKeyConstraint:
+            constraintName: dataset_head_criteria_fk
+            baseTableName: dataset_criteria
+            baseColumnNames: dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: dataset_left_element_fk
+            baseTableName: dataset_criteria
+            baseColumnNames: left_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: dataset_right_element_fk
+            baseTableName: dataset_criteria
+            baseColumnNames: right_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - rollback:
+            - dropTable:
+                tableName: dataset_criteria
+  - changeSet:
+      id: ds-201408191355
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_filter_combination
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_filter_id
+                  type: bigint
+              - column:
+                  name: left_combination_id
+                  type: bigint
+              - column:
+                  name: operator
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_filter_id
+                  type: bigint
+              - column:
+                  name: right_combination_id
+                  type: bigint
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addForeignKeyConstraint:
+            constraintName: dataset_head_filter_combination_fk
+            baseTableName: dataset_filter_combination
+            baseColumnNames: dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: dataset_left_criteria_fk
+            baseTableName: dataset_filter_combination
+            baseColumnNames: left_filter_id
+            referencedTableName: dataset_criteria
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: dataset_right_criteria_fk
+            baseTableName: dataset_filter_combination
+            baseColumnNames: right_filter_id
+            referencedTableName: dataset_criteria
+            referencedColumnNames: id
+        - rollback:
+            - dropTable:
+                tableName: dataset_filter_combination
+  - changeSet:
+      id: ds-201408221529
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_element
+            columns:
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: meaning
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(500)
+  - changeSet:
+      id: ds-201409051008
+      author: ej
+      changes:
+        - renameTable:
+            oldTableName: dataset_filter_combination
+            newTableName: dataset_filter_chain
+  - changeSet:
+      id: ds-201409051020
+      author: ej
+      changes:
+        - dropColumn:
+            tableName: dataset_filter_chain
+            columnName: right_combination_id
+        - renameColumn:
+            tableName: dataset_filter_chain
+            oldColumnName: left_combination_id
+            newColumnName: parent_filter_chain
+            columnDataType: bigint
+  - changeSet:
+      id: ds-201409241340
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_table
+            columns:
+              - column:
+                  name: table_name
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201409241433
+      author: ej
+      changes:
+        - dropNotNullConstraint:
+            tableName: dataset_table
+            columnName: table_id
+            columnDataType: int
+  - changeSet:
+      id: ds-201409251830
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_table
+            columns:
+              - column:
+                  name: visible
+                  type: tinyint
+  - changeSet:
+        id: ds-201409251847
+        author: ej
+        changes:
+          - addColumn:
+              tableName: dataset_head
+              columns:
+                - column:
+                    name: visible
+                    type: tinyint(3)
+  - changeSet:
+      id: ds-201409261344
+      author: ej
+      changes:
+        - dropColumn:
+            tableName: dataset_table
+            columnName: table_name
+        - addColumn:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: table_name
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201409261735
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: dataset_head
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_table
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_element
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_criteria
+            columnName: date_created
+            newDataType: timestamp
+        - modifyDataType:
+            tableName: dataset_filter_chain
+            columnName: date_created
+            newDataType: timestamp
+  - changeSet:
+      id: ds-201409291533
+      author: ej
+      changes:
+        - dropForeignKeyConstraint:
+            constraintName: dataset_table_element_fk
+            baseTableName: dataset_element
+        - dropColumn:
+            tableName: dataset_element
+            columnName: dataset_table_id
+        - addColumn:
+            tableName: dataset_element
+            columns:
+              - column:
+                  name: dataset_head_id
+                  type: bigint
+        - addForeignKeyConstraint:
+            constraintName: dataset_head_element_fk
+            baseTableName: dataset_element
+            baseColumnNames: dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+  - changeSet:
+      id: ds-201409291541
+      author: ej
+      changes:
+        - renameColumn:
+            tableName: dataset_head
+            oldColumnName: table_name
+            columnDataType: varchar(50)
+            newColumnName: parent_dataset_head
+        - modifyDataType:
+            tableName: dataset_head
+            columnName: parent_dataset_head
+            newDataType: bigint
+  - changeSet:
+      id: ds-201409291551
+      author: ej
+      changes:
+        - dropTable:
+            tableName: dataset_table
+  - changeSet:
+      id: ds-201409291708
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: table_id
+                  type: int
+  - changeSet:
+      id: ds-201409301520
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_correlation
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: left_table_prefix
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: join_type
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_table_prefix
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_dataset_head_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - rollback:
+            - dropTable:
+                tableName: dataset_correlation
+  - changeSet:
+      id: ds-201409301602
+      author: ej
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: left_dataset_head_id_fk
+            baseTableName: dataset_correlation
+            baseColumnNames: left_dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: right_dataset_head_id_fk
+            baseTableName: dataset_correlation
+            baseColumnNames: right_dataset_head_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+  - changeSet:
+      id: ds-201409301603
+      author: ej
+      changes:
+        - createTable:
+            tableName: dataset_correlation_dtl
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dataset_correlation_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operator
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201409301604
+      author: ej
+      changes:
+        - dropColumn:
+            tableName: dataset_criteria
+            columnName: right_value
+  - changeSet:
+      id: ds-201409301634
+      author: ej
+      changes:
+        - addUniqueConstraint:
+            tableName: dataset_correlation
+            columnNames: left_dataset_head_id, right_dataset_head_id
+            constraintName: dataset_corrrelation_left_right_unique
+  - changeSet:
+      id: ds-201409301727
+      author: ej
+      changes:
+        - renameColumn:
+            tableName: dataset_correlation_dtl
+            oldColumnName: left_column_id
+            columnDataType: int
+            newColumnName: left_dataset_element_id
+        - modifyDataType:
+            tableName: dataset_correlation_dtl
+            columnName: left_dataset_element_id
+            newDataType: bigint
+        - renameColumn:
+            tableName: dataset_correlation_dtl
+            oldColumnName: right_column_id
+            columnDataType: int
+            newColumnName: right_dataset_element_id
+        - modifyDataType:
+            tableName: dataset_correlation_dtl
+            columnName: right_dataset_element_id
+            newDataType: bigint
+        - addForeignKeyConstraint:
+            constraintName: left_dataset_element_id_fk
+            baseTableName: dataset_correlation_dtl
+            baseColumnNames: left_dataset_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: right_dataset_element_id_fk
+            baseTableName: dataset_correlation_dtl
+            baseColumnNames: right_dataset_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+  - changeSet:
+      id: ds-20141001801
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: filter_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: ds-201410060230
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_head
+            columns:
+              - column:
+                  name: ranking
+                  type: int
+  - changeSet:
+      id: ds-201410071244
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_element
+            columns:
+              - column:
+                  name: visible
+                  type: tinyint(3)
+  - changeSet:
+      id: ds-201410071425
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: dataset_criteria
+            columnName: value_type
+            newDataType: varchar(20)
+  - changeSet:
+      id: ds-201410081751
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: dataset_correlation
+            columnName: left_table_prefix
+            newDataType: varchar(20)
+        - modifyDataType:
+            tableName: dataset_correlation
+            columnName: right_table_prefix
+            newDataType: varchar(20)
+  - changeSet:
+      id: ds-201411071441
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: input_type
+                  type: smallint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: ds-201411101055
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: visible
+                  type: tinyint(3)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: ds-201411101110
+      author: ej
+      changes:
+        - addColumn:
+            tableName: dataset_criteria
+            columns:
+              - column:
+                  name: label
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201411241305
+      author: ej
+      changes:
+        - createTable:
+            tableName: criteria_head
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: key
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: label
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(500)
+              - column:
+                  name: source_dataset_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_key_element_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_desc_element_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: visible
+                  type: tinyint(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: ds-201411241402
+      author: ej
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: source_dataset_fk
+            baseTableName: criteria_head
+            baseColumnNames: source_dataset_id
+            referencedTableName: dataset_head
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: source_key_element_fk
+            baseTableName: criteria_head
+            baseColumnNames: source_key_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: source_desc_element_fk
+            baseTableName: criteria_head
+            baseColumnNames: source_desc_element_id
+            referencedTableName: dataset_element
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: criteria_head
+            columnNames: key
+            constraintName: criteria_head_key

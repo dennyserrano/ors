@@ -58,6 +58,7 @@
 		<module>samp</module>
 		<module>report_generator</module>
 		<module>reportconfig</module>
+<!-- 		<module>userinterface</module> -->
 	</modules>
 
 	<dependencyManagement>

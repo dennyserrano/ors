@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="30">
+  <Properties>
+    <Property name="LogFileDir">${working.dir}/logs</Property>
+    <Property name="IrrelevantPackages">org.junit,org.apache.maven,sun.reflect,java.lang.reflect</Property>
+  </Properties>
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <!--<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>-->
+      <PatternLayout pattern="[%d{ISO8601_BASIC}] [%t] [%-5p] [%c{1.}] - %m%xEx{filters(${IrrelevantPackages})}%n"/>
+    </Console>
+
+    <RollingRandomAccessFile name="SpringRollingRandomAccessFile" append="true" immediateFlush="false" fileName="${LogFileDir}/spring.log"
+                             filePattern="${LogFileDir}/$${date:yyyy-MM}/spring-%d{yyyy-MM-dd-HH}-%i.log.zip">
+      <!--<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>-->
+      <PatternLayout pattern="[%d{COMPACT}] [%t] [%p{length=1}] [%c{1.}] - %m%xEx{filters(${IrrelevantPackages})}%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingRandomAccessFile>
+
+    <RollingRandomAccessFile name="OrmRollingRandomAccessFile" append="true" immediateFlush="false" fileName="${LogFileDir}/orm.log"
+                             filePattern="${LogFileDir}/$${date:yyyy-MM}/orm-%d{yyyy-MM-dd-HH}-%i.log.zip">
+      <!--<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>-->
+      <PatternLayout pattern="[%d{COMPACT}] [%t] [%p{length=1}] [%c{1.}] - %m%xEx{filters(${IrrelevantPackages})}%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingRandomAccessFile>
+
+    <RollingRandomAccessFile name="OrsRollingRandomAccessFile" append="true" immediateFlush="false" fileName="${LogFileDir}/ors.log"
+                             filePattern="$${LogFileDir}/$${date:yyyy-MM}/ors-%d{yyyy-MM-dd-HH}-%i.log.zip">
+      <!--<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>-->
+      <PatternLayout pattern="[%d{COMPACT}] [%t] [%p{length=1}] [%c{1.}] - %m%xEx{filters(${IrrelevantPackages})}%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingRandomAccessFile>
+
+    <Async name="AsyncSpringLogFile">
+      <AppenderRef ref="SpringRollingRandomAccessFile"/>
+    </Async>
+    <Async name="AsyncOrsLogFile">
+      <AppenderRef ref="OrsRollingRandomAccessFile"/>
+    </Async>
+    <Async name="AsyncOrmLogFile">
+      <AppenderRef ref="OrmRollingRandomAccessFile"/>
+    </Async>
+  </Appenders>
+  <Loggers>
+    <AsyncLogger name="org.hibernate" level="warn" additivity="false">
+      <AppenderRef ref="AsyncOrmLogFile"/>
+      <AppenderRef ref="Console"/>
+    </AsyncLogger>
+    <AsyncLogger name="com.datastax.driver" level="warn" additivity="false">
+      <AppenderRef ref="AsyncOrmLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework.orm" level="warn" additivity="false">
+      <AppenderRef ref="AsyncOrmLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework.jdbc" level="warn" additivity="false">
+      <AppenderRef ref="AsyncOrmLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework.data" level="warn" additivity="false">
+      <AppenderRef ref="AsyncOrmLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="com.hikari" level="warn" additivity="false">
+      <AppenderRef ref="AsyncOrmLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework.web" level="warn" additivity="false">
+      <AppenderRef ref="AsyncSpringLogFile"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework.security" level="warn" additivity="false">
+      <AppenderRef ref="AsyncSpringLogFile"/>
+      <AppenderRef ref="Console"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.springframework" level="warn" additivity="false">
+      <AppenderRef ref="AsyncSpringLogFile"/>
+      <AppenderRef ref="Console"/>
+    </AsyncLogger>
+    <AsyncLogger name="ph.gov.deped" level="debug" additivity="false">
+      <AppenderRef ref="AsyncOrsLogFile"/>
+      <AppenderRef ref="Console"/>
+    </AsyncLogger>
+    <Root level="debug">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>

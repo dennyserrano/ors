@@ -1,0 +1,128 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-spring4-4.dtd">
+<!--[if lt IE 7]> <html class="no-js ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="templates/default"><!--<![endif]-->
+  <head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="description" content="#{default.page.meta.description}"/>
+    <meta name="author" content="see humans.txt"/>
+    <meta http-equiv="imagetoolbar" content="false"/>
+
+    <link rel="stylesheet" href="../css/normalize.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../css/bootcards-desktop.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.css"/>
+    <link rel="stylesheet" href="../css/common.css"/>
+
+    <title>Open Reporting System</title>
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <script src="../js/modernizr.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <script src="../js/respond.src.js"></script>
+    <![endif]-->
+
+    <!-- Top Navigation Bar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <button type="button" class="btn btn-default btn-back pull-left hidden" onclick="history.back()">
+          <i class="fa fa-lg fa-chevron-left"></i>
+          <span>Back</span>
+        </button>
+        <button type="button" class="btn btn-default btn-menu pull-left offcanvas-toggle">
+          <i class="fa fa-lg fa-bars"></i>
+          <span>Menu</span>
+        </button>
+        <a class="navbar-brand" title="Open Reporting System" href="/">Open Reporting System</a>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a th:href="@{'/index'}" href="index.html">
+                <i class="fa fa-home"></i>&nbsp;Home
+              </a>
+            </li>
+            <li>
+              <a th:href="@{/index}" href="admin/dashboard.html">
+                <i class="fa fa-area-chart"></i>&nbsp;Dashboard
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main Contents -->
+      <div layout:fragment="contents" id="contents" class="row row-centered">
+        <div class="col-xs-12 col-md-6 col-centered">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h2 class="panel-title pull-left" data-toggle="tooltip" title="Login Form">Login Form</h2>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" action="#" method="post">
+                <div class="form-group">
+                  <label class="col-xs-3 control-label" for="username">Username</label>
+                  <div class="col-xs-9">
+                    <input class="form-control" type="text" name="username" id="username"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-xs-3 control-label" for="password">Password</label>
+                  <div class="col-xs-9">
+                    <input class="form-control" name="password" id="password" type="password"/>
+                  </div>
+                </div>
+                <div class="form-group row-centered">
+                  <div class="btn-group col-xs-5 col-centered text-center">
+                    <button type="submit" class="btn btn-success pull-left">Login</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-danger pull-right">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bar -->
+    <div class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container">
+        <div class="bootcards-desktop-footer clearfix">
+          <small class="text-center">&copy; Copyright 2014 Department of Education</small>
+          <small class="text-center">Republic of the Philippines</small>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/webfont.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/angular.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/ui-bootstrap-tpls.js"></script>
+    <script src="../js/bootcards.js"></script>
+    <script src="../js/ors.js"></script>
+  </body>
+</html>
