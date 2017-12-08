@@ -30,6 +30,7 @@ public class Configurations {
 	public DataSource dataSource()
 	{
 		DataSourceConfig ds=new DataSourceConfig();
+		
 		ds.setDbProp(dbProp);
 		return ds.dataSource();
 	}

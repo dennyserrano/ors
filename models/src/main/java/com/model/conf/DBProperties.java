@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ConfigurationProperties(prefix="database")
 @PropertySource({"classpath:db.properties"})
-public class DBProperties {
+public class DBProperties  implements DBProperty{
 	
 	
 	
