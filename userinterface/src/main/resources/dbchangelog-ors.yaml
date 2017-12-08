@@ -1,0 +1,383 @@
+databaseChangeLog:
+  - preConditions:
+      - dbms:
+          type: mysql
+  - changeSet:
+      id: 1
+      author: ej
+      changes:
+        - createTable:
+            tableName: database_metadata
+            columns:
+              - column:
+                  name: db_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: db_name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: db_host
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: db_port
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: db_step
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: db_user
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: db_pass
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - modifySql:
+            dbms: mysql
+            append:
+              value: " Engine=InnoDB"
+        - rollback:
+            - dropTable:
+                tableName: database_metadata
+  - changeSet:
+      id: 2
+      author: ej
+      changes:
+        - createTable:
+            tableName: table_metadata
+            columns:
+              - column:
+                  name: table_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: db_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: schema_name
+                  type: varchar(50)
+              - column:
+                  name: table_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+              - column:
+                  name: col_count
+                  type: int
+              - column:
+                  name: row_count
+                  type: int
+              - column:
+                  name: location
+                  type: varchar(100)
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - modifySql:
+            dbms: mysql
+            append:
+              value: " Engine=InnoDB"
+        - rollback:
+            - dropTable:
+                tableName: table_metadata
+  - changeSet:
+      id: 3
+      author: ej
+      changes:
+        - createTable:
+            tableName: column_metadata
+            columns:
+              - column:
+                  name: column_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: table_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: column_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_type
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nullable
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: min
+                  type: int
+              - column:
+                  name: max
+                  type: int
+              - column:
+                  name: date_created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - modifySql:
+            dbms: mysql
+            append:
+              value: " Engine=InnoDB"
+        - rollback:
+            - dropTable:
+                tableName: column_metadata
+  - changeSet:
+      id: 4
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: database_metadata
+            columnName: db_id
+            newDataType: int
+  - changeSet:
+      id: 5
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: table_metadata
+            columnName: table_id
+            newDataType: int
+  - changeSet:
+      id: 6
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: column_metadata
+            columnName: column_id
+            newDataType: int
+  - changeSet:
+      id: 7
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: column_metadata
+            columnName: data_type
+            newDataType: int
+  - changeSet:
+      id: 8
+      author: ej
+      changes:
+        - addColumn:
+            tableName: column_metadata
+            columns:
+              - column:
+                  name: primary_key
+                  type: boolean
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 9
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: column_metadata
+            columnName: max
+            newDataType: bigint
+  - changeSet:
+      id: 10
+      author: ej
+      changes:
+        - addAutoIncrement:
+            tableName: table_metadata
+            columnName: table_id
+            columnDataType: int
+        - addAutoIncrement:
+            tableName: column_metadata
+            columnName: column_id
+            columnDataType: int
+  - changeSet:
+      id: 11
+      author: ej
+      changes:
+        - modifyDataType:
+            tableName: column_metadata
+            columnName: data_type
+            newDataType: varchar(20)
+  - changeSet:
+      id: 12
+      author: ej
+      changes:
+        - createTable:
+            tableName: relation_metadata
+            columns:
+              - column:
+                  name: relation_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: left_table_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_table_prefix
+                  type: varchar(50)
+                  constraints:
+                    nullable: False
+              - column:
+                  name: join_type
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_table_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_table_prefix
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: 13
+      author: ej
+      changes:
+        - createTable:
+            tableName: relation_dtl_metadata
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: relation_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: left_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operator
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: right_column_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_updated
+                  type: timestamp
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+        id: 14
+        author: ej
+        changes:
+          - modifyDataType:
+              tableName: table_metadata
+              columnName: date_created
+              newDataType: timestamp
+          - modifyDataType:
+              tableName: column_metadata
+              columnName: date_created
+              newDataType: timestamp

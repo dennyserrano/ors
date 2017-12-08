@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-spring4-4.dtd">
+<!--[if lt IE 7]> <html class="no-js ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"><!--<![endif]-->
+  <head data-layout-fragment="defaultHeader">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="description" content="#{default.page.meta.description}"/>
+    <meta name="author" content="see humans.txt"/>
+    <meta http-equiv="imagetoolbar" content="false"/>
+
+    <link data-th-href="@{/css/normalize.css}" rel="stylesheet" href="../css/normalize.css"/>
+    <link data-th-href="@{/css/bootstrap.css}" rel="stylesheet" href="../css/bootstrap.css"/>
+    <link data-th-href="@{/css/bootcards-desktop.css}" rel="stylesheet" href="../css/bootcards-desktop.css"/>
+    <link data-th-href="@{/css/font-awesome.css}" rel="stylesheet" href="../css/font-awesome.css"/>
+    <link data-th-href="@{/css/common.css}" rel="stylesheet" href="../css/common.css"/>
+
+    <title data-layout-title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">ORS</title>
+  </head>
+  <body>
+    This is a sample page header.
+  </body>
+</html>

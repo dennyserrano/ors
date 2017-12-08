@@ -13,20 +13,20 @@ import java.util.List;
 /**
  * Created by ej on 8/19/14.
  */
-@Repository
-@RepositoryDefinition(domainClass = DatasetCriteria.class, idClass = Long.class)
-public interface CriteriaRepository extends DefaultCriteriaRepository,BaseJpaRepository<DatasetCriteria, Long>
-{ //extends BaseJpaRepository<DatasetCriteria, Long> {//, DefaultCriteriaRepository {
-
-    List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
-    
-    List<DatasetCriteria> findByDatasetHeadId(long datasetHeadId);
-    
-    List<DatasetCriteria> findByDatasetHeadAndVisible(DatasetHead datasetHead, boolean visible);
-
-    List<DatasetCriteria> findByLeftElement(DatasetElement leftElement);
-
-    List<DatasetCriteria> findByDatasetHeadAndLeftElement(DatasetHead datsetHead, DatasetElement leftElement);
-
-    List<DatasetCriteria> findByDatasetHeadIdAndLeftElementId(long datasetHeadId, long leftElementId);
-}
+//@Repository
+//@RepositoryDefinition(domainClass = DatasetCriteria.class, idClass = Long.class)
+//public interface CriteriaRepository extends DefaultCriteriaRepository,BaseJpaRepository<DatasetCriteria, Long>
+//{ //extends BaseJpaRepository<DatasetCriteria, Long> {//, DefaultCriteriaRepository {
+//
+//    List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
+//    
+//    List<DatasetCriteria> findByDatasetHeadId(long datasetHeadId);
+//    
+//    List<DatasetCriteria> findByDatasetHeadAndVisible(DatasetHead datasetHead, boolean visible);
+//
+//    List<DatasetCriteria> findByLeftElement(DatasetElement leftElement);
+//
+//    List<DatasetCriteria> findByDatasetHeadAndLeftElement(DatasetHead datsetHead, DatasetElement leftElement);
+//
+//    List<DatasetCriteria> findByDatasetHeadIdAndLeftElementId(long datasetHeadId, long leftElementId);
+//}
