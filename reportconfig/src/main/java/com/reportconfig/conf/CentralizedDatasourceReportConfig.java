@@ -30,6 +30,9 @@ public class CentralizedDatasourceReportConfig {
 
 	
 	public static final Logger log=LogManager.getLogger(CentralizedDatasourceReportConfig.class);
+	public static final String METADATA_DB_NAME=ConfigurationConstants.METADATA_DB_DATASOURCE;
+	public static final String DATA_DB_NAME=ConfigurationConstants.DATA_DB_DATASOURCE;
+	
 	
 	@Autowired
 	@Qualifier(ConfigurationConstants.METADATA_DB_PROPERTIES_NAME)

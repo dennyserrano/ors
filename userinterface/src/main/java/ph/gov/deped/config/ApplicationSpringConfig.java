@@ -20,6 +20,7 @@ import com.reportconfig.conf.CentralizedDatasourceReportConfig;
 import com.reportconfig.conf.CentralizedRepositoriesConfiguration;
 
 import ph.gov.deped.repo.config.CommonRepositorySpringConfig;
+import ph.gov.deped.security.SecuritySpringConfig;
 import ph.gov.deped.service.config.ServicesSpringConfig;
 import ph.gov.deped.web.OrsHttpSessionListener;
 
@@ -33,10 +34,13 @@ import ph.gov.deped.web.OrsHttpSessionListener;
 })
 @EnableConfigurationProperties
 @Import({
+//		ApplicationSecuritySpringConfig.class,
+//		SecuritySpringConfig.class,
+		FilterSettings.class,
 		ServicesSpringConfig.class,
         WebSpringConfig.class,
         DefaultViewConfig.class,
-        CentralizedDatasourceReportConfig.class,
+        LocalDataSourceConfiguration.class,
         CommonRepositorySpringConfig.class,
         EJBConfiguration.class
 })

@@ -104,9 +104,13 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
         
         return criterias.stream()
                 .map(c ->
-                		new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
-                        c.getInputType().ordinal(), c.getLabel(), filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get()))
-                .collect(toList());
+                		{
+                			System.out.println();
+	                		return new Criterion(c.getId(), c.getFilterName(), c.getFilterType(), c.getLeftElement().getId(), c.getOperator(),
+	                        c.getInputType().ordinal(), c.getLabel(), filterValueMap.get(c.getDatasetHead().getId() + ":" + c.getLeftElement().getName()).get());
+	                		
+                		}
+                		).collect(toList());
     }
     
     public List<KeyValue> searchSchools(Map<Long, String> filters) {

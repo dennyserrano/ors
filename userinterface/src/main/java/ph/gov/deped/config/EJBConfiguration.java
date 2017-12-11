@@ -20,7 +20,7 @@ public class EJBConfiguration {
 
 	public static final String INITIAL_CONTEXT="org.wildfly.naming.client.WildFlyInitialContextFactory";
 	public static final String PROTOCOL="http+remote";
-	public static final String MODULE_NAME="queuegtw_ejb-0.0.1-SNAPSHOT-jar-with-dependencies";
+	public static final String MODULE_NAME="queuegtw_queuelistener-0.0.1-SNAPSHOT";
 	public static final String IMPLEMENTING_CLASS="QueueServiceBean";
 	
 	@Autowired
@@ -34,7 +34,6 @@ public class EJBConfiguration {
         jndiProperties.put(Context.PROVIDER_URL,"remote+http://"+ejbProp.getUrl());
         final Context context = new InitialContext(jndiProperties);
         QueueServiceBeanRemote sr= (QueueServiceBeanRemote) context.lookup(getEjbUrl());
-        sr.queue(null);
         return sr;
 	}
 	

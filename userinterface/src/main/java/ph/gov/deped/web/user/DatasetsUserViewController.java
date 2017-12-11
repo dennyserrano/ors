@@ -15,7 +15,10 @@ import javax.servlet.http.HttpSession;
 public class DatasetsUserViewController {
 
     public static final String DATASETS_VIEW = "user/datasets";
-
+    public DatasetsUserViewController()
+    {
+    	System.out.println();
+    }
     @RequestMapping(method = RequestMethod.GET)
     public String datasets(HttpServletRequest request, HttpSession httpSession) {
         if (httpSession != null && !httpSession.isNew()) {

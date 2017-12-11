@@ -43,8 +43,8 @@ public class ExportDataController {
     
     private static final Logger log = LogManager.getLogger(ExportDataController.class);
     
-    @Autowired
-    private QueueServiceBeanRemote qsb;
+//    @Autowired
+//    private QueueServiceBeanRemote qsb;
     
 //    private static final ExportType DEFAULT_EXPORT_TYPE = ExportType.XLSX;
     

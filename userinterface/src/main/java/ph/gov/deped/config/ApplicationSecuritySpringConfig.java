@@ -33,10 +33,10 @@ public class ApplicationSecuritySpringConfig extends WebSecurityConfigurerAdapte
                     .and()
                 .requestMatchers()
                     .antMatchers("/**")
-                    .and()
-                .authorizeRequests()
-                    .anyRequest()
-                    .hasAnyRole("USER");
+//                    .and()
+//                .authorizeRequests()
+                    .anyRequest();
+//                    .hasAnyRole("USER");
     }
 
     private AuthenticationEntryPoint entryPoint() {

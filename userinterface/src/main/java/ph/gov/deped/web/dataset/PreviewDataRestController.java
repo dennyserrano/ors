@@ -36,13 +36,13 @@ public class PreviewDataRestController {
 //        this.datasetService = datasetService;
 //    }
 
-	@Autowired
-	private QueueServiceBeanRemote qsb;
+//	@Autowired
+//	private QueueServiceBeanRemote qsb;
 	
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE })
     public ReturnEntity<List<List<ColumnElement>>> preview(@RequestBody Dataset dataset) {
     	
-    	qsb.queue(dataset);
+//    	qsb.queue(dataset);
     	try
     	{
     		if(dataset.getAggregateBy()!=null)
