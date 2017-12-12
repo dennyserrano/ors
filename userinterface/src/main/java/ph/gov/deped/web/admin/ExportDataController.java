@@ -3,6 +3,8 @@ package ph.gov.deped.web.admin;
 import com.bits.sql.AggregateTypes;
 import com.ejb.stateless.interfaces.QueueServiceBeanRemote;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.model.support.Dataset;
+import com.model.support.Element;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import ph.gov.deped.data.dto.ds.Dataset;
-import ph.gov.deped.data.dto.ds.Element;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,8 +41,8 @@ public class ExportDataController {
     
     private static final Logger log = LogManager.getLogger(ExportDataController.class);
     
-//    @Autowired
-//    private QueueServiceBeanRemote qsb;
+    @Autowired
+    private QueueServiceBeanRemote qsb;
     
 //    private static final ExportType DEFAULT_EXPORT_TYPE = ExportType.XLSX;
     
@@ -82,7 +81,7 @@ public class ExportDataController {
 //            exportService.export("", data, ExportType.XLSX);
         	log.info("Exporting::::::");
             filename="";//exportService.export(ds);
-            
+            qsb.queue(ds);
             if(filename==null)
             	return;
         }
