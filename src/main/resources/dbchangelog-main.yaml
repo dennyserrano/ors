@@ -1,5 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: dbchangelog-ors.yaml
-  - include:
-      file: dbchangelog-dataset.yaml
