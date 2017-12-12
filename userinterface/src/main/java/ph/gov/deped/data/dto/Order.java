@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.model.support.ColumnElement;
+
 public class Order {
 	private final String order;
 	private final List<ColumnElement> orderBy;

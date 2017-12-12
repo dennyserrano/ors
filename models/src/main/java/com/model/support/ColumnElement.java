@@ -1,4 +1,4 @@
-package ph.gov.deped.data.dto;
+package com.model.support;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -9,8 +9,6 @@ import com.bits.sql.AggregateTypes;
 import com.model.db.ColumnMetadata;
 import com.model.db.DatasetElement;
 
-import ph.gov.deped.data.dto.interfaces.Aggregatable;
-import ph.gov.deped.data.dto.interfaces.TableColumn;
 
 import java.io.Serializable;
 import java.util.List;

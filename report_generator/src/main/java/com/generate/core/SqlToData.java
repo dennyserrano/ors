@@ -24,8 +24,6 @@ import com.util.builders.impl.ColumnExpression;
 @Service
 public class SqlToData {
 	
-	@Autowired
-	@Qualifier(ConfigurationConstants.DATA_SOURCE_NAME)
 	private DataSource dataSource;
 	
 	public List<List<ColumnElement>> get(String sql,List<ColumnExpression> columns)
@@ -73,6 +71,11 @@ public class SqlToData {
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		Object o= template.query(sql, (rs, rowNum)->{return rs.getLong("COUNT(*)");}).get(0);
 		return (long) o;
+	}
+	
+	public void setDataSource(DataSource ds)
+	{
+		dataSource=ds;
 	}
 	
 }

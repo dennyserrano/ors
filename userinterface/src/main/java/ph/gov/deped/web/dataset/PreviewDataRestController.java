@@ -15,8 +15,9 @@ import com.bits.sql.AggregateTypes;
 import com.ejb.stateless.interfaces.QueueServiceBeanRemote;
 import com.model.support.Dataset;
 import com.model.support.Element;
+import com.util.builders.impl.ColumnElement;
 
-import ph.gov.deped.data.dto.ColumnElement;
+import ph.gov.deped.service.data.api.DataService;
 import ph.gov.deped.web.entity.ReturnEntity;
 
 import java.util.ArrayList;
@@ -30,18 +31,18 @@ import java.util.List;
 @ControllerAdvice
 public class PreviewDataRestController {
 
-//    private DatasetService datasetService;
-//
-//    public @Autowired void setDatasetService(DatasetService datasetService) {
-//        this.datasetService = datasetService;
-//    }
+    private DataService datasetService;
+
+    public @Autowired void setDatasetService(DataService datasetService) {
+        this.datasetService = datasetService;
+    }
 
 //	@Autowired
 //	private QueueServiceBeanRemote qsb;
 	
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE })
     public ReturnEntity<List<List<ColumnElement>>> preview(@RequestBody Dataset dataset) {
-    	
+    	dataset.setId(8L);
 //    	qsb.queue(dataset);
     	try
     	{
@@ -56,12 +57,12 @@ public class PreviewDataRestController {
         		}
         		dataset.setElements(al);
         	}
-    		return null;
-//            return new ReturnEntity<List<List<ColumnElement>>>("success", 0, datasetService.getData(dataset, true));
+  
+            return new ReturnEntity<List<List<ColumnElement>>>("success", 0, datasetService.getPreviewData(dataset));
     	}
     	catch(Exception e)
     	{
-    		return new ReturnEntity<List<List<ColumnElement>>>(e.getMessage(), 1, null);
+    		return new ReturnEntity<List<List<ColumnElement>>>(e.getMessage(), 1,null);
     	}
     	
     	

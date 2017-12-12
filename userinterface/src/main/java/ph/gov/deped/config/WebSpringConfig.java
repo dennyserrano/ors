@@ -3,9 +3,15 @@ package ph.gov.deped.config;
 import org.springframework.context.annotation.*;
 import org.springframework.format.datetime.DateTimeFormatAnnotationFormatterFactory;
 import org.springframework.format.number.NumberFormatAnnotationFormatterFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
 import ph.gov.deped.data.dto.DatasetStore;
 
 /**
@@ -19,7 +25,7 @@ import ph.gov.deped.data.dto.DatasetStore;
                 @ComponentScan.Filter(value = { Controller.class, RestController.class})
         }
 )
-public class WebSpringConfig {
+public class WebSpringConfig{
    
     public @Bean NumberFormatAnnotationFormatterFactory numberFormatter() {
         return new NumberFormatAnnotationFormatterFactory();
@@ -33,4 +39,5 @@ public class WebSpringConfig {
     public @Bean DatasetStore datasetStore() {
         return new DatasetStore();
     }
+
 }

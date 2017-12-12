@@ -1,5 +1,9 @@
 package ph.gov.deped.config;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -12,12 +16,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.stereotype.Repository;
 
+import com.generate.conf.ReportGeneratorConfiguration;
+import com.generate.core.SqlToData;
 import com.reportconfig.conf.CentralizedDatasourceReportConfig;
 import com.reportconfig.conf.CentralizedRepositoriesConfiguration;
+import com.util.builders.config.SqlBuilderConfiguration;
 
 import ph.gov.deped.repo.config.CommonRepositorySpringConfig;
 import ph.gov.deped.security.SecuritySpringConfig;
@@ -42,7 +50,9 @@ import ph.gov.deped.web.OrsHttpSessionListener;
         DefaultViewConfig.class,
         LocalDataSourceConfiguration.class,
         CommonRepositorySpringConfig.class,
-        EJBConfiguration.class
+        EJBConfiguration.class,
+        ReportGeneratorConfiguration.class,
+        SqlBuilderConfiguration.class
 })
 
 
@@ -50,11 +60,26 @@ public class ApplicationSpringConfig {
     
     private ApplicationContext applicationContext;
     
+    @Autowired
+    private SqlToData std;
+    
+    @Autowired
+    @Qualifier(CentralizedDatasourceReportConfig.DATA_DB_NAME)
+    private DataSource ds2;
+    
     public void setApplicationContext(ApplicationContext applicationContext) {
     	
         this.applicationContext = applicationContext;
     }
 
+    @Bean
+    @Primary
+    public SqlToData getStd()
+    {
+    	std.setDataSource(ds2);
+    	return std;
+    }
+    
 //    public @Bean ApplicationEventPublisher applicationEventPublisher() {
 //        return new RingBufferApplicationEventPublisher(8, true);
 //    }

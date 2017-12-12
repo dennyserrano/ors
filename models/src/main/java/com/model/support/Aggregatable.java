@@ -1,4 +1,4 @@
-package ph.gov.deped.data.dto.interfaces;
+package com.model.support;
 
 import com.bits.sql.AggregateTypes;
 
