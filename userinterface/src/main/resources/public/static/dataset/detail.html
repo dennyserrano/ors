@@ -1,0 +1,73 @@
+<div class="panel panel-default" data-ng-show="loadingDetail">
+  <div class="panel-body">
+    <i class="fa fa-2x fa-spin fa-spinner pull-left"></i>
+    <small>Loading Dataset Details...</small>
+  </div>
+</div>
+
+<div class="panel panel-default" data-ng-show="!loadingDetail">
+  <div class="panel-heading clearfix">
+    <h4 class="panel-title pull-left">{{ dataset.name }}</h4>
+    <button type="button" class="btn btn-default pull-right" data-ng-click="edit(dataset.id)">
+      <i class="fa fa-pencil"></i>
+      Edit
+    </button>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-12">
+        <p>{{ dataset.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default" data-ng-show="!loadingDetail">
+  <div class="panel-heading clearfix">
+    <h4 class="panel-title">Sub-Datasets</h4>
+  </div>
+  <div class="panel-body overflow">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel-group" id="subDatasets">
+          <div class="panel panel-default" data-ng-repeat="subdataset in dataset.subDatasets">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#subDatasets" data-ng-click="findElements(subdataset.id)">
+                  {{ subdataset.name }}
+                </a>
+              </h4>
+            </div>
+            <div class="panel-collapse collapse" id="sd{{ subdataset.id }}">
+              <div class="panel-body">
+                <p>{{ subdataset.description }}</p>
+                <ul>
+                  <li data-ng-repeat="element in subdatasetElements">
+                    {{ element.name }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default" data-ng-show="!loadingDetail">
+  <div class="panel-heading clearfix">
+    <h4 class="panel-title">Elements</h4>
+  </div>
+  <div class="list-group overflow">
+    <div data-ng-repeat="element in dataset.elements" class="list-group-item">
+      <h4 class="list-group-item-heading">
+        {{ element.name }}
+      </h4>
+      <small class="list-group-item-text">
+        {{ element.meaning }}
+      </small>
+    </div>
+  </div>
+</div>
+
