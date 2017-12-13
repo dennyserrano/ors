@@ -2,6 +2,8 @@ package ph.gov.deped.config;
 
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -58,7 +60,12 @@ import ph.gov.deped.web.OrsHttpSessionListener;
 public class ApplicationSpringConfig {
     
     private ApplicationContext applicationContext;
+    private static final Logger log=LogManager.getLogger(ApplicationSpringConfig.class);
     
+    public ApplicationSpringConfig()
+    {
+    	log.info("started");
+    }
     
     public void setApplicationContext(ApplicationContext applicationContext) {
     	
