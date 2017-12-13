@@ -51,8 +51,7 @@ import ph.gov.deped.web.OrsHttpSessionListener;
         LocalDataSourceConfiguration.class,
         CommonRepositorySpringConfig.class,
         EJBConfiguration.class,
-        ReportGeneratorConfiguration.class,
-        SqlBuilderConfiguration.class
+        LocalSqlAndReportBuilderConfiguration.class
 })
 
 
@@ -60,25 +59,13 @@ public class ApplicationSpringConfig {
     
     private ApplicationContext applicationContext;
     
-    @Autowired
-    private SqlToData std;
-    
-    @Autowired
-    @Qualifier(CentralizedDatasourceReportConfig.DATA_DB_NAME)
-    private DataSource ds2;
     
     public void setApplicationContext(ApplicationContext applicationContext) {
     	
         this.applicationContext = applicationContext;
     }
 
-    @Bean
-    @Primary
-    public SqlToData getStd()
-    {
-    	std.setDataSource(ds2);
-    	return std;
-    }
+   
     
 //    public @Bean ApplicationEventPublisher applicationEventPublisher() {
 //        return new RingBufferApplicationEventPublisher(8, true);
