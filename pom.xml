@@ -20,7 +20,7 @@
 		<spring.boot.version>1.5.8.RELEASE</spring.boot.version>
 		<spring.version>4.2.0.RELEASE</spring.version>
 		<spring-cql.version>1.0.4.RELEASE</spring-cql.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<hibernate.version>5.2.12.Final</hibernate.version>
 		<xerces.version>2.11.0</xerces.version>
 		<thrift.version>0.9.1</thrift.version>
 		<log4j2.version>2.0.2</log4j2.version>

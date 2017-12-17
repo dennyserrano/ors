@@ -2,8 +2,10 @@ package com.model.enums;
 
 import com.bits.sql.Operator;
 import com.bits.sql.Operators;
+
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
@@ -100,4 +102,20 @@ public class OperatorUserType implements UserType {
     public Object replace(Object original, Object target, Object owner) throws HibernateException {
         return this.deepCopy(original);
     }
+
+	@Override
+	public Object nullSafeGet(ResultSet arg0, String[] arg1,
+			SharedSessionContractImplementor arg2, Object arg3)
+			throws HibernateException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void nullSafeSet(PreparedStatement arg0, Object arg1, int arg2,
+			SharedSessionContractImplementor arg3) throws HibernateException,
+			SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }

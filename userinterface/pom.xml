@@ -19,6 +19,8 @@
 		<log4j2.version>2.0.2</log4j2.version>
 		<slf4j.version>1.7.6</slf4j.version>
 		<lmax.version>3.3.0</lmax.version>
+		<reflections.version>0.9.9-RC2</reflections.version>
+		<javax.inject.version>1</javax.inject.version>
 	</properties>
 
 	<dependencies>
@@ -41,7 +43,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -73,11 +75,16 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<type>ejb-client</type>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.reflections</groupId> -->
-		<!-- <artifactId>reflections</artifactId> -->
-		<!-- <version>${reflections.version}</version> -->
-		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>${reflections.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -136,15 +143,22 @@
 			<artifactId>disruptor</artifactId>
 			<version>${lmax.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.data</groupId> -->
+<!-- 			<artifactId>spring-data-jpa</artifactId> -->
+<!-- 			<version>2.0.2.RELEASE</version> -->
+<!-- 		</dependency> -->
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			
+
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
 
 
 

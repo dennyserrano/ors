@@ -94,7 +94,14 @@ public @Service class CriteriaServiceImpl implements CriteriaService, Initializi
 
     public @Transactional(value = AppMetadata.TXM, readOnly = true) List<Criterion> findDatasetHeadCriteria(long headId) {
         DatasetHead datasetHead = datasetRepository.findOne(headId);
-        List<DatasetCriteria> criterias = criteriaRepository.findByDatasetHeadAndVisible(datasetHead, true);
+        
+        List<DatasetCriteria> criterias=null;
+		try {
+			criterias = criteriaRepository.findByDatasetHeadAndVisible(datasetHead, true);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 
         if (criterias == null) {
             return Collections.emptyList();
