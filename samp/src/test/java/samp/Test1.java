@@ -47,8 +47,8 @@
 //	public void test() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException
 //	{
 //		System.out.println();
-////		XStream xs=new XStream();
-////		Dataset ds=(Dataset) xs.fromXML(new FileInputStream(new File("/home/denny/dataset.xml")));
+//		XStream xs=new XStream();
+//		Dataset ds=(Dataset) xs.fromXML(new FileInputStream(new File("/home/denny/dataset.xml")));
 ////		ds.setId(8L);
 ////		PrefixTable pt=ts.generateTable(ds);
 ////		String sql=new ServiceQueryBuilderImpl().getQuery(pt);

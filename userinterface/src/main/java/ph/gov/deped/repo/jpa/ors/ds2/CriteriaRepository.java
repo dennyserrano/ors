@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Repository
 @RepositoryDefinition(domainClass = DatasetCriteria.class, idClass = Long.class)
-public interface CriteriaRepository extends DefaultCriteriaRepository//,BaseJpaRepository<DatasetCriteria, Long>
+public interface CriteriaRepository extends DefaultCriteriaRepository,BaseJpaRepository<DatasetCriteria, Long>
 { //extends BaseJpaRepository<DatasetCriteria, Long> {//, DefaultCriteriaRepository {
 
     List<DatasetCriteria> findByDatasetHead(DatasetHead datasetHead);
