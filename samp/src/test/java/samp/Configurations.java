@@ -17,7 +17,6 @@ import com.reportconfig.conf.DataSourceConfig;
 @EnableConfigurationProperties
 @Import({
 	DBProperties.class,
-	com.util.builders.config.Configuration.class,
 	ReportGeneratorConf.class
 })
 public class Configurations {
