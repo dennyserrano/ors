@@ -3,8 +3,8 @@ package ph.gov.deped;
 import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
-
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import ph.gov.deped.config.ApplicationSpringConfig;
 
 /**

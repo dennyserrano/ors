@@ -28,11 +28,11 @@ import java.util.concurrent.Executor;
 )
 @EnableAsync
 @EnableScheduling
-@Import({
+//@Import({
 //        JpaTransactionManagerSpringConfig.class,
 //        ExporterSpringConfig.class,
 //        ExporterExcelSpringConfig.class
-})
+//})
 public class ServicesSpringConfig implements SchedulingConfigurer, AsyncConfigurer {
     
 //    public @Bean Environment reactorEnv() {
