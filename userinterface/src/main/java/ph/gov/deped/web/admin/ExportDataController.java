@@ -80,32 +80,25 @@ public class ExportDataController {
               //datasetService.getData(ds, false);
 //            exportService.export("", data, ExportType.XLSX);
         	log.info("Exporting::::::");
-            filename="";//exportService.export(ds);
+//            filename="";//exportService.export(ds);
             qsb.queue(ds);
-            if(filename==null)
-            	return;
+//            if(filename==null)
+//            	return;
+            
+            
         }
         catch (Exception ex) {
             log.error("Unable to generate exported data.");
             log.throwing(ex);
             throw new RuntimeException(ex);
         }
-
+        throw new Exception("sample error");
 //        ExportType exportType = DEFAULT_EXPORT_TYPE; // TODO Should be user defined from request; constant for now.
 
-        response.setContentType("");
-        response.setHeader("Content-Disposition", "attachment; filename=export."); //exportType.getExtension());
+//        response.setContentType("");
+//        response.setHeader("Content-Disposition", "attachment; filename=export."); //exportType.getExtension());
         
-        try (FileInputStream fis = new FileInputStream(new File(filename));
-            OutputStream os = response.getOutputStream()) {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = fis.read(buffer)) != -1) {
-                os.write(buffer, 0, bytesRead);
-            }
-            os.flush();
-        }
+        
         
         
     }

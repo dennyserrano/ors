@@ -94,6 +94,21 @@
 			<artifactId>jboss-ejb-client</artifactId>
 			<version>4.0.9.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>queue.gateway.web</groupId>
+			<artifactId>file_manager_ejb</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>ejb-client</type>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.apache.logging.log4j</groupId> -->
 		<!-- <artifactId>log4j-api</artifactId> -->
@@ -143,11 +158,11 @@
 			<artifactId>disruptor</artifactId>
 			<version>${lmax.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.data</groupId> -->
-<!-- 			<artifactId>spring-data-jpa</artifactId> -->
-<!-- 			<version>2.0.2.RELEASE</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.data</groupId> -->
+		<!-- <artifactId>spring-data-jpa</artifactId> -->
+		<!-- <version>2.0.2.RELEASE</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.hibernate</groupId>

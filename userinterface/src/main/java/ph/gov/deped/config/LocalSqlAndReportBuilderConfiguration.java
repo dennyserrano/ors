@@ -21,19 +21,6 @@ import com.util.builders.config.SqlBuilderConfiguration;
 })
 public class LocalSqlAndReportBuilderConfiguration {
 
-	@Autowired
-    private SqlToData std;
-    
-    @Autowired
-    @Qualifier(CentralizedDatasourceReportConfig.DATA_DB_NAME)
-    private DataSource ds2;
-    
-    @Bean
-    @Primary
-    public SqlToData getStd()
-    {
-    	std.setDataSource(ds2);
-    	return std;
-    }
+	
 	
 }

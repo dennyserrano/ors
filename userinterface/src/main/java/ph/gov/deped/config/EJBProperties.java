@@ -10,15 +10,23 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource({"classpath:ejb.properties"})
 public class EJBProperties {
 
-	private String url;
-
-	public String getUrl() {
-		return url;
+	private String queueServiceUrl;
+	private String fileServiceUrl;
+	public String getQueueServiceUrl() {
+		return queueServiceUrl;
 	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	public void setQueueServiceUrl(String queueServiceUrl) {
+		this.queueServiceUrl = queueServiceUrl;
 	}
+	public String getFileServiceUrl() {
+		return fileServiceUrl;
+	}
+	public void setFileServiceUrl(String fileServiceUrl) {
+		this.fileServiceUrl = fileServiceUrl;
+	}
+	
+	
+	
 	
 	
 	
