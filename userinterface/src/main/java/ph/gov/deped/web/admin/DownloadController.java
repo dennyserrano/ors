@@ -29,20 +29,23 @@ public class DownloadController {
 	@Autowired
 	private FileServiceRemote fileService;
 	
+	@Autowired
+	private OrsSettings orsProp;
+	
 	@RequestMapping(method=RequestMethod.GET)
 	public void download(@RequestParam("k")String key,HttpServletResponse response)
 	{
 //		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 //		response.setHeader("Content-Disposition", "attachment; filename=export." + "xlsx");
 		response.setContentType("text/csv");
-		String path=fileService.getPath(key);
+		String fileName=fileService.getFileName(key);
 		
-		if(path==null)
+		if(fileName==null)
 			throw new RuntimeException();//return error page
 		
 		
 		try {
-			InputStream is=new FileInputStream(path);
+			InputStream is=new FileInputStream(orsProp.getDownloadBaseUrl()+fileName);
 			
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();

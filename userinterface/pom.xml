@@ -6,8 +6,8 @@
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>userinterface</artifactId>
-
+	<artifactId>userinterface</artifactId>	
+	<packaging>war</packaging>
 	<properties>
 		<webjars.bootstrap.version>3.2.0</webjars.bootstrap.version>
 		<webjars.normalize.version>3.0.1</webjars.normalize.version>

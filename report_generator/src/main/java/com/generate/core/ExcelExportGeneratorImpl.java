@@ -62,12 +62,13 @@ public class ExcelExportGeneratorImpl implements ReportGenerator<String>
 	private SqlToData std;
 	
 	@Override
-	public String export(String sql,List<ColumnExpression> header) 
+	public com.generate.model.File export(String sql,List<ColumnExpression> header) 
 	{
 		
 		String filename = randomAlphabetic(8) + "." + ExportType.XLSX.getExtension();
 		String baseTempPath = props.getTmpDir() + File.separator;
-		String downloadPath = props.getDonePath() + File.separator + filename;
+		String baseDownloadPath=props.getDonePath() + File.separator;
+		String downloadPath = baseDownloadPath + filename;
 		int chunksize=props.getChunkSize();
 //		LinkedList<PrefixTable> prefixTables= datasetService.getPrefixTables(dataset);
 //		PrefixTable table=tableService.generateTable(dataset);
@@ -111,7 +112,7 @@ public class ExcelExportGeneratorImpl implements ReportGenerator<String>
 				ExcelDocumentConsolidator ed=new ExcelDocumentConsolidator(new XlsxExporter(cellWriter,headerStyler,valueCellStyler),consolidatorHeaders.get(0));
 				ed.consolidate(downloadPath,files);
 				System.gc(); //TODO this should not be here..
-				return downloadPath;
+				return new com.generate.model.File(filename, baseDownloadPath);
 			}
 			
 			

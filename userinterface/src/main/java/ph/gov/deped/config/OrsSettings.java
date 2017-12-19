@@ -45,10 +45,20 @@ public class OrsSettings implements DbSettings, Serializable {
 
     private int chunkSize;
     
+    private String downloadBaseUrl;
     
     
     
-    public int getChunkSize() {
+    
+    public String getDownloadBaseUrl() {
+		return downloadBaseUrl;
+	}
+
+	public void setDownloadBaseUrl(String downloadBaseUrl) {
+		this.downloadBaseUrl = downloadBaseUrl;
+	}
+
+	public int getChunkSize() {
 		return chunkSize;
 	}
 

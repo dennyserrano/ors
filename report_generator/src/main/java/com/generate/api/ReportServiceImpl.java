@@ -10,6 +10,7 @@ import com.generate.core.ReportGenerator;
 import com.generate.core.ReportGeneratorFactory;
 import com.generate.core.SqlToData;
 import com.generate.enums.ExportType;
+import com.generate.model.File;
 import com.util.builders.impl.ColumnExpression;
 
 @Service
@@ -20,7 +21,7 @@ public class ReportServiceImpl implements ReportService{
 
 
 	@Override
-	public String generate(String sql, List<ColumnExpression> header,
+	public File generate(String sql, List<ColumnExpression> header,
 			ExportType exportType) {
 		ReportGenerator<String> rg=factory.get(exportType);
 		 

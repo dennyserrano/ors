@@ -46,6 +46,7 @@ import ph.gov.deped.web.OrsHttpSessionListener;
 @Import({
 //		ApplicationSecuritySpringConfig.class,
 //		SecuritySpringConfig.class,
+		OrsSettings.class,
 		FilterSettings.class,
 		ServicesSpringConfig.class,
         WebSpringConfig.class,
