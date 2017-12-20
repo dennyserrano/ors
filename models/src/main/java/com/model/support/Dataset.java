@@ -51,6 +51,9 @@ public class Dataset implements Serializable {
 
     private DatasetHead datasetHead;
     
+    @JsonProperty("sendTo")
+    private List<String> sendTo;
+    
     public Dataset() {}
 
     public Dataset(long id, String name, String description, Long parentDatasetHead) {
@@ -185,6 +188,16 @@ public class Dataset implements Serializable {
 
 	public void setDatasetHead(DatasetHead datasetHead) {
 		this.datasetHead = datasetHead;
+	}
+
+	
+	
+	public List<String> getSendTo() {
+		return sendTo;
+	}
+
+	public void setSendTo(List<String> sendTo) {
+		this.sendTo = sendTo;
 	}
 
 	@Override
