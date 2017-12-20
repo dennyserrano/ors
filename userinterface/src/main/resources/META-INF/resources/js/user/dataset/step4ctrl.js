@@ -14,7 +14,7 @@ angular.module('UserApp')
             $scope.datas = [];
 
             $window.ORS.AdjustDatasetContents(0);
-
+            $scope.datasetJson1="haha";
             $scope.$watch('loadingData', function(newVal, oldVal) {
                 if (oldVal === 0 && newVal === 1) {
                     $timeout(function() {
@@ -80,6 +80,38 @@ angular.module('UserApp')
             	$state.go('step1');
             }
        
+            $scope.presubmit=function()
+            {
+            	
+            	bootbox.prompt({
+            	    title: "Please provide your email address and we will send a link to download the report (e.g: juandelacruz@deped.gov.ph)",
+            	    inputType: 'email',
+            	    callback: function (result) {
+            	        var sendTo=[];
+            	        sendTo.push(result);
+            	        var serArr=$("#exportForm").serializeArray();
+            	        
+            	        
+            	        var obj=JSON.parse(serArr[0].value);
+            	        obj.sendTo=sendTo;
+            	        serArr[0].value=JSON.stringify(obj);
+            	        
+            	        
+            	        
+            	        $.post($("#exportForm").attr('action'),serArr);
+            	        
+//            	        alert(angular.toJson($("#exportForm").serializeArray()));
+//            	        console.log($scope.datasetJson);
+//            	        $("#exportForm").submit();
+            	    }
+            	});
+            }
+            
+            function call()
+            {
+            	$scope.datasetJson1="hoho";
+            }
+            
         }
     ]
 );
