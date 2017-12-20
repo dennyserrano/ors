@@ -28,7 +28,7 @@ public class App implements CommandLineRunner{
 		Properties properties = new Properties();
 		 properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
 	     properties.put( Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming" );
-	    
+	     properties.put(Context.PROVIDER_URL,"http-remoting://10.10.2.69:8080");
 	     final Context context = new InitialContext(properties);
 	     
 	     System.out.println("==========EXEC============");

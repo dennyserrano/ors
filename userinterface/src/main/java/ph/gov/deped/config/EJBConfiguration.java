@@ -36,10 +36,11 @@ public class EJBConfiguration {
 	public QueueServiceBeanRemote queueService() throws NamingException
 	{
 		log.info("EJB Queue Service Url:"+ejbProp.getQueueServiceUrl());
-		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
-        jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT);
-        jndiProperties.put(Context.PROVIDER_URL,PROTOCOL+ejbProp.getQueueServiceUrl());
-        final Context context = new InitialContext(jndiProperties);
+		Properties properties = new Properties();
+		properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
+	    properties.put( Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming" );
+	    properties.put(Context.PROVIDER_URL,PROTOCOL+ejbProp.getQueueServiceUrl());
+        final Context context = new InitialContext(properties);
         QueueServiceBeanRemote sr= (QueueServiceBeanRemote) context.lookup(getEjbUrl("queuegtw_queuelistener-0.0.1-SNAPSHOT","QueueServiceBean",QueueServiceBeanRemote.class.getName()));
         return sr;
 	}
@@ -63,35 +64,36 @@ public class EJBConfiguration {
 //        sr.getFileName("");
 //	}
 	
-	public static void main(String[] args) throws NamingException {
-		
-		Properties properties = new Properties();
-		 properties.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT);
-	     properties.put( Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming" );
-	     properties.put( "org.jboss.ejb.client.scoped.context", "true" );
-	     properties.put( "remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false" );
-	     properties.put( "remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", "false" );
-	     properties.put( "remote.connections", "default" );
-
-	     properties.put( "remote.connection.default.host", "10.10.2.69" );
-	     properties.put( "remote.connection.default.port", String.valueOf( 8080) );
-	     properties.put( "remote.connection.default.username", "ejbuser" );
-	     properties.put( "remote.connection.default.password", "3jbU$3r" );
-	     final Context context = new InitialContext(properties);
-	     NamingEnumeration<NameClassPair> list = context.list("");
-	        while (list.hasMore()) {
-	          System.out.println(list.next().getName());
-	        }
-	}
+//	public static void main(String[] args) throws NamingException {
+//		
+//		Properties properties = new Properties();
+//		 properties.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT);
+//	     properties.put( Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming" );
+//	     properties.put( "org.jboss.ejb.client.scoped.context", "true" );
+//	     properties.put( "remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false" );
+//	     properties.put( "remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", "false" );
+//	     properties.put( "remote.connections", "default" );
+//
+//	     properties.put( "remote.connection.default.host", "10.10.2.69" );
+//	     properties.put( "remote.connection.default.port", String.valueOf( 8080) );
+//	     properties.put( "remote.connection.default.username", "ejbuser" );
+//	     properties.put( "remote.connection.default.password", "3jbU$3r" );
+//	     final Context context = new InitialContext(properties);
+//	     NamingEnumeration<NameClassPair> list = context.list("");
+//	        while (list.hasMore()) {
+//	          System.out.println(list.next().getName());
+//	        }
+//	}
 	
 	@Bean
 	public FileServiceRemote fileService() throws NamingException
 	{
 		log.info("EJB File Service Url:"+ejbProp.getFileServiceUrl());
-		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
-        jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT);
-        jndiProperties.put(Context.PROVIDER_URL,PROTOCOL+ejbProp.getFileServiceUrl());
-        final Context context = new InitialContext(jndiProperties);
+		Properties properties = new Properties();
+		properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
+	    properties.put( Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming" );
+	    properties.put(Context.PROVIDER_URL,PROTOCOL+ejbProp.getFileServiceUrl());
+        final Context context = new InitialContext(properties);
         FileServiceRemote sr= (FileServiceRemote) context.lookup(getEjbUrl("file_listener-0.0.1-SNAPSHOT","FileServiceImpl",FileServiceRemote.class.getName()));
         return sr;
 	}
