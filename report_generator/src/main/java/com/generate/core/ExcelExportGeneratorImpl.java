@@ -75,8 +75,8 @@ public class ExcelExportGeneratorImpl implements ReportGenerator<String>
 //
 //		String sql= new ServiceQueryBuilderImpl().getQuery(table);
 //		List<ColumnExpression> sortedColumns= collect(new ArrayList<ColumnExpression>(), table);
-		System.out.println("sql:"+toCountSql(sql));
-		long dataSize= 2;//std.getDataSize(toCountSql(sql)); 
+		System.out.println("sql:"+sql);
+		long dataSize= std.getDataSize(toCountSql(sql)); 
 		log.debug("datasize:"+dataSize);
 		
 		String[] sqlRanges=generateRanges(sql,dataSize,chunksize);
