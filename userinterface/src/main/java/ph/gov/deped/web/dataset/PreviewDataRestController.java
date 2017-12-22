@@ -46,17 +46,7 @@ public class PreviewDataRestController {
 //    	qsb.queue(dataset);
     	try
     	{
-    		if(dataset.getAggregateBy()!=null)
-        	{
-        		
-        		ArrayList<Element> al= new ArrayList<Element>(dataset.getElements());
-        		for(Element e:dataset.getAggregateBy().getElements())
-        		{
-        			e.setAggregate(AggregateTypes.GROUP.getAggregate());
-        			al.add(e);
-        		}
-        		dataset.setElements(al);
-        	}
+    		
   
             return new ReturnEntity<List<List<ColumnElement>>>("success", 0, datasetService.getPreviewData(dataset));
     	}

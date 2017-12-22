@@ -35,7 +35,7 @@ public class DatasetServiceImpl implements DataService {
     	al=collect(al,pt);
     	
     	String sql=new ServiceQueryBuilderImpl().getQuery(pt);
-    	
+    	System.out.println(sql);
 		return std.get(new StringBuilder(sql).append(" LIMIT 20").toString(), al);
 	}
 	

@@ -64,17 +64,7 @@ public class ExportDataController {
 //    	xs.toXML(ds, new FileOutputStream("/home/denny/dataset.xml"));
         
         //TODO improve
-        if(ds.getAggregateBy()!=null)
-    	{
-    		
-    		ArrayList<Element> al= new ArrayList<Element>(ds.getElements());
-    		for(Element e:ds.getAggregateBy().getElements())
-    		{
-    			e.setAggregate(AggregateTypes.GROUP.getAggregate());
-    			al.add(e);
-    		}
-    		ds.setElements(al);
-    	}
+       
         
         try {
               //datasetService.getData(ds, false);
