@@ -55,4 +55,47 @@
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<build>
+				<filters>
+					<filter>${src.main.resource}/app-local.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>staging</id>
+	
+			<build>
+				<filters>
+					<filter>${src.main.resource}/app-staging.properties</filter>
+				</filters>
+			</build>
+
+		</profile>
+		<profile>
+			<id>prod</id>
+			
+			<build>
+				<filters>
+					<filter>${src.main.resource}/app-prod.properties</filter>
+				</filters>
+			</build>
+		</profile>
+	</profiles>
+	<build>
+
+		<resources>
+			<resource>
+				<directory>${src.main.resource}</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
 </project>

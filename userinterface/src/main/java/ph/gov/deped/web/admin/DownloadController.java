@@ -35,8 +35,8 @@ public class DownloadController {
 	@RequestMapping(method=RequestMethod.GET)
 	public void download(@RequestParam("k")String key,HttpServletResponse response)
 	{
-//		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//		response.setHeader("Content-Disposition", "attachment; filename=export." + "xlsx");
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		response.setHeader("Content-Disposition", "attachment; filename=export." + "xlsx");
 		response.setContentType("text/csv");
 		String fileName=fileService.getFileName(key);
 		

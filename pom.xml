@@ -49,6 +49,7 @@
 		<webjars.modernizr.version>2.7.1</webjars.modernizr.version>
 
 		<working.dir>/home/denny/projects/ors</working.dir>
+		<src.main.resource>src/main/resources</src.main.resource>
 	</properties>
 
 	<modules>
