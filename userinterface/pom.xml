@@ -191,6 +191,7 @@
 			<build>
 				<filters>
 					<filter>${src.main.resource}/local-db.properties</filter>
+					<filter>${src.main.resource}/ejb-local.properties</filter>
 					<filter>${src.main.resource}/ors-local.properties</filter>
 				</filters>
 			</build>
@@ -201,6 +202,7 @@
 			<build>
 				<filters>
 					<filter>${src.main.resource}/staging-db.properties</filter>
+					<filter>${src.main.resource}/ejb-staging.properties</filter>
 					<filter>${src.main.resource}/ors-staging.properties</filter>
 				</filters>
 			</build>
@@ -212,6 +214,7 @@
 			<build>
 				<filters>
 					<filter>${src.main.resource}/prod-db.properties</filter>
+					<filter>${src.main.resource}/ejb-prod.properties</filter>
 					<filter>${src.main.resource}/ors-prod.properties</filter>
 				</filters>
 			</build>
