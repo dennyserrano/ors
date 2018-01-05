@@ -21,6 +21,7 @@
 		<lmax.version>3.3.0</lmax.version>
 		<reflections.version>0.9.9-RC2</reflections.version>
 		<javax.inject.version>1</javax.inject.version>
+		
 	</properties>
 
 	<dependencies>
@@ -121,61 +122,13 @@
 			<artifactId>commons-vfs2</artifactId>
 			<version>2.2</version>
 		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.logging.log4j</groupId> -->
-		<!-- <artifactId>log4j-api</artifactId> -->
-		<!-- <version>${log4j2.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.logging.log4j</groupId> -->
-		<!-- <artifactId>log4j-core</artifactId> -->
-		<!-- <version>${log4j2.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.logging.log4j</groupId> -->
-		<!-- <artifactId>log4j-jcl</artifactId> -->
-		<!-- <version>${log4j2.version}</version> -->
-		<!-- <exclusions> -->
-		<!-- <exclusion> -->
-		<!-- <groupId>commons-logging</groupId> -->
-		<!-- <artifactId>commons-logging</artifactId> -->
-		<!-- </exclusion> -->
-		<!-- </exclusions> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.logging.log4j</groupId> -->
-		<!-- <artifactId>log4j-web</artifactId> -->
-		<!-- <version>${log4j2.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.logging.log4j</groupId> -->
-		<!-- <artifactId>log4j-slf4j-impl</artifactId> -->
-		<!-- <version>${log4j2.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.slf4j</groupId> -->
-		<!-- <artifactId>slf4j-api</artifactId> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.slf4j</groupId> -->
-		<!-- <artifactId>slf4j-log4j12</artifactId> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.logging.log4j</groupId> -->
-		<!-- <artifactId>log4j-1.2-api</artifactId> -->
-		<!-- <version>${log4j2.version}</version> -->
-		<!-- </dependency> -->
+		
 		<dependency>
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
 			<version>${lmax.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.data</groupId> -->
-		<!-- <artifactId>spring-data-jpa</artifactId> -->
-		<!-- <version>2.0.2.RELEASE</version> -->
-		<!-- </dependency> -->
+
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -227,4 +180,51 @@
 			<version>${webjars.modernizr.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<build>
+				<filters>
+					<filter>${src.main.resource}/local-db.properties</filter>
+					<filter>${src.main.resource}/ors-local.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>staging</id>
+	
+			<build>
+				<filters>
+					<filter>${src.main.resource}/staging-db.properties</filter>
+					<filter>${src.main.resource}/ors-staging.properties</filter>
+				</filters>
+			</build>
+
+		</profile>
+		<profile>
+			<id>prod</id>
+			
+			<build>
+				<filters>
+					<filter>${src.main.resource}/prod-db.properties</filter>
+					<filter>${src.main.resource}/ors-prod.properties</filter>
+				</filters>
+			</build>
+		</profile>
+	</profiles>
+	<build>
+
+		<resources>
+			<resource>
+				<directory>${src.main.resource}</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
+	</build>
 </project>
