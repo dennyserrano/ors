@@ -28,6 +28,7 @@ import java.util.List;
 class CriteriaRepositoryImpl implements DefaultCriteriaRepository {
 
     private static final List<KeyValue> SCHOOL_YEARS = new ArrayList<>(Arrays.asList(
+    		new KeyValue("2017", "2017 - 2018"),
     		new KeyValue("2016", "2016 - 2017"),
     		new KeyValue("2015", "2015 - 2016"),
             new KeyValue("2014", "2014 - 2015"),
