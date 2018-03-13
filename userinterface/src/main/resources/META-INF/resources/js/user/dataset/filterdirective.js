@@ -354,6 +354,13 @@ angular.module('UserApp').directive('filterDirective',['CriteriaService',functio
 			chosenItem[currentIndex].criterion=filterContainerData.filterId;
 		}
 		
+		scope.onInit3=function(chosenItem,filterContainerData,currentIndex)
+		{
+			
+			chosenItem[currentIndex].element=filterContainerData.elementId;
+			chosenItem[currentIndex].criterion=filterContainerData.filterId;
+		}
+		
 		scope.onSelect=function()
 		{
 		
